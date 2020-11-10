@@ -4,7 +4,7 @@ import { StyleSheet, Text } from 'react-native';
 
 function AppText({children, style}) {
     return (
-        <Text style={[styles.text, style]}>{childressn}</Text>
+        <Text style={[styles.text, style]}>{children}</Text>
     );
 }
 
