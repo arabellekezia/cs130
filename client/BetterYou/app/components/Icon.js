@@ -7,12 +7,20 @@ function Icon({
   size,
   backgroundColor = "black",
   iconColor = "white",
-  iconScale = 0.6,
+  iconScale = 0.5,
+  border,
 }) {
   return (
     <View
       style={[
-        { width: size, height: size, borderRadius: size / 2, backgroundColor },
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor,
+          borderWidth: border, // 1 if border is provided, 0 otherwise
+          borderColor: iconColor,
+        },
         styles.iconContainer,
       ]}
     >
