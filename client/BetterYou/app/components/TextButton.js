@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Platform, Text, TouchableOpacity, View } from "react-native";
+import AppText from "./AppText";
 
 function TextButton({
   onPress,
@@ -10,6 +11,7 @@ function TextButton({
   fontWeight = "600",
   backgroundColor = getDefaultBackgroundColor(),
   minWidth = 110,
+  borderRadius = 10,
 }) {
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
@@ -20,11 +22,11 @@ function TextButton({
           justifyContent: "center",
           paddingVertical: 10,
           paddingHorizontal: 30,
-          borderRadius: 10,
+          borderRadius,
           minWidth,
         }}
       >
-        <Text
+        <AppText
           style={{
             color: textColor,
             fontSize,
@@ -32,7 +34,7 @@ function TextButton({
           }}
         >
           {name}
-        </Text>
+        </AppText>
       </View>
     </TouchableOpacity>
   );
