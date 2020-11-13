@@ -9,6 +9,7 @@ import TextButton from "./TextButton";
 import AppLineChart from "./AppLineChart";
 import AppBarChart from "./AppBarChart";
 import AppProgressRing from "./AppProgressRing";
+import AppStackedBarChart from "./AppStackedBarChart";
 
 import Constants from "expo-constants";
 import SummaryItem from "./SummaryItem";
@@ -68,6 +69,21 @@ function DemoScreen(props) {
     },
   ];
 
+  const stackedBarData = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    legend: ["L1", "L2", "L3"],
+    data: [
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+      [...Array(3)].map(() => Math.floor(Math.random() * 9)),
+    ],
+    barColors: ["#da29ad", "#eeaaee", "red"],
+  };
+
   return (
     <React.Fragment>
       <ScrollView style={styles.container}>
@@ -126,6 +142,7 @@ function DemoScreen(props) {
           accessor="population"
           paddingLeft="15"
         />
+        <AppStackedBarChart data={stackedBarData} />
       </ScrollView>
     </React.Fragment>
   );
