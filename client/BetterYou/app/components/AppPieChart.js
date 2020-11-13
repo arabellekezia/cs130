@@ -1,24 +1,27 @@
 import React from "react";
 import { useWindowDimensions, StyleSheet, Platform } from "react-native";
 
-import { ProgressChart } from "react-native-chart-kit";
+import { PieChart } from "react-native-chart-kit";
 
-function AppProgressRing({
+function AppPieChart({
   data,
+  accessor,
+  paddingLeft,
+  absolute,
   color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-  strokeWidth = 16,
-  radius = 32,
-  backgroundColor = "#ffffff",
+  backgroundColor = "transparent",
   scaleDimensions = 1,
 }) {
   return (
-    <ProgressChart
+    <PieChart
       data={data}
+      accessor={accessor}
       width={scaleDimensions * useWindowDimensions().width}
       height={scaleDimensions * 200}
-      strokeWidth={strokeWidth}
-      radius={radius}
+      bgColor={backgroundColor}
+      paddingLeft={paddingLeft}
+      absolute={absolute}
       chartConfig={{
         backgroundColor: backgroundColor,
         backgroundGradientFrom: backgroundColor,
@@ -49,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppProgressRing;
+export default AppPieChart;

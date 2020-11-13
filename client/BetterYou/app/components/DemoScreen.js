@@ -12,6 +12,7 @@ import AppProgressRing from "./AppProgressRing";
 
 import Constants from "expo-constants";
 import SummaryItem from "./SummaryItem";
+import AppPieChart from "./AppPieChart";
 
 function DemoScreen(props) {
   const data = {
@@ -35,6 +36,37 @@ function DemoScreen(props) {
     labels: ["Swim", "Bike", "Run"], // optional
     data: [0.4, 0.6, 0.8],
   };
+
+  const pieChartData = [
+    {
+      name: "Running",
+      population: 21500000,
+      color: "rgba(131, 167, 234, 1)",
+      legendFontColor: "#000",
+      legendFontSize: 12,
+    },
+    {
+      name: "Cycling",
+      population: 2800000,
+      color: "#eeaaee",
+      legendFontColor: "#000",
+      legendFontSize: 12,
+    },
+    {
+      name: "Weightlifting",
+      population: 527612,
+      color: "red",
+      legendFontColor: "#000",
+      legendFontSize: 12,
+    },
+    {
+      name: "Swimming",
+      population: 8538000,
+      color: "#da29ad",
+      legendFontColor: "#000",
+      legendFontSize: 12,
+    },
+  ];
 
   return (
     <React.Fragment>
@@ -88,6 +120,11 @@ function DemoScreen(props) {
           radius={20}
           strokeWidth={14}
           color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
+        />
+        <AppPieChart
+          data={pieChartData}
+          accessor="population"
+          paddingLeft="15"
         />
       </ScrollView>
     </React.Fragment>
