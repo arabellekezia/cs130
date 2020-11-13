@@ -1,37 +1,36 @@
 import React from "react";
 import { useWindowDimensions, StyleSheet, Platform } from "react-native";
 
-import { LineChart } from "react-native-chart-kit";
+import { BarChart } from "react-native-chart-kit";
 
-function AppLineChart({
+function AppBarChart({
   data,
   color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   backgroundColor = "#ffffff",
-  bezier,
   scaleDimensions = 1,
   yAxisSuffix = "",
 }) {
   return (
-    <LineChart
+    <BarChart
       data={data}
       width={scaleDimensions * useWindowDimensions().width}
       height={scaleDimensions * 200}
       yAxisSuffix={yAxisSuffix}
+      fromZero
+      withInnerLines={false}
+      showBarTops={false}
+      showValuesOnTopOfBars
       chartConfig={{
         backgroundColor: backgroundColor,
         backgroundGradientFrom: backgroundColor,
         backgroundGradientTo: backgroundColor,
+        barPercentage: 0.4,
+        barRadius: 6,
         decimalPlaces: 0,
         color: color,
         labelColor: labelColor,
-        propsForDots: {
-          r: "5",
-          strokeWidth: "2",
-          stroke: backgroundColor,
-        },
       }}
-      bezier={bezier}
       style={styles.container}
     />
   );
@@ -55,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppLineChart;
+export default AppBarChart;
