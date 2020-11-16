@@ -1,10 +1,10 @@
 import React from "react";
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet} from "react-native";
 import AppText from "./AppText";
 import Icon from "./Icon";
 
-function SummaryItem({ name, size, iconColor = "black", detail, unit, label }) {
+function SummaryItem({ name, size, iconColor = "black", detail, unit, label, secondaryDetail, secondaryUnit}) {
   return (
     <View style={styles.container}>
       <Icon
@@ -15,12 +15,12 @@ function SummaryItem({ name, size, iconColor = "black", detail, unit, label }) {
         iconScale={0.9}
       />
       <AppText>
-        <AppText style={{ fontSize: 22, lineHeight: 30, textAlign: "center" }}>
-          {detail}
-        </AppText>
-        <AppText style={{ fontSize: 14 }}>{` ${unit}`}</AppText>
+        <AppText style={{ fontSize: 22, lineHeight: 34,  textAlign: "center"}}>{detail}</AppText>
+        <AppText style={{ fontSize: 15}}>{` ${unit}`}</AppText>
+        {secondaryDetail && <AppText style={{ fontSize: 22, lineHeight: 34,  textAlign: "center"}}>{` ${secondaryDetail}`}</AppText>}
+        {secondaryUnit && <AppText style={{ fontSize: 15}}>{` ${secondaryUnit}`}</AppText>}
       </AppText>
-      <AppText style={{ fontSize: 16 }}>{label}</AppText>
+      <AppText style={{ fontSize: 16,  textAlign: "center"}}>{label}</AppText>
     </View>
   );
 }
