@@ -14,7 +14,7 @@ function TextButton({
   borderRadius = 10,
 }) {
   return (
-    <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
       <View
         style={{
           backgroundColor,

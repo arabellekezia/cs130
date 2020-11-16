@@ -10,6 +10,7 @@ import AppLineChart from "./AppLineChart";
 import AppBarChart from "./AppBarChart";
 import AppProgressRing from "./AppProgressRing";
 import AppStackedBarChart from "./AppStackedBarChart";
+import Stopwatch from "./Stopwatch";
 
 import Constants from "expo-constants";
 import SummaryItem from "./SummaryItem";
@@ -143,6 +144,13 @@ function DemoScreen(props) {
           paddingLeft="15"
         />
         <AppStackedBarChart data={stackedBarData} />
+        <Stopwatch
+          onStop={(elapsedTimeInMilliseconds) =>
+            console.log(
+              `Elapsed time (milliseconds): ${elapsedTimeInMilliseconds}`
+            )
+          }
+        />
       </ScrollView>
     </React.Fragment>
   );
