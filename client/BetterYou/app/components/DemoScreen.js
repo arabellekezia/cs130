@@ -10,6 +10,7 @@ import AppLineChart from "./AppLineChart";
 import AppBarChart from "./AppBarChart";
 import AppProgressRing from "./AppProgressRing";
 import AppStackedBarChart from "./AppStackedBarChart";
+import Screen from "./Screen";
 
 import Constants from "expo-constants";
 import SummaryItem from "./SummaryItem";
@@ -85,8 +86,8 @@ function DemoScreen(props) {
   };
 
   return (
-    <React.Fragment>
-      <ScrollView style={styles.container}>
+    <Screen>
+      <ScrollView>
         <View
           style={{
             alignItems: "center",
@@ -144,7 +145,7 @@ function DemoScreen(props) {
         />
         <AppStackedBarChart data={stackedBarData} />
       </ScrollView>
-    </React.Fragment>
+    </Screen>
   );
 }
 
