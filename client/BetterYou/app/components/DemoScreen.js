@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import AppText from "./AppText";
 import HeaderText from "./HeaderText";
@@ -12,11 +12,12 @@ import AppProgressRing from "./AppProgressRing";
 import AppStackedBarChart from "./AppStackedBarChart";
 import Screen from "./Screen";
 
-import Constants from "expo-constants";
 import SummaryItem from "./SummaryItem";
 import AppPieChart from "./AppPieChart";
+import AppTextInput from "./AppTextInput";
 
 function DemoScreen(props) {
+  const [name, setName] = useState("");
   const data = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
@@ -87,7 +88,7 @@ function DemoScreen(props) {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <View
           style={{
             alignItems: "center",
@@ -124,6 +125,13 @@ function DemoScreen(props) {
             label="Average BedTime"
           />
         </View>
+        <AppTextInput
+          placeholder="First name"
+          icon="account"
+          onChangeText={(text) => setName(text)}
+        />
+        <TextButton name={"Submit"} onPress={() => console.log(name)} />
+
         <AppLineChart
           data={data}
           color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
@@ -151,8 +159,7 @@ function DemoScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
+    padding: 10,
   },
 });
 
