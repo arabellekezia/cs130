@@ -51,8 +51,3 @@ class DB:
         data = self.sel_time_frame("Sleep", start_date, end_date, userID, params="Minutes")
         return data
 
-    def get_goals(self, userID):
-        query = f"select * from Goals join Users on Users.id={table}.UserID;"
-        data = self.sel_data(query)
-        return data
-
