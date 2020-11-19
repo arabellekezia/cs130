@@ -31,52 +31,106 @@ def get_food_information(query, upc=False):
 #     print(response.json())
     return response.json()
 
-# Given the query and the upc, this function will return the nutrient information in a 
-# dictionary, along with food label from the api and the success i.e. if it was able to 
-# find the food item in the api.
-def get_nutrient_information(query, upc=False):
+transform_dict =  {
+    'ENERC_KCAL': 'Cals',
+    'PROCNT': 'Protein',
+    'FAT': 'Fat',
+    'CHOCDF': 'Carbs',
+    'FIBTG': 'Fiber',
+}
+
+def get_nutrient_information(query, upc=False, k=5):
+    
+    # Description: 
+    # Returns the top k=5 closest matches from the API in the form of nested dictionaries.
+    
+    # Inputs:
+    # query (STRING): the input query which could be the name of the item or its barcode number.
+    # upc (BOOL): True when query is the barcode number otherwise false
+    # k (INT): Number of top matches to return
+    
+    # Outputs:
+    
+    # food_options_dict: Returns a nested dictionary.
+    #
+    # query = 'jamba juice orange carrot karma smoothie, 22 fl oz'
+    # upc = False
+    # get_nutrient_information(query, upc)
+    #
+    # Sample Output: Just showing the first two entries of the dictionary.
+    #
+    # 0
+    # 	Label
+    # 		Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz
+    # 	Nutrients
+    # 		Cals
+    # 			41.499027861352765
+    # 		Protein
+    # 			0.6148004127607817
+    # 		Fat
+    # 			0.15370010319019542
+    # 		Carbs
+    # 			10.144206810552898
+    # 		Fiber
+    # 			0.6148004127607817
+    # 1
+    # 	Label
+    # 		Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz
+    # 	Nutrients
+    # 		Cals
+    # 			37.43695370561189
+    # 		Protein
+    # 			0.6038218339614821
+    # 		Fat
+    # 			0.12076436679229642
+    # 		Carbs
+    # 			9.178091876214529
+    # 		Fiber
+    # 			0.6038218339614821
+    
+    # First level of keys are just: 0,1,2,3,4
+    # Second level of keys: Label, Nutrients
+    #                       Label corresponds to the name of the food item in the API
+    #                       Nutrients is another dictionary with keys Cals, Proteins, Fat, Carbs, Fiber
+    #
+    # success: returns True when we are able to find the 
+    #          product in the API otherwise return False and we ask the
+    #          user to enter manually.
     
     food_json = get_food_information(query, upc)
     
-    # food_label: Returns the food label from the API. 
-    #             Useful when we want to show the top
-    #             2 food items for that nutrient.
-    
-    # nutrient_dict: Returns the nutrient dictionary.
-    #                Keys: ENERC_KCAL(calories in kcal)
-    #                      PROCNT (protiens in g)
-    #                      FAT (fats in g)
-    #                      CHOCDF (carbohydrates in g)
-    #                      FIBTF (fibres in g)
-    
-    # success: returns when we are able to find the 
-    #          product in the API or else ask the
-    #          user to enter manually.
-    
-    food_label = None
-    nutrients_dict = None
     success = False
     
-    curr_similarity = 0
-    most_similar_id = 0
+    food_options_dict = {}
     
-    # Checks if the food item is actually present in the API
-    # otherwise let success be false.
-    if "error" not in food_json.keys() and len(food_json['hints']) > 0:
-        # Hope that the first entry in the json file
-        # is the top match from the API.
+    if "error" not in food_json.keys() and len(food_json['hints']) > 0:        
+        similarity_list = []
         
-        # Loops over all the searches and the find the one which
-        # has the closest label, using the metric define above.
         for i,f in enumerate(food_json['hints']):
-            similarity = get_similar(query, f['food']['label'])
-            if similarity > curr_similarity:
-                most_similar_id = i
-                curr_similarity = similarity
+            f_food = f['food']
+            if 'brand' in f_food.keys():
+                label_str = f_food['brand'] + " " + f_food['label']
+            else:
+                label_str = f_food['label']
+            similarity = 1 - get_similar(query, label_str)
+            similarity_list.append(similarity)
+
+        similarity_list = np.array(similarity_list)
+        sorted_loc = np.argsort(similarity_list)
+        k = min(k, len(similarity_list))
+        
+        for i in range(k):
+            matched_item_info = food_json['hints'][sorted_loc[i]]['food']
+            
+            food_options_dict[i] = {}
+            if 'brand' in matched_item_info.keys():
+                food_options_dict[i]['Label'] = matched_item_info['brand'] + " " + matched_item_info['label']
+            else:
+                food_options_dict[i]['Label'] = matched_item_info['label']
+            food_options_dict[i]['Nutrients'] = {}
+            for k in matched_item_info['nutrients'].keys():
+                food_options_dict[i]['Nutrients'][transform_dict[k]] = matched_item_info['nutrients'][k]
                 
-        top_matched_item_info = food_json['hints'][most_similar_id]['food']
-        food_label = top_matched_item_info['label']
-        nutrients_dict = top_matched_item_info['nutrients']
         success = True
     
-    return food_label, nutrients_dict, success
+    return food_options_dict, success
