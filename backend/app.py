@@ -99,14 +99,23 @@ def getMealsConsumed():
 @app.route('/insertMeal')
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getSleepData'):
+@app.route('/getSleepData')
 
 @app.route('/insertSleepEntry')
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getFitnessData'):
+@app.route('/getFitnessData')
 
 # TODO: goals stuff (?)
+# params: user - int
+@app.route('/getAllGoals')
+
+# params: user - int, type - char(1) -> D, F, S
+@app.route('/getTypeGoals')
+
+@app.route('/insertGoal')
+
+@app.route('/removeGoal')
 
 
 if __name__ == '__main__':

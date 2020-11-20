@@ -7,27 +7,27 @@ class DB:
         self._password = password
         self._db = db
 
-    def get_connection(self):
+    def _get_connection(self):
         connection = pymysql.connect(host=self._host, user=self._user, password=self._password, db=self._db)
         return connection
 
-    def close_connection(self, connection):
+    def _close_connection(self, connection):
         connection.close()
 
     def select_data(self, query):
-        connection = self.get_connection()
+        connection = self._get_connection()
         cursor = connection.cursor(pymysql.cursors.DictCursor)
         cursor.execute(query)
         data = cursor.fetchall()
-        self.close_connection(connection)
+        self._close_connection(connection)
         return data
 
     def insert_data(self, cmd):
-        connection = self.get_connection()
+        connection = self._get_connection()
         cursor = connection.cursor()
         cursor.execute(cmd)
         connection.commit()
-        self.close_connection(connection)
+        self._close_connection(connection)
 
     def insert_row(self, table, data_dict):
         keys = ""
