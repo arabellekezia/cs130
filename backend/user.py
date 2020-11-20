@@ -3,6 +3,8 @@ import datetime
 import os
 from db import DB
 
+# SHOULD DB BE A SINGLETON PATTERN?
+
 class User:
     def __init__(self):
         self._db = DB()
