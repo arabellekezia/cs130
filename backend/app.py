@@ -21,8 +21,8 @@ def enterWorkout():
     return api.staywell(args)
 
 # params: item - str/int, barcode - optional boolean
-@app.route('/getBestMatch')
-def getBestMatch():
+@app.route('/getNutritionalData')
+def getNutritionalData():
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -40,8 +40,8 @@ def getBestMatch():
         return food_dict, 200
 
 # params: item - str/int, barcode - optional boolean, nMatches - int
-@app.route('getFoodItemMatches')
-def getFoodItemMatches():
+@app.route('getAvailableFoods')
+def getAvailableFoods():
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -86,17 +86,11 @@ def register():
         return "Unable to register new user, they possibly already have an account", 400
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getMealsConsumed')
-def getMealsConsumed():
-
-# take in a list?
-@app.route('/getCaloriesConsumed')
-
-# take in a list?
-@app.route('/getNutritionData')
+@app.route('/getMeals')
+def getMeals():
 
 # params: user - int, selectedFood - dict (??), serving size - double
-@app.route('/insertMeal')
+@app.route('/addMeal')
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData')
