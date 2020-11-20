@@ -2,89 +2,59 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View , SafeAreaView} from 'react-native';
 
-import DemoScreen from './app/components/DemoScreen';
-import ListItemComponent from './app/components/ListItemComponent';
-import Icon from './app/components/Icon';
-import TabNavigator from './app/components/TabNavigator';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-var iconexample = <Icon
-name="food-variant"
-size={30}
-backgroundColor="white"
-iconColor="black"
-iconScale={1}
-/>
+import DemoScreen from './app/components/DemoScreen';
+import TestScreen1 from './app/Screens/TestScreen1';
+import TestScreen2 from './app/Screens/TestScreen2';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
 
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ListItemComponent
-        title="Nutrition"
-        icon={<Icon
-          name="food-variant"
-          size={30}
-          backgroundColor="white"
-          iconColor="black"
-          iconScale={0.80}
-          border = {1}
-          />}
-        description="Touch for Nutrition Data"
-      />
+    <NavigationContainer>
+      {/*<Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-      <ListItemComponent
-        title="Workout"
-        icon={<Icon
-          name="dumbbell"
-          size={30}
-          backgroundColor="white"
-          iconColor="black"
-          iconScale={0.85}
-          border = {1}
-          />}
-        description="Touch for Workout Data"
-      />
+            if (route.name === 'Summary') {
+              iconName = focused
+                ? 'ios-information-circle'
+                : 'ios-information-circle-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'ios-list-box' : 'ios-list';
+            }
 
-      <ListItemComponent
-        title="Sleep"
-        icon={<Icon
-          name="sleep"
-          size={30}
-          backgroundColor="white"
-          iconColor="black"
-          iconScale={0.8}
-          border = {1}
-          />}
-        description="Touch for Sleep Data"
-        />
-      <TabNavigator />
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}
+      >
+        <Tab.Screen name="Summary" component={TestScreen1} />
+        <Tab.Screen name="Settings" component={TestScreen2} />
+      </Tab.Navigator>*/}
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={TestScreen1} />
+        <Stack.Screen name="Details" component={TestScreen2} />
+      </Stack.Navigator>
+    </NavigationContainer>
       
-      {/* <DemoScreen /> 
+    /* <DemoScreen /> 
 
-      <Text>Open up App.js to start working on your app!</Text> */}
-      <StatusBar style="auto" /> 
-    </SafeAreaView>
-    
+    <Text>Open up App.js to start working on your app!</Text> 
+    StatusBar style="auto" /> */
   );
 }
 

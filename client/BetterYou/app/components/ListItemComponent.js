@@ -7,10 +7,10 @@ import TitleText from "./TitleText";
 import AppText from "./AppText";
 import Icon from "./Icon";
 
-function ListItemComponent({title, icon, description}) {
+function ListItemComponent({title, icon, description, navigation, destination}) {
     return (
       <View style={styles.container}>
-          <TouchableOpacity style={styles.titlerow} onPress={() => console.log("Pressed to find more data!")}>
+          <TouchableOpacity style={styles.titlerow} onPress={() => console.log({destination})}>
             {icon}
             <TitleText style={styles.titletext}>{title}</TitleText>
               <AntDesign style={styles.arrow} name="right" size={24} color="black" />
