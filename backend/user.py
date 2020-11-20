@@ -1,8 +1,12 @@
+from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
+import datetime
+import os
 from db import DB
 
 class User:
     def __init__(self):
         self._db = DB()
+        self._key = os.getenv('MY_KEY', 'other')
 
     def check_password_match(self, email, password):
         query = f"select * from Users where email='{email}' and password='{password}';"
@@ -30,3 +34,21 @@ class User:
             return True
         else:
             return False
+
+    def encode_token(self, id):
+        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),
+                    'iat': datetime.datetime.utcnow(),
+                    'sub': id}
+        try:
+            return encode(payload, self._key, algorithm='HS256'), 200
+        except Exception as exc:
+            return f"Failed to create an auth token: {exc}", 500
+
+def decode_token(token):
+    try:
+        payload = decode(token, self._key)
+        return payload['sub'], 200
+    except ExpiredSignatureError:
+        return 'Signature expired. Please log in again.', 400
+    except InvalidTokenError:
+        return 'Invalid token. Please log in again.', 400

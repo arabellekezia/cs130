@@ -86,7 +86,7 @@ class StaywellExternalAPI:
                              'Volleyball: beach',
                              'Volleyball general play']
 
-    def staywell(self, args):
+    def staywell(self, args, userID):
         if not args:
             return "Arguments needed.", 400
         weight_param = self.check_weight(args)
@@ -104,11 +104,6 @@ class StaywellExternalAPI:
             return mins_param['msg'], mins_param['status_code']
         else:
             mins = mins_param['minutes']
-        user_param = self.check_user(args)
-        if user_param['status_code'] != 200:
-            return user_param['msg'], user_param['status_code']
-        else:
-            userID = user_param['user']
 
         calories = self.get_exact_calories(weight, workout, mins)
         #db = DB()
@@ -203,18 +198,5 @@ class StaywellExternalAPI:
                         "status_code": 400}
         else:
             return {"msg": "Please enter a workout duration in minutes",
-                    "status_code": 400}
-
-    def check_user(self, data):
-        if 'user' in data:
-            user = data['user']
-            try:
-                user = int(user)
-                return {"status_code": 200, "user": user}
-            except ValueError:
-                return {"msg": "Please enter an integer for user ID",
-                        "status_code": 400}
-        else:
-            return {"msg": "Please enter a user",
                     "status_code": 400}
 

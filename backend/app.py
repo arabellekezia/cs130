@@ -2,7 +2,7 @@ from flask import Flask, request
 import requests
 from staywell_api import StaywellExternalAPI
 from edamam_api import EdamamAPI
-from user import User
+from user import User, decode_token
 
 app = Flask(__name__)
 
@@ -10,15 +10,22 @@ app = Flask(__name__)
 def index():
     return 'Better You'
 
-# params: weight - int, workout - str, minutes - int, user - int
+# params: weight - int, workout - str, minutes - int, token - str
 # example: http://localhost:5000/staywell?weight=130&workout=Bowling&minutes=30&user=1
 @app.route('/enterWorkout')
 def enterWorkout():
     args = request.args
     if not args:
         return "Arguments needed.", 400
+    token = check_token(args)
+    if token['status_code'] != 200:
+        return token['msg'], token['status_code']
+    token = token['token']
+    id = getIdFromToken(token)
+    if id < 0:
+        return "Invalid Token", 400
     api = StaywellExternalAPI()
-    return api.staywell(args)
+    return api.staywell(args, id)
 
 # params: item - str/int, barcode - optional boolean
 @app.route('/getNutritionalData')
@@ -64,8 +71,23 @@ def getAvailableFoods():
     else:
         return food_dict, 200
 
+# params: email - str, password - str
 @app.route('/auth/login')
 def login():
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    if not 'email' in args:
+        return "The 'email' is a required parameter", 400
+    email = args['email']
+    if not 'password' in args:
+        return "The 'password' is a required parameter", 400
+    password = args['password']
+    usr = User()
+    id = usr.check_password_match(email, password)
+    if id < 0:
+        return "Incorrect login information.", 400
+    return usr.encode_token(id)
 
 # params: email - str, password - str
 @app.route('/register')
@@ -110,6 +132,20 @@ def getMeals():
 @app.route('/insertGoal')
 
 @app.route('/removeGoal')
+
+def check_token(self, data):
+    if 'token' in data:
+        token = data['token']
+        return {"status_code": 200, "token": token}
+    else:
+        return {"msg": "Please provide a token",
+                "status_code": 400}
+
+def getIdFromToken(token):
+    msg, code = decode_token(token)
+    if code != 200:
+        return -1
+    return int(msg)
 
 
 if __name__ == '__main__':
