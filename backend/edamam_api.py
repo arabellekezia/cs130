@@ -1,4 +1,5 @@
 import requests
+import numpy as np
 from difflib import SequenceMatcher
 
 class EdamamAPI():
@@ -79,3 +80,40 @@ class EdamamAPI():
             food_dict.update(nutrients_dict)
     
         return food_dict, success
+
+    def get_top_matches(self, query, upc=False, k=5):
+        food_json = self.get_food_information(query, upc)
+        success = False
+        food_options_dict = {}
+    
+        if "error" not in food_json.keys() and len(food_json['hints']) > 0:        
+            similarity_list = []
+        
+            for i,f in enumerate(food_json['hints']):
+                f_food = f['food']
+                if 'brand' in f_food.keys():
+                    label_str = f_food['brand'] + " " + f_food['label']
+                else:
+                    label_str = f_food['label']
+                similarity = 1 - self.get_similar(query, label_str)
+                similarity_list.append(similarity)
+
+            similarity_list = np.array(similarity_list)
+            sorted_loc = np.argsort(similarity_list)
+            k = min(k, len(similarity_list))
+        
+            for i in range(k):
+                matched_item_info = food_json['hints'][sorted_loc[i]]['food']
+            
+                food_options_dict[i] = {}
+                if 'brand' in matched_item_info.keys():
+                    food_options_dict[i]['Label'] = matched_item_info['brand'] + " " + matched_item_info['label']
+                else:
+                    food_options_dict[i]['Label'] = matched_item_info['label']
+                food_options_dict[i]['Nutrients'] = {}
+                for k in matched_item_info['nutrients'].keys():
+                    food_options_dict[i]['Nutrients'][transform_dict[k]] = matched_item_info['nutrients'][k]
+                
+            success = True
+    
+        return food_options_dict, success

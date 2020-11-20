@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 from staywell_api import StaywellExternalAPI
 from edamam_api import EdamamAPI
+from user import User
 
 app = Flask(__name__)
 
@@ -11,8 +12,8 @@ def index():
 
 # params: weight - int, workout - str, minutes - int, user - int
 # example: http://localhost:5000/staywell?weight=130&workout=Bowling&minutes=30&user=1
-@app.route('/staywell')
-def staywell():
+@app.route('/enterWorkout')
+def enterWorkout():
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -20,8 +21,8 @@ def staywell():
     return api.staywell(args)
 
 # params: item - str/int, barcode - optional boolean
-@app.route('/edamam')
-def edamam():
+@app.route('/getBestMatch')
+def getBestMatch():
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -38,16 +39,51 @@ def edamam():
     else:
         return food_dict, 200
 
-# params: item - str/int, barcode - optional boolean
+# params: item - str/int, barcode - optional boolean, nMatches - int
 @app.route('getFoodItemMatches')
 def getFoodItemMatches():
-
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    if not 'item' in args:
+        return "The 'item' is a required parameter", 400
+    item = args['item']
+    barcode = False
+    if 'barcode' in args and args['barcode'].upper() == "TRUE":
+        barcode = True
+    n = 5
+    if 'nMatches' in args:
+        try:
+            n = int(args['nMatches'])
+        except:
+            return "Parameter 'nMatches' must be an integer", 400
+    api = EdamamAPI()
+    food_dict, success = api.get_top_matches(item, barcode, n)
+    if not success:
+        return "Unable to find the food item based on given info", 400
+    else:
+        return food_dict, 200
 
 @app.route('/auth/login')
 def login():
 
+# params: email - str, password - str
 @app.route('/register')
 def register():
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    if not 'email' in args:
+        return "The 'email' is a required parameter", 400
+    email = args['email']
+    if not 'password' in args:
+        return "The 'password' is a required parameter", 400
+    password = args['password']
+    usr = User()
+    if usr.create_new_user(email, password):
+        return "Succesfully Registered", 200
+    else:
+        return "Unable to register new user, they possibly already have an account", 400
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getMealsConsumed')
