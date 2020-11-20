@@ -89,5 +89,18 @@ def register():
 @app.route('/getMealsConsumed')
 def getMealsConsumed():
 
+@app.route('/insertMeal')
+
+@app.route('/insertSleepEntry')
+
+# params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
+@app.route('/getSleepData'):
+
+# params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
+@app.route('/getFitnessData'):
+
+# TODO: goals stuff (?)
+
+
 if __name__ == '__main__':
-	app.run(host="localhost", port=5000, debug=False)
+    app.run(host="localhost", port=5000, debug=False)
