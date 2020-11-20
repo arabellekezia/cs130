@@ -40,14 +40,14 @@ def getNutritionalData():
     if 'barcode' in args and args['barcode'].upper() == "TRUE":
         barcode = True
     api = EdamamAPI()
-    food_dict, success = api.get_nutrient_information(item, barcode)
+    food_dict, success = api.get_top_matches(item, barcode, 1)
     if not success:
         return "Unable to find the food item based on given info", 400
     else:
         return food_dict, 200
 
 # params: item - str/int, barcode - optional boolean, nMatches - int
-@app.route('getAvailableFoods')
+@app.route('/getAvailableFoods')
 def getAvailableFoods():
     args = request.args
     if not args:
@@ -113,27 +113,31 @@ def getMeals():
 
 # params: user - int, selectedFood - dict (??), serving size - double
 @app.route('/addMeal')
+def addMeal():
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData')
+def getSleepData():
 
 @app.route('/insertSleepEntry')
+def insertSleepEntry():
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData')
+def getFitnessData():
 
 # TODO: goals stuff (?)
 # params: user - int
-@app.route('/getAllGoals')
+#@app.route('/getAllGoals')
 
 # params: user - int, type - char(1) -> D, F, S
-@app.route('/getTypeGoals')
+#@app.route('/getTypeGoals')
 
-@app.route('/insertGoal')
+#@app.route('/insertGoal')
 
-@app.route('/removeGoal')
+#@app.route('/removeGoal')
 
-def check_token(self, data):
+def check_token(data):
     if 'token' in data:
         token = data['token']
         return {"status_code": 200, "token": token}

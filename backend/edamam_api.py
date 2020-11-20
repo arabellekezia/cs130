@@ -37,9 +37,6 @@ class EdamamAPI():
 
         return response.json()
     
-    def get_nutrient_information(self, query, upc=False):
-        return self.get_top_matches(query, upc, k=1)
-
     def get_top_matches(self, query, upc=False, k=5):
         food_json = self.get_food_information(query, upc)
         success = False

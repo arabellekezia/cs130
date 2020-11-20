@@ -19,7 +19,7 @@ Tables['Sleep']={
  'Nap' bool NOT NULL\
  'SleepTime' datetime NOT NULL\
  'WakeupTime' datetime NOT NULL\
- 'Datetime' datetime) NOT NULL\
+ 'Datetime' datetime) NOT NULL CURRENT_TIMESTAMP\
  FOREIGN KEY('UserID')"
 }
 
@@ -33,7 +33,7 @@ Tables['Diet']={
  'Fiber' float NOT NULL\
  'Protein' float NOT NULL\
  'Carbs' float NOT NULL\
- 'Datetime' datetime NOT NULL\
+ 'Datetime' datetime NOT NULL CURRENT_TIMESTAMP\
  'Barcode' bool NOT NULL\
  FOREIGN KEY ('UserID'))"
 }
@@ -44,7 +44,7 @@ Tables['Fitness']={
  'WorkoutType' varchar(256) NOT NULL\
  'Minutes' int(11) NOT NULL\
  'CaloriesBurned' float NOT NULL\
- 'Datetime' datetime NOT NULL\
+ 'Datetime' datetime NOT NULL CURRENT_TIMESTAMP\
   FOREIGN_KEY ('UserID'))"
 }
 
@@ -53,7 +53,7 @@ Tables['Goals']={
  'UserID' int(11) NOT NULL\
  'Value' float NOT NULL\
  'Type' varchar(1) NOT NULL\
- 'Datetime' datetime NOT NULL\
+ 'Datetime' datetime NOT NULL CURRENT_TIMESTAMP\
  FOREIGN_KEY ('UserID'))"
 }
 
