@@ -29,4 +29,4 @@ class User:
             self._db.inset_row('Users', data)
             return True
         else:
-            False
+            return False

@@ -89,12 +89,19 @@ def register():
 @app.route('/getMealsConsumed')
 def getMealsConsumed():
 
-@app.route('/insertMeal')
+# take in a list?
+@app.route('/getCaloriesConsumed')
 
-@app.route('/insertSleepEntry')
+# take in a list?
+@app.route('/getNutritionData')
+
+# params: user - int, selectedFood - dict (??), serving size - double
+@app.route('/insertMeal')
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData'):
+
+@app.route('/insertSleepEntry')
 
 # params: user - int, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData'):
