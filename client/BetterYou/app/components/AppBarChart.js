@@ -20,6 +20,7 @@ function AppBarChart({
       fromZero
       withInnerLines={false}
       showBarTops={false}
+      withHorizontalLabels={false}
       showValuesOnTopOfBars
       chartConfig={{
         backgroundColor: backgroundColor,
@@ -30,6 +31,7 @@ function AppBarChart({
         decimalPlaces: 0,
         color: color,
         labelColor: labelColor,
+        fillShadowGradientOpacity: 0.7, //changes the opacity of the gradient
       }}
       style={styles.container}
     />
