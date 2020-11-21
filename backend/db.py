@@ -1,7 +1,7 @@
 import pymysql
 
 class DB:
-    def __init__(self, host='loclahost', user='root', password='naveena1999', db='cs130'):
+    def __init__(self, host='localhost', user='root', password='naveena1999', db='cs130'):
         self._host = host
         self._user = user
         self._password = password
@@ -43,7 +43,8 @@ class DB:
     def sel_time_frame(self, table, start_date, end_date, userID, params="*"):
         query = f"select {params} from {table} "
         query += f"join Users on Users.id={table}.UserID "
-        query += f"where date >= {start_date} and date <= {end_date};"
+        query += f"where Datetime >= {start_date} and Datetime <= {end_date}"
+        query += f"and UserID = {userID};"
         data = self.select_data(query)
         return data
 
