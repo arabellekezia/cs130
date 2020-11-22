@@ -8,6 +8,7 @@ function IconButton({
   size,
   iconColor = "black",
   backgroundColor = "white",
+  textColor = "#474747",
   label,
   onPress,
   border = 0,
@@ -24,7 +25,13 @@ function IconButton({
           iconScale={0.6}
           border={border}
         />
-        <AppText style={{ fontSize: size * 0.25, marginTop: size * 0.125 }}>
+        <AppText
+          style={{
+            fontSize: size * 0.25,
+            marginTop: size * 0.125,
+            color: textColor,
+          }}
+        >
           {label}
         </AppText>
       </View>

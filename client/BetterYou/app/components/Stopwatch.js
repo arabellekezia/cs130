@@ -77,7 +77,7 @@ function Stopwatch({ onStop }) {
             fontSize={10}
             border={1}
             onPress={start}
-            style={{ paddingHorizontal: 34 }}
+            style={{ paddingHorizontal: "10%" }}
           />
         )}
 
@@ -90,7 +90,7 @@ function Stopwatch({ onStop }) {
             fontSize={10}
             border={1}
             onPress={pause}
-            style={{ paddingHorizontal: 34 }}
+            style={{ paddingHorizontal: "10%" }}
           />
         )}
 
