@@ -13,7 +13,13 @@ function LoginScreen() {
     if (!validate(email, password, setError)) {
       console.log(err);
     }
-    console.log("Successfully logged in!");
+    console.log("Successfully logged in.");
+  }
+
+  function displayErrorMessage(err) {
+    if (err.email || err.password) {
+      return <ErrorMessage message="Incorrect email or password." />;
+    }
   }
 
   return (
@@ -28,9 +34,7 @@ function LoginScreen() {
         children="Welcome!"
       />
       <AppTextInput
-        style={{
-          width: "90%",
-        }}
+        style={styles.textInput}
         placeholder="Email"
         icon="account"
         isError={err.email}
@@ -40,9 +44,7 @@ function LoginScreen() {
         }}
       />
       <AppTextInput
-        style={{
-          width: "90%",
-        }}
+        style={styles.textInput}
         placeholder="Password"
         icon="lock"
         onChangeText={(password) => {
@@ -52,18 +54,9 @@ function LoginScreen() {
         isError={err.password}
         secureTextEntry={true}
       />
-      {(err.email || err.password) && (
-        <AppText
-          style={{
-            alignSelf: "flex-start",
-            marginLeft: "6%",
-            color: "red",
-          }}
-          children="Enter a valid email or password."
-        />
-      )}
+      {displayErrorMessage(err)}
       <TextButton
-        style={{ marginVertical: 12, minWidth: "90%" }}
+        style={styles.submitButton}
         name="Login"
         onPress={login}
       />
@@ -82,6 +75,19 @@ function LoginScreen() {
   );
 }
 
+function ErrorMessage({ message }) {
+  return (
+    <AppText
+      style={{
+        alignSelf: "flex-start",
+        marginLeft: "6%",
+        color: "red",
+      }}
+      children={message}
+    />
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -89,6 +95,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  textInput: {
+    width: "90%",
+  },
+  submitButton: { marginVertical: 12, minWidth: "90%" },
 });
 
 function validateEmail(email) {
