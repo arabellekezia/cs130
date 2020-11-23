@@ -7,7 +7,7 @@ function TextButton({
   onPress,
   name,
   textColor = "white",
-  fontSize = 17,
+  fontSize = 18,
   fontWeight = "600",
   style,
 }) {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: getDefaultBackgroundColor(),
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 10,
+    paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
     minWidth: 110,
