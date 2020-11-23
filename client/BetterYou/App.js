@@ -12,6 +12,7 @@ import DemoScreen from './app/components/DemoScreen';
 import TestScreen1 from './app/Screens/TestScreen1';
 import TestScreen2 from './app/Screens/TestScreen2';
 import TabNagivator from './app/components/TabNagivator';
+import LoginScreen from "./app/Screens/LoginScreen";
 
 
 
@@ -20,18 +21,17 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <TabNagivator />
-      {/*<Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={TestScreen1} />
-        <Stack.Screen name="Details" component={TestScreen2} />
-    </Stack.Navigator>*/}
-    </NavigationContainer>
-      
-    /* <DemoScreen /> 
+    // <NavigationContainer>
+    //   <TabNagivator />
+    //   {/*<Stack.Navigator initialRouteName="Home">
+    //     <Stack.Screen name="Home" component={TestScreen1} />
+    //     <Stack.Screen name="Details" component={TestScreen2} />
+    // </Stack.Navigator>*/}
+    // </NavigationContainer>
+    // <TestScreen1 />
+    <LoginScreen />
 
-    <Text>Open up App.js to start working on your app!</Text> 
-    StatusBar style="auto" /> */
+    // <DemoScreen /> 
   );
 }
 
