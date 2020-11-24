@@ -14,12 +14,11 @@ function ElapsedTime({ interval }) {
   }
 
   return (
-    <AppText
-      children={`${addZeroPadding(duration.hours())}:${addZeroPadding(
+    <AppText style={styles.elapsedTime}>
+      {`${addZeroPadding(duration.hours())}:${addZeroPadding(
         duration.minutes()
       )}:${addZeroPadding(duration.seconds())}`}
-      style={styles.elapsedTime}
-    />
+    </AppText>
   );
 }
 
@@ -77,7 +76,7 @@ function Stopwatch({ onStop }) {
             fontSize={10}
             border={1}
             onPress={start}
-            style={{ paddingHorizontal: "10%" }}
+            // style={{ paddingHorizontal: "10%" }}
           />
         )}
 
@@ -90,7 +89,7 @@ function Stopwatch({ onStop }) {
             fontSize={10}
             border={1}
             onPress={pause}
-            style={{ paddingHorizontal: "10%" }}
+            // style={{ paddingHorizontal: "10%" }}
           />
         )}
 
@@ -120,9 +119,11 @@ const styles = StyleSheet.create({
     fontWeight: "200",
   },
   buttonsRow: {
+    alignSelf: "stretch",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
+    // backgroundColor: "black",
   },
 });
 export default Stopwatch;
