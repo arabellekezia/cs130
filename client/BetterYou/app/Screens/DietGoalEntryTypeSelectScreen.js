@@ -11,9 +11,7 @@ import Screen from "../components/Screen";
 function DietGoalEntryTypeSelectScreen(props) {
   return (
     <Screen style={styles.container}>
-      <HeaderText style={{ marginBottom: 50 }}>
-        Select an input method
-      </HeaderText>
+      <HeaderText>Select an input method</HeaderText>
       <View style={styles.buttonContainer}>
         <IconButton
           name="barcode"
@@ -38,6 +36,7 @@ function DietGoalEntryTypeSelectScreen(props) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    marginVertical: 40,
     alignSelf: "stretch",
     flexDirection: "row",
     justifyContent: "space-evenly",

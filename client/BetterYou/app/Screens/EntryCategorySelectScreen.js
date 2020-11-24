@@ -10,7 +10,7 @@ import Screen from "../components/Screen";
 function EntryCategorySelectScreen(props) {
   return (
     <Screen style={styles.container}>
-      <HeaderText style={{ marginBottom: 50 }}>Select a category</HeaderText>
+      <HeaderText>Select a category</HeaderText>
       <View style={styles.buttonContainer}>
         <IconButton
           name="sleep"
@@ -43,6 +43,7 @@ function EntryCategorySelectScreen(props) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    marginVertical: 40,
     alignSelf: "stretch",
     flexDirection: "row",
     justifyContent: "space-evenly",

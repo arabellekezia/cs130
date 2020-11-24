@@ -11,14 +11,12 @@ import Screen from "../components/Screen";
 function FitnessGoalEntryTypeSelectScreen(props) {
   return (
     <Screen style={styles.container}>
-      <HeaderText style={{ marginBottom: 50 }}>
-        Select an input method
-      </HeaderText>
+      <HeaderText>Select an input method</HeaderText>
       <View style={styles.buttonContainer}>
         <IconButton
           name="timer"
           size={60}
-          label="Start timer"
+          label="Workout timer"
           iconColor={colors.dark}
           border={2}
           onPress={() => console.log("navigate to timer screen ")}
@@ -38,6 +36,7 @@ function FitnessGoalEntryTypeSelectScreen(props) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    marginVertical: 40,
     alignSelf: "stretch",
     flexDirection: "row",
     justifyContent: "space-evenly",
