@@ -37,7 +37,7 @@ function LoginScreen() {
         style={styles.textInput}
         placeholder="Email"
         icon="account"
-        isError={err.email}
+        isError={err.email || err.password}
         onChangeText={(email) => {
           setEmail(email);
           setError({ email: false, password: false });
@@ -51,7 +51,7 @@ function LoginScreen() {
           setPassword(password);
           setError({ email: false, password: false });
         }}
-        isError={err.password}
+        isError={err.email || err.password}
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}

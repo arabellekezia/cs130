@@ -105,7 +105,7 @@ function HealthInfo({ style }) {
           <Text style={{ fontWeight: "bold" }}>{"150 minutes per week "}</Text>
           of moderate-intensity aerobic activity or
           <Text style={{ fontWeight: "bold" }}>{" 75 minutes per week "}</Text>
-          of vigorous aerobic activity.
+          {"of vigorous aerobic activity. "}
         </Text>
       </Text>
       <Text
@@ -114,7 +114,7 @@ function HealthInfo({ style }) {
           Linking.openURL(activeTimeLink);
         }}
       >
-        {" Learn more"}
+        {"Learn more"}
       </Text>
     </View>
   );
