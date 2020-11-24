@@ -38,7 +38,6 @@ class Health(ABC):
         self.__database_manager = database_manager
         self.__user_id = user_id
         self.__table_name = table_name
-        super().__init__()
 
     def get_columns_given_range(self, start_date, end_date):
         """Returns the columns from the database given date range. Returns

@@ -1,5 +1,4 @@
 from Health import Health
-from db import DB
 
 class Diet(Health):
     """
@@ -23,7 +22,7 @@ class Diet(Health):
     insert_in_database()
         Inserts the input into the database
     """
-    def __init__(self, database_manager, user_id, table_name='Diet'):
+    def __init__(self, database_manager, user_id):
         """
         Parameters
         ----------
@@ -34,9 +33,7 @@ class Diet(Health):
         table_name : str
             The name of the table
         """
-        self.__table_name = table_name
-        self.__database = database_manager
-        self.__user_id = user_id
+        super().__init__(database, user_id, 'Diet')
         
     def insert_in_database(self, input_dict,\
                            input_dict_keys=['Item', 'ServingSize', 'Barcode', 'nutri_dict']\

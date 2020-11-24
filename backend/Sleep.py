@@ -1,14 +1,10 @@
 from Health import Health
-from db import DB as db
 from datetime import datetime, date, timedelta
 import json
 
 class Sleep(Health):
-    def __init__(self, table_name, goal_table_name, database, user_id):
-        self.__table_name = table_name
-        self.__goal_table_name = goal_table_name
-        self.__database = database
-        self.__user_id = user_id
+    def __init__(self, database, user_id):
+        super().__init__(database, user_id, 'Sleep')
 
 
     # Input dict will have keys: SleepTime, WakeupTime
@@ -49,32 +45,32 @@ class Sleep(Health):
         except:
             print(f"insert_in_database: could not make an entry in {self.__table_name} for {data_dict}")
 
-        def get_columns_given_range(self, startDate, endDate):
-            # Description:
-            # Unlike get_values_range - this returns the whole dataset
-            # including sleep/ wake up time and not just duration
-            # The date range is based on WakeupTime:
-            # (i.e. for startDate <= WakeupTime <= endDate)
+    def get_columns_given_range(self, startDate, endDate):
+        # Description:
+        # Unlike get_values_range - this returns the whole dataset
+        # including sleep/ wake up time and not just duration
+        # The date range is based on WakeupTime:
+        # (i.e. for startDate <= WakeupTime <= endDate)
 
-            # Input:
-            # startDate (DATE): python date, not datetime
-            # endDate (DATE): python date, not datetime
+        # Input:
+        # startDate (DATE): python date, not datetime
+        # endDate (DATE): python date, not datetime
 
-            # Output:
-            # Returns all column data containing :
-            # Date, SleepTime, WakeupTime, Duration
+        # Output:
+        # Returns all column data containing :
+        # Date, SleepTime, WakeupTime, Duration
 
-            query = f"SELECT * FROM {self.__table_name}\
-                    join Users on Users.id={self.__table_name}.UserID\
-                    WHERE UserID = {self.__user_id} AND WakeupTime BETWEEN\
-                    '{str(startDate)} 00:00:00' AND '{str(endDate)} 00:00:00'\"
+        query = (f"SELECT * FROM {self.__table_name} "
+                 f"join Users on Users.id={self.__table_name}.UserID "
+                 f"WHERE Users.id = {self.__user_id} AND WakeupTime BETWEEN "
+                 f"'{str(startDate)} 00:00:00' AND '{str(endDate)} 00:00:00';"
 
-            try:
-                data = self.__database.select_data(query)
-                data_dict = json.loads(data)
-                return data_dict
-            except:
-                print("get_data_range: error getting data from database")
+        try:
+            data = self.__database.select_data(query)
+            data_dict = json.loads(data)
+            return data_dict, True
+        except:
+            return "get_data_range: error getting data from database", False
 
     # def get_daily_sleep_data(self):
     #     # Description: g

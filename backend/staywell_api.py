@@ -1,5 +1,3 @@
-from db import DB
-
 # source: http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
 # code/values/workout types come from this website
 
@@ -86,7 +84,7 @@ class StaywellExternalAPI:
                              'Volleyball: beach',
                              'Volleyball general play']
 
-    def staywell(self, args, userID):
+    def staywell(self, args, userID, db):
         if not args:
             return "Arguments needed.", 400
         weight_param = self.check_weight(args)
@@ -106,7 +104,6 @@ class StaywellExternalAPI:
             mins = mins_param['minutes']
 
         calories = self.get_exact_calories(weight, workout, mins)
-        db = DB()
         insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, Calories) values "
                             f"({userID}, '{workout}', {mins}, {calories});")
         db.insert_data(insert_statement)

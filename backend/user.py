@@ -1,13 +1,10 @@
 from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 import datetime
 import os
-from db import DB
-
-# SHOULD DB BE A SINGLETON PATTERN?
 
 class User:
-    def __init__(self):
-        self._db = DB()
+    def __init__(self, db):
+        self._db = db
         self._key = os.getenv('MY_KEY', 'other')
 
     def check_password_match(self, email, password):
@@ -46,11 +43,11 @@ class User:
         except Exception as exc:
             return f"Failed to create an auth token: {exc}", 500
 
-def decode_token(token):
-    try:
-        payload = decode(token, self._key)
-        return payload['sub'], 200
-    except ExpiredSignatureError:
-        return 'Signature expired. Please log in again.', 400
-    except InvalidTokenError:
-        return 'Invalid token. Please log in again.', 400
+    def decode_token(token):
+        try:
+            payload = decode(token, self._key)
+            return payload['sub'], 200
+        except ExpiredSignatureError:
+            return 'Signature expired. Please log in again.', 400
+        except InvalidTokenError:
+            return 'Invalid token. Please log in again.', 400

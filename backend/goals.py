@@ -23,7 +23,7 @@ class Goals():
         Inserts the input into the database
     """
  
-    def __init__(self, database_manager, user_id, table_name='Goals'):
+    def __init__(self, database_manager, user_id):
         """
         Parameters
         ----------
@@ -36,8 +36,7 @@ class Goals():
         """
         self.__database_manager = database_manager
         self.__user_id = user_id
-        self.__table_name = table_name
-        super().__init__()
+        self.__table_name = 'Goals'
     
     def set_goal(self, goal_dict, goal_dict_keys=['Type', 'Value']):
         """Inserts input in the database. Returns true if success o/w false
@@ -87,10 +86,28 @@ class Goals():
             
         query = f"SELECT * FROM {self.__table_name}\
         join Users on Users.id={self.__table_name}.UserID\
-        WHERE Type = {Type} AND UserID = {self.__user_id}\
-        ORDER BY Date DESC LIMIT 1"
+        WHERE Goals.Type = '{Type}' AND Users.id = {self.__user_id}\
+        ORDER BY Date DESC LIMIT 1;"
 
         try:
-            return self.__database_manager.select_date(query), True
+            return self.__database_manager.select_data(query), True
+        except:
+            None, False
+
+    def get_all_goals(self):
+        query = (f"select * from {self.__table_name} "
+                 f"join Users on Users.id={self.__table_name}.UserID "
+                 f"where Users.id = {self.__user_id};")
+        try:
+            return self.__database_manager.select_data(query), True
+        except:
+            None, False
+
+    def get_type_goals(self, goal_type):
+        query = (f"select * from {self.__table_name} "
+                 f"join Users on Users.id={self.__table_name}.UserID "
+                 f"where Users.id = {self.__user_id} and Goals.Type = '{goal_type}';")
+        try:
+            return self.__database_manager.select_data(query), True
         except:
             None, False

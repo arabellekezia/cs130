@@ -43,8 +43,8 @@ class DB:
     def sel_time_frame(self, table, start_date, end_date, userID, params="*"):
         query = f"select {params} from {table} "
         query += f"join Users on Users.id={table}.UserID "
-        query += f"where Datetime >= {start_date} and Datetime <= {end_date}"
-        query += f"and UserID = {userID};"
+        query += f"where Datetime >= {start_date} and Datetime <= {end_date} "
+        query += f"and Users.id = {userID};"
         data = self.select_data(query)
         return data
 

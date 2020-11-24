@@ -1,5 +1,4 @@
 from Health import Health
-from db import DB
 
 class Fitness(Health):
     """
@@ -24,7 +23,7 @@ class Fitness(Health):
         Inserts the input into the database
     """
     
-    def __init__(self, database_manager, user_id, table_name='Fitness'):
+    def __init__(self, database_manager, user_id):
         """
         Parameters
         ----------
@@ -35,9 +34,7 @@ class Fitness(Health):
         table_name : str
             The name of the table
         """
-        self.__database = database
-        self.__user_id = user_id
-        self.__table_name = table_name
+        super().__init__(database, user_id, 'Fitness')
     
     def insert_in_database(self, input_dict,\
                           input_dict_keys = ['WorkoutType', 'Minutes', 'CaloriesBurned']):
