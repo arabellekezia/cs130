@@ -16,7 +16,7 @@ function IconButton({
 }) {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
-      <View style={{ ...styles.container, ...style }}>
+      <View style={{ ...styles.container, ...style, width: size }}>
         <Icon
           name={name}
           size={size}
@@ -30,6 +30,8 @@ function IconButton({
             fontSize: size * 0.25,
             marginTop: size * 0.125,
             color: textColor,
+            textAlign: "center",
+            overflow: "hidden",
           }}
         >
           {label}

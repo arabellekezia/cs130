@@ -3,38 +3,33 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 
 import colors from "../config/colors";
+
 import HeaderText from "../components/HeaderText";
 import IconButton from "../components/IconButton";
 import Screen from "../components/Screen";
 
-function EntryCategorySelectScreen(props) {
+function DietGoalEntryTypeSelectScreen(props) {
   return (
     <Screen style={styles.container}>
-      <HeaderText style={{ marginBottom: 50 }}>Select a category</HeaderText>
+      <HeaderText style={{ marginBottom: 50 }}>
+        Select an input method
+      </HeaderText>
       <View style={styles.buttonContainer}>
         <IconButton
-          name="sleep"
+          name="barcode"
           size={60}
-          label="Sleep"
-          iconColor={colors.sleep}
+          label="Scan barcode"
+          iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to sleep entry screen")}
+          onPress={() => console.log("navigate to barcode scan screen ")}
         />
         <IconButton
-          name="food-apple"
+          name="database-search"
           size={60}
-          label="Diet"
-          iconColor={colors.diet}
+          label="Look up"
+          iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to diet entry screen")}
-        />
-        <IconButton
-          name="google-fit"
-          size={60}
-          label="Fitness"
-          iconColor={colors.fitness}
-          border={2}
-          onPress={() => console.log("navigate to fitness entry screen")}
+          onPress={() => console.log("navigate to lookup screen")}
         />
       </View>
     </Screen>
@@ -55,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EntryCategorySelectScreen;
+export default DietGoalEntryTypeSelectScreen;
