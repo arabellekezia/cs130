@@ -1,34 +1,37 @@
 import React, { useEffect, useRef } from "react";
 
-import { TextInput, View, StyleSheet } from "react-native";
+import { TextInput, View, StyleSheet, Platform } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function AppTextInput({ style, icon, isError = false, ...kwargs }) {
   // Workaround to get the correct font-family after using a secure text entry for password field
   const inputElementRef = useRef(null);
-  useEffect(() => {
-    inputElementRef.current.setNativeProps({
-      style: {
-        fontFamily: Platform.OS === "android" ? "Roboto" : "San Francisco",
-      },
-    });
-  }, []);
-  
+  if (Platform.OS === "android") {
+    useEffect(() => {
+      inputElementRef.current.setNativeProps({
+        style: {
+          fontFamily: "Roboto",
+        },
+      });
+    }, []);
+  }
+
   const [backgroundColor, setBackgroundColor] = React.useState("#efefef");
-  
+
   const styles = StyleSheet.create({
-    container: Object.assign({
-      backgroundColor,
-      borderRadius: 10,
-      width: "100%",
-      flexDirection: "row",
-      padding: 15,
-      marginVertical: 10,
-    }, 
-      isError ? { borderWidth: 1} : null, 
-      isError ? { borderColor: "red"} : null
-    ), 
+    container: Object.assign(
+      {
+        backgroundColor,
+        borderRadius: 10,
+        width: "100%",
+        flexDirection: "row",
+        padding: 15,
+        marginVertical: 10,
+      },
+      isError ? { borderWidth: 1 } : null,
+      isError ? { borderColor: "red" } : null
+    ),
     icon: {
       marginRight: 14,
     },
@@ -38,7 +41,7 @@ function AppTextInput({ style, icon, isError = false, ...kwargs }) {
   });
 
   return (
-    <View style={{  ...styles.container, ...style }}>
+    <View style={{ ...styles.container, ...style }}>
       {icon && (
         <MaterialCommunityIcons
           name={icon}
@@ -47,12 +50,15 @@ function AppTextInput({ style, icon, isError = false, ...kwargs }) {
           style={styles.icon}
         />
       )}
-      <TextInput {...kwargs} onFocus={() => setBackgroundColor("#f7f7f7")} onBlur={() => setBackgroundColor("#efefef")} ref={inputElementRef}
+      <TextInput
+        {...kwargs}
+        onFocus={() => setBackgroundColor("#f7f7f7")}
+        onBlur={() => setBackgroundColor("#efefef")}
+        ref={inputElementRef}
         style={styles.textInput}
       />
     </View>
   );
 }
-
 
 export default AppTextInput;

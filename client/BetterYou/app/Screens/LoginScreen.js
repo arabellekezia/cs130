@@ -36,6 +36,8 @@ function LoginScreen() {
       <AppTextInput
         style={styles.textInput}
         placeholder="Email"
+        autoCapitalize="none"
+        keyboardType="email-address"
         icon="account"
         isError={err.email || err.password}
         onChangeText={(email) => {
@@ -55,11 +57,7 @@ function LoginScreen() {
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}
-      <TextButton
-        style={styles.submitButton}
-        name="Login"
-        onPress={login}
-      />
+      <TextButton style={styles.submitButton} name="Login" onPress={login} />
       <Text style={{ marginVertical: "5%" }}>
         Don't have an account?
         <Text
