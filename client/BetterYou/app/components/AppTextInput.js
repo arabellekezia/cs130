@@ -52,6 +52,7 @@ function AppTextInput({ style, icon, isError = false, ...kwargs }) {
       )}
       <TextInput
         {...kwargs}
+        maxLength={25}
         onFocus={() => setBackgroundColor("#f7f7f7")}
         onBlur={() => setBackgroundColor("#efefef")}
         ref={inputElementRef}

@@ -40,6 +40,7 @@ function LoginScreen() {
         keyboardType="email-address"
         icon="account"
         isError={err.email || err.password}
+        autoFocus={true}
         onChangeText={(email) => {
           setEmail(email);
           setError({ email: false, password: false });
