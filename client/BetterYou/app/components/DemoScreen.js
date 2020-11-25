@@ -16,6 +16,7 @@ import Screen from "./Screen";
 import SummaryItem from "./SummaryItem";
 import AppPieChart from "./AppPieChart";
 import AppTextInput from "./AppTextInput";
+import ActivityEntry from "./ActivityEntry";
 
 function DemoScreen(props) {
   const [name, setName] = useState("");
@@ -154,6 +155,22 @@ function DemoScreen(props) {
         />
         <AppStackedBarChart data={stackedBarData} />
         <Stopwatch onStop={(result) => console.log(result)} />
+        <ActivityEntry
+          style={styles.activity}
+          iconName="walk"
+          startTime="7:00 PM"
+          activity="Walking"
+          caloriesBurned={238}
+          duration="00:20:07"
+        />
+        <ActivityEntry
+          style={styles.activity}
+          iconName="run"
+          startTime="7:00 PM"
+          activity="Running"
+          caloriesBurned={238}
+          duration="00:20:07"
+        />
       </ScrollView>
     </Screen>
   );
@@ -162,6 +179,10 @@ function DemoScreen(props) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+  },
+  activity: {
+    marginBottom: 40,
+    marginLeft: 10,
   },
 });
 
