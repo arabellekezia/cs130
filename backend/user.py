@@ -34,6 +34,7 @@ class User:
         else:
             return False
 
+    # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
     def encode_token(self, id):
         payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),
                     'iat': datetime.datetime.utcnow(),
@@ -43,6 +44,7 @@ class User:
         except Exception as exc:
             return f"Failed to create an auth token: {exc}", 500
 
+    # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
     def decode_token(token):
         try:
             payload = decode(token, self._key)

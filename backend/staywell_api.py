@@ -1,115 +1,119 @@
+from typing import Any, Dict, Tuple
+from .db import DB
+
 # source: http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
-# code/values/workout types come from this website
+# code/values/workout types come from this website however they only provided HTML and not JSON data
+# so I made this script to do the same functionality as the website linked
 
 class StaywellExternalAPI:
-    def __init__(self):
-        self.workout_list = ['Aerobics, step: high impact',
-                             'Aerobics, step: low impact',
-                             'Aerobics: high impact',
-                             'Aerobics: low impact',
-                             'Aerobics: water',
-                             'Basketball: game',
-                             'Basketball: wheelchair',
-                             'Bicycling, stationary: moderate',
-                             'Bicycling, stationary: vigorous',
-                             'Bicycling: 20 mph',
-                             'Bicycling: 12-13.9 mph',
-                             'Bicycling: 14-15.9 mph',
-                             'Bicycling: 16-19 mph',
-                             'Bicycling: BMX/mountain',
-                             'Bowling',
-                             'Boxing: sparring',
-                             'Calisthenics: moderate',
-                             'Calisthenics: vigorous',
-                             'Chopping/splitting wood',
-                             'Circuit training',
-                             'Dancing: disco, ballroom, square',
-                             'Dancing: fast, ballet, twist',
-                             'Dancing: slow, waltz, foxtrot',
-                             'Elliptical',
-                             'Football: competitive',
-                             'Football: touch, flag',
-                             'Gardening',
-                             'Golf: carrying clubs',
-                             'Golf: using cart',
-                             'Gymnastics',
-                             'Handball',
-                             'Health rider',
-                             'Heavy cleaning: car, windows',
-                             'Hiking: cross country',
-                             'Hockey: field and ice',
-                             'Ice skating',
-                             'Kayaking',
-                             'Martial arts: karate, kickboxing',
-                             'Moving: carrying boxes',
-                             'Mowing lawn: push, hand',
-                             'Mowing lawn: push, power',
-                             'Operate snow blower: walking',
-                             'Racquetball: casual',
-                             'Racquetball: competitive',
-                             'Raking lawn',
-                             'Rollerblade: skating',
-                             'Rope jumping',
-                             'Rowing, stationary: moderate',
-                             'Rowing, stationary: vigorous',
-                             'Running: 6 min/mile',
-                             'Running: 8 min/mile',
-                             'Running: 10 min/mile',
-                             'Running: 12 min/mile',
-                             'Scuba or skin diving',
-                             'Shoveling snow: by hand',
-                             'Sitting: reading, watching TV',
-                             'Skateboarding',
-                             'Skiing: downhill',
-                             'Ski machine',
-                             'Sleeping',
-                             'Snow shoeing',
-                             'Soccer',
-                             'Softball',
-                             'Stair-step machine',
-                             'Stretching, yoga',
-                             'Swimming: general',
-                             'Swimming: laps, vigorous',
-                             'Tai chi',
-                             'Tennis',
-                             'Walk/Jog: jog<10 min.',
-                             'Walk: 15 min/mile',
-                             'Water polo',
-                             'Water skiing',
-                             'Water volleyball',
-                             'Weightlifting: general',
-                             'Weightlifting: vigorous',
-                             'Whitewater: rafting, kayaking',
-                             'Wrestling',
-                             'Volleyball: beach',
-                             'Volleyball general play']
+    def __init__(self) -> None:
+        self._workout_list = ['Aerobics, step: high impact',
+                              'Aerobics, step: low impact',
+                              'Aerobics: high impact',
+                              'Aerobics: low impact',
+                              'Aerobics: water',
+                              'Basketball: game',
+                              'Basketball: wheelchair',
+                              'Bicycling, stationary: moderate',
+                              'Bicycling, stationary: vigorous',
+                              'Bicycling: 20 mph',
+                              'Bicycling: 12-13.9 mph',
+                              'Bicycling: 14-15.9 mph',
+                              'Bicycling: 16-19 mph',
+                              'Bicycling: BMX/mountain',
+                              'Bowling',
+                              'Boxing: sparring',
+                              'Calisthenics: moderate',
+                              'Calisthenics: vigorous',
+                              'Chopping/splitting wood',
+                              'Circuit training',
+                              'Dancing: disco, ballroom, square',
+                              'Dancing: fast, ballet, twist',
+                              'Dancing: slow, waltz, foxtrot',
+                              'Elliptical',
+                              'Football: competitive',
+                              'Football: touch, flag',
+                              'Gardening',
+                              'Golf: carrying clubs',
+                              'Golf: using cart',
+                              'Gymnastics',
+                              'Handball',
+                              'Health rider',
+                              'Heavy cleaning: car, windows',
+                              'Hiking: cross country',
+                              'Hockey: field and ice',
+                              'Ice skating',
+                              'Kayaking',
+                              'Martial arts: karate, kickboxing',
+                              'Moving: carrying boxes',
+                              'Mowing lawn: push, hand',
+                              'Mowing lawn: push, power',
+                              'Operate snow blower: walking',
+                              'Racquetball: casual',
+                              'Racquetball: competitive',
+                              'Raking lawn',
+                              'Rollerblade: skating',
+                              'Rope jumping',
+                              'Rowing, stationary: moderate',
+                              'Rowing, stationary: vigorous',
+                              'Running: 6 min/mile',
+                              'Running: 8 min/mile',
+                              'Running: 10 min/mile',
+                              'Running: 12 min/mile',
+                              'Scuba or skin diving',
+                              'Shoveling snow: by hand',
+                              'Sitting: reading, watching TV',
+                              'Skateboarding',
+                              'Skiing: downhill',
+                              'Ski machine',
+                              'Sleeping',
+                              'Snow shoeing',
+                              'Soccer',
+                              'Softball',
+                              'Stair-step machine',
+                              'Stretching, yoga',
+                              'Swimming: general',
+                              'Swimming: laps, vigorous',
+                              'Tai chi',
+                              'Tennis',
+                              'Walk/Jog: jog<10 min.',
+                              'Walk: 15 min/mile',
+                              'Water polo',
+                              'Water skiing',
+                              'Water volleyball',
+                              'Weightlifting: general',
+                              'Weightlifting: vigorous',
+                              'Whitewater: rafting, kayaking',
+                              'Wrestling',
+                              'Volleyball: beach',
+                              'Volleyball general play']
 
-    def staywell(self, args, userID, db):
+    def staywell(self, args: Dict[str, Any], userID: int, db: DB) -> Tuple[str, int]:
         if not args:
             return "Arguments needed.", 400
-        weight_param = self.check_weight(args)
+        weight_param = self._check_weight(args)
         if weight_param['status_code'] != 200:
             return weight_param['msg'], weight_param['status_code']
         else:
             weight = weight_param['weight']
-        workout_param = self.check_workout_type(args)
+        workout_param = self._check_workout_type(args)
         if workout_param['status_code'] != 200:
             return workout_param['msg'], workout_param['status_code']
         else:
             workout = workout_param['workout']
-        mins_param = self.check_minutes(args)
+        mins_param = self._check_minutes(args)
         if mins_param['status_code'] != 200:
             return mins_param['msg'], mins_param['status_code']
         else:
             mins = mins_param['minutes']
 
-        calories = self.get_exact_calories(weight, workout, mins)
+        calories = self._get_exact_calories(weight, workout, mins)
         insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, Calories) values "
                             f"({userID}, '{workout}', {mins}, {calories});")
         db.insert_data(insert_statement)
         return str(calories), 200
 
-    def get_calories_list_per_hour(self, weight):
+    def _get_calories_list_per_hour(self, weight: int) -> int:
         calories_for_exercise = []
         if weight < 113:
             calories_for_exercise = [480, 336, 336, 264, 192, 384, 312, 336, 504, 792, 384, 480,
@@ -153,29 +157,33 @@ class StaywellExternalAPI:
                                      576, 288, 288, 576, 480, 576, 768, 288]
         return calories_for_exercise
 
-    def get_exact_calories(self, weight, workout, minutes):
-        calories_for_exercise = self.get_calories_list_per_hour(weight)
-        index = self.workout_list.index(workout)
+    def _get_exact_calories(self, weight: int, workout: str, minutes: int) -> float:
+        calories_for_exercise = self._get_calories_list_per_hour(weight)
+        index = self._workout_list.index(workout)
         calories_per_min = calories_for_exercise[index] / 60
         return (minutes*calories_per_min)
 
-    def check_weight(self, data):
+    def _check_weight(self, data: Dict[str, Any]) -> Dict[str, Any]:
         if 'weight' in data:
             weight = data['weight']
             try:
                 weight = int(weight)
-                return {"status_code": 200, "weight": weight}
             except ValueError:
                 return {"msg": "Please enter an integer for weight",
                         "status_code": 400}
+            if weight < 0:
+                return {"msg": "Please enter an positive integer for weight",
+                        "status_code": 400}
+            else:
+                return {"status_code": 200, "weight": weight}
         else:
             return {"msg": "Please enter a weight",
                     "status_code": 400}
 
-    def check_workout_type(self, data):
+    def _check_workout_type(self, data: Dict[str, Any]) -> Dict[str, Any]:
         if 'workout' in data:
             workout = data['workout']
-            if workout in self.workout_list:
+            if workout in self._workout_list:
                 return {"status_code": 200, "workout": workout}
             else:
                 return {"msg": "Please enter a valid workout",
@@ -184,15 +192,19 @@ class StaywellExternalAPI:
             return {"msg": "Please enter a workout",
                     "status_code": 400}
 
-    def check_minutes(self, data):
+    def _check_minutes(self, data: Dict[str, Any]) -> Dict[str, Any]:
         if 'minutes' in data:
             mins = data['minutes']
             try:
                 mins = int(mins)
-                return {"status_code": 200, "minutes": mins}
             except ValueError:
                 return {"msg": "Please enter an integer for minutes of the workout duration.",
                         "status_code": 400}
+            if mins < 0:
+                return {"msg": "Please enter a positive integer for minutes of the workout duration.",
+                        "status_code": 400}
+            else:
+                return {"status_code": 200, "minutes": mins}
         else:
             return {"msg": "Please enter a workout duration in minutes",
                     "status_code": 400}

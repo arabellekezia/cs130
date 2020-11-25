@@ -1,4 +1,4 @@
-from db import DB
+from backend.db import DB
 
 users = ("CREATE TABLE Users (id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
          "email varchar(256) NOT NULL, password varchar(256) NOT NULL);")
@@ -29,4 +29,4 @@ db = DB()
 #db.insert_data(sleep)
 #db.insert_data(diet)
 #db.insert_data(fitness)
-db.insert_data(goals)
+#db.insert_data(goals)
