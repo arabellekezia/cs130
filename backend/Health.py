@@ -58,7 +58,7 @@ class Health(ABC):
             true if database query succesful, false otherwise
         """
         try:
-            return sel_time_frame(self.__table_name, start_date, end_date, self.__user_id), True
+            return self.__database_manager.sel_time_frame(self.__table_name, start_date, end_date, self.__user_id), True
         except:
             None, False
     

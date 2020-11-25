@@ -47,8 +47,3 @@ class DB:
         query += f"and Users.id = {userID};"
         data = self.select_data(query)
         return data
-
-    def get_sleep_minutes(self, start_date, end_date, userID):
-        data = self.sel_time_frame("Sleep", start_date, end_date, userID, params="Minutes")
-        return data
-
