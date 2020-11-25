@@ -1,4 +1,4 @@
-import pymysql
+import mysql.connector
 
 DB_NAME = 'BetterYou'
 
@@ -59,27 +59,32 @@ Tables['Goals']={
 
 host = 'localhost'
 user = 'root'
-password = ""
+password = "bootipul"
 charSet = "utf8mb4"
-cusrorType = pymysql.cursors.DictCursor
-connection = pymysql.connect(host=host, user=user, password=password,charset=charSet,cursorclass=cusrorType)
+# cusrorType = pymysql.cursors.DictCursor
+connection = mysql.connector.connect(host=host, user=user, password=password,charset=charSet)
+# connection = pymysql.connect(host=host, user=user, password=password,charset=charSet,cursorclass=cusrorType)
 
 try:
-    cursor = connectionInstance.cursor()                                    
-    sqlStatement = f"CREATE DATABASE {DB_NAME}"
+    cursor = connection.cursor()
+    sqlStatement = f"CREATE DATABASE IF NOT EXISTS {DB_NAME}"
     cursor.execute(sqlStatement)
-except Exception as e:
-    print("Exeception occured:{}".format(e))
-finally:
-    connection.close()
-
-connection = pymysql.connect(host=host, user=user, password=password,charset=charSet,cursorclass=cusrorType, db=DB_NAME)
-try:
-    cursor = connectionInstance.cursor() 
     for table_name in Tables.keys():
         statement = Tables[table_name]
         cursor.execute(statement)
+
 except Exception as e:
     print("Exeception occured:{}".format(e))
-finally:
+else:
     connection.close()
+
+# connection = mysql.connector.connect(host=host, user=user, password=password,charset=charSet, db=DB_NAME)
+# try:
+#     cursor = connection.cursor()
+#     for table_name in Tables.keys():
+#         statement = Tables[table_name]
+#         cursor.execute(statement)
+# except Exception as e:
+#     print("Exeception occured:{}".format(e))
+# finally:
+#     connection.close()
