@@ -16,10 +16,13 @@ import Screen from "./Screen";
 import SummaryItem from "./SummaryItem";
 import AppPieChart from "./AppPieChart";
 import AppTextInput from "./AppTextInput";
-import ActivityEntry from "./ActivityEntry";
+import DailyFitnessEntries from "./DailyFitnessEntries";
+
 
 function DemoScreen(props) {
   const [name, setName] = useState("");
+  const [selectedIndex, setSelectedIndex] = React.useState(0); 
+
   const data = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
@@ -155,21 +158,24 @@ function DemoScreen(props) {
         />
         <AppStackedBarChart data={stackedBarData} />
         <Stopwatch onStop={(result) => console.log(result)} />
-        <ActivityEntry
-          style={styles.activity}
-          iconName="walk"
-          startTime="7:00 PM"
-          activity="Walking"
-          caloriesBurned={238}
-          duration="00:20:07"
-        />
-        <ActivityEntry
-          style={styles.activity}
-          iconName="run"
-          startTime="7:00 PM"
-          activity="Running"
-          caloriesBurned={238}
-          duration="00:20:07"
+        <DailyFitnessEntries
+          day="Sunday, Nov. 15"
+          entries={[
+            {
+              iconName: "walk",
+              startTime: "7:00 PM",
+              activity: "Walking",
+              caloriesBurned: 238,
+              duration: "00:20:07",
+            },
+            {
+              iconName: "swim",
+              startTime: "7:00 PM",
+              activity: "Swimming",
+              caloriesBurned: 238,
+              duration: "00:20:07",
+            },
+          ]}
         />
       </ScrollView>
     </Screen>

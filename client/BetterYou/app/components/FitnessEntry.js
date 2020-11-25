@@ -3,7 +3,7 @@ import Icon from "./Icon";
 import { StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 
-function ActivityEntry({
+function FitnessEntry({
   style,
   iconName,
   startTime,
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityEntry;
+export default FitnessEntry;
