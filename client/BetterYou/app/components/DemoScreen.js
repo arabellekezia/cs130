@@ -153,13 +153,7 @@ function DemoScreen(props) {
           paddingLeft="15"
         />
         <AppStackedBarChart data={stackedBarData} />
-        <Stopwatch
-          onStop={(elapsedTimeInMilliseconds) =>
-            console.log(
-              `Elapsed time (milliseconds): ${elapsedTimeInMilliseconds}`
-            )
-          }
-        />
+        <Stopwatch onStop={(result) => console.log(result)} />
       </ScrollView>
     </Screen>
   );

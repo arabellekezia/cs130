@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   healthInfoContainer: {
     marginTop: "10%",
-    padding: "8%",
+    padding: "5%",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#eafbff",
