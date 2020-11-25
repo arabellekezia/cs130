@@ -29,6 +29,13 @@ function FitnessEntry({
           style={styles.stats}
           children={`${duration} · ${caloriesBurned} Cal`}
         />
+        <Icon
+          name="fire"
+          backgroundColor="white"
+          iconColor="grey"
+          size={22}
+          iconScale={0.9}
+        />
       </View>
     </View>
   );
