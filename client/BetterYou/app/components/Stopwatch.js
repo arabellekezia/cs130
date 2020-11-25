@@ -24,7 +24,7 @@ function ElapsedTime({ interval }) {
 
 function Stopwatch({ onStop }) {
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [startTime, setStartTime] = useState(Date.now());
+  const [startTime, setStartTime] = useState(0);
   const [timerId, setTimerId] = useState(0);
   const [timerState, setTimerState] = useState(StateEnum.INITIAL);
 
@@ -35,6 +35,9 @@ function Stopwatch({ onStop }) {
         setElapsedTime((prevTime) => prevTime + 1000);
       }, 1000)
     );
+    if (!startTime) {
+      setStartTime(Date.now());
+    }
   }
 
   function stop() {
@@ -51,6 +54,7 @@ function Stopwatch({ onStop }) {
     setTimerState(StateEnum.INITIAL);
     clearInterval(timerId);
     setElapsedTime(0);
+    setStartTime(0);
   }
 
   return (
