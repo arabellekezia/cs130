@@ -8,7 +8,7 @@ import Screen from "./Screen";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function AppDateTimePicker({ placeholder }) {
+function AppDateTimePicker({ placeholder, onChange }) {
   const [date, setDate] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -32,13 +32,15 @@ function AppDateTimePicker({ placeholder }) {
 
   const handleDateConfirm = (selectedDate) => {
     setDate(selectedDate);
+    onChange(selectedDate);
+
     hideDatePicker();
   };
 
   const handleTimeConfirm = (selectedTime) => {
     date.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0);
-    console.log(date.toLocaleString());
     setDate(date);
+    onChange(date);
     hideTimePicker();
   };
 
