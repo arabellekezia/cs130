@@ -9,7 +9,9 @@ function AppTextInput({ style, icon, isError = false, ...kwargs }) {
   const inputElementRef = useRef(null);
   useEffect(() => {
     inputElementRef.current.setNativeProps({
-      style: { fontFamily: "Roboto" },
+      style: {
+        fontFamily: Platform.OS === "android" ? "Roboto" : "San Francisco",
+      },
     });
   }, []);
   
