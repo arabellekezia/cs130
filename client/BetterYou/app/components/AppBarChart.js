@@ -4,6 +4,7 @@ import { useWindowDimensions, StyleSheet, Platform } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
 function AppBarChart({
+  style,
   data,
   color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -18,7 +19,7 @@ function AppBarChart({
       height={scaleDimensions * 200}
       yAxisSuffix={yAxisSuffix}
       fromZero
-      withInnerLines={false}
+      withInnerLines={true}
       showBarTops={false}
       withHorizontalLabels={false}
       showValuesOnTopOfBars
@@ -27,13 +28,13 @@ function AppBarChart({
         backgroundGradientFrom: backgroundColor,
         backgroundGradientTo: backgroundColor,
         barPercentage: 0.4,
-        barRadius: 6,
+        barRadius: 4,
         decimalPlaces: 0,
         color: color,
         labelColor: labelColor,
         fillShadowGradientOpacity: 0.7, //changes the opacity of the gradient
       }}
-      style={styles.container}
+      style={{  ...styles.container, ...style  }}
     />
   );
 }
@@ -41,6 +42,7 @@ function AppBarChart({
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
+    marginRight: "10%",
     ...Platform.select({
       ios: {
         // // styles for box shadow
