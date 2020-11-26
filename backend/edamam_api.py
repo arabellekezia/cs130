@@ -3,7 +3,7 @@ import numpy as np
 from difflib import SequenceMatcher
 
 class EdamamAPI():
-    def __init__(self):
+    def __init__(self) -> None:
         self._url = "https://edamam-food-and-grocery-database.p.rapidapi.com/parser"
         self._key = "de414b4bedmsh907dea7bd3b009dp13afd1jsnee0e8e17539c"
         self._host = "edamam-food-and-grocery-database.p.rapidapi.com"
@@ -19,10 +19,10 @@ class EdamamAPI():
                                 'FIBTG': 'Fiber',
                             }
         
-    def get_similar(self, a, b):
+    def get_similar(self, a: str, b: str) -> float:
         return SequenceMatcher(None, a, b).ratio()
 
-    def get_food_information(self, query, upc=False):
+    def get_food_information(self, query: str, upc: bool = False):
 
         # Check UPC code or Ingredient
         # UPC are barcodes and Ingredients are all other foods.
@@ -37,7 +37,10 @@ class EdamamAPI():
 
         return response.json()
     
-    def get_top_matches(self, query, upc=False, k=5):
+    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5):
+        if not isinstance(query, str) or not isinstance(upc, bool) or not isinstance(k, int) or ((isinstance(k, int)) and k < 0):
+            return {}, False
+
         food_json = self.get_food_information(query, upc)
         success = False
         food_options_dict = {}
