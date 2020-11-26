@@ -28,6 +28,18 @@ class TestEdamamAPI(unittest.TestCase):
             self.assertTrue(success)
             self.assertEqual(len(result.keys()), 1)
 
+    def test_barcode(self):
+        """
+        Test single option. Best match.
+        """
+        k = 1
+        query = '016000275287'
+        result, success = self.api.get_top_matches(query=query, upc=True, k=k)
+        self.assertTrue(success)
+        self.assertEqual(len(result.keys()), 1)
+        self.assertEqual(result[0]['Label'],'Cheerios Cheerios Cereal')
+
+
     def test_multiple(self):
         """
         Test multiple options. Top k matches.
