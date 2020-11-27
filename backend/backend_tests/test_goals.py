@@ -1,6 +1,5 @@
 import sys
 sys.path.append("../")
-from edamam_api import EdamamAPI
 import unittest
 from db import DB
 from user import User
