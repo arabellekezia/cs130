@@ -29,7 +29,7 @@ class User:
         existing = self.check_email_match(email)
         if existing < 0:
             data = {'email': f"'{email}'", 'password': f"'{password}'"}
-            self._db.inset_row('Users', data)
+            self._db.insert_row('Users', data)
             return True
         else:
             return False

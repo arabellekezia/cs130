@@ -31,6 +31,13 @@ class DB:
         cursor.execute(cmd)
         connection.commit()
         self._close_connection(connection)
+        
+    def insert_data_1(self, cmd: str, values) -> None:
+        connection = self._get_connection()
+        cursor = connection.cursor()
+        cursor.execute(cmd, values)
+        connection.commit()
+        self._close_connection(connection)
 
     def insert_row(self, table: str, data_dict: Dict[str, Any]) -> None:
         keys = ""
@@ -42,11 +49,24 @@ class DB:
         vals = vals[:-2]
         cmd = f"insert into {table} ({keys}) values ({vals});"
         self.insert_data(cmd)
+        
+    def insert_row_1(self, table: str, data_dict: Dict[str, Any]) -> None:
+        keys = ""
+        vals = ""
+        data = []
+        for k, v in data_dict.items():
+            keys += k + ', '
+            vals += "%s" + ', '
+            data.append(v)
+        keys = keys[:-2]
+        vals = vals[:-2]
+        cmd = f"insert into {table} ({keys}) values ({vals});"
+        self.insert_data_1(cmd,data)
 
-    def sel_time_frame(self, table: str, start_date: datetime, end_date: datetime, userID: int, params: str = "*"):
+    def sel_time_frame(self, table: str, start_date: str, end_date: str, userID: int, params: str = "*"):
         query = f"select {params} from {table} "
         query += f"join Users on Users.id={table}.UserID "
-        query += f"where Datetime >= {start_date} and Datetime <= {end_date} "
-        query += f"and Users.id = {userID};"
+        query += f"where Datetime >= '{start_date}' and Datetime <= '{end_date}' "
+        query += f"and Users.id = '{userID}';"
         data = self.select_data(query)
         return data

@@ -35,10 +35,12 @@ class Health(ABC):
         table_name : str
             The name of the table
         """
-        self.__database_manager = database_manager
-        self.__user_id = user_id
-        self.__table_name = table_name
-
+        self._database_manager = database_manager
+        self._user_id = user_id
+        self._table_name = table_name
+        
+        
+    #NOTE: THE start_date, end_date SHOULD JUST BE THE DATE AND NOT DATETIME.
     def get_columns_given_range(self, start_date, end_date):
         """Returns the columns from the database given date range. Returns
         columns, true if the start_date, end_date is correct o/w false.
@@ -58,9 +60,15 @@ class Health(ABC):
             true if database query succesful, false otherwise
         """
         try:
-            return self.__database_manager.sel_time_frame(self.__table_name, start_date, end_date, self.__user_id), True
+            result = self._database_manager.sel_time_frame(self._table_name, f"{start_date} 00:00:00", f"{end_date} 00:00:00", self._user_id)
+            if result:
+                return result, True
+            else:
+                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+                return None, False
         except:
-            None, False
+            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+            return None, False
     
     @abstractmethod
     def insert_in_database(self, input_dict):
