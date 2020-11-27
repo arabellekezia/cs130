@@ -15,7 +15,7 @@ diet = ("CREATE TABLE Diet "
         "REFERENCES Users(id));")
 
 fitness = ("CREATE TABLE Fitness "
-           "(WorkoutType varchar(256), Minutes INT NOT NULL, CaloriedBurned DOUBLE, "
+           "(WorkoutType varchar(256), Minutes INT NOT NULL, CaloriesBurned DOUBLE, "
            "Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserID INT(11) UNSIGNED, FOREIGN KEY (UserID) "
            "REFERENCES Users(id));")
 
