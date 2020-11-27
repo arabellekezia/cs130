@@ -1,6 +1,8 @@
 from Health import Health
-from datetime import datetime, date, timedelta
+from datetime import datetime
 import copy
+from db import DB
+from typing import List, Dict, Any
 
 class Diet(Health):
     """
@@ -24,7 +26,7 @@ class Diet(Health):
     insert_in_database()
         Inserts the input into the database
     """
-    def __init__(self, database_manager, user_id):
+    def __init__(self, database_manager: DB, user_id: int) -> None:
         """
         Parameters
         ----------
@@ -37,12 +39,12 @@ class Diet(Health):
         """
         super().__init__(database_manager, user_id, 'Diet')
         
-    def insert_in_database(self, input_dict,\
-                           input_dict_keys=['Item', 'ServingSize', 'Barcode', 'nutri_dict'],\
-                           nutri_dict_keys=['Cals','Protein','Fat','Carbs','Fiber'],\
-                           input_dict_types=[str,float,bool,None],\
-                           nutri_dict_types=[float,float,float,float,float]
-                           ):
+    def insert_in_database(self, input_dict: Dict,\
+                           input_dict_keys: List[str] = ['Item', 'ServingSize', 'Barcode', 'nutri_dict'],\
+                           nutri_dict_keys: List[str] = ['Cals','Protein','Fat','Carbs','Fiber'],\
+                           input_dict_types: Dict[str, Any] = {'Item': str,'ServingSize': float,'Barcode': bool,'nutri_dict': None},\
+                           nutri_dict_types: Dict[str, Any] = {'Cals': float,'Protein': float,'Fat': float,'Carbs': float,'Fiber': float}
+                           ) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -62,22 +64,27 @@ class Diet(Health):
         Returns
         -------
         bool
-            returns true if entry is without errors o/w false
+            Returns True if a successful entry is made to the Diet table without errors.
         """    
-        ct = 0
-        for (k,t) in zip(input_dict.keys(),input_dict_types):
-            if k not in input_dict_keys or ((t is not None) and (not isinstance(input_dict[k],t))):
-                ct+=1
-        if ct > 0:
-            print(f'1. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
-        if ct == 0:
-            for (k,t) in zip(input_dict['nutri_dict'].keys(),nutri_dict_types):
-                if k not in nutri_dict_keys or not isinstance(input_dict['nutri_dict'][k],t):
-                    ct+=1
-        if ct > 0:
-            print(f'2. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
+        for k in input_dict.keys():
+            
+            if k not in input_dict_keys:
+                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
+                
+        for k in input_dict['nutri_dict'].keys():
+            
+            if k not in nutri_dict_keys:
+                print(f'2. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+        
+            if not isinstance(input_dict['nutri_dict'][k],nutri_dict_types[k]):
+                print(f'2. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
         
         data_dict = copy.deepcopy(input_dict)
         del data_dict['nutri_dict']
@@ -95,12 +102,12 @@ class Diet(Health):
             return False
         
         
-    def insert_in_database_datetime(self, input_dict, date_time,\
-                           input_dict_keys=['Item', 'ServingSize', 'Barcode', 'nutri_dict'],\
-                           nutri_dict_keys=['Cals','Protein','Fat','Carbs','Fiber'],\
-                           input_dict_types=[str,float,bool,None],\
-                           nutri_dict_types=[float,float,float,float,float]
-                           ):
+    def insert_in_database_datetime(self, input_dict: Dict, date_time: datetime,\
+                           input_dict_keys: List[str] = ['Item', 'ServingSize', 'Barcode', 'nutri_dict'],\
+                           nutri_dict_keys: List[str] = ['Cals','Protein','Fat','Carbs','Fiber'],\
+                           input_dict_types: Dict[str, Any] = {'Item': str,'ServingSize': float,'Barcode': bool,'nutri_dict': None},\
+                           nutri_dict_types: Dict[str, Any] = {'Cals': float,'Protein': float,'Fat': float,'Carbs': float,'Fiber': float}
+                           ) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -117,27 +124,32 @@ class Diet(Health):
         nutri_dict_types:
             Datatypes of nutri_dict
         date_time:
-            Manually entring the Datetime, instead of doing datetime.now()
+            Manually entering the date time. Useful while testing the fetching code.
             
         Returns
         -------
         bool
             returns true if entry is without errors o/w false
         """    
-        ct = 0
-        for (k,t) in zip(input_dict.keys(),input_dict_types):
-            if k not in input_dict_keys or ((t is not None) and (not isinstance(input_dict[k],t))):
-                ct+=1
-        if ct > 0:
-            print(f'1. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
-        if ct == 0:
-            for (k,t) in zip(input_dict['nutri_dict'].keys(),nutri_dict_types):
-                if k not in nutri_dict_keys or not isinstance(input_dict['nutri_dict'][k],t):
-                    ct+=1
-        if ct > 0:
-            print(f'2. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
+        for k in input_dict.keys():
+            
+            if k not in input_dict_keys:
+                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
+                
+        for k in input_dict['nutri_dict'].keys():
+            
+            if k not in nutri_dict_keys:
+                print(f'2. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+        
+            if not isinstance(input_dict['nutri_dict'][k],nutri_dict_types[k]):
+                print(f'2. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
         
         data_dict = copy.deepcopy(input_dict)
         del data_dict['nutri_dict']

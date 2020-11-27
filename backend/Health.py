@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from db import DB
+from datetime import date
+from typing import List, Dict
 
 class Health(ABC):
     """
@@ -24,7 +26,7 @@ class Health(ABC):
         Inserts the input into the database
     """
  
-    def __init__(self, database_manager, user_id, table_name):
+    def __init__(self, database_manager: DB, user_id: int, table_name: str) -> None:
         """
         Parameters
         ----------
@@ -41,7 +43,7 @@ class Health(ABC):
         
         
     #NOTE: THE start_date, end_date SHOULD JUST BE THE DATE AND NOT DATETIME.
-    def get_columns_given_range(self, start_date, end_date):
+    def get_columns_given_range(self, start_date: date, end_date: date) -> (List[Dict], bool):
         """Returns the columns from the database given date range. Returns
         columns, true if the start_date, end_date is correct o/w false.
 
@@ -55,7 +57,7 @@ class Health(ABC):
         Returns
         -------
         list
-            a list of tuples from 'start_date' to 'end_date' from '__table_name'
+            a list of tuples from 'start_date' to 'end_date' from '_table_name'. Each element of the list is a dictionary.
         bool
             true if database query succesful, false otherwise
         """
@@ -64,10 +66,10 @@ class Health(ABC):
             if result:
                 return result, True
             else:
-                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
     
     @abstractmethod
