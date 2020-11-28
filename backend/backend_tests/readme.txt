@@ -6,5 +6,4 @@ test_sleep_aditya
 test_edamam_api
 test_user
 
-just run the test_helper_create_db_tables_aditya to create the database and tables
-and then run the above files.
+run the backend/setup/set_up_db.py first to ensure all tables are created for database
