@@ -37,7 +37,7 @@ def enterWorkout():
     return STAYWELL_API.staywell(args, id, DB_OBJECT)
 
 # params: item - str/int, barcode - optional boolean
-@app.route('/getNutritionalData')
+@app.route('/getNutritionalData', methods=['GET'])
 def getNutritionalData():
     args = request.args
     if not args:
@@ -56,7 +56,7 @@ def getNutritionalData():
         return food_dict, 200
 
 # params: item - str/int, barcode - optional boolean, nMatches -  optional int
-@app.route('/getAvailableFoods')
+@app.route('/getAvailableFoods', methods=['GET'])
 def getAvailableFoods():
     args = request.args
     if not args:
@@ -81,9 +81,9 @@ def getAvailableFoods():
         return food_dict, 200
 
 # params: email - str, password - str
-@app.route('/auth/login')
+@app.route('/auth/login', methods=['POST'])
 def login():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     if not 'email' in args:
@@ -95,12 +95,12 @@ def login():
     id = USER.check_password_match(email, password)
     if id < 0:
         return "Incorrect login information.", 400
-    return USER.encode_token(id)
+    return USER.encode_token(id), 200
 
 # params: email - str, password - str
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 def register():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     if not 'email' in args:
@@ -125,7 +125,7 @@ def register():
         return "Unable to register new user, they possibly already have an account", 400
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getMeals')
+@app.route('/getMeals', methods=['GET'])
 def getMeals():
     args = request.args
     if not args:
@@ -151,9 +151,9 @@ def getMeals():
         return db_data, 200
 
 # params: token - str, item - str, ServingSize - float, barcode - optional boolean
-@app.route('/addMeal')
+@app.route('/addMeal', methods=['POST'])
 def addMeal():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     if not 'item' in args:
@@ -193,7 +193,7 @@ def addMeal():
         return "Successful", 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getSleepData')
+@app.route('/getSleepData', methods=['GET'])
 def getSleepData():
     args = request.args
     if not args:
@@ -219,9 +219,9 @@ def getSleepData():
         return db_data, 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp, nap - optional bool
-@app.route('/insertSleepEntry')
+@app.route('/insertSleepEntry'i, methods=['POST'])
 def insertSleepEntry():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     dates_data = check_datetimes(args)
@@ -244,11 +244,10 @@ def insertSleepEntry():
     if not success:
         return "Server Error", 500
     else:
-        db_data = json.dumps(db_data)
-        return db_data, 200
+        return 'Successful', 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
-@app.route('/getFitnessData')
+@app.route('/getFitnessData', methods=['GET'])
 def getFitnessData():
     args = request.args
     if not args:
@@ -274,7 +273,7 @@ def getFitnessData():
         return db_data, 200
 
 # params: token - str
-@app.route('/getAllGoals')
+@app.route('/getAllGoals', methods=['GET'])
 def getAllGoals():
     args = request.args
     if not args:
@@ -295,7 +294,7 @@ def getAllGoals():
         return db_data, 200
 
 # params: token - str, type - str
-@app.route('/getTypeGoals')
+@app.route('/getTypeGoals', methods=['GET'])
 def getTypeGoals():
     args = request.args
     if not args:
@@ -320,9 +319,9 @@ def getTypeGoals():
         return db_data, 200
 
 # params: token - str, type - str, value - float
-@app.route('/changeGoal')
+@app.route('/changeGoal', methods=['POST'])
 def changeGoal():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
