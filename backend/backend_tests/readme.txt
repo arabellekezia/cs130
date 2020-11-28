@@ -1,2 +1,2 @@
-Follow instructions under backend/setup/instructions.txt, then just run the shell script
-or individual tests as desired.
+Running the shell script provides the needed setup, runs all tests and shows results,
+and removes all the created database information.
