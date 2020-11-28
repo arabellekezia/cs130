@@ -16,7 +16,7 @@ class TestDiet(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.db = DB('localhost', 'root', 'softwareengineering130', 'CS130')
+        self.db = DB('localhost', 'root', 'softwareengineering130', 'CS130_test')
         
         self.email = 'abc@gmail.com'
         self.password = 'defghi'
