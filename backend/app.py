@@ -33,6 +33,9 @@ def enterWorkout():
         return "Invalid Token", 400
     return STAYWELL_API.staywell(args, id, DB_OBJECT)
 
+# * I think we dont need this function. The frontend only needs the options (top 5)
+# from the Edamam API, so just returnin the top 1 may not be required.
+
 # params: item - str/int, barcode - optional boolean
 @app.route('/getNutritionalData')
 def getNutritionalData():
@@ -52,6 +55,9 @@ def getNutritionalData():
     else:
         return food_dict, 200
 
+# * food_dict = {0: {'Label': 'Apple', 'Nutrients': {'Cals': 100.0, ...} },\
+#                1: {.......}}
+                                               
 # params: item - str/int, barcode - optional boolean, nMatches -  optional int
 @app.route('/getAvailableFoods')
 def getAvailableFoods():
@@ -111,6 +117,9 @@ def register():
     else:
         return "Unable to register new user, they possibly already have an account", 400
 
+# * The input should be date not datetime. In the get_columns_given_range we manually
+# add the time (00:00:00). dateFrom and dateTo should be date.
+    
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getMeals')
 def getMeals():
@@ -136,10 +145,19 @@ def getMeals():
     else:
         return db_data, 200
 
+# * The input for insert_in_database(input_dict) of Diet class:
+# input_dict = {'Item': 'Apple', 'ServingSize': 2.5, 'Barcode': False, \
+#                'nutri_dict': {'Cals': 100.0, 'Protein': 100.0, 'Carbs': 100.0, ...}}
+# We will be using this for manual and api entry. Since the user will choose from the 
+# options we will be giving, I am hoping that frontend will return the correct 
+# dictionary from the top k choices.
+                          
 # params: user - int, selectedFood - dict (??), serving size - double
 @app.route('/addMeal')
 def addMeal():
 
+# * Just like the previous case, use date instead of datetime. dateFrom and dateTo should be date.
+                          
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData')
 def getSleepData():
@@ -168,6 +186,8 @@ def getSleepData():
 @app.route('/insertSleepEntry')
 def insertSleepEntry():
 
+# * Input should be date instead of datetime. dateFrom and dateTo should be date.
+                          
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData')
 def getFitnessData():
