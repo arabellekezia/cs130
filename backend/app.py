@@ -95,7 +95,7 @@ def login():
     id = USER.check_password_match(email, password)
     if id < 0:
         return "Incorrect login information.", 400
-    return USER.encode_token(id), 200
+    return USER.encode_token(id)
 
 # params: email - str, password - str
 @app.route('/register', methods=['POST'])
@@ -219,7 +219,7 @@ def getSleepData():
         return db_data, 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp, nap - optional bool
-@app.route('/insertSleepEntry'i, methods=['POST'])
+@app.route('/insertSleepEntry', methods=['POST'])
 def insertSleepEntry():
     args = request.form
     if not args:
