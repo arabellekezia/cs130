@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { View, Text } from "react-native";
+import { View, Text, Modal, StyleSheet } from "react-native";
 import { Camera } from "expo-camera";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import HeaderText from "../components/HeaderText";
+import AppText from "../components/AppText";
 
 function BarcodeScanCameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [product, setProduct] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -18,10 +22,11 @@ function BarcodeScanCameraScreen() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    // to do: make api call, then redirect to confirmation screen with results as parameters
-    alert(
-      `Bar code with type ${type} and data ${data} has been scanned!... redirecting you to confirmation screen`
-    );
+    // api call to get product
+    const result = "Ground Beef";
+    setProduct(result);
+
+    setModalVisible(true);
   };
 
   if (hasPermission === null) {
@@ -32,14 +37,48 @@ function BarcodeScanCameraScreen() {
   }
   return (
     <View style={{ flex: 1 }}>
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View
+          style={{
+            backgroundColor: "white",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <HeaderText style={{ marginBottom: 20 }}>{product}</HeaderText>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "stretch",
+              width: "100%",
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                setScanned(false);
+              }}
+            >
+              <AppText style={styles.linkText}>Scan again</AppText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                console.log("navigate to entry form screen");
+              }}
+            >
+              <AppText style={styles.linkText}>Continue</AppText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <Camera
         style={{ flex: 1 }}
         type={Camera.Constants.Type.back}
         autoFocus="on"
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
       >
-        <View></View>
-
         <View
           style={{
             flex: 1,
@@ -73,5 +112,11 @@ function BarcodeScanCameraScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  linkText: {
+    color: "#4da6cf",
+  },
+});
 
 export default BarcodeScanCameraScreen;
