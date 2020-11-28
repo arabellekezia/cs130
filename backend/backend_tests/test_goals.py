@@ -3,10 +3,10 @@ from backend.db import DB
 from backend.user import User
 from backend.goals import Goals
 
-goals_table_command = ("CREATE TABLE Goals "
-                     "(Type varchar(50), Value DOUBLE, "
-                     "Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserID INT(11) UNSIGNED, FOREIGN KEY (UserID) "
-                     "REFERENCES Users(id));")
+# goals_table_command = ("CREATE TABLE Goals "
+#                      "(Type varchar(50), Value DOUBLE, "
+#                      "Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserID INT(11) UNSIGNED, FOREIGN KEY (UserID) "
+#                      "REFERENCES Users(id));")
 
 class TestGoals(unittest.TestCase):
 
@@ -21,11 +21,11 @@ class TestGoals(unittest.TestCase):
         self.user.create_new_user(self.email, self.password)
         self.user_id = self.user.check_email_match(self.email)
         
-        try:
-            self.db.insert_data('Drop table Goals')
-        except:
-            pass
-        self.db.insert_data(goals_table_command)
+#         try:
+#             self.db.insert_data('Drop table Goals')
+#         except:
+#             pass
+#         self.db.insert_data(goals_table_command)
         
         self.goals = Goals(self.db, self.user_id)
         self.diet_goal_dict = {'Type': 'Calories', 'Value': 1000.0}
@@ -35,6 +35,35 @@ class TestGoals(unittest.TestCase):
         self.goals.set_goal(self.diet_goal_dict)
         self.goals.set_goal(self.fitness_goal_dict)
         self.goals.set_goal(self.sleep_goal_dict)
+        
+    def test_alter_goal(self):
+        """
+        Test altering a goal
+        """
+        self.assertTrue(self.goals.alter_goal('Calories', 99.0))
+        self.assertTrue(self.goals.alter_goal('FitnessMinutes', 50.0))
+        self.assertTrue(self.goals.alter_goal('SleepHours', 1.99))
+
+    def test_incorrect_alter_type_goal(self):
+        """
+        Test for incorrect alter type.
+        """
+        print('Test incorrect alter type')
+        self.assertFalse(self.goals.alter_goal('CaloriesS', 99.0))
+        self.assertFalse(self.goals.alter_goal('FitnessMinutesS', 50.0))
+        self.assertFalse(self.goals.alter_goal('SleepHoursS', 1.99))
+        print("")
+
+        
+    def test_incorrect_alter_value_type_goal(self):
+        """
+        Test for incorrect alter value type.
+        """
+        print('Test incorrect alter value data type')
+        self.assertFalse(self.goals.alter_goal('Calories', 'A'))
+        self.assertFalse(self.goals.alter_goal('FitnessMinutes', 50))
+        self.assertFalse(self.goals.alter_goal('SleepHours', 'B'))
+        print('')
         
     def test_set_goal(self):
         """
@@ -48,15 +77,19 @@ class TestGoals(unittest.TestCase):
         """
         Test for incorrect keys. We send incorrect keys: Typo and Valuo
         """
+        print('Test incorrect set type')
         d = {'Typo': 'Calories', 'Valuo': 100.0}
         self.assertFalse(self.goals.set_goal(d))
+        print("")
         
     def test_incorrect_value_type_set_goal(self):
         """
         Test for incorrect value types. We use int for the Value instead of float (in python) and double (in mysql).
         """
+        print('Incorrect set value data type')
         d = {'Type': 'Calories', 'Value': 100}
         self.assertFalse(self.goals.set_goal(d))
+        print("")
         
     def test_get_latest_goal(self):
         """

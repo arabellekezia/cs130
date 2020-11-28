@@ -170,7 +170,13 @@ class Goals():
             print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
-    def alter_goal(self, type: str, value: float) -> bool:
+    def alter_goal(self, type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
+        if type not in type_list:
+            print(f'INCORRECT INPUT TYPE {type} ALTERING GOALS')
+            return False
+        if not isinstance(value, float):
+            print(f'INCORRECT VALUE DATATYPE FOR ALTERING GOALS')
+            return False
         cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{type}';"
         try:
             self._database_manager.insert_data(cmd)
