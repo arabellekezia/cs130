@@ -332,7 +332,7 @@ def check_datetimes(data):
     try:
         dateFrom = datetime.strptime(data['dateFrom'], '%d/%m/%y %H:%M:%S')
         dateTo = datetime.strptime(data['dateTo'], '%d/%m/%y %H:%M:%S')
-    ecxept:
+    except:
         return {'msg': "Please format the dateFrom and dateTo as datetime objects",
                 "status_code": 400}
        
