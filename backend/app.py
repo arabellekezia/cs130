@@ -6,13 +6,16 @@ from user import User
 from db import DB
 from Diet import Diet
 from Fitness import Fitness
-from Sleep import Sleep
+from Sleep_aditya import Sleep
 from goals import Goals
+from datetime import datetime
+import json
 
 app = Flask(__name__)
 DB_OBJECT = DB()
 USER = User(DB_OBJECT)
 STAYWELL_API = StaywellExternalAPI()
+EDAMAM_API = EdamamAPI()
 
 @app.route('/')
 def index():
@@ -45,11 +48,11 @@ def getNutritionalData():
     barcode = False
     if 'barcode' in args and args['barcode'].upper() == "TRUE":
         barcode = True
-    api = EdamamAPI()
-    food_dict, success = api.get_top_matches(item, barcode, 1)
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1)
     if not success:
         return "Unable to find the food item based on given info", 400
     else:
+        food_dict = json.dumps(food_dict)
         return food_dict, 200
 
 # params: item - str/int, barcode - optional boolean, nMatches -  optional int
@@ -70,11 +73,11 @@ def getAvailableFoods():
             n = int(args['nMatches'])
         except:
             return "Parameter 'nMatches' must be an integer", 400
-    api = EdamamAPI()
-    food_dict, success = api.get_top_matches(item, barcode, n)
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, n)
     if not success:
         return "Unable to find the food item based on given info", 400
     else:
+        food_dict = json.dumps(food_dict)
         return food_dict, 200
 
 # params: email - str, password - str
@@ -119,7 +122,7 @@ def getMeals():
         return "Arguments needed.", 400
     dates_data = check_datetimes(args)
     if dates_data['status_code'] != 200:
-        return dates_data['msg], dates_data['status_code']
+        return dates_data['msg'], dates_data['status_code']
     dateFrom = dates_data['dateFrom']
     dateTo = dates_data['dateTo']
     token = check_token(args)
@@ -134,11 +137,50 @@ def getMeals():
     if not success:
         return "Server Error", 500
     else:
+        db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: user - int, selectedFood - dict (??), serving size - double
+# params: token - str, item - str, serving size - double, barcode - optional bool
 @app.route('/addMeal')
 def addMeal():
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    if not 'item' in args:
+        return "The 'item' is a required parameter", 400
+    item = args['item']
+    if not 'ServingSize' in args:
+        return "The 'ServingSize' is a required parameter", 400
+    serving_size = args['ServingSize']
+    try:
+        serving_size = float(serving_size)
+    except ValueError:
+        return "The 'ServingSize' must be a float or int", 400
+    barcode = False
+    if 'barcode' in args and args['barcode'].upper() == "TRUE":
+        barcode = True
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1)
+    if not success:
+        return "Unable to find the food item based on given info", 400
+    food_dict = food_dict[0]['Nutrients']
+    token = check_token(args)
+    if token['status_code'] != 200:
+        return token['msg'], token['status_code']
+    token = token['token']
+    id = getIdFromToken(token)
+    if id < 0:
+        return "Invalid Token", 400
+    insert_food_dict = {'Item': item, 'ServingSize': serving_size, 'Barcode': barcode}
+    nutri_dict = {}
+    for k, v in food_dict.items():
+        nutri_dict[k] = v * serving_size
+    insert_food_dict['nutri_dict'] = nutri_dict
+    diet = Diet(DB_OBJECT, id)
+    success = diet.insert_in_database(insert_food_dict)
+    if not success:
+        return "Server Error", 500
+    else:
+        return "Successful", 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData')
@@ -148,7 +190,7 @@ def getSleepData():
         return "Arguments needed.", 400
     dates_data = check_datetimes(args)
     if dates_data['status_code'] != 200:
-        return dates_data['msg], dates_data['status_code']
+        return dates_data['msg'], dates_data['status_code']
     dateFrom = dates_data['dateFrom']
     dateTo = dates_data['dateTo']
     token = check_token(args)
@@ -163,10 +205,37 @@ def getSleepData():
     if not success:
         return "Server Error", 500
     else:
+        db_data = json.dumps(db_data)
         return db_data, 200
 
+# params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp, nap - optional bool
 @app.route('/insertSleepEntry')
 def insertSleepEntry():
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    dates_data = check_datetimes(args)
+    if dates_data['status_code'] != 200:
+        return dates_data['msg'], dates_data['status_code']
+    SleepTime = dates_data['dateFrom']
+    WakeupTime = dates_data['dateTo']
+    token = check_token(args)
+    if token['status_code'] != 200:
+        return token['msg'], token['status_code']
+    token = token['token']
+    id = getIdFromToken(token)
+    if id < 0:
+        return "Invalid Token", 400
+    Nap = False
+    if 'nap' in args and args['nap'].upper() == 'TRUE':
+        Nap = True
+    sleep = Sleep(DB_OBJECT, id)
+    success = sleep.insert_in_database({'SleepTime': SleepTime, 'WakeupTime': WakeupTime, 'Nap': Nap})
+    if not success:
+        return "Server Error", 500
+    else:
+        db_data = json.dumps(db_data)
+        return db_data, 200
 
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData')
@@ -176,7 +245,7 @@ def getFitnessData():
         return "Arguments needed.", 400
     dates_data = check_datetimes(args)
     if dates_data['status_code'] != 200:
-        return dates_data['msg], dates_data['status_code']
+        return dates_data['msg'], dates_data['status_code']
     dateFrom = dates_data['dateFrom']
     dateTo = dates_data['dateTo']
     token = check_token(args)
@@ -191,6 +260,7 @@ def getFitnessData():
     if not success:
         return "Server Error", 500
     else:
+        db_data = json.dumps(db_data)
         return db_data, 200
 
 # params: token - str
@@ -211,6 +281,7 @@ def getAllGoals():
     if not success:
         return "Server Error", 500
     else:
+        db_data = json.dumps(db_data)
         return db_data, 200
 
 # params: token - str, type - char(1) -> D, F, S
@@ -221,7 +292,7 @@ def getTypeGoals():
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
     if goal_data['status_code'] != 200:
-        return goal_type['msg', goal_type['status_code']
+        return goal_type['msg'], goal_type['status_code']
     goal_type = goal_data['type']
     token = check_token(args)
     if token['status_code'] != 200:
@@ -235,11 +306,10 @@ def getTypeGoals():
     if not success:
         return "Server Error", 500
     else:
+        db_data = json.dumps(db_data)
         return db_data, 200
 
-#@app.route('/insertGoal')
-
-#@app.route('/removeGoal')
+#@app.route('/changeGoal')
 
 def check_goal_type(data):
     if not 'type' in data:
@@ -253,16 +323,21 @@ def check_goal_type(data):
     return {'type': goal_type, "status_code": 200}
 
 def check_datetimes(data):
-    # TODO: convert datetimes
     if not 'dateFrom' in data:
         return {"msg": "Please provide 'dateFrom' datetime parameter",
                 "status_code": 400}
     if not 'dateTo' in data:
         return {"msg": "Please provide 'dateTo' datetime parameter",
                 "status_code": 400}
-    else:
-        return {"dateFrom": data['dateFrom'], "dateTo": data['dateTo'],
-                "status_code": 200}
+    try:
+        dateFrom = datetime.strptime(data['dateFrom'], '%d/%m/%y %H:%M:%S')
+        dateTo = datetime.strptime(data['dateTo'], '%d/%m/%y %H:%M:%S')
+    ecxept:
+        return {'msg': "Please format the dateFrom and dateTo as datetime objects",
+                "status_code": 400}
+       
+    return {"dateFrom": dateFrom, "dateTo": dateTo,
+            "status_code": 200}
 
 def check_token(data):
     if 'token' in data:

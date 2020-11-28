@@ -1,5 +1,5 @@
 from typing import Any, Dict, Tuple
-from .db import DB
+from backend.db import DB
 
 # source: http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
 # code/values/workout types come from this website however they only provided HTML and not JSON data
