@@ -1,7 +1,10 @@
 from backend.db import DB
 
+# users = ("CREATE TABLE Users (id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
+#          "email varchar(256) NOT NULL, password varchar(256) NOT NULL);")
+
 users = ("CREATE TABLE Users (id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY, "
-         "email varchar(256) NOT NULL, password varchar(256) NOT NULL);")
+         "email varchar(256) NOT NULL, password BINARY(32) NOT NULL, salt BINARY(32) NOT NULL);")
 
 sleep = ("CREATE TABLE Sleep "
          "(Minutes INT NOT NULL, Nap BOOLEAN, SleepTime TIMESTAMP, WakeupTime TIMESTAMP, "

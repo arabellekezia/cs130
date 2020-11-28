@@ -1,5 +1,8 @@
 from datetime import datetime, date, timedelta
 import copy
+from db import DB
+from typing import Any, List, Dict, Tuple
+
 
 class Goals():
     """
@@ -18,13 +21,17 @@ class Goals():
 
     Methods
     -------
-    get_columns_give_range()
-        Returns the columns from the table 'table_name' for a given time range
-    insert_in_database()
-        Inserts the input into the database
+    set_goal()
+            Inserts the goal in the database
+    get_latest_goal()
+            Returns the latest goal depending on the type
+    get_all_goals()
+            Returns all the goals stored in the goals table
+    get_type_goals()
+            Returns all the goals of a particular type
     """
  
-    def __init__(self, database_manager, user_id: int) -> None:
+    def __init__(self, database_manager: DB, user_id: int) -> None:
         """
         Parameters
         ----------
@@ -39,32 +46,34 @@ class Goals():
         self._user_id = user_id
         self._table_name = 'Goals'
     
-    def set_goal(self, goal_dict, goal_dict_keys=['Type', 'Value'], goal_types=[str,float]):
+    def set_goal(self, input_dict: Dict, input_dict_keys: List[str] = ['Type', 'Value'], input_dict_types: Dict[str, Any] = {'Type': str,'Value': float}) -> bool:
         """Inserts input in the database. Returns true if success o/w false
     
         Parameters
         ----------
-        goal_dict : dict
-            The input dictionary with keys 'goal_dict_keys' i.e. Type, Value
-        goal_dict_keys : dict
-            The keys of 'goal_dict'
-        goal_types: list
-            List with the data types of goal_dict
+        input_dict : dict
+            The input dictionary with keys 'input_dict_keys' i.e. Type, Value
+        input_dict_keys : dict
+            The keys of 'input_dict'
+        input_types: list
+            List with the data types of input_dict
                     
         Returns
         -------
         bool
             returns true if entry is without errors o/w false
-        """  
-        data_dict = copy.deepcopy(goal_dict)
-        ct = 0
-        for (k,t) in zip(data_dict.keys(),goal_types):
-            if k not in goal_dict_keys or not isinstance(data_dict[k],t):
-                ct += 1
-        if ct > 0:
-            print(f'INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
-        
+        """ 
+        for k in input_dict.keys():
+
+            if k not in input_dict_keys:
+                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
+            
+        data_dict = copy.deepcopy(input_dict)
         data_dict['Datetime'] = datetime.now()
         data_dict['UserID'] = self._user_id
         
@@ -75,7 +84,7 @@ class Goals():
             print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False 
         
-    def get_latest_goal(self, Type):
+    def get_latest_goal(self, Type: str) -> (List[Dict], bool):
         """Gets the latests goal of type Type from the goal table.
     
         Parameters
@@ -86,7 +95,7 @@ class Goals():
         Returns
         -------
         list
-            Returns a the latest goal from the table of type 'Type'
+            Returns a the latest goal from the table of type 'Type' in a list. The elements of the list are dictionaries.
         bool
             true if database query succesful, false otherwise
         """ 
@@ -100,13 +109,13 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
-    def get_all_goals(self):
+    def get_all_goals(self) -> (List[Dict], bool):
         """Gets all the goal of from the goal table.
     
         Parameters
@@ -115,7 +124,7 @@ class Goals():
         Returns
         -------
         list
-            Returns all the goals from the table
+            Returns all the goals from the table in a list. The elements of the list are dictionaries.
         bool
             true if database query succesful, false otherwise
         """ 
@@ -127,14 +136,14 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
-    def get_type_goals(self, Type):
-        """Gets all the goal of type goal_type of from the goal table.
+    def get_type_goals(self, Type: str) -> (List[Dict], bool):
+        """Gets all the goal of type Type of from the goal table.
     
         Parameters
         ----------
@@ -144,7 +153,7 @@ class Goals():
         Returns
         -------
         list
-            Returns all the goals from the table of type Type
+            Returns all the goals from the table of type Type in a list. The elements of the list are dictionaries.
         bool
             true if database query succesful, false otherwise
         """ 
@@ -156,8 +165,8 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
+            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False

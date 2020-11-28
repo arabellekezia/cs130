@@ -1,6 +1,8 @@
 from Health import Health
 import copy
-from datetime import datetime, date, timedelta
+from datetime import datetime
+from db import DB
+from typing import List, Dict, Any
 
 class Fitness(Health):
     """
@@ -25,7 +27,7 @@ class Fitness(Health):
         Inserts the input into the database
     """
     
-    def __init__(self, database_manager, user_id):
+    def __init__(self, database_manager: DB, user_id: int) -> None:
         """
         Parameters
         ----------
@@ -38,9 +40,9 @@ class Fitness(Health):
         """
         super().__init__(database_manager, user_id, 'Fitness')
     
-    def insert_in_database(self, input_dict,\
-                          input_dict_keys = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types = [str, int, float]):
+    def insert_in_database(self, input_dict: Dict,\
+                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
+                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -57,13 +59,15 @@ class Fitness(Health):
         bool
             returns true if entry is without errors o/w false
         """    
-        ct = 0
-        for (k,t) in zip(input_dict.keys(),input_dict_types):
-            if k not in input_dict_keys or ((t is not None) and (not isinstance(input_dict[k],t))):
-                ct+=1
-        if ct > 0:
-            print(f'1. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
+        for k in input_dict.keys():
+            
+            if k not in input_dict_keys:
+                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
         
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
@@ -76,9 +80,9 @@ class Fitness(Health):
             print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False
         
-    def insert_in_database_datetime(self, input_dict,date_time,\
-                          input_dict_keys = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types = [str, int, float]):
+    def insert_in_database_datetime(self, input_dict: Dict, date_time: datetime,\
+                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
+                          input_dict_types: Dict[str,Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -88,22 +92,24 @@ class Fitness(Health):
         input_dict_keys : dict
             The keys of 'input_dict'
         input_dict_types : dict
-            Datatypes of input_dict
-        date_time: datetime
-            Manually entering the Datetime, instead of using datetime.now()
+            The datatypes of the input_dict
+        date_time : datetime
+            Manually entering the datetime
             
         Returns
         -------
         bool
             returns true if entry is without errors o/w false
         """    
-        ct = 0
-        for (k,t) in zip(input_dict.keys(),input_dict_types):
-            if k not in input_dict_keys or ((t is not None) and (not isinstance(input_dict[k],t))):
-                ct+=1
-        if ct > 0:
-            print(f'1. INCORRECT INPUT DICTIONARY KEYS OR INCORRECT DATATYPE FOR TABLE {self._table_name}')
-            return False
+        for k in input_dict.keys():
+            
+            if k not in input_dict_keys:
+                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
+                return False
         
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
