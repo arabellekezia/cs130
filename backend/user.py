@@ -49,7 +49,7 @@ class User:
 
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
     def encode_token(self, id: int) -> Tuple[str, int]:
-        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),
+        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=10),
                     'iat': datetime.datetime.utcnow(),
                     'sub': id}
         try:
