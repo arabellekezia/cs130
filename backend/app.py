@@ -22,9 +22,9 @@ def index():
     return 'Better You'
 
 # params: weight - int, workout - str, minutes - int, token - str
-@app.route('/enterWorkout')
+@app.route('/enterWorkout', methods=['POST'])
 def enterWorkout():
-    args = request.args
+    args = request.form
     if not args:
         return "Arguments needed.", 400
     token = check_token(args)
