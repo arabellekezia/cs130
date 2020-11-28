@@ -381,10 +381,12 @@ def check_datetimes(data):
         return {"msg": "Please provide 'dateTo' datetime parameter",
                 "status_code": 400}
     try:
-        dateFrom = datetime.strptime(data['dateFrom'], '%y/%m/%d')
-        dateTo = datetime.strptime(data['dateTo'], '%y/%m/%d')
+        timestamp_from = int(data['dateFrom'])
+        timestamp_to = int(data['dateTo'])
+        dateFrom = datetime.fromtimestamp(timestamp_from)
+        dateTo = datetime.fromtimestamp(timestamp_to)
     except:
-        return {'msg': "Please format the dateFrom and dateTo as datetime objects",
+        return {'msg': "Please format the dateFrom and dateTo as timestamp objects",
                 "status_code": 400}
        
     return {"dateFrom": dateFrom, "dateTo": dateTo,
