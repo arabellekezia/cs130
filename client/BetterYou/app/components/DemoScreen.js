@@ -18,10 +18,11 @@ import AppPieChart from "./AppPieChart";
 import AppTextInput from "./AppTextInput";
 import DailyFitnessEntries from "./DailyFitnessEntries";
 
+import DropDownPicker from "react-native-dropdown-picker";
 
 function DemoScreen(props) {
   const [name, setName] = useState("");
-  const [selectedIndex, setSelectedIndex] = React.useState(0); 
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const data = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -157,6 +158,18 @@ function DemoScreen(props) {
           paddingLeft="15"
         />
         <AppStackedBarChart data={stackedBarData} />
+        <DropDownPicker
+          items={[
+            { label: "Item 1", value: "item1" },
+            { label: "Item 2", value: "item2" },
+          ]}
+          defaultValue="item1"
+          containerStyle={{ height: 40 }}
+          style={{ backgroundColor: "#fafafa" }}
+          dropDownStyle={{ backgroundColor: "#fafafa" }}
+          onChangeItem={(item) => console.log(item.label, item.value)}
+        />
+
         <Stopwatch onStop={(result) => console.log(result)} />
         <DailyFitnessEntries
           day="Sunday, Nov. 15"
