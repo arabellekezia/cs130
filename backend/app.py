@@ -140,7 +140,7 @@ def getMeals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, item - str, serving size - double, barcode - optional bool
+# params: token - str, item - str, ServingSize - float, barcode - optional boolean
 @app.route('/addMeal')
 def addMeal():
     args = request.args

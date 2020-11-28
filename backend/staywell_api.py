@@ -108,6 +108,7 @@ class StaywellExternalAPI:
             mins = mins_param['minutes']
 
         calories = self._get_exact_calories(weight, workout, mins)
+        
         insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, Calories) values "
                             f"({userID}, '{workout}', {mins}, {calories});")
         db.insert_data(insert_statement)
