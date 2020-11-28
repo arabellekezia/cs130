@@ -43,6 +43,12 @@ class TestGoals(unittest.TestCase):
         self.assertTrue(self.goals.alter_goal('Calories', 99.0))
         self.assertTrue(self.goals.alter_goal('FitnessMinutes', 50.0))
         self.assertTrue(self.goals.alter_goal('SleepHours', 1.99))
+        goal, status = self.goals.get_latest_goal(Type='Calories')
+        self.assertEqual(goal[0]['Value'], 99.0)
+        goal, status = self.goals.get_latest_goal(Type='FitnessMinutes')
+        self.assertEqual(goal[0]['Value'], 50.0)
+        goal, status = self.goals.get_latest_goal(Type='SleepHours')
+        self.assertEqual(goal[0]['Value'], 1.99)
 
     def test_incorrect_alter_type_goal(self):
         """
@@ -64,33 +70,7 @@ class TestGoals(unittest.TestCase):
         self.assertFalse(self.goals.alter_goal('FitnessMinutes', 50))
         self.assertFalse(self.goals.alter_goal('SleepHours', 'B'))
         print('')
-        
-    def test_set_goal(self):
-        """
-        Test setting a goal
-        """
-        self.assertTrue(self.goals.set_goal(self.diet_goal_dict))
-        self.assertTrue(self.goals.set_goal(self.fitness_goal_dict))
-        self.assertTrue(self.goals.set_goal(self.sleep_goal_dict))
-
-    def test_incorrect_key_set_goal(self):
-        """
-        Test for incorrect keys. We send incorrect keys: Typo and Valuo
-        """
-        print('Test incorrect set type')
-        d = {'Typo': 'Calories', 'Valuo': 100.0}
-        self.assertFalse(self.goals.set_goal(d))
-        print("")
-        
-    def test_incorrect_value_type_set_goal(self):
-        """
-        Test for incorrect value types. We use int for the Value instead of float (in python) and double (in mysql).
-        """
-        print('Incorrect set value data type')
-        d = {'Type': 'Calories', 'Value': 100}
-        self.assertFalse(self.goals.set_goal(d))
-        print("")
-        
+                
     def test_get_latest_goal(self):
         """
         Test getting the latest goal of a particular type.
@@ -146,6 +126,32 @@ class TestGoals(unittest.TestCase):
         print(goal)
         print("")
         self.assertFalse(status)
+        
+    def test_set_goal(self):
+        """
+        Test setting a goal
+        """
+        self.assertTrue(self.goals.set_goal(self.diet_goal_dict))
+        self.assertTrue(self.goals.set_goal(self.fitness_goal_dict))
+        self.assertTrue(self.goals.set_goal(self.sleep_goal_dict))
+
+    def test_incorrect_key_set_goal(self):
+        """
+        Test for incorrect keys. We send incorrect keys: Typo and Valuo
+        """
+        print('Test incorrect set type')
+        d = {'Typo': 'Calories', 'Valuo': 100.0}
+        self.assertFalse(self.goals.set_goal(d))
+        print("")
+        
+    def test_incorrect_value_type_set_goal(self):
+        """
+        Test for incorrect value types. We use int for the Value instead of float (in python) and double (in mysql).
+        """
+        print('Incorrect set value data type')
+        d = {'Type': 'Calories', 'Value': 100}
+        self.assertFalse(self.goals.set_goal(d))
+        print("")
 
 if __name__ == '__main__':
     unittest.main()
