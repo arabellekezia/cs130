@@ -12,7 +12,6 @@ Database:
   - run setup/set_up_db.py
 
 Environment Vars:
-  - set a MY_KEY env var
   - ammend python path to include location of this repo
 
 App:

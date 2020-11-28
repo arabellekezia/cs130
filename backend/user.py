@@ -4,13 +4,14 @@ import os
 import hashlib
 from typing import Tuple
 from backend.db import DB
+from backend.setup.config import MY_KEY
 
 # Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
 
 class User:
     def __init__(self, db: DB) -> None:
         self._db = db
-        self._key = os.getenv('MY_KEY', 'other')
+        self._key = MY_KEY
 
     def check_password_match(self, email: str, password: str) -> int:
         query = f"select * from Users where email='{email}';"
