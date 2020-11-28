@@ -7,3 +7,5 @@ Tests:
   - run on python3.7 or higher
   - change python path to location of this repo
 
+Environment Vars:
+  - set a MY_KEY env var
