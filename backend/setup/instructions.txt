@@ -1,6 +1,6 @@
 Imports (for python3.7):
   - flask
-  - jwt
+  - pyjwt
   - numpy
   - pymysql
 
