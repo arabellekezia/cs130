@@ -1,18 +1,18 @@
 from flask import Flask, request
 import requests
-from staywell_api import StaywellExternalAPI
-from edamam_api import EdamamAPI
-from user import User
-from db import DB
-from Diet import Diet
-from Fitness import Fitness
-from Sleep_aditya import Sleep
-from goals import Goals
 from datetime import datetime
 import json
+from backend.staywell_api import StaywellExternalAPI
+from backend.edamam_api import EdamamAPI
+from backend.user import User
+from backend.db import DB
+from backend.Diet import Diet
+from backend.Fitness import Fitness
+from backend.Sleep_aditya import Sleep
+from backend.goals import Goals
 
 app = Flask(__name__)
-DB_OBJECT = DB()
+DB_OBJECT = DB(False)
 USER = User(DB_OBJECT)
 STAYWELL_API = StaywellExternalAPI()
 EDAMAM_API = EdamamAPI()
@@ -110,6 +110,16 @@ def register():
         return "The 'password' is a required parameter", 400
     password = args['password']
     if USER.create_new_user(email, password):
+        id = USER.check_password_match(email, password)
+        if id < 0:
+            "Unable to find registered user.", 500
+        goals = Goals(DB_OBJECT, id)
+        diet_goal = {'Type': 'Calories', 'Value': 2000.0}
+        fitness_goal = {'Type': 'FitnessMinutes', 'Value': 40.0}
+        sleep_goal = {'Type': 'SleepHours', 'Value': 9.5}
+        goals.set_goal(diet_goal)
+        goals.set_goal(fitness_goal)
+        goals.set_goal(sleep_goal)
         return "Succesfully Registered", 200
     else:
         return "Unable to register new user, they possibly already have an account", 400
@@ -284,7 +294,7 @@ def getAllGoals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, type - char(1) -> D, F, S
+# params: token - str, type - str
 @app.route('/getTypeGoals')
 def getTypeGoals():
     args = request.args
@@ -309,16 +319,57 @@ def getTypeGoals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-#@app.route('/changeGoal')
+# params: token - str, type - str, value - float
+@app.route('/changeGoal')
+def changeGoal():
+    args = request.args
+    if not args:
+        return "Arguments needed.", 400
+    goal_data = check_goal_type(args)
+    if goal_data['status_code'] != 200:
+        return goal_type['msg'], goal_type['status_code']
+    goal_type = goal_data['type']
+    goal_val_data = check_goal_value(args)
+    if goal_val_data['status_code'] != 200:
+        return goal_val_type['msg'], goal_val_type['status_code']
+    goal_value = goal_val_data['value']
+    token = check_token(args)
+    if token['status_code'] != 200:
+        return token['msg'], token['status_code']
+    token = token['token']
+    id = getIdFromToken(token)
+    if id < 0:
+        return "Invalid Token", 400
+    goals = Goals(DB_OBJECT, id)
+    success = goals.alter_goal(type, value)
+    if not success:
+        return "Server Error", 500
+    else:
+        return 'Successful', 200
+
+def check_goal_value(data):
+    if not 'value' in data:
+        return {"msg": "Please provide goal value",
+                "status_code": 400}
+    goal_value = data['value']
+    try:
+        goal_value = float(goal_value)
+    except ValueError:
+        return {"msg": "Goal value must be a decimal or integer number",
+                "status_code": 400}
+    if goal_value < 0:
+        return {"msg": "Goal value must be a positive number",
+                "status_code": 400}
+    return {'value': goal_value, 'status_code': 200}
 
 def check_goal_type(data):
     if not 'type' in data:
         return {"msg": "Please provide goal type",
                 "status_code": 400}
     goal_type = data['type']
-    options = ["D", "F", "S"]
+    options = ["Calories", "FitnessMinutes", "SleepHours"]
     if goal_type not in options:
-        return {"msg": "Goal Type must be 'D', 'F', or 'S'",
+        return {"msg": f"Goal Type must be one of {options}",
                 "status_code": 400}
     return {'type': goal_type, "status_code": 200}
 

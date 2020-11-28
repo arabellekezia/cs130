@@ -1,9 +1,7 @@
-import sys
-sys.path.append("../")
 import unittest
-from db import DB
-from user import User
-from goals import Goals
+from backend.db import DB
+from backend.user import User
+from backend.goals import Goals
 
 goals_table_command = ("CREATE TABLE Goals "
                      "(Type varchar(50), Value DOUBLE, "
@@ -14,7 +12,7 @@ class TestGoals(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.db = DB('localhost', 'root', 'softwareengineering130', 'CS130_test')
+        self.db = DB()
         
         self.email = 'abc@gmail.com'
         self.password = 'defghi'
@@ -30,9 +28,9 @@ class TestGoals(unittest.TestCase):
         self.db.insert_data(goals_table_command)
         
         self.goals = Goals(self.db, self.user_id)
-        self.diet_goal_dict = {'Type': 'D', 'Value': 1000.0}
-        self.fitness_goal_dict = {'Type': 'F', 'Value': 100.0}
-        self.sleep_goal_dict = {'Type': 'S', 'Value': 10.0}
+        self.diet_goal_dict = {'Type': 'Calories', 'Value': 1000.0}
+        self.fitness_goal_dict = {'Type': 'FitnessMinutes', 'Value': 100.0}
+        self.sleep_goal_dict = {'Type': 'SleepHours', 'Value': 10.0}
         
         self.goals.set_goal(self.diet_goal_dict)
         self.goals.set_goal(self.fitness_goal_dict)
@@ -50,14 +48,14 @@ class TestGoals(unittest.TestCase):
         """
         Test for incorrect keys. We send incorrect keys: Typo and Valuo
         """
-        d = {'Typo': 'D', 'Valuo': 100.0}
+        d = {'Typo': 'Calories', 'Valuo': 100.0}
         self.assertFalse(self.goals.set_goal(d))
         
     def test_incorrect_value_type_set_goal(self):
         """
         Test for incorrect value types. We use int for the Value instead of float (in python) and double (in mysql).
         """
-        d = {'Type': 'D', 'Value': 100}
+        d = {'Type': 'Calories', 'Value': 100}
         self.assertFalse(self.goals.set_goal(d))
         
     def test_get_latest_goal(self):
@@ -65,13 +63,13 @@ class TestGoals(unittest.TestCase):
         Test getting the latest goal of a particular type.
         """
         print('Latest Goals')
-        goal, status = self.goals.get_latest_goal(Type='D')
+        goal, status = self.goals.get_latest_goal(Type='Calories')
         print(goal)
         self.assertTrue(status)
-        goal, status = self.goals.get_latest_goal(Type='F')
+        goal, status = self.goals.get_latest_goal(Type='FitnessMinutes')
         print(goal)
         self.assertTrue(status)
-        goal, status = self.goals.get_latest_goal(Type='S')
+        goal, status = self.goals.get_latest_goal(Type='SleepHours')
         print(goal)
         self.assertTrue(status)
         print("")
@@ -101,7 +99,7 @@ class TestGoals(unittest.TestCase):
         Test getting all the goals of a particular type. Mostly we will only be interested in the latest goal.
         """
         print('Type Goals')
-        goal, status = self.goals.get_type_goals('D')
+        goal, status = self.goals.get_type_goals('Calories')
         print(goal)
         print("")
         self.assertTrue(status)

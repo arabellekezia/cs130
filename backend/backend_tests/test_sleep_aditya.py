@@ -1,9 +1,7 @@
-import sys
-sys.path.append("../")
 import unittest
-from db import DB
-from user import User
-from Sleep_aditya import Sleep
+from backend.db import DB
+from backend.user import User
+from backend.Sleep_aditya import Sleep
 from datetime import datetime, date, timedelta
 
 sleep_table_command = ("CREATE TABLE Sleep "
@@ -15,7 +13,7 @@ class TestSleep(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.db = DB('localhost', 'root', 'softwareengineering130', 'CS130_test')
+        self.db = DB()
         
         self.email = 'abc@gmail.com'
         self.password = 'defghi'

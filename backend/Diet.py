@@ -1,7 +1,7 @@
-from Health import Health
+from backend.Health import Health
 from datetime import datetime
 import copy
-from db import DB
+from backend.db import DB
 from typing import List, Dict, Any
 
 class Diet(Health):

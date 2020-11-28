@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from db import DB
+from backend.db import DB
 from datetime import date
 from typing import List, Dict
 

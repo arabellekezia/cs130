@@ -1,14 +1,17 @@
 import pymysql
 import datetime
 from typing import Any, List, Dict
+from backend.setup.config import TEST_DB, PRODUCTION_DB
 
 class DB:
-    def __init__(self, host: str = 'localhost', user: str = 'root',
-                 password: str = 'naveena1999', db: str = 'cs130') -> None:
-        self._host = host
-        self._user = user
-        self._password = password
-        self._db = db
+    def __init__(self, test = True) -> None:
+        config_info = TEST_DB
+        if not test:
+            config_info = PRODUCTION_DB
+        self._host = config_info['host']
+        self._user = config_info['user']
+        self._password = config_info['password']
+        self._db = config_info['db']
 
     def _get_connection(self) -> pymysql.connections.Connection:
         connection = pymysql.connect(host=self._host, user=self._user, password=self._password, db=self._db)

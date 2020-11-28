@@ -1,6 +1,6 @@
 from datetime import datetime, date, timedelta
 import copy
-from db import DB
+from backend.db import DB
 from typing import Any, List, Dict, Tuple
 
 
@@ -74,7 +74,6 @@ class Goals():
                 return False
             
         data_dict = copy.deepcopy(input_dict)
-        data_dict['Datetime'] = datetime.now()
         data_dict['UserID'] = self._user_id
         
         try:
@@ -89,8 +88,8 @@ class Goals():
     
         Parameters
         ----------
-        Type : char
-            D for Diet (Cals), F for Fitness (Minutes), S for Sleep (Minutes)
+        Type : str
+            Calories, FitnessMinutes, SleepHours
                     
         Returns
         -------
@@ -170,3 +169,11 @@ class Goals():
         except:
             print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
+
+    def alter_goal(self, type: str, value: float) -> bool:
+        cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{type}';"
+        try:
+            self._database_manager.insert_data(cmd)
+            return True
+        except:
+            return False

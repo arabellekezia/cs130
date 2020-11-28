@@ -23,7 +23,7 @@ class EdamamAPI():
     def get_similar(self, a: str, b: str) -> float:
         return SequenceMatcher(None, a, b).ratio()
 
-    def get_food_information(self, query: str, upc: bool = False):
+    def get_food_information(self, query: str, upc: bool = False) -> Dict:
 
         # Check UPC code or Ingredient
         # UPC are barcodes and Ingredients are all other foods.

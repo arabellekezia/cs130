@@ -1,11 +1,20 @@
 Database:
-  - install MySQL and move your user/password/host/server info into config file
+  - install MySQL
+  - create 2 databases, one for test and another for production
+  - move your user/password/host/server info into config file for both DBs
   - change python path to location of this repo
   - run setup/set_up_db.py
 
 Tests:
   - run on python3.7 or higher
   - change python path to location of this repo
+  - run the shell script (all backend tests included) provided in backend_tests/run_all_tests.sh
 
 Environment Vars:
   - set a MY_KEY env var
+
+Imports (for python3.7):
+  - flask
+  - jwt
+  - numpy
+  - pymysql

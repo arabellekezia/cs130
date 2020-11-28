@@ -1,9 +1,7 @@
-import sys
-sys.path.append("../")
 import unittest
-from db import DB
-from user import User
-from Diet import Diet
+from backend.db import DB
+from backend.user import User
+from backend.Diet import Diet
 from datetime import datetime, date, timedelta
 
 diet_table_command = ("CREATE TABLE Diet "
@@ -16,7 +14,7 @@ class TestDiet(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.db = DB('localhost', 'root', 'softwareengineering130', 'CS130_test')
+        self.db = DB()
         
         self.email = 'abc@gmail.com'
         self.password = 'defghi'

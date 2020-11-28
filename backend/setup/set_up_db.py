@@ -24,7 +24,14 @@ goals = ("CREATE TABLE Goals "
          "Datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserID INT(11) UNSIGNED, FOREIGN KEY (UserID) "
          "REFERENCES Users(id));")
 
-db = DB()
+db = DB(True)
+db.insert_data(users)
+db.insert_data(sleep)
+db.insert_data(diet)
+db.insert_data(fitness)
+db.insert_data(goals)
+
+db = DB(False)
 db.insert_data(users)
 db.insert_data(sleep)
 db.insert_data(diet)

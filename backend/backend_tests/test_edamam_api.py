@@ -1,6 +1,4 @@
-import sys
-sys.path.append("../")
-from edamam_api import EdamamAPI
+from backend.edamam_api import EdamamAPI
 import unittest
 
 class TestEdamamAPI(unittest.TestCase):

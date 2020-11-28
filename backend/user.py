@@ -2,15 +2,17 @@ from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 import datetime
 import os
 import hashlib
+from typing import Tuple
+from backend.db import DB
 
 # Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
 
 class User:
-    def __init__(self, db):
+    def __init__(self, db: DB) -> None:
         self._db = db
         self._key = os.getenv('MY_KEY', 'other')
 
-    def check_password_match(self, email, password):
+    def check_password_match(self, email: str, password: str) -> int:
         query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
         if data:
@@ -24,7 +26,7 @@ class User:
             return -1
         return int(data['id'])
 
-    def check_email_match(self, email):
+    def check_email_match(self, email: str) -> int:
         query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
         if data:
@@ -33,7 +35,7 @@ class User:
             return -1
         return int(data['id'])
 
-    def create_new_user(self, email, password):
+    def create_new_user(self, email: str, password: str) -> bool:
         existing = self.check_email_match(email)
         if existing < 0:
             salt = os.urandom(32)
@@ -45,7 +47,7 @@ class User:
             return False
 
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
-    def encode_token(self, id):
+    def encode_token(self, id: int) -> Tuple[str, int]:
         payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),
                     'iat': datetime.datetime.utcnow(),
                     'sub': id}
@@ -55,7 +57,7 @@ class User:
             return f"Failed to create an auth token: {exc}", 500
 
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
-    def decode_token(token):
+    def decode_token(self, token: str) -> Tuple[str, int]:
         try:
             payload = decode(token, self._key)
             return payload['sub'], 200
