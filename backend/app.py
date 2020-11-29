@@ -372,7 +372,7 @@ def changeGoal():
     if id < 0:
         return "Invalid Token", 400
     goals = Goals(DB_OBJECT, id)
-    success = goals.alter_goal(type, value)
+    success = goals.alter_goal(goal_type, goal_value)
     if not success:
         return "Server Error", 500
     else:
