@@ -38,7 +38,7 @@ class EdamamAPI():
 
         return response.json()
     
-    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5) -> (Dict[int, Any], bool):
+    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5, serving_size: float = 1.0) -> (Dict[int, Any], bool):
         """Returns the food options dictionary. 
 
         Parameters
@@ -120,7 +120,7 @@ class EdamamAPI():
                     food_options_dict[i]['Label'] = matched_item_info['label']
                 food_options_dict[i]['Nutrients'] = {}
                 for k in matched_item_info['nutrients'].keys():
-                    food_options_dict[i]['Nutrients'][self.transform_dict[k]] = matched_item_info['nutrients'][k]
+                    food_options_dict[i]['Nutrients'][self.transform_dict[k]] = serving_size * matched_item_info['nutrients'][k]
                 
             success = True
     

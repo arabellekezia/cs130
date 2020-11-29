@@ -36,7 +36,7 @@ def enterWorkout():
         return "Invalid Token", 400
     return STAYWELL_API.staywell(args, id, DB_OBJECT)
 
-# params: item - str/int, barcode - optional boolean
+# params: item - str/int, barcode - optional boolean, serving_size - float
 @app.route('/getNutritionalData', methods=['GET'])
 def getNutritionalData():
     args = request.args
@@ -48,14 +48,21 @@ def getNutritionalData():
     barcode = False
     if 'barcode' in args and args['barcode'].upper() == "TRUE":
         barcode = True
-    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1)
+    if not 'ServingSize' in args:
+        return "The 'ServingSize' is a required parameter", 400
+    serving_size = args['ServingSize']
+    try:
+        serving_size = float(serving_size)
+    except ValueError:
+        return "The 'ServingSize' must be a float or int", 400
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1, serving_size)
     if not success:
         return "Unable to find the food item based on given info", 400
     else:
         food_dict = json.dumps(food_dict)
         return food_dict, 200
 
-# params: item - str/int, barcode - optional boolean, nMatches -  optional int
+# params: item - str/int, barcode - optional boolean, nMatches -  optional int, serving_size - float
 @app.route('/getAvailableFoods', methods=['GET'])
 def getAvailableFoods():
     args = request.args
@@ -73,7 +80,14 @@ def getAvailableFoods():
             n = int(args['nMatches'])
         except:
             return "Parameter 'nMatches' must be an integer", 400
-    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, n)
+    if not 'ServingSize' in args:
+        return "The 'ServingSize' is a required parameter", 400
+    serving_size = args['ServingSize']
+    try:
+        serving_size = float(serving_size)
+    except ValueError:
+        return "The 'ServingSize' must be a float or int", 400
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, n, serving_size)
     if not success:
         return "Unable to find the food item based on given info", 400
     else:
@@ -169,7 +183,7 @@ def addMeal():
     barcode = False
     if 'barcode' in args and args['barcode'].upper() == "TRUE":
         barcode = True
-    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1)
+    food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1, serving_size)
     if not success:
         return "Unable to find the food item based on given info", 400
     food_dict = food_dict[0]['Nutrients']
