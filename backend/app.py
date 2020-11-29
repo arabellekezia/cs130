@@ -200,7 +200,7 @@ def addMeal():
     insert_food_dict = {'Item': item, 'ServingSize': serving_size, 'Barcode': barcode}
     nutri_dict = {}
     for k, v in food_dict.items():
-        nutri_dict[k] = v * serving_size
+        nutri_dict[k] = v
     insert_food_dict['nutri_dict'] = nutri_dict
     diet = Diet(DB_OBJECT, id)
     success = diet.insert_in_database(insert_food_dict)
