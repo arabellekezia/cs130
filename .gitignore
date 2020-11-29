@@ -8,6 +8,9 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+backend/__pycache__/
+backend/setup/__pycache__/
+client/BetterYou/debug.log
 
 # macOS
 .DS_Store

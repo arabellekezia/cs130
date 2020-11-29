@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import server from "../utils/server";
+import { storeUserToken } from "../utils/token";
 
 function LoginScreen() {
   const [email, setEmail] = React.useState("");
@@ -12,8 +14,29 @@ function LoginScreen() {
   function login() {
     if (!validate(email, password, setError)) {
       console.log(err);
+      return;
     }
-    console.log("Successfully logged in.");
+
+    let formdata = new FormData();
+    formdata.append("email", email);
+    formdata.append("password", password);
+
+    server
+      .post("/auth/login", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(async (res) => {
+        console.log("Successfully logged in!");
+        await storeUserToken(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          console.log("Incorrect credentials!");
+          setError({ email: true, password: true });
+        }
+      });
   }
 
   function displayErrorMessage(err) {

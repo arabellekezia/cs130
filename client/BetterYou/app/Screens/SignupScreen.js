@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import server from "../utils/server";
+import { storeUserToken } from "../utils/token";
 
 function SignupScreen() {
   const [name, setName] = React.useState("");
@@ -13,6 +15,7 @@ function SignupScreen() {
     name: false,
     email: false,
     password: false,
+    accountExists: false,
   });
 
   function signUp() {
@@ -20,13 +23,38 @@ function SignupScreen() {
       console.log(err);
       return;
     }
-    console.log("Successfully signed up!");
-    console.log(name, email, password, confirmPassword);
+
+    let formdata = new FormData();
+    formdata.append("name", name);
+    formdata.append("email", email);
+    formdata.append("password", password);
+
+    server
+      .post("/register", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(async (res) => {
+        console.log("Successfully signed up!");
+        await storeUserToken(res.data);
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          setError({ email: true, accountExists: true });
+        }
+      });
   }
 
   function displayErrorMessage(err) {
     if (err.name) {
       return <ErrorMessage message="Please enter your full name." />;
+    }
+
+    if (err.accountExists) {
+      return (
+        <ErrorMessage message="An account with this email already exists." />
+      );
     }
     
     if (err.email) {

@@ -13,6 +13,7 @@ import TestScreen1 from './app/Screens/TestScreen1';
 import TestScreen2 from './app/Screens/TestScreen2';
 import TabNagivator from './app/components/TabNagivator';
 import LoginScreen from "./app/Screens/LoginScreen";
+import SignupScreen from "./app/Screens/SignupScreen";
 
 
 
@@ -29,9 +30,9 @@ export default function App() {
     // </Stack.Navigator>*/}
     // </NavigationContainer>
     // <TestScreen1 />
-    <LoginScreen />
-
-    // <DemoScreen /> 
+    // <LoginScreen />
+    <SignupScreen />
+    // <DemoScreen />
   );
 }
 

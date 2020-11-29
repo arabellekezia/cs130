@@ -8,12 +8,16 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/datetimepicker": "3.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+    "axios": "^0.21.0",
     "expo": "~39.0.2",
+    "expo-barcode-scanner": "~9.0.0",
+    "expo-camera": "~9.0.0",
     "expo-status-bar": "~1.0.2",
     "moment": "^2.29.1",
     "react": "16.13.1",
@@ -29,9 +33,7 @@
     "react-native-screens": "^2.10.1",
     "react-native-segmented-control-tab": "^3.4.1",
     "react-native-svg": "12.1.0",
-    "react-native-web": "~0.13.12",
-    "expo-camera": "~9.0.0",
-    "expo-barcode-scanner": "~9.0.0"
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
