@@ -177,12 +177,12 @@ class Goals():
         except:
             return None, False
 
-    def alter_goal(self, type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
-        if type not in type_list:
+    def alter_goal(self, goal_type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
+        if goal_type not in type_list:
             return False
         if not isinstance(value, float):
             return False
-        cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{type}';"
+        cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{goal_type}';"
         try:
             self._database_manager.insert_data(cmd)
             return True
