@@ -60,7 +60,7 @@ class User:
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
     def decode_token(self, token: str) -> Tuple[str, int]:
         try:
-            payload = decode(token, self._key)
+            payload = decode(token, self._key, algorithms=['HS256'])
             return payload['sub'], 200
         except ExpiredSignatureError:
             return 'Signature expired. Please log in again.', 400

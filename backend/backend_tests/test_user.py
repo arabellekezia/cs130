@@ -73,6 +73,11 @@ class TestUser(unittest.TestCase):
         password = 'xyz'
         self.assertEqual(self.user.check_password_match(email,password),-1)
         
+    def test_token(self):
+        num = 10
+        token, code = self.user.encode_token(num)
+        dec_num, dec_code = self.user.decode_token(token)
+        self.assertEqual(num, dec_num)
 
 if __name__ == '__main__':
     unittest.main()
