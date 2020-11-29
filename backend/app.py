@@ -165,7 +165,7 @@ def getMeals():
         if db_data == -1:
             return "Server Error", 500
         else:
-            return [], 200
+            return json.dumps([]), 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -236,7 +236,7 @@ def getSleepData():
         if db_data == -1:
             return "Server Error", 500
         else:
-            return [], 200
+            return json.dumps([]), 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -293,7 +293,7 @@ def getFitnessData():
         if db_data == -1:
             return "Server Error", 500
         else:
-            return [], 200
+            return json.dumps([]), 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
