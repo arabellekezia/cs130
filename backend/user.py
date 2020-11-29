@@ -36,12 +36,12 @@ class User:
             return -1
         return int(data['id'])
 
-    def create_new_user(self, email: str, password: str) -> bool:
+    def create_new_user(self, email: str, password: str, fullname:str) -> bool:
         existing = self.check_email_match(email)
         if existing < 0:
             salt = os.urandom(32)
             key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-            data = {'email': email, 'password': key, 'salt': salt }
+            data = {'email': email, 'password': key, 'salt': salt, 'fullname': fullname}
             self._db.insert_row_1('Users', data)
             return True
         else:

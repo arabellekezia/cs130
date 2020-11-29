@@ -109,7 +109,7 @@ def register():
     if not 'password' in args:
         return "The 'password' is a required parameter", 400
     password = args['password']
-    if USER.create_new_user(email, password):
+    if USER.create_new_user(email, password, fullname):
         id = USER.check_password_match(email, password)
         if id < 0:
             "Unable to find registered user.", 500
