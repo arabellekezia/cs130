@@ -8,7 +8,7 @@ from backend.user import User
 def get_random_string(length):
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
-    print("Random string of length", length, "is:", result_str)
+#     print("Random string of length", length, "is:", result_str)
 
 class TestUser(unittest.TestCase):
 
@@ -17,9 +17,11 @@ class TestUser(unittest.TestCase):
         self.db = DB()
         self.email = 'abc@gmail.com'
         self.password = 'defghi'
+        self.fullname = 'ABC'
         
         self.user = User(self.db)
-        self.user.create_new_user(self.email, self.password)
+        self.user.create_new_user(self.email, self.password, self.fullname)
+        self.user_id = self.user.check_email_match(self.email)
         
     def test_create_new_user(self):
         """
@@ -27,7 +29,8 @@ class TestUser(unittest.TestCase):
         """
         email = f'{get_random_string(4)}@gmail.com'
         password = 'abcd'
-        self.assertTrue(self.user.create_new_user(email,password))
+        fullname = 'ABCD'
+        self.assertTrue(self.user.create_new_user(email,password,fullname))
         
     def test_user_already_exists(self):
         """
@@ -35,7 +38,8 @@ class TestUser(unittest.TestCase):
         """
         email = 'abc@gmail.com'
         password = 'defghi'
-        self.assertFalse(self.user.create_new_user(email,password))
+        fullname = 'ABCD'
+        self.assertFalse(self.user.create_new_user(email,password,fullname))
         
     def test_email_match(self):
         """
