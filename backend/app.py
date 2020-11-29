@@ -97,7 +97,7 @@ def login():
         return "Incorrect login information.", 400
     return USER.encode_token(id)
 
-# params: email - str, password - str
+# params: email - str, password - str, fullname - str
 @app.route('/register', methods=['POST'])
 def register():
     args = request.form
