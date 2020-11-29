@@ -133,7 +133,7 @@ def register():
         goals = Goals(DB_OBJECT, id)
         diet_goal = {'Type': 'Calories', 'Value': 2000.0}
         fitness_goal = {'Type': 'FitnessMinutes', 'Value': 30.0}
-        sleep_goal = {'Type': 'SleepHours', 'Value': 7}
+        sleep_goal = {'Type': 'SleepHours', 'Value': 7.0}
         goals.set_goal(diet_goal)
         goals.set_goal(fitness_goal)
         goals.set_goal(sleep_goal)
