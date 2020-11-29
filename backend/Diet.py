@@ -69,21 +69,17 @@ class Diet(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
                 
         for k in input_dict['nutri_dict'].keys():
             
             if k not in nutri_dict_keys:
-                print(f'2. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
         
             if not isinstance(input_dict['nutri_dict'][k],nutri_dict_types[k]):
-                print(f'2. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
         
         data_dict = copy.deepcopy(input_dict)
@@ -98,7 +94,6 @@ class Diet(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False
         
         
@@ -134,21 +129,17 @@ class Diet(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
                 
         for k in input_dict['nutri_dict'].keys():
             
             if k not in nutri_dict_keys:
-                print(f'2. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
         
             if not isinstance(input_dict['nutri_dict'][k],nutri_dict_types[k]):
-                print(f'2. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
         
         data_dict = copy.deepcopy(input_dict)
@@ -163,5 +154,4 @@ class Diet(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False

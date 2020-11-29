@@ -62,11 +62,9 @@ class Fitness(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
         
         data_dict = copy.deepcopy(input_dict)
@@ -77,7 +75,6 @@ class Fitness(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False
         
     def insert_in_database_datetime(self, input_dict: Dict, date_time: datetime,\
@@ -104,11 +101,9 @@ class Fitness(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
         
         data_dict = copy.deepcopy(input_dict)
@@ -119,5 +114,4 @@ class Fitness(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False

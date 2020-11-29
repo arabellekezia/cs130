@@ -37,11 +37,9 @@ class Sleep(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
 
         duration = input_dict['WakeupTime'] - input_dict['SleepTime']
@@ -56,7 +54,6 @@ class Sleep(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False
         
     def insert_in_database_datetime(self, input_dict: Dict,date_time: datetime,\
@@ -66,11 +63,9 @@ class Sleep(Health):
         for k in input_dict.keys():
             
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
             
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
 
         duration = input_dict['WakeupTime'] - input_dict['SleepTime']
@@ -85,7 +80,6 @@ class Sleep(Health):
             self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False
             
     def get_columns_given_range(self, startDate: datetime, endDate: datetime) -> (List[Dict], bool):
@@ -101,10 +95,10 @@ class Sleep(Health):
             if result:
                 for r in result:
                     r['Datetime'] = int(r['Datetime'].timestamp())
+                    r['SleepTime'] = int(r['SleepTime'].timestamp())
+                    r['WakeupTime'] = int(r['WakeupTime'].timestamp())
                 return result, True
             else:
-                print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False

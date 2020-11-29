@@ -68,10 +68,8 @@ class Health(ABC):
                     r['Datetime'] = int(r['Datetime'].timestamp())
                 return result, True
             else:
-                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
     
     @abstractmethod

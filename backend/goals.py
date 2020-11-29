@@ -66,11 +66,9 @@ class Goals():
         for k in input_dict.keys():
 
             if k not in input_dict_keys:
-                print(f'1. INCORRECT INPUT DICTIONARY KEYS FOR TABLE {self._table_name}')
                 return False
 
             if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                print(f'1. INCORRECT INPUT DATA TYPE FOR TABLE {self._table_name}')
                 return False
             
         data_dict = copy.deepcopy(input_dict)
@@ -80,7 +78,6 @@ class Goals():
             self._database_manager.insert_row_1(self._table_name, data_dict)
             return True
         except:
-            print(f'INSERTION INTO TABLE {self._table_name} UNSUCCESSFUL')
             return False 
         
     def get_latest_goal(self, Type: str) -> (List[Dict], bool):
@@ -108,10 +105,8 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
     def get_all_goals(self) -> (List[Dict], bool):
@@ -135,10 +130,8 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
     def get_type_goals(self, Type: str) -> (List[Dict], bool):
@@ -164,18 +157,14 @@ class Goals():
             if result:
                 return result, True
             else:
-                print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
                 return None, False
         except:
-            print(f'2. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')
             return None, False
 
     def alter_goal(self, type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
         if type not in type_list:
-            print(f'INCORRECT INPUT TYPE {type} ALTERING GOALS')
             return False
         if not isinstance(value, float):
-            print(f'INCORRECT VALUE DATATYPE FOR ALTERING GOALS')
             return False
         cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{type}';"
         try:
