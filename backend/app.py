@@ -132,8 +132,8 @@ def register():
             "Unable to find registered user.", 500
         goals = Goals(DB_OBJECT, id)
         diet_goal = {'Type': 'Calories', 'Value': 2000.0}
-        fitness_goal = {'Type': 'FitnessMinutes', 'Value': 40.0}
-        sleep_goal = {'Type': 'SleepHours', 'Value': 9.5}
+        fitness_goal = {'Type': 'FitnessMinutes', 'Value': 30.0}
+        sleep_goal = {'Type': 'SleepHours', 'Value': 7}
         goals.set_goal(diet_goal)
         goals.set_goal(fitness_goal)
         goals.set_goal(sleep_goal)
