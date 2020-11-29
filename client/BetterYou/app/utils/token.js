@@ -12,7 +12,13 @@ async function storeUserToken(token) {
 
 async function getUserToken() {
   try {
-    return await AsyncStorage.getItem(TOKEN_KEY);
+    const userToken = await AsyncStorage.getItem(TOKEN_KEY);
+    if (!userToken) {
+      console.log(
+        "There is no JWT user token stored locally yet, login to obtain!"
+      );
+    }
+    return userToken;
   } catch (err) {
     console.log(err);
   }

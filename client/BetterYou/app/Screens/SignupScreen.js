@@ -4,7 +4,7 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import server from "../utils/server";
-import { storeUserToken } from "../utils/token";
+import { getUserToken, storeUserToken } from "../utils/token";
 
 function SignupScreen() {
   const [name, setName] = React.useState("");
@@ -25,7 +25,7 @@ function SignupScreen() {
     }
 
     let formdata = new FormData();
-    formdata.append("name", name);
+    formdata.append("fullname", name);
     formdata.append("email", email);
     formdata.append("password", password);
 
