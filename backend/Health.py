@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from backend.db import DB
-from datetime import date
+from datetime import datetime
 from typing import List, Dict
+import copy
 
 class Health(ABC):
     """
@@ -42,8 +43,7 @@ class Health(ABC):
         self._table_name = table_name
         
         
-    #NOTE: THE start_date, end_date SHOULD JUST BE THE DATE AND NOT DATETIME.
-    def get_columns_given_range(self, start_date: date, end_date: date) -> (List[Dict], bool):
+    def get_columns_given_range(self, start_date: datetime, end_date: datetime) -> (List[Dict], bool):
         """Returns the columns from the database given date range. Returns
         columns, true if the start_date, end_date is correct o/w false.
 
@@ -62,8 +62,10 @@ class Health(ABC):
             true if database query succesful, false otherwise
         """
         try:
-            result = self._database_manager.sel_time_frame(self._table_name, f"{start_date} 00:00:00", f"{end_date} 00:00:00", self._user_id)
+            result = self._database_manager.sel_time_frame(self._table_name, f"{start_date}", f"{end_date}", self._user_id)
             if result:
+                for r in result:
+                    r['Datetime'] = int(r['Datetime'].timestamp())
                 return result, True
             else:
                 print(f'1. FETCHING FROM TABLE {self._table_name} UNSUCCESSFUL')

@@ -3,6 +3,7 @@ from backend.db import DB
 from backend.user import User
 from backend.Fitness import Fitness
 from datetime import datetime, date, timedelta
+import time
 
 fitness_table_command = ("CREATE TABLE Fitness "
            "(WorkoutType varchar(256), Minutes INT NOT NULL, CaloriesBurned DOUBLE, "
@@ -22,25 +23,40 @@ class TestFitness(unittest.TestCase):
         self.user.create_new_user(self.email, self.password)
         self.user_id = self.user.check_email_match(self.email)
         
-        try:
-            self.db.insert_data('Drop table Fitness')
-        except:
-            pass
-        self.db.insert_data(fitness_table_command)
+#         try:
+#             self.db.insert_data('Drop table Fitness')
+#         except:
+#             pass
+#         self.db.insert_data(fitness_table_command)
         
         self.fitness = Fitness(self.db, self.user_id)
         self.fitness_dict = {'WorkoutType': 'Running',\
                              'Minutes': 10,\
                              'CaloriesBurned': 100.9}
-        self.fitness.insert_in_database(self.fitness_dict)
+#         self.fitness.insert_in_database(self.fitness_dict)
         
-    def test_insert_in_database(self):
+    def test_1_data_fetching_unix_time_and_insertion(self):
         """
-        Test inserting an input in the database
+        Test fetching diet data from database
         """
-        self.assertTrue(self.fitness.insert_in_database(self.fitness_dict))
+        print('Unix Time 1')
+        dt1 = datetime.now()
+        unix_time = round(time.time())
+        self.assertTrue(self.fitness.insert_in_database_datetime(self.fitness_dict, dt1))
+        print('Waiting ...')
+        result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
+        print(result)
+        print("")
+        self.assertTrue(success)
+        self.assertEqual(result[0]['Datetime'],unix_time)
+    
+#     def test_insert_in_database(self):
+#         """
+#         Test inserting an input in the database
+#         """
+#         self.assertTrue(self.fitness.insert_in_database(self.fitness_dict))
 
-    def test_incorrect_key(self):
+    def test_2_incorrect_key(self):
         """
         Test for incorrect keys. We send incorrect key: ItemS
         """
@@ -59,7 +75,7 @@ class TestFitness(unittest.TestCase):
         self.assertFalse(self.fitness.insert_in_database(d))
         print("")
         
-    def test_incorrect_value(self):
+    def test_3_incorrect_value(self):
         """
         Test for incorrect value type.
         """
@@ -78,27 +94,31 @@ class TestFitness(unittest.TestCase):
         self.assertFalse(self.fitness.insert_in_database(d))
         print("")
         
-    def test_data_fetching(self):
+    def test_4_data_fetching(self):
         """
         Test fetching diet data from database
         """
         print('Fetched Result 1: Single Fetch')
-        result, success = self.fitness.get_columns_given_range(date.today(), date.today()+timedelta(days=1))
+        d1 = date.today()
+        dt1 = datetime(d1.year, d1.month, d1.day)
+        result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
         print(result)
         print("")
         self.assertTrue(success)
         
-    def test_incorrect_data_fetching(self):
+    def test_5_incorrect_data_fetching(self):
         """
         Test fetching diet data from database
         """
         print('Fetched Result 2: Incorrect Fetching')
-        result, success = self.fitness.get_columns_given_range(date.today()+timedelta(days=10),date.today()+timedelta(days=11))
+        d1 = date.today()
+        dt1 = datetime(d1.year, d1.month, d1.day)
+        result, success = self.fitness.get_columns_given_range(dt1+timedelta(days=10),dt1+timedelta(days=11))
         print(result)
         print("")
         self.assertFalse(success)        
         
-    def test_data_fetching_multiple(self):
+    def test_6_data_fetching_multiple(self):
         """
         Test fetching diet data from database
         """
@@ -115,9 +135,12 @@ class TestFitness(unittest.TestCase):
              'Minutes': 10,\
              'CaloriesBurned': 100.9}
         _ = self.fitness.insert_in_database_datetime(d, datetime.now()+timedelta(days=1)+timedelta(hours=4))
-        result, success = self.fitness.get_columns_given_range(date.today()+timedelta(days=1),date.today()+timedelta(days=2))
+        d1 = date.today()
+        dt1 = datetime(d1.year, d1.month, d1.day)
+        result, success = self.fitness.get_columns_given_range(dt1+timedelta(days=1),dt1+timedelta(days=2))
         print(result)
         print("")
+        self.assertEqual(len(result), 3)
         self.assertTrue(success)
 
 if __name__ == '__main__':
