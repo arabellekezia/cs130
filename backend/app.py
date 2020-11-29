@@ -1,6 +1,6 @@
 from flask import Flask, request
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 from backend.staywell_api import StaywellExternalAPI
 from backend.edamam_api import EdamamAPI
@@ -399,8 +399,8 @@ def check_datetimes(data):
     try:
         timestamp_from = int(data['dateFrom'])
         timestamp_to = int(data['dateTo'])
-        dateFrom = datetime.fromtimestamp(timestamp_from)
-        dateTo = datetime.fromtimestamp(timestamp_to)
+        dateFrom = datetime.fromtimestamp(timestamp_from, timezone.utc)
+        dateTo = datetime.fromtimestamp(timestamp_to, timezone.utc)
     except:
         return {'msg': "Please format the dateFrom and dateTo as timestamp objects",
                 "status_code": 400}
