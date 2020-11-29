@@ -162,7 +162,10 @@ def getMeals():
     diet = Diet(DB_OBJECT, id)
     db_data, success = diet.get_columns_given_range(dateFrom, dateTo)
     if not success:
-        return "Server Error", 500
+        if db_data == -1:
+            return "Server Error", 500
+        else:
+            return [], 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -230,7 +233,10 @@ def getSleepData():
     sleep = Sleep(DB_OBJECT, id)
     db_data, success = sleep.get_columns_given_range(dateFrom, dateTo)
     if not success:
-        return "Server Error", 500
+        if db_data == -1:
+            return "Server Error", 500
+        else:
+            return [], 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -284,7 +290,10 @@ def getFitnessData():
     fitness = Fitness(DB_OBJECT, id)
     db_data, success = fitness.get_columns_given_range(dateFrom, dateTo)
     if not success:
-        return "Server Error", 500
+        if db_data == -1:
+            return "Server Error", 500
+        else:
+            return [], 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -305,7 +314,10 @@ def getAllGoals():
     goals = Goals(DB_OBJECT, id)
     db_data, success = goals.get_all_goals()
     if not success:
-        return "Server Error", 500
+        if db_data == -1:
+            return "Server Error", 500
+        else:
+            return [], 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200
@@ -330,7 +342,10 @@ def getTypeGoals():
     goals = Goals(DB_OBJECT, id)
     db_data, success = goals.get_type_goals(goal_type)
     if not success:
-        return "Server Error", 500
+        if db_data == -1:
+            return "Server Error", 500
+        else:
+            return [], 200
     else:
         db_data = json.dumps(db_data)
         return db_data, 200

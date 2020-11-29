@@ -119,7 +119,7 @@ class Goals():
             else:
                 return None, False
         except:
-            return None, False
+            return -1, False
 
     def get_all_goals(self) -> (List[Dict], bool):
         """Gets all the goal of from the goal table.
@@ -146,7 +146,7 @@ class Goals():
             else:
                 return None, False
         except:
-            return None, False
+            return -1, False
 
     def get_type_goals(self, Type: str) -> (List[Dict], bool):
         """Gets all the goal of type Type of from the goal table.
@@ -175,7 +175,7 @@ class Goals():
             else:
                 return None, False
         except:
-            return None, False
+            return -1, False
 
     def alter_goal(self, type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
         if type not in type_list:

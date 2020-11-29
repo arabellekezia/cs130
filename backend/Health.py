@@ -79,7 +79,7 @@ class Health(ABC):
             else:
                 return None, False
         except:
-            return None, False
+            return -1, False
     
     @abstractmethod
     def insert_in_database(self, input_dict):

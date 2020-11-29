@@ -102,4 +102,4 @@ class Sleep(Health):
             else:
                 return None, False
         except:
-            return None, False
+            return -1, False
