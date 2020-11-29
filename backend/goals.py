@@ -45,6 +45,16 @@ class Goals():
         self._database_manager = database_manager
         self._user_id = user_id
         self._table_name = 'Goals'
+        self._params = ['Type', 'Value', 'Datetime', 'UserID']
+    
+    def _get_params(self, params):
+        if len(params) == 1:
+            return params[0]
+        params_string = ''
+        for p in params:
+            params_string += p + ', '
+        params_string = params_string[:-2]
+        return params_string
     
     def set_goal(self, input_dict: Dict, input_dict_keys: List[str] = ['Type', 'Value'], input_dict_types: Dict[str, Any] = {'Type': str,'Value': float}) -> bool:
         """Inserts input in the database. Returns true if success o/w false
@@ -96,13 +106,15 @@ class Goals():
             true if database query succesful, false otherwise
         """ 
             
-        query = f"SELECT * FROM {self._table_name}\
+        query = f"SELECT {self._get_params(self._params)} FROM {self._table_name}\
         join Users on Users.id={self._table_name}.UserID\
         WHERE Goals.Type = '{Type}' AND Users.id = '{self._user_id}'\
         ORDER BY Datetime DESC LIMIT 1;"        
         try:
             result = self._database_manager.select_data(query)
             if result:
+                for r in result:
+                    r['Datetime'] = int(r['Datetime'].timestamp())
                 return result, True
             else:
                 return None, False
@@ -120,14 +132,16 @@ class Goals():
         list
             Returns all the goals from the table in a list. The elements of the list are dictionaries.
         bool
-            true if database query succesful, false otherwise
+            true if database query succesful, false otherwise 
         """ 
-        query = (f"select * from {self._table_name} "
+        query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "
                  f"where Users.id = '{self._user_id}';")
         try:
             result = self._database_manager.select_data(query)
             if result:
+                for r in result:
+                    r['Datetime'] = int(r['Datetime'].timestamp())
                 return result, True
             else:
                 return None, False
@@ -149,12 +163,14 @@ class Goals():
         bool
             true if database query succesful, false otherwise
         """ 
-        query = (f"select * from {self._table_name} "
+        query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "
                  f"where Users.id = '{self._user_id}' and Goals.Type = '{Type}';")
         try:
             result = self._database_manager.select_data(query)
             if result:
+                for r in result:
+                    r['Datetime'] = int(r['Datetime'].timestamp())
                 return result, True
             else:
                 return None, False

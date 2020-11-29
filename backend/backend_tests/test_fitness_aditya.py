@@ -31,12 +31,14 @@ class TestFitness(unittest.TestCase):
         s = self.fitness.insert_in_database_datetime(self.fitness_dict, self.dt1)
         self.assertTrue(s)
         
-    def test_1_data_fetching_unix_time_and_insertion(self):
+    def test_3_5_data_fetching_unix_time_and_insertion(self):
         """
         Test fetching fitness data from database
         """
-        result, success = self.fitness.get_columns_given_range(self.dt1, self.dt1+timedelta(days=1))
-
+        d1 = date.today()
+        dt1 = datetime(d1.year, d1.month, d1.day)
+        result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
+#         print(result)
         self.assertTrue(success)
         self.assertEqual(result[0]['Datetime'],self.unix_time)
 

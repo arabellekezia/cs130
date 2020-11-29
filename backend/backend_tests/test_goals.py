@@ -44,7 +44,7 @@ class TestGoals(unittest.TestCase):
     def test_incorrect_alter_type_goal(self):
         """
         Test for incorrect alter type.
-        """
+        """ 
         self.assertFalse(self.goals.alter_goal('CaloriesS', 99.0))
         self.assertFalse(self.goals.alter_goal('FitnessMinutesS', 50.0))
         self.assertFalse(self.goals.alter_goal('SleepHoursS', 1.99))

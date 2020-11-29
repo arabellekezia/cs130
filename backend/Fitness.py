@@ -38,7 +38,8 @@ class Fitness(Health):
         table_name : str
             The name of the table
         """
-        super().__init__(database_manager, user_id, 'Fitness')
+        self._fitness_params = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']
+        super().__init__(database_manager, user_id, 'Fitness', self._fitness_params)
     
     def insert_in_database(self, input_dict: Dict,\
                           input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\

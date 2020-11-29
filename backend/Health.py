@@ -27,7 +27,7 @@ class Health(ABC):
         Inserts the input into the database
     """
  
-    def __init__(self, database_manager: DB, user_id: int, table_name: str) -> None:
+    def __init__(self, database_manager: DB, user_id: int, table_name: str, params: str = "*") -> None:
         """
         Parameters
         ----------
@@ -41,8 +41,17 @@ class Health(ABC):
         self._database_manager = database_manager
         self._user_id = user_id
         self._table_name = table_name
+        self._params = params
         
-        
+    def _get_params(self, params):
+        if len(params) == 1:
+            return params[0]
+        params_string = ''
+        for p in params:
+            params_string += p + ', '
+        params_string = params_string[:-2]
+        return params_string
+    
     def get_columns_given_range(self, start_date: datetime, end_date: datetime) -> (List[Dict], bool):
         """Returns the columns from the database given date range. Returns
         columns, true if the start_date, end_date is correct o/w false.
@@ -62,7 +71,7 @@ class Health(ABC):
             true if database query succesful, false otherwise
         """
         try:
-            result = self._database_manager.sel_time_frame(self._table_name, f"{start_date}", f"{end_date}", self._user_id)
+            result = self._database_manager.sel_time_frame(self._table_name, f"{start_date}", f"{end_date}", self._user_id, params=self._get_params(self._params)) 
             if result:
                 for r in result:
                     r['Datetime'] = int(r['Datetime'].timestamp())

@@ -27,7 +27,8 @@ class Sleep(Health):
         Inserts the input into the database
     """
     def __init__(self, database_manager: DB, user_id: int) -> None:
-        super().__init__(database_manager, user_id, 'Sleep')
+        self._sleep_params = ['Minutes', 'Nap', 'SleepTime', 'WakeupTime', 'Datetime', 'UserID']
+        super().__init__(database_manager, user_id, 'Sleep', self._sleep_params)
 
 
     def insert_in_database(self, input_dict: Dict,\
@@ -85,7 +86,7 @@ class Sleep(Health):
     def get_columns_given_range(self, startDate: datetime, endDate: datetime) -> (List[Dict], bool):
 
 
-        query = (f"SELECT * FROM {self._table_name} "\
+        query = (f"SELECT {self._get_params(self._params)} FROM {self._table_name} "\
                  f"join Users on Users.id={self._table_name}.UserID "\
                  f"WHERE Users.id = {self._user_id} AND WakeupTime BETWEEN "\
                  f"'{str(startDate)}' AND '{str(endDate)}';")

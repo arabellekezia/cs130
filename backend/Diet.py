@@ -37,7 +37,8 @@ class Diet(Health):
         table_name : str
             The name of the table
         """
-        super().__init__(database_manager, user_id, 'Diet')
+        self._params_diet = ['Item', 'ServingSize', 'Cals', 'Protein', 'Carbs', 'Fat', 'Fiber', 'Barcode', 'Datetime', 'UserID']
+        super().__init__(database_manager, user_id, 'Diet', self._params_diet)
         
     def insert_in_database(self, input_dict: Dict,\
                            input_dict_keys: List[str] = ['Item', 'ServingSize', 'Barcode', 'nutri_dict'],\
