@@ -123,6 +123,9 @@ def register():
     if not 'password' in args:
         return "The 'password' is a required parameter", 400
     password = args['password']
+    if not 'fullname' in args:
+        return "The 'fullname' is a required parameter", 400
+    fullname = args['fullname']
     if USER.create_new_user(email, password, fullname):
         id = USER.check_password_match(email, password)
         if id < 0:
