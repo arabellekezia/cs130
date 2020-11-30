@@ -81,7 +81,7 @@ function FoodEntryFormScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background,
   },
   header: {
     marginBottom: 10,

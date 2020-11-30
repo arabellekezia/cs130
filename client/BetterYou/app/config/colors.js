@@ -5,9 +5,10 @@ const colors = {
   fitness: "#cc0000",
   light: "#efefef",
   medium: "#7e7e7e",
-  primary: "#ecfeff",
+  primary: "#007AFF",
   sleep: "#5a009c",
   white: "#ffffff",
+  background: "#ecfeff",
 };
 
 export default colors;

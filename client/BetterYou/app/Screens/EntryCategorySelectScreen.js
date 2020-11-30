@@ -7,7 +7,7 @@ import HeaderText from "../components/HeaderText";
 import IconButton from "../components/IconButton";
 import Screen from "../components/Screen";
 
-function EntryCategorySelectScreen(props) {
+function EntryCategorySelectScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <HeaderText>Select a category</HeaderText>
@@ -18,7 +18,7 @@ function EntryCategorySelectScreen(props) {
           label="Sleep"
           iconColor={colors.sleep}
           border={2}
-          onPress={() => console.log("navigate to sleep entry screen")}
+          onPress={() => navigation.navigate("SleepGoalEntryTypeSelect")}
         />
         <IconButton
           name="food-apple"
@@ -26,7 +26,7 @@ function EntryCategorySelectScreen(props) {
           label="Diet"
           iconColor={colors.diet}
           border={2}
-          onPress={() => console.log("navigate to diet entry screen")}
+          onPress={() => navigation.navigate("DietGoalEntryTypeSelect")}
         />
         <IconButton
           name="google-fit"
@@ -34,7 +34,7 @@ function EntryCategorySelectScreen(props) {
           label="Fitness"
           iconColor={colors.fitness}
           border={2}
-          onPress={() => console.log("navigate to fitness entry screen")}
+          onPress={() => navigation.navigate("FitnessGoalEntryTypeSelect")}
         />
       </View>
     </Screen>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background,
   },
 });
 

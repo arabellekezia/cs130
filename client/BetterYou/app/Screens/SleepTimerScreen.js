@@ -7,16 +7,20 @@ import colors from "../config/colors";
 import Screen from "../components/Screen";
 import Stopwatch from "../components/Stopwatch";
 
-function FitnessTimerScreen(props) {
+function FitnessTimerScreen({ navigation }) {
   // TO DO: change so that stopwatch keeps start and end times
   return (
     <Screen style={styles.container}>
       <Stopwatch
-        onStop={(elapsedTimeInMilliseconds) =>
+        onStop={({ elapsedTime, startTime, endTime }) => {
           console.log(
-            `Navigate to manual sleep input form screen-- Elapsed time (milliseconds): ${elapsedTimeInMilliseconds}`
-          )
-        }
+            `Navigate to manual sleep input form screen-- Elapsed time (milliseconds): ${startTime}`
+          );
+          navigation.navigate("SleepEntryForm", {
+            startTime: startTime,
+            endTime: endTime,
+          });
+        }}
       />
     </Screen>
   );
@@ -27,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background,
   },
 });
 export default FitnessTimerScreen;

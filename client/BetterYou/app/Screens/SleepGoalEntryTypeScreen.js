@@ -8,7 +8,7 @@ import HeaderText from "../components/HeaderText";
 import IconButton from "../components/IconButton";
 import Screen from "../components/Screen";
 
-function SleepGoalEntryTypeSelectScreen(props) {
+function SleepGoalEntryTypeSelectScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <HeaderText>Select an input method</HeaderText>
@@ -19,7 +19,7 @@ function SleepGoalEntryTypeSelectScreen(props) {
           label="Sleep timer"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to timer screen ")}
+          onPress={() => navigation.navigate("SleepTimer")}
         />
         <IconButton
           name="fountain-pen-tip"
@@ -27,7 +27,7 @@ function SleepGoalEntryTypeSelectScreen(props) {
           label="Manual input"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to manual input screen")}
+          onPress={() => navigation.navigate("SleepEntryForm")}
         />
       </View>
     </Screen>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
+    backgroundColor: colors.background,
   },
 });
 
