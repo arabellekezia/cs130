@@ -1,9 +1,25 @@
+Imports (for python3.7):
+  - flask
+  - pyjwt
+  - numpy
+  - pymysql
+
 Database:
-  - install MySQL and move your user/password/host/server info into config file
-  - change python path to location of this repo
+  - install MySQL
+  - create 2 databases, one for test and another for production
+  - move your info into backend/setup/config.py file for both DBs
+  - ammend python path to include location of this repo
   - run setup/set_up_db.py
+
+Environment Vars:
+  - ammend python path to include location of this repo
+
+App:
+  - after setting up the Database, Environment Vars, and Imports as mentioned above, run 'python3.7 app.py'
 
 Tests:
   - run on python3.7 or higher
-  - change python path to location of this repo
-
+  - ammend python path to include location of this repo
+  - run the shell script (all backend tests included) provided in backend/backend_tests/run_all_tests.sh
+    * NOTE: this creates needed tables in test DB, runs all tests, then removes the tables from the test instance
+  - ammend python path to include location of this repo

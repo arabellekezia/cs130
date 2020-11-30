@@ -1,4 +1,8 @@
-from Health import Health
+from backend.Health import Health
+import copy
+from datetime import datetime
+from backend.db import DB
+from typing import List, Dict, Any
 
 class Fitness(Health):
     """
@@ -23,7 +27,7 @@ class Fitness(Health):
         Inserts the input into the database
     """
     
-    def __init__(self, database_manager, user_id):
+    def __init__(self, database_manager: DB, user_id: int) -> None:
         """
         Parameters
         ----------
@@ -34,10 +38,12 @@ class Fitness(Health):
         table_name : str
             The name of the table
         """
-        super().__init__(database, user_id, 'Fitness')
+        self._fitness_params = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']
+        super().__init__(database_manager, user_id, 'Fitness', self._fitness_params)
     
-    def insert_in_database(self, input_dict,\
-                          input_dict_keys = ['WorkoutType', 'Minutes', 'CaloriesBurned']):
+    def insert_in_database(self, input_dict: Dict,\
+                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
+                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -46,25 +52,67 @@ class Fitness(Health):
             The input dictionary with keys 'input_dict_keys' i.e. 'WorkoutType', 'Minutes', 'CaloriesBurned'
         input_dict_keys : dict
             The keys of 'input_dict'
+        input_dict_types : dict
+            The datatypes of the input_dict
             
         Returns
         -------
         bool
             returns true if entry is without errors o/w false
         """    
-        
-        ct = 0
         for k in input_dict.keys():
-            if k not in input_dict_keys():
-                ct+=1
-        assert ct == 0
+            
+            if k not in input_dict_keys:
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                return False
         
-        data_dict = input_dict
-        date_dict['UserID'] = self.__user_id
-        data_dict['Date'] = datetime.now()
+        data_dict = copy.deepcopy(input_dict)
+        data_dict['UserID'] = self._user_id
+        data_dict['Datetime'] = datetime.utcnow()
 
         try:
-            self.__database_manager.insert_row(self.__table_name,data_dict)
+            self._database_manager.insert_row_1(self._table_name,data_dict)
+            return True
+        except:
+            return False
+        
+    def insert_in_database_datetime(self, input_dict: Dict, date_time: datetime,\
+                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
+                          input_dict_types: Dict[str,Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
+        """Inserts input in the database. Returns true if success o/w false
+
+        Parameters
+        ----------
+        input_dict : dict
+            The input dictionary with keys 'input_dict_keys' i.e. 'WorkoutType', 'Minutes', 'CaloriesBurned'
+        input_dict_keys : dict
+            The keys of 'input_dict'
+        input_dict_types : dict
+            The datatypes of the input_dict
+        date_time : datetime
+            Manually entering the datetime
+            
+        Returns
+        -------
+        bool
+            returns true if entry is without errors o/w false
+        """    
+        for k in input_dict.keys():
+            
+            if k not in input_dict_keys:
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+                return False
+        
+        data_dict = copy.deepcopy(input_dict)
+        data_dict['UserID'] = self._user_id
+        data_dict['Datetime'] = date_time
+
+        try:
+            self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
             return False

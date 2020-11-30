@@ -3,6 +3,8 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import AuthenticationService from "../services/AuthenticationService"; 
+
 
 function SignupScreen() {
   const [name, setName] = React.useState("");
@@ -13,20 +15,29 @@ function SignupScreen() {
     name: false,
     email: false,
     password: false,
+    accountExists: false,
   });
 
-  function signUp() {
+  async function signup() {
     if (!validateFields({ name, email, password, confirmPassword }, setError)) {
       console.log(err);
       return;
     }
-    console.log("Successfully signed up!");
-    console.log(name, email, password, confirmPassword);
+    const isSuccess = await AuthenticationService.signup(name, email, password);
+    if (!isSuccess) {
+      setError({ email: true, accountExists: true });
+    }
   }
 
   function displayErrorMessage(err) {
     if (err.name) {
       return <ErrorMessage message="Please enter your full name." />;
+    }
+
+    if (err.accountExists) {
+      return (
+        <ErrorMessage message="An account with this email already exists." />
+      );
     }
     
     if (err.email) {
@@ -101,7 +112,11 @@ function SignupScreen() {
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}
-      <TextButton style={styles.submitButton} name="Sign Up" onPress={signUp} />
+      <TextButton
+        style={styles.submitButton}
+        name="Sign Up"
+        onPress={async () => await signup()}
+      />
       <Text style={{ marginVertical: "5%" }}>
         Already have an account?
         <Text

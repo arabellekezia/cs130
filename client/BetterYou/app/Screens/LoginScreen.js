@@ -3,17 +3,23 @@ import { SafeAreaView, StyleSheet, Text } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import AuthenticationService from "../services/AuthenticationService"; 
 
 function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [err, setError] = React.useState({ email: false, password: false });
 
-  function login() {
+  async function login() {
     if (!validate(email, password, setError)) {
       console.log(err);
+      return;
     }
-    console.log("Successfully logged in.");
+
+    const isSuccess = await AuthenticationService.login(email, password); 
+    if (!isSuccess) {
+      setError({email: true, password: true});
+    }
   }
 
   function displayErrorMessage(err) {
@@ -58,7 +64,13 @@ function LoginScreen() {
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}
-      <TextButton style={styles.submitButton} name="Login" onPress={login} />
+      <TextButton
+        style={styles.submitButton}
+        name="Login"
+        onPress={async () => {
+          await login();
+        }}
+      />
       <Text style={{ marginVertical: "5%" }}>
         Don't have an account?
         <Text

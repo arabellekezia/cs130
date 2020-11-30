@@ -1,6 +1,7 @@
 import requests
 import numpy as np
 from difflib import SequenceMatcher
+from typing import Any, List, Dict
 
 class EdamamAPI():
     def __init__(self) -> None:
@@ -22,7 +23,7 @@ class EdamamAPI():
     def get_similar(self, a: str, b: str) -> float:
         return SequenceMatcher(None, a, b).ratio()
 
-    def get_food_information(self, query: str, upc: bool = False):
+    def get_food_information(self, query: str, upc: bool = False) -> Dict:
 
         # Check UPC code or Ingredient
         # UPC are barcodes and Ingredients are all other foods.
@@ -37,7 +38,55 @@ class EdamamAPI():
 
         return response.json()
     
-    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5):
+    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5, serving_size: float = 1.0) -> (Dict[int, Any], bool):
+        """Returns the food options dictionary. 
+
+        Parameters
+        ----------
+        query : string
+            The input query which can either be a food item name like "Apple" or the barcode number in str
+        upc : bool
+            Should be true when the query is a barcode number
+        k : int
+            The number of top matches
+
+        Returns
+        -------
+        dict
+            dictionary with first level keys as the number of top matches required. Each of the match is another dictionary
+            with keys Label and Nutrients. Then Nutrients is another dictionary with keys: Cals, Protein, Carbs, Fiber, Fat.
+            Example:
+                # 0
+                # 	Label
+                # 		Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz
+                # 	Nutrients
+                # 		Cals
+                # 			41.499027861352765
+                # 		Protein
+                # 			0.6148004127607817
+                # 		Fat
+                # 			0.15370010319019542
+                # 		Carbs
+                # 			10.144206810552898
+                # 		Fiber
+                # 			0.6148004127607817
+                # 1
+                # 	Label
+                # 		Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz
+                # 	Nutrients
+                # 		Cals
+                # 			37.43695370561189
+                # 		Protein
+                # 			0.6038218339614821
+                # 		Fat
+                # 			0.12076436679229642
+                # 		Carbs
+                # 			9.178091876214529
+                # 		Fiber
+                # 			0.6038218339614821
+        bool
+            true if food api query is successful, otherwise false.
+        """
         if not isinstance(query, str) or not isinstance(upc, bool) or not isinstance(k, int) or ((isinstance(k, int)) and k < 0):
             return {}, False
 
@@ -71,7 +120,7 @@ class EdamamAPI():
                     food_options_dict[i]['Label'] = matched_item_info['label']
                 food_options_dict[i]['Nutrients'] = {}
                 for k in matched_item_info['nutrients'].keys():
-                    food_options_dict[i]['Nutrients'][self.transform_dict[k]] = matched_item_info['nutrients'][k]
+                    food_options_dict[i]['Nutrients'][self.transform_dict[k]] = serving_size * matched_item_info['nutrients'][k]
                 
             success = True
     

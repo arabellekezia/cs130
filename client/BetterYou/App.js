@@ -23,6 +23,7 @@ import FitnessGoalsScreen from './app/Screens/FitnessGoalsScreen';
 import FitnessGoalEntryTypeSelectScreen from './app/Screens/FitnessGoalEntryTypeSelectScreen';
 import DailyFitnessScreen from './app/Screens/DailyFitnessScreen';
 import WeeklyNutritionScreen from './app/Screens/WeeklyNutritionScreen';
+import SignupScreen from "./app/Screens/SignupScreen";
 
 
 
@@ -56,6 +57,9 @@ export default function App() {
     //<FitnessGoalEntryTypeSelectScreen />
 
     // <DemoScreen /> 
+    // <LoginScreen />
+    //<SignupScreen />
+    // <DemoScreen />
   );
 }
 

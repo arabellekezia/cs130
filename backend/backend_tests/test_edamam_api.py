@@ -1,6 +1,4 @@
-import sys
-sys.path.append("../")
-from edamam_api import EdamamAPI
+from backend.edamam_api import EdamamAPI
 import unittest
 
 class TestEdamamAPI(unittest.TestCase):
@@ -8,7 +6,7 @@ class TestEdamamAPI(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.api = EdamamAPI()
-        self.query_list = ['apple', \
+        self.query_list = ['apple',\
                            'jamba juice orange carrot karma smoothie, 22 fl oz', \
                            'salmon', \
                            'chicken teriyaki', \
@@ -27,6 +25,37 @@ class TestEdamamAPI(unittest.TestCase):
             result, success = self.api.get_top_matches(query=query, upc=False, k=k)
             self.assertTrue(success)
             self.assertEqual(len(result.keys()), 1)
+            
+    def test_serving(self): 
+        """
+        Test single option. Best match along with serving size.
+        """
+#         {0: {'Label': 'apple', 'Nutrients': {'Cals': 52.0, 'Protein': 0.26, 'Fat': 0.17, 'Carbs': 13.81, 'Fiber': 2.4}}}
+        k = 1
+        query = 'Apple'
+        serving_size = 2.5
+        result, success = self.api.get_top_matches(query=query, upc=False, k=k, serving_size=serving_size)
+#         print(result)
+        self.assertTrue(success)
+        self.assertEqual(len(result.keys()), 1)
+        self.assertEqual(result[0]['Nutrients']['Cals'], 52.0 * serving_size)
+        self.assertEqual(result[0]['Nutrients']['Protein'], 0.26 * serving_size)
+        self.assertEqual(result[0]['Nutrients']['Fat'], 0.17 * serving_size)
+        self.assertEqual(result[0]['Nutrients']['Carbs'], 13.81 * serving_size)
+        self.assertEqual(result[0]['Nutrients']['Fiber'], 2.4 * serving_size)
+
+
+    def test_barcode(self):
+        """
+        Test single option. Best match.
+        """
+        k = 1
+        query = '016000275287'
+        result, success = self.api.get_top_matches(query=query, upc=True, k=k)
+        self.assertTrue(success)
+        self.assertEqual(len(result.keys()), 1)
+        self.assertEqual(result[0]['Label'],'Cheerios Cheerios Cereal')
+
 
     def test_multiple(self):
         """

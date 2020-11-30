@@ -1,22 +1,33 @@
 from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 import datetime
 import os
+import hashlib
+from typing import Tuple
+from backend.db import DB
+from backend.setup.config import MY_KEY
+
+# Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
 
 class User:
-    def __init__(self, db):
+    def __init__(self, db: DB) -> None:
         self._db = db
-        self._key = os.getenv('MY_KEY', 'other')
+        self._key = MY_KEY
 
-    def check_password_match(self, email, password):
-        query = f"select * from Users where email='{email}' and password='{password}';"
+    def check_password_match(self, email: str, password: str) -> int:
+        query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
         if data:
+            key = data[0]['password']
+            salt = data[0]['salt']
+            new_key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+            if not key == new_key:
+                return -1
             data = data[0]
         else:
             return -1
         return int(data['id'])
 
-    def check_email_match(self, email):
+    def check_email_match(self, email: str) -> int:
         query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
         if data:
@@ -25,18 +36,20 @@ class User:
             return -1
         return int(data['id'])
 
-    def create_new_user(self, email, password):
+    def create_new_user(self, email: str, password: str, fullname:str) -> bool:
         existing = self.check_email_match(email)
         if existing < 0:
-            data = {'email': f"'{email}'", 'password': f"'{password}'"}
-            self._db.inset_row('Users', data)
+            salt = os.urandom(32)
+            key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+            data = {'email': email, 'password': key, 'salt': salt, 'fullname': fullname}
+            self._db.insert_row_1('Users', data)
             return True
         else:
             return False
 
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
-    def encode_token(self, id):
-        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30),
+    def encode_token(self, id: int) -> Tuple[str, int]:
+        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=10),
                     'iat': datetime.datetime.utcnow(),
                     'sub': id}
         try:
@@ -45,9 +58,9 @@ class User:
             return f"Failed to create an auth token: {exc}", 500
 
     # source: https://realpython.com/token-based-authentication-with-flask/#jwt-setup
-    def decode_token(token):
+    def decode_token(self, token: str) -> Tuple[str, int]:
         try:
-            payload = decode(token, self._key)
+            payload = decode(token, self._key, algorithms=['HS256'])
             return payload['sub'], 200
         except ExpiredSignatureError:
             return 'Signature expired. Please log in again.', 400
