@@ -20,24 +20,27 @@ function SleepEntry({
         size={40}
         detail={sleeptimenum}
         unit={sleeptimeunit}
-        label="Started Sleep"
-        style={styles.summaryindividual}
+        label="Start time"
+        iconColor="#A0BAFF"
+        style={styles.summaryIndividual}
       />
       <SummaryItem
         name="alarm"
         size={40}
         detail={waketimenum}
         unit={waketimeunit}
-        label="Woke Up"
-        style={styles.summaryindividual}
+        label="Arise time"
+        iconColor="#A0BAFF"
+        style={styles.summaryIndividual}
       />
       <SummaryItem
         name="sleep"
         size={40}
         detail={5.6}
         unit="Hours"
-        label="Time Slept"
-        style={styles.summaryindividual}
+        label="Duration"
+        iconColor="#A0BAFF"
+        style={styles.summaryIndividual}
       />
     </View>
   );
@@ -51,11 +54,12 @@ const styles = StyleSheet.create({
     width: "100%",
     //marginTop: 25,
     //marginBottom: 25,
-    borderWidth: 0.5,
+    // borderBottomWidth: 1,
+    // borderTopWidth: 1,
     //borderRadius: 10,
     padding: 10,
   },
-})
+});
 
 function parseTime(timestamp) {
   //takes in a timestamp string like "10:00 pm" and should parse it to 10:00 and "pm" for our summaryitem to use

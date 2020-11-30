@@ -5,23 +5,20 @@ import AppText from '../components/AppText';
 import TitleText from '../components/TitleText';
 
 import moment from "moment";
-import SummaryItem from '../components/SummaryItem';
 import TextButton from '../components/TextButton';
-import DailySleepLog from '../components/DailySleepLog';
+import DailySleepEntries from "../components/DailySleepEntries";
 
 function DailySleepScreen() {
   const currentDay = getToday();
 
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container} >
-        <TitleText style={styles.header} children="Today's Sleep Log" />
-        <AppText style={styles.dateheader} children={currentDay} />
-        <TextButton 
-          name={"Add to Sleep Log"}
-          onPress={() => console.log("pressed")}
-          style={styles.addbutton}
-        />
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
+        <TitleText style={styles.header} children="Sleep" />
+        <AppText style={styles.dateHeader} children={currentDay} />
         {/*<View style={styles.sleepsummary}>
             {/* TODO: This portion should be changed to accomodate calculations from backend data 
             <SummaryItem
@@ -51,9 +48,21 @@ function DailySleepScreen() {
           </View>
           */}
 
-        <DailySleepLog 
+        <DailySleepEntries
           style={styles.sleeplog}
-          entries={getTodaySleepEntries()}
+          headerText="Last night"
+          entries={[getTodaySleepEntries().sleep]}
+        />
+
+        <DailySleepEntries
+          style={styles.sleeplog}
+          headerText="Recorded naps"
+          entries={getTodaySleepEntries().naps}
+        />
+        <TextButton
+          name={"Add New Entry"}
+          onPress={() => console.log("pressed")}
+          style={styles.logEntryButton}
         />
       </ScrollView>
     </SafeAreaView>
@@ -61,19 +70,21 @@ function DailySleepScreen() {
 }
 
 const styles = StyleSheet.create({
-  addbutton:{
-    width: "50%",
-
+  logEntryButton: {
+    alignSelf: "flex-end",
+    marginVertical: 30,
+    minWidth: "80%"
   },
   container: {
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
-  dateheader: {
+  dateHeader: {
     alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 50,
+    marginLeft: "5%",
+    fontSize: 18,
+    marginBottom: 24,
   },
   header: {
     alignSelf: "flex-start",
@@ -105,42 +116,28 @@ const styles = StyleSheet.create({
 
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later
-  return moment().format("MMM Do YYYY");
+  return moment().format("dddd, MMMM Do");
 };
 
 function getTodaySleepEntries() {
   //TODO: change from hardcoded to integration
-  const sleepLog = [
-    {
+  /* Note from evan - backend allows us to differentiate between naps + actual sleep, so i'm using that info */
+  return {
+    sleep: {
       sleeptime: "10:00 pm",
       waketime: "6:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-    {
-      sleeptime: "11:00 pm",
-      waketime: "8:00 am",
-    },
-  ];
-  return sleepLog;
+    }, 
+    naps: [
+      {
+        sleeptime: "11:00 pm",
+        waketime: "8:00 am",
+      },
+      {
+        sleeptime: "11:00 pm",
+        waketime: "8:00 am",
+      },
+    ]
+  };
 }
 
 export default DailySleepScreen;

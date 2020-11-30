@@ -23,36 +23,40 @@ function DailyNutritionScreen() {
 
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-        <TitleText style={styles.header} children="Today's Nutrition" />
-        <AppText style={styles.dateheader} children={currentDay} />
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
+        <TitleText style={styles.header} children="Diet" />
+        <AppText style={styles.dateHeader} children={currentDay} />
 
         <DailyNutritionCharts selectedChartType={selectedChartType} />
 
-        <SegmentedControlTab 
+        <SegmentedControlTab
           tabsContainerStyle={{ width: "80%" }}
           values={["Total Calories", "Macronutrients"]}
           selectedIndex={selectedChartType}
           onTabPress={(chartType) => setSelectedChartType(chartType)}
         />
-        
-        <DailyMacronutrientEntries 
+
+        <DailyMacronutrientEntries
+          style={styles.macronutrientCardContainer}
           entries={[
             //these are just hard coded, TODO: have to adapt this when backend integration happens
             {
-              macroName: "Carbohydrates",   
+              macroName: "Carbohydrates",
               percentage: "40%",
-              foods: getFoods()
+              foods: getFoods(),
             },
             {
               macroName: "Protein",
               percentage: "40%",
-              foods: getFoods()
+              foods: getFoods(),
             },
             {
               macroName: "Fat",
               percentage: "20%",
-              foods: getFoods()
+              foods: getFoods(),
             },
           ]}
         />
@@ -71,16 +75,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   chartContainer: {
-    //marginTop: 2,
     marginBottom: 15,
     alignItems: "center",
     justifyContent: "center",
     height: 270,  //this height is hardcoded but I think will be fine in the grand scheme
   },
-  dateheader: {
+  dateHeader: {
     alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 12,
+    marginLeft: "5%",
+    fontSize: 18,
+    marginBottom: 24,
   },
   header: {
     alignSelf: "flex-start",
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   macronutrientCardContainer: {
-    //position: "absolute"
+    marginTop: 20
   },
   overfillpercent: {
     fontWeight: "bold",
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
 
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later
-  return moment().format("MMM Do YYYY")
+  return moment().format("dddd, MMMM Do");
 };
 
 //placeholder for backend integration
@@ -147,12 +151,12 @@ function DailyNutritionCharts({selectedChartType}) {
           <AppText>
             You consumed
             <AppText style={styles.boldtext} children={` ${getCalories().currentCalories} `} />
-            Calories
+            calories
           </AppText>
           <AppText>
             out of your
             <AppText style={styles.boldtext} children={` ${getCalories().calorieGoal} `} />
-            Calorie Goal
+            calorie budget
           </AppText>
           <AppProgressRing 
             data={percentOver}
@@ -165,7 +169,7 @@ function DailyNutritionCharts({selectedChartType}) {
           <AppText>
             You have filled
             <AppText style={styles.overfillpercent} children={` ${getCalories().calPercent}% `} />
-            of your Calorie Goal
+            of your calorie budget
           </AppText>
         </View>
       );
@@ -175,12 +179,12 @@ function DailyNutritionCharts({selectedChartType}) {
           <AppText>
             You consumed
             <AppText style={styles.boldtext} children={` ${getCalories().currentCalories} `} />
-            Calories
+            calories
           </AppText>
           <AppText>
             out of your
             <AppText style={styles.boldtext} children={` ${getCalories().calorieGoal} `} />
-            Calorie Goal
+            calorie budget
           </AppText>
           <AppProgressRing 
             data={progressRingData}
@@ -193,7 +197,7 @@ function DailyNutritionCharts({selectedChartType}) {
           <AppText>
             You have filled
             <AppText style={styles.boldtext} children={` ${getCalories().calPercent}% `} />
-            of your Calorie Goal
+            of your calorie budget
           </AppText>
         </View>
       );
@@ -202,7 +206,7 @@ function DailyNutritionCharts({selectedChartType}) {
   else {
     return (
       <View style={styles.chartContainer}>
-        <AppText style={styles.boldtext} children="Macronutrient Breakdowns (by grams): " />
+        <AppText style={styles.boldtext} children="Macronutrient Breakdowns (in grams): " />
         <AppPieChart 
           data={mockPieChartData}
           accessor="percentage"

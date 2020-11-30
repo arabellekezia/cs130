@@ -18,8 +18,8 @@ function FitnessEntry({
           name={iconName}
           backgroundColor="white"
           iconColor="grey"
-          size={24}
-          iconScale={0.9}
+          size={21}
+          iconScale={1}
         />
         <AppText style={styles.startTime} children={startTime} />
       </View>
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
   activity: {
     fontWeight: "bold",
     fontSize: 18,
-    marginLeft: 4,
+    marginLeft: 5,
     marginTop: 3,
     marginBottom: 4,
   },
   stats: {
-    marginLeft: 4,
+    marginLeft: 5,
     fontSize: 16,
   },
 });
