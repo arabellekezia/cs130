@@ -83,6 +83,7 @@ function BarcodeScanCameraScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 console.log("navigate to entry form screen");
+                setModalVisible(false);
                 navigation.navigate("FoodEntryForm", { item: product });
               }}
             >
