@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import AppText from "./AppText";
 import HeaderText from "./HeaderText";
 import TitleText from "./TitleText";
+import Divider from "./Divider";
 
 function extractNutrientAmountsAndUnits(nutrientAmount) {
   if (nutrientAmount == null) {
@@ -70,21 +71,13 @@ function NutritionFacts({ data }) {
   );
 }
 
-function Divider({ height }) {
-  return <View style={[styles.divider, { height: height }]}></View>;
-}
-
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     borderWidth: 1,
     padding: 15,
     borderRadius: 10,
     marginVertical: 10,
-  },
-  divider: {
-    backgroundColor: "black",
-    width: "100%",
-    marginVertical: 5,
   },
   text: {},
 });

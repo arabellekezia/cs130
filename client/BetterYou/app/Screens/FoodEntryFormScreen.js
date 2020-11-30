@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
-import HeaderText from "../components/HeaderText";
 import NutritionFacts from "../components/NutritionFacts";
 
 import Screen from "../components/Screen";
@@ -13,7 +12,6 @@ import colors from "../config/colors";
 function FoodEntryFormScreen() {
   const [numberOfServings, setNumberOfServings] = useState(0);
 
-  const selectedFood = "Chicken Casserole";
   const nutritionData = {
     label: "Jamba Juice Orange Carrot Karma Smoothie",
     servingSize: "22 fl oz",
@@ -40,7 +38,9 @@ function FoodEntryFormScreen() {
         <TextButton
           name="Submit"
           onPress={() => {
-            console.log(numberOfServings);
+            console.log(
+              `post number of servings to endpoint ${numberOfServings}`
+            );
           }}
         />
       </View>
