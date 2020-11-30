@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: "5%",
     marginBottom: 24,
-    fontSize: 18
+    fontSize: 18,
   },
   header: {
     alignSelf: "flex-start",
@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   headerTextContainer: {
-    flex: 1, 
-    flexDirection: "row", 
-    justifyContent: "flex-start", 
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
     alignContent: "center",
-  }, 
+  },
   headerTextStyle: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -101,27 +101,27 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   entryButtonContainer: {
-    flex: 1, 
-    flexDirection: "row", 
-    justifyContent: "flex-end", 
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
     alignContent: "center",
-    marginRight: 12
-  }, 
+    marginRight: 12,
+  },
   logHeaderContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: "10%", 
-    marginBottom: "2%"
+    marginTop: "10%",
+    marginBottom: "2%",
   },
   logHeaderText: {
     fontSize: 28,
     fontWeight: "bold",
-    marginLeft: 12
+    marginLeft: 12,
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "10%",
+    marginTop: "15%",
     marginLeft: "5%",
     marginBottom: 12,
   },

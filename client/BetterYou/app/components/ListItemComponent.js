@@ -8,16 +8,16 @@ import AppText from "./AppText";
 import HeaderText from './HeaderText';
 //import Icon from "./Icon";
 
-function ListItemComponent({title, icon, description, navigation, destination}) {
+function ListItemComponent({title, icon, description, descriptionStyle, children, navigation, destination}) {
     return (
       <TouchableOpacity
         style={styles.container}
         onPress={() => console.log({ destination })}
       >
         <View style={styles.titlerow}> 
-          {icon}
           <View style={styles.dayOfWeekContainer}> 
             <HeaderText style={styles.headertext}>{title}</HeaderText>
+            {icon}         
           </View>
           <View style={styles.arrowContainer}> 
             <AntDesign
@@ -27,9 +27,8 @@ function ListItemComponent({title, icon, description, navigation, destination}) 
             />
           </View>
         </View>
-        <AppText>
-          <AppText style={styles.descriptiontext}>{description}</AppText>
-        </AppText>
+        <AppText style={{...styles.descriptiontext, ...descriptionStyle}}>{description}</AppText>
+        {children}
       </TouchableOpacity>
     );
 }
@@ -53,10 +52,9 @@ const styles = StyleSheet.create({
   },
   descriptiontext: {
     fontSize: 15,
-    lineHeight: 30,
-    top: 10,
-    textAlign: "justify",
-    color: "#474747"  
+    lineHeight: 20,
+    color: "#474747",
+    marginVertical: 6 
   },
   titlerow: {
     flexDirection: "row",
@@ -66,10 +64,12 @@ const styles = StyleSheet.create({
   dayOfWeekContainer: {
     flex: 1, 
     flexDirection: "row", 
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    alignItems: "center"
   }, 
   headertext: {
-    color: "black"  
+    color: "black", 
+    marginRight: 2
   },
 });
 
