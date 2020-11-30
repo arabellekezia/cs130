@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
+    alignItems: "center",
   },
   startTime: {
     fontSize: 16,
