@@ -1,5 +1,5 @@
 from backend.Health import Health
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 import copy
 from typing import List, Dict, Any
 from backend.db import DB
@@ -49,7 +49,7 @@ class Sleep(Health):
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
         data_dict['Minutes'] = d_mins
-        data_dict['Datetime'] = datetime.now()
+        data_dict['Datetime'] = datetime.utcnow()
 
         try:
             self._database_manager.insert_row_1(self._table_name,data_dict)
@@ -95,9 +95,9 @@ class Sleep(Health):
             result = self._database_manager.select_data(query)
             if result:
                 for r in result:
-                    r['Datetime'] = int(r['Datetime'].timestamp())
-                    r['SleepTime'] = int(r['SleepTime'].timestamp())
-                    r['WakeupTime'] = int(r['WakeupTime'].timestamp())
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
+                    r['SleepTime'] = int(r['SleepTime'].replace(tzinfo=timezone.utc).timestamp())
+                    r['WakeupTime'] = int(r['WakeupTime'].replace(tzinfo=timezone.utc).timestamp())
                 return result, True
             else:
                 return None, False

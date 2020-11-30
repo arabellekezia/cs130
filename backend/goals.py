@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 import copy
 from backend.db import DB
 from typing import Any, List, Dict, Tuple
@@ -83,6 +83,7 @@ class Goals():
             
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
+        data_dict['Datetime'] = datetime.utcnow() 
         
         try:
             self._database_manager.insert_row_1(self._table_name, data_dict)
@@ -114,7 +115,7 @@ class Goals():
             result = self._database_manager.select_data(query)
             if result:
                 for r in result:
-                    r['Datetime'] = int(r['Datetime'].timestamp())
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
                 return result, True
             else:
                 return None, False
@@ -141,7 +142,7 @@ class Goals():
             result = self._database_manager.select_data(query)
             if result:
                 for r in result:
-                    r['Datetime'] = int(r['Datetime'].timestamp())
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
                 return result, True
             else:
                 return None, False
@@ -170,7 +171,7 @@ class Goals():
             result = self._database_manager.select_data(query)
             if result:
                 for r in result:
-                    r['Datetime'] = int(r['Datetime'].timestamp())
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
                 return result, True
             else:
                 return None, False
@@ -184,7 +185,7 @@ class Goals():
             return False
         cmd = f"UPDATE Goals SET Value = {value} where UserID = {self._user_id} and Type = '{goal_type}';"
         try:
-            self._database_manager.insert_data(cmd)
+            self._database_manager.insert_data(cmd) 
             return True
         except:
             return False

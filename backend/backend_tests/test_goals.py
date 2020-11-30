@@ -3,7 +3,6 @@ from backend.db import DB
 from backend.user import User
 from backend.goals import Goals
 
-
 class TestGoals(unittest.TestCase):
 
     @classmethod

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from backend.db import DB
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict
 import copy
 
@@ -74,7 +74,7 @@ class Health(ABC):
             result = self._database_manager.sel_time_frame(self._table_name, f"{start_date}", f"{end_date}", self._user_id, params=self._get_params(self._params)) 
             if result:
                 for r in result:
-                    r['Datetime'] = int(r['Datetime'].timestamp())
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
                 return result, True
             else:
                 return None, False

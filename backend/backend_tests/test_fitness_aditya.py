@@ -24,7 +24,7 @@ class TestFitness(unittest.TestCase):
         self.fitness_dict = {'WorkoutType': 'Running',\
                              'Minutes': 10,\
                              'CaloriesBurned': 100.9}
-        self.dt1 = datetime.now()
+        self.dt1 = datetime.utcnow()
         self.unix_time = round(time.time())
 
     def test_0_data_insertion(self):
@@ -36,9 +36,8 @@ class TestFitness(unittest.TestCase):
         Test fetching fitness data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
-#         print(result)
         self.assertTrue(success)
         self.assertEqual(result[0]['Datetime'],self.unix_time)
 
@@ -82,7 +81,7 @@ class TestFitness(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
         self.assertTrue(success)
         
@@ -91,7 +90,7 @@ class TestFitness(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.fitness.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success)
@@ -104,7 +103,7 @@ class TestFitness(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.fitness.get_columns_given_range(dt1+timedelta(days=10),dt1+timedelta(days=11))
         self.assertFalse(success)        
         
@@ -115,18 +114,18 @@ class TestFitness(unittest.TestCase):
         d = {'WorkoutType': 'Running',\
              'Minutes': 10,\
              'CaloriesBurned': 100.9}
-        _ = self.fitness.insert_in_database_datetime(d, datetime.now()+timedelta(days=1))
+        _ = self.fitness.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+timedelta(minutes=1))
         d = {'WorkoutType': 'Jogging',\
              'Minutes': 10,\
              'CaloriesBurned': 100.9}
-        _ = self.fitness.insert_in_database_datetime(d, datetime.now()+timedelta(days=1)+timedelta(hours=2))
+        _ = self.fitness.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+timedelta(minutes=2))
         d = {'WorkoutType': 'Dancing',\
              'Minutes': 10,\
              'CaloriesBurned': 100.9}
-        _ = self.fitness.insert_in_database_datetime(d, datetime.now()+timedelta(days=1)+timedelta(hours=4))
-        d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
-        result, success = self.fitness.get_columns_given_range(dt1+timedelta(days=1),dt1+timedelta(days=2))
+        _ = self.fitness.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+timedelta(minutes=4))
+        d1 = date.today() + timedelta(days=1)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
+        result, success = self.fitness.get_columns_given_range(dt1,dt1+timedelta(days=1))
 
         self.assertEqual(len(result), 3)
         self.assertTrue(success)

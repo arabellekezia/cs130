@@ -86,7 +86,7 @@ class Diet(Health):
         data_dict = copy.deepcopy(input_dict)
         del data_dict['nutri_dict']
         data_dict['UserID'] = self._user_id
-        data_dict['Datetime'] = datetime.now()
+        data_dict['Datetime'] = datetime.utcnow()
         
         for k in input_dict['nutri_dict'].keys():
             data_dict[k] = input_dict['nutri_dict'][k]

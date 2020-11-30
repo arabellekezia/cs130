@@ -4,7 +4,7 @@ from backend.user import User
 from backend.Diet import Diet
 from datetime import datetime, date, timedelta
 import time
-
+ 
 class TestDiet(unittest.TestCase):
 
     @classmethod
@@ -24,7 +24,7 @@ class TestDiet(unittest.TestCase):
                          'ServingSize': 1.0,\
                          'Barcode': False,\
                          'nutri_dict': {'Cals': 100.0,'Protein': 100.0, 'Carbs': 100.0, 'Fat': 100.0, 'Fiber': 100.0}}
-        self.dt1 = datetime.now()
+        self.dt1 = datetime.utcnow()
         self.unix_time = round(time.time())
         
     def test_0_data_insertion(self):
@@ -39,7 +39,7 @@ class TestDiet(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.diet.get_columns_given_range(dt1, dt1+timedelta(days=1))
         self.assertTrue(success)
         self.assertEqual(result[0]['Datetime'],self.unix_time)
@@ -162,7 +162,7 @@ class TestDiet(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.diet.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success)
@@ -177,7 +177,7 @@ class TestDiet(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.diet.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success)
@@ -195,7 +195,7 @@ class TestDiet(unittest.TestCase):
         Test fetching diet data from database
         """
         d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
+        dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.diet.get_columns_given_range(dt1+timedelta(days=10),dt1+timedelta(days=11))
 
         self.assertFalse(success)
@@ -209,20 +209,20 @@ class TestDiet(unittest.TestCase):
              'ServingSize': 1.0,\
              'Barcode': False,\
              'nutri_dict': {'Cals': 100.0,'Protein': 100.0, 'Carbs': 100.0, 'Fat': 100.0, 'Fiber': 100.0}}
-        _ = self.diet.insert_in_database_datetime(d, datetime.now()+timedelta(days=1))
+        _ = self.diet.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+ timedelta(minutes=1))
         d = {'Item': 'Orange',\
              'ServingSize': 1.0,\
              'Barcode': False,\
              'nutri_dict': {'Cals': 100.0,'Protein': 100.0, 'Carbs': 100.0, 'Fat': 100.0, 'Fiber': 100.0}}
-        _ = self.diet.insert_in_database_datetime(d, datetime.now()+timedelta(days=1)+timedelta(hours=2))
+        _ = self.diet.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+timedelta(minutes=2))
         d = {'Item': 'Banana',\
              'ServingSize': 1.0,\
              'Barcode': False,\
              'nutri_dict': {'Cals': 100.0,'Protein': 100.0, 'Carbs': 100.0, 'Fat': 100.0, 'Fiber': 100.0}}
-        _ = self.diet.insert_in_database_datetime(d, datetime.now()+timedelta(days=1)+timedelta(hours=4))
-        d1 = date.today()
-        dt1 = datetime(d1.year, d1.month, d1.day)
-        result, success = self.diet.get_columns_given_range(dt1+timedelta(days=1),dt1+timedelta(days=2))
+        _ = self.diet.insert_in_database_datetime(d, datetime.utcnow()+timedelta(days=1)+timedelta(minutes=3))
+        d1 = date.today() + timedelta(days=1) 
+        dt1 = datetime(d1.year, d1.month, d1.day)+ timedelta(hours=8)
+        result, success = self.diet.get_columns_given_range(dt1,dt1+timedelta(days=1))
 
         self.assertTrue(success)
         self.assertEqual(len(result), 3)

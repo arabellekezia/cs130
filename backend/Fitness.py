@@ -70,7 +70,7 @@ class Fitness(Health):
         
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
-        data_dict['Datetime'] = datetime.now()
+        data_dict['Datetime'] = datetime.utcnow()
 
         try:
             self._database_manager.insert_row_1(self._table_name,data_dict)
