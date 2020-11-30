@@ -4,11 +4,11 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
-import GoalsService from "../services/GoalsService"; 
+import GoalsService from "../services/GoalsService";
 
 const MIN_SLEEP_TIME = 0;
 
-function SleepGoalsScreen() {
+function SleepGoalsScreen({ navigation }) {
   const [sleepHours, setSleepHours] = React.useState(0);
   const [err, setError] = React.useState({ sleepHours: false });
 
@@ -22,6 +22,7 @@ function SleepGoalsScreen() {
       return;
     }
     await GoalsService.setSleepDurationGoal(sleepHours);
+    navigation.popToTop();
   }
 
   function resetErrors() {

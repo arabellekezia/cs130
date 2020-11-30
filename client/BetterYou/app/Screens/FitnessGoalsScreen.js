@@ -4,13 +4,12 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
-import GoalsService from "../services/GoalsService"; 
-
+import GoalsService from "../services/GoalsService";
 
 const MIN_ACTIVE_TIME = 0;
 const MAX_ACTIVE_TIME = 1440;
 
-function FitnessGoalsScreen() {
+function FitnessGoalsScreen(navigation) {
   const [activeTimeGoal, setActiveTimeGoal] = React.useState(0);
   const [err, setError] = React.useState({ activeTime: false });
 
@@ -19,12 +18,13 @@ function FitnessGoalsScreen() {
       activeTimeGoal > MIN_ACTIVE_TIME &&
       activeTimeGoal < MAX_ACTIVE_TIME &&
       Boolean(Number(activeTimeGoal));
-    
+
     if (!validActiveTimeGoal) {
       setError({ activeTime: true });
       return;
     }
     await GoalsService.setActiveTimeGoal(activeTimeGoal);
+    navigation.popToTop();
   }
 
   function resetErrors() {

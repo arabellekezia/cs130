@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import IconButton from "../components/IconButton";
 import TitleText from "../components/TitleText";
 
-function GoalSelectionScreen() {
+function GoalSelectionScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <TitleText style={styles.header} children="Goals" />
@@ -15,7 +15,7 @@ function GoalSelectionScreen() {
           iconColor="#7e7e7e"
           label="Diet"
           border={2}
-          onPress={() => console.log("navigate to diet screen")}
+          onPress={() => navigation.navigate("DietGoals")}
         />
         <IconButton
           style={styles.button}
@@ -24,7 +24,7 @@ function GoalSelectionScreen() {
           iconColor="#7e7e7e"
           label="Fitness"
           border={2}
-          onPress={() => console.log("navigate to fitness screen")}
+          onPress={() => navigation.navigate("FitnessGoals")}
         />
         <IconButton
           style={styles.button}
@@ -33,7 +33,7 @@ function GoalSelectionScreen() {
           iconColor="#7e7e7e"
           label="Sleep"
           border={2}
-          onPress={() => console.log("navigate to sleep screen")}
+          onPress={() => navigation.navigate("SleepGoals")}
         />
       </View>
     </SafeAreaView>

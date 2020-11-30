@@ -32,22 +32,21 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    /* Saving this up top to remember how to call the tab navigator*/
     <NavigationContainer theme={navTheme}>
       <AppNavigator />
     </NavigationContainer>
 
-    //<LoginScreen />
+    // <LoginScreen />
 
-    //<WeeklyFitnessScreen />
-    //<WeeklySleepScreen />
-    //<WeeklyNutritionScreen />
+    // <WeeklyFitnessScreen />
+    // <WeeklySleepScreen />
+    // <WeeklyNutritionScreen />
 
-    //<DailyFitnessScreen />
-    //<DailySleepScreen />
-    //<DailyNutritionScreen />
+    // <DailyFitnessScreen />
+    // <DailySleepScreen />
+    // <DailyNutritionScreen />
 
-    //<DietGoalsScreen />
+    // <DietGoalsScreen />
     //<SleepEntryFormScreen />
     //<FitnessGoalsScreen />
     //<FitnessGoalEntryTypeSelectScreen />
