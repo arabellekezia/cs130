@@ -80,11 +80,17 @@ function NewEntryNavigator() {
       <Stack.Screen
         name="FoodDatabaseSearch"
         component={FoodDatabaseSearchScreen}
+        options={{ title: "Look up" }}
       />
-      <Stack.Screen name="FoodEntryForm" component={FoodEntryFormScreen} />
+      <Stack.Screen
+        name="FoodEntryForm"
+        component={FoodEntryFormScreen}
+        options={{ title: "Food Entry" }}
+      />
       <Stack.Screen
         name="BarcodeScanCamera"
         component={BarcodeScanCameraScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

@@ -8,7 +8,7 @@ import HeaderText from "../components/HeaderText";
 import IconButton from "../components/IconButton";
 import Screen from "../components/Screen";
 
-function DietGoalEntryTypeSelectScreen(props) {
+function DietGoalEntryTypeSelectScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <HeaderText>Select an input method</HeaderText>
@@ -19,7 +19,7 @@ function DietGoalEntryTypeSelectScreen(props) {
           label="Scan barcode"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to barcode scan screen ")}
+          onPress={() => navigation.navigate("BarcodeScanCamera")}
         />
         <IconButton
           name="database-search"
@@ -27,7 +27,7 @@ function DietGoalEntryTypeSelectScreen(props) {
           label="Look up"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to lookup screen")}
+          onPress={() => navigation.navigate("FoodDatabaseSearch")}
         />
       </View>
     </Screen>

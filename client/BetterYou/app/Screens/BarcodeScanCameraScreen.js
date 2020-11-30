@@ -7,23 +7,40 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderText from "../components/HeaderText";
 import AppText from "../components/AppText";
 
-function BarcodeScanCameraScreen() {
+function BarcodeScanCameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState("");
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Camera.requestPermissionsAsync();
+  //     setHasPermission(status === "granted");
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
+
+    // hide tab bar
+    const parent = navigation.dangerouslyGetParent();
+    parent.setOptions({
+      tabBarVisible: false,
+    });
+    return () =>
+      parent.setOptions({
+        tabBarVisible: true,
+      });
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     // api call to get product
-    const result = "Ground Beef";
+    const result = "Jamba Juice Orange Carrot Karma Smoothie";
     setProduct(result);
 
     setModalVisible(true);
@@ -66,6 +83,7 @@ function BarcodeScanCameraScreen() {
             <TouchableOpacity
               onPress={() => {
                 console.log("navigate to entry form screen");
+                navigation.navigate("FoodEntryForm", { item: product });
               }}
             >
               <AppText style={styles.linkText}>Continue</AppText>
@@ -96,9 +114,10 @@ function BarcodeScanCameraScreen() {
           >
             <TouchableOpacity
               style={{ marginHorizontal: 30 }}
-              onPress={() =>
-                console.log("navigate back to input type selection screen")
-              }
+              onPress={() => {
+                console.log("navigate back to input type selection screen");
+                navigation.pop();
+              }}
             >
               <MaterialCommunityIcons
                 name="window-close"

@@ -19,8 +19,8 @@ function isValidInput(numberOfServings, setError) {
 function isNumber(value) {
   return typeof value === "number" && isFinite(value);
 }
-
-function FoodEntryFormScreen() {
+// TO DO: replace params from label.. do api call to get the name instead
+function FoodEntryFormScreen({ navigation, route }) {
   const [numberOfServings, setNumberOfServings] = useState(0);
   const [err, setError] = useState({ numberOfServings: false });
 
@@ -31,6 +31,7 @@ function FoodEntryFormScreen() {
       return;
     }
     console.log(`post number of servings to endpoint ${numberOfServings}`);
+    navigation.popToTop();
   }
 
   function displayErrorMessage(error) {
@@ -54,7 +55,7 @@ function FoodEntryFormScreen() {
   return (
     <Screen>
       <View style={{ padding: 10 }}>
-        <TitleText style={styles.header}>{nutritionData.label}</TitleText>
+        <TitleText style={styles.header}>{route.params.item}</TitleText>
         <NutritionFacts data={nutritionData} />
         <AppText style={styles.text}>How many servings did you eat?</AppText>
         <AppTextInput
