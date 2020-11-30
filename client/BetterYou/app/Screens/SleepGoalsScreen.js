@@ -4,6 +4,7 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
+import GoalsService from "../services/GoalsService"; 
 
 const MIN_SLEEP_TIME = 0;
 
@@ -11,7 +12,7 @@ function SleepGoalsScreen() {
   const [sleepHours, setSleepHours] = React.useState(0);
   const [err, setError] = React.useState({ sleepHours: false });
 
-  function save() {
+  async function save() {
     const validSleepHours =
       sleepHours > MIN_SLEEP_TIME &&
       sleepHours <= 24 &&
@@ -20,7 +21,7 @@ function SleepGoalsScreen() {
       setError({ sleepHours: true });
       return;
     }
-    console.log("Saved sleep duration goal: " + sleepHours);
+    await GoalsService.setSleepDurationGoal(sleepHours);
   }
 
   function resetErrors() {
@@ -67,7 +68,13 @@ function SleepGoalsScreen() {
         {displayErrorMessage(err)}
         <HealthInfo style={styles.healthInfoContainer} />
       </View>
-      <TextButton style={styles.saveButton} name="Save" onPress={save} />
+      <TextButton
+        style={styles.saveButton}
+        name="Save"
+        onPress={async () => {
+          await save();
+        }}
+      />
     </SafeAreaView>
   );
 }

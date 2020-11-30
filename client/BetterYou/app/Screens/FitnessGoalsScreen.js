@@ -4,6 +4,8 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
+import GoalsService from "../services/GoalsService"; 
+
 
 const MIN_ACTIVE_TIME = 0;
 const MAX_ACTIVE_TIME = 1440;
@@ -12,16 +14,17 @@ function FitnessGoalsScreen() {
   const [activeTimeGoal, setActiveTimeGoal] = React.useState(0);
   const [err, setError] = React.useState({ activeTime: false });
 
-  function save() {
+  async function save() {
     const validActiveTimeGoal =
       activeTimeGoal > MIN_ACTIVE_TIME &&
       activeTimeGoal < MAX_ACTIVE_TIME &&
       Boolean(Number(activeTimeGoal));
+    
     if (!validActiveTimeGoal) {
       setError({ activeTime: true });
       return;
     }
-    console.log("Saved active time goal: " + activeTimeGoal);
+    await GoalsService.setActiveTimeGoal(activeTimeGoal);
   }
 
   function resetErrors() {
@@ -73,7 +76,11 @@ function FitnessGoalsScreen() {
         {displayErrorMessage(err)}
         <HealthInfo style={styles.healthInfoContainer} />
       </View>
-      <TextButton style={styles.saveButton} name="Save" onPress={save} />
+      <TextButton
+        style={styles.saveButton}
+        name="Save"
+        onPress={async () => await save()}
+      />
     </SafeAreaView>
   );
 }

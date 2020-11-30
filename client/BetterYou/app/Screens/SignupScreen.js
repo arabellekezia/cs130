@@ -3,8 +3,8 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
-import server from "../utils/server";
-import { getUserToken, storeUserToken } from "../utils/token";
+import AuthenticationService from "../services/AuthenticationService"; 
+
 
 function SignupScreen() {
   const [name, setName] = React.useState("");
@@ -18,32 +18,15 @@ function SignupScreen() {
     accountExists: false,
   });
 
-  function signUp() {
+  async function signup() {
     if (!validateFields({ name, email, password, confirmPassword }, setError)) {
       console.log(err);
       return;
     }
-
-    let formdata = new FormData();
-    formdata.append("fullname", name);
-    formdata.append("email", email);
-    formdata.append("password", password);
-
-    server
-      .post("/register", formdata, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(async (res) => {
-        console.log("Successfully signed up!");
-        await storeUserToken(res.data);
-      })
-      .catch((err) => {
-        if (err.response.status === 400) {
-          setError({ email: true, accountExists: true });
-        }
-      });
+    const isSuccess = await AuthenticationService.signup(name, email, password);
+    if (!isSuccess) {
+      setError({ email: true, accountExists: true });
+    }
   }
 
   function displayErrorMessage(err) {
@@ -129,7 +112,11 @@ function SignupScreen() {
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}
-      <TextButton style={styles.submitButton} name="Sign Up" onPress={signUp} />
+      <TextButton
+        style={styles.submitButton}
+        name="Sign Up"
+        onPress={async () => await signup()}
+      />
       <Text style={{ marginVertical: "5%" }}>
         Already have an account?
         <Text

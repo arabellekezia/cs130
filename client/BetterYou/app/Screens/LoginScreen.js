@@ -3,40 +3,23 @@ import { SafeAreaView, StyleSheet, Text } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
-import server from "../utils/server";
-import { storeUserToken } from "../utils/token";
+import AuthenticationService from "../services/AuthenticationService"; 
 
 function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [err, setError] = React.useState({ email: false, password: false });
 
-  function login() {
+  async function login() {
     if (!validate(email, password, setError)) {
       console.log(err);
       return;
     }
 
-    let formdata = new FormData();
-    formdata.append("email", email);
-    formdata.append("password", password);
-
-    server
-      .post("/auth/login", formdata, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then(async (res) => {
-        console.log("Successfully logged in!");
-        await storeUserToken(res.data);
-      })
-      .catch((err) => {
-        if (err.response.status === 400) {
-          console.log("Incorrect credentials!");
-          setError({ email: true, password: true });
-        }
-      });
+    const isSuccess = await AuthenticationService.login(email, password); 
+    if (!isSuccess) {
+      setError({email: true, password: true});
+    }
   }
 
   function displayErrorMessage(err) {
@@ -81,7 +64,13 @@ function LoginScreen() {
         secureTextEntry={true}
       />
       {displayErrorMessage(err)}
-      <TextButton style={styles.submitButton} name="Login" onPress={login} />
+      <TextButton
+        style={styles.submitButton}
+        name="Login"
+        onPress={async () => {
+          await login();
+        }}
+      />
       <Text style={{ marginVertical: "5%" }}>
         Don't have an account?
         <Text

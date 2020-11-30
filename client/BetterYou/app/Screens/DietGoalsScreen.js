@@ -4,6 +4,7 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
+import GoalsService from "../services/GoalsService"; 
 
 const MIN_CALORIES = 1000;
 
@@ -11,14 +12,14 @@ function DietGoalsScreen() {
   const [calorieGoal, setCalorieGoal] = React.useState(0);
   const [err, setError] = React.useState({ calorieBudget: false });
 
-  function save() {
+  async function save() {
     const validCalorieGoal =
       calorieGoal > MIN_CALORIES && Boolean(Number(calorieGoal));
     if (!validCalorieGoal) {
       setError({ calorieBudget: true });
       return;
     }
-    console.log("Saved calorie goal: " + calorieGoal);
+    await GoalsService.setCalorieGoal(calorieGoal);
   }
 
   function resetErrors() {
@@ -61,7 +62,13 @@ function DietGoalsScreen() {
         {displayErrorMessage(err)}
         <HealthInfo style={styles.healthInfoContainer} />
       </View>
-      <TextButton style={styles.saveButton} name="Save" onPress={save} />
+      <TextButton
+        style={styles.saveButton}
+        name="Save"
+        onPress={async () => {
+          await save();
+        }}
+      />
     </SafeAreaView>
   );
 }
