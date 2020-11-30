@@ -8,8 +8,10 @@ import Screen from "./Screen";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function AppDateTimePicker({ placeholder, onChange }) {
-  const [date, setDate] = useState("");
+function AppDateTimePicker({ placeholder, init, onChange }) {
+  const initDate = init ? init : "";
+
+  const [date, setDate] = useState(initDate);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [isCanceled, setCanceled] = useState(false);

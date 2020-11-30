@@ -21,9 +21,12 @@ function isValidDate(date) {
   return date instanceof Date && !isNaN(date);
 }
 
-function SleepEntryFormScreen() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+function SleepEntryFormScreen({ navigation, route }) {
+  const initStartDate = route.params ? new Date(route.params.startTime) : "";
+  const initEndDate = route.params ? new Date(route.params.endTime) : "";
+
+  const [startDate, setStartDate] = useState(initStartDate);
+  const [endDate, setEndDate] = useState(initEndDate);
   const [err, setError] = useState({ startDate: false, endDate: false });
 
   function submit() {
@@ -33,6 +36,7 @@ function SleepEntryFormScreen() {
     }
     console.log("start: " + startDate.toLocaleString());
     console.log("end: " + endDate.toLocaleString());
+    navigation.popToTop();
   }
 
   function displayErrorMessage(error) {
@@ -52,6 +56,7 @@ function SleepEntryFormScreen() {
         <AppText style={styles.text}>What time did you start sleeping?</AppText>
         <AppDateTimePicker
           placeholder="Select a time"
+          init={startDate}
           onChange={(date) => {
             setStartDate(date);
             setError({ startDate: false, endDate: false });
@@ -60,6 +65,7 @@ function SleepEntryFormScreen() {
         <AppText style={styles.text}>What time did you wake up?</AppText>
         <AppDateTimePicker
           placeholder="Select a time"
+          init={endDate}
           onChange={(date) => {
             setEndDate(date);
             setError({ startDate: false, endDate: false });

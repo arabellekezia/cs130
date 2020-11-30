@@ -25,6 +25,7 @@ function ElapsedTime({ interval }) {
 function Stopwatch({ onStop }) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [startTime, setStartTime] = useState(0);
+  const [endTime, setEndTime] = useState(0);
   const [timerId, setTimerId] = useState(0);
   const [timerState, setTimerState] = useState(StateEnum.INITIAL);
 
@@ -42,11 +43,12 @@ function Stopwatch({ onStop }) {
 
   function stop() {
     reset();
-    onStop({ elapsedTime, startTime, endTime: Date.now() });
+    onStop({ elapsedTime, startTime, endTime });
   }
 
   function pause() {
     setTimerState(StateEnum.PAUSED);
+    setEndTime(Date.now());
     clearInterval(timerId);
   }
 

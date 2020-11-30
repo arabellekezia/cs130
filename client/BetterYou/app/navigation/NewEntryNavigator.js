@@ -62,7 +62,11 @@ function NewEntryNavigator() {
         options={{ title: "Sleep Timer" }}
       />
 
-      <Stack.Screen name="SleepEntryForm" component={SleepEntryFormScreen} />
+      <Stack.Screen
+        name="SleepEntryForm"
+        component={SleepEntryFormScreen}
+        options={{ title: "Sleep Entry" }}
+      />
 
       <Stack.Screen
         name="FitnessEntryForm"
