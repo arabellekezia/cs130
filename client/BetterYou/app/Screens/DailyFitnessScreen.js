@@ -3,16 +3,12 @@ import { View, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity } fr
 
 import AppText from '../components/AppText';
 import TitleText from '../components/TitleText';
-import AppPieChart from '../components/AppPieChart';
-import AppProgressRing from '../components/AppProgressRing';
+import AppPieChart from "../components/AppPieChart";
 
 import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import ProgressCircle from 'react-native-progress-circle'
-import DailyFitnessEntries from '../components/DailyFitnessEntries';
-import HeaderText from '../components/HeaderText';
-import TextButton from '../components/TextButton';
-import IconButton from '../components/IconButton';
+import DailyFitnessEntries from "../components/DailyFitnessEntries";
 import Icon from '../components/Icon';
 
 const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
@@ -27,10 +23,12 @@ function DailyFitnessScreen(props) {
   
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
         <TitleText style={styles.pageTitle} children="Fitness" />
         <AppText style={styles.dateHeader} children={currentDay} />
-        {/* <HeaderText style={styles.header} children={"Daily summary"} /> */}
 
         <DailyFitnessChart selectedChartType={selectedChartType} />
 
@@ -46,14 +44,25 @@ function DailyFitnessScreen(props) {
             <AppText style={styles.logHeaderText} children={"Activity log"} />
           </View>
           <View style={styles.entryButtonContainer}>
-            <TouchableOpacity onPress={() => {console.log("move to fitness entry types screen")}} activeOpacity={0.7}>
-              <Icon name="plus-box" size={36} iconScale={1} iconColor="#7e7e7e" backgroundColor="white" /> 
+            <TouchableOpacity
+              onPress={() => {
+                console.log("move to fitness entry types screen");
+              }}
+              activeOpacity={0.7}
+            >
+              <Icon
+                name="plus-box"
+                size={36}
+                iconScale={1}
+                iconColor="#7e7e7e"
+                backgroundColor="white"
+              />
             </TouchableOpacity>
-          </View> 
+          </View>
         </View>
-        
+
         <DailyFitnessEntries
-          headerTextStyle={{marginVertical: 0, fontSize: 0}}
+          headerTextStyle={{ marginVertical: 0, fontSize: 0 }}
           entries={getFitnessEntries()}
         />
       </ScrollView>
