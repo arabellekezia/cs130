@@ -4,9 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //import { AntDesign, Ionicons } from "@expo/vector-icons";
 
-import TestScreen1 from '../Screens/TestScreen1';
+
 import TestScreen2 from '../Screens/TestScreen2';
 import TestScreen3 from '../Screens/TestScreen3';
+
+
+import StartScreen from '../Screens/StartScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +39,7 @@ function TabNagivator() {
         inactiveTintColor: 'gray',
       }}
     >
-      <Tab.Screen name="Summary" component={TestScreen1} />
+      <Tab.Screen name="Summary" component={StartScreen} />
       <Tab.Screen name="New Entry" component={TestScreen2} />
       <Tab.Screen name="Goals" component={TestScreen3} />
     </Tab.Navigator>

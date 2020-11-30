@@ -9,7 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import DemoScreen from './app/components/DemoScreen';
-import TestScreen1 from './app/Screens/TestScreen1';
+import StartScreen from './app/Screens/StartScreen';
 import TestScreen2 from './app/Screens/TestScreen2';
 import TabNagivator from './app/components/TabNagivator';
 import LoginScreen from "./app/Screens/LoginScreen";
@@ -32,20 +32,17 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    // <NavigationContainer>
-    //   <TabNagivator />
-    //   {/*<Stack.Navigator initialRouteName="Home">
-    //     <Stack.Screen name="Home" component={TestScreen1} />
-    //     <Stack.Screen name="Details" component={TestScreen2} />
-    // </Stack.Navigator>*/}
-    // </NavigationContainer>
-    // <TestScreen1 />
+    /* Saving this up top to remember how to call the tab navigator*/
+    <NavigationContainer>
+       <TabNagivator />
+    </NavigationContainer>
+    
+    
     //<LoginScreen />
     
-    <WeeklyFitnessScreen />
+    //<WeeklyFitnessScreen />
     //<WeeklySleepScreen />
     //<WeeklyNutritionScreen />
-
 
     //<DailyFitnessScreen />
     //<DailySleepScreen />
@@ -60,6 +57,7 @@ export default function App() {
     // <LoginScreen />
     //<SignupScreen />
     // <DemoScreen />
+    //<StartScreen />
   );
 }
 

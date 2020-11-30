@@ -28,10 +28,10 @@ const data = {
   legend: ["Hours Slept"], // optional
 };
 
-function TestScreen1( {navigation} ) {
+function StartScreen( {navigation} ) {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView alwaysBounceVertical={false}>
         <TitleText style={styles.titletexts}>Daily Summary</TitleText>
         <AppText>Friday, November 20th 2020</AppText>
         <View style={styles.listitems}>
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TestScreen1;
+export default StartScreen;

@@ -20,6 +20,7 @@ function Icon({
           backgroundColor,
           borderWidth: border, // 1 if border is provided, 0 otherwise
           borderColor: iconColor,
+          margin: 5,
         },
         styles.iconContainer,
       ]}
