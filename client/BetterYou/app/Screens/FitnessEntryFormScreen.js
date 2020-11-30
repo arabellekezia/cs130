@@ -8,10 +8,32 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import ErrorMessage from "../components/ErrorMessage";
+
+function isValidInput(category, activeTime, setError) {
+  const validCategory = isValidCategory(category);
+  const validActiveTime = isValidActiveTime(activeTime);
+  setError({ category: !validCategory, activeTime: !validActiveTime });
+  return validCategory && validActiveTime;
+}
+
+function isNumber(value) {
+  return typeof value === "number" && isFinite(value);
+}
+
+function isValidActiveTime(activeTime) {
+  return isNumber(activeTime) && activeTime > 0;
+}
+
+function isValidCategory(category) {
+  return category.length > 0;
+}
 
 function FitnessEntryFormScreen() {
   const [category, setCategory] = useState("");
   const [activeTime, setActiveTime] = useState(0);
+  const [err, setError] = useState({ category: false, activeTime: false });
+
   const activities = [
     { label: "Cycling", value: "Bicycling: 12-13.9 mph" },
     { label: "Hiking", value: "Hiking: cross country" },
@@ -21,6 +43,23 @@ function FitnessEntryFormScreen() {
     { label: "Walking", value: "Walk: 15 min/mile" },
     { label: "Weightlifting", value: "Weightlifting: general" },
   ];
+
+  function submit() {
+    if (!isValidInput(category, activeTime, setError)) {
+      console.log(err);
+      return;
+    }
+    console.log(category, activeTime);
+  }
+
+  function displayErrorMessage(error) {
+    if (error.category) {
+      return <ErrorMessage message="Must select a category." />;
+    }
+    if (error.activeTime) {
+      return <ErrorMessage message="Must input a number greater than 0." />;
+    }
+  }
 
   return (
     <Screen style={styles.container}>
@@ -37,18 +76,26 @@ function FitnessEntryFormScreen() {
           containerStyle={styles.dropDownContainer}
           placeholderStyle={styles.dropDownPlaceholder}
           dropDownStyle={styles.dropDownList}
-          onChangeItem={(item) => setCategory(item.value)}
+          onChangeItem={(item) => {
+            setCategory(item.value);
+            setError({ category: false, activeTime: false });
+          }}
         />
+
         <AppText style={styles.text}>How many minutes were you active?</AppText>
         <AppTextInput
           placeholder="30 minutes"
           keyboardType="numeric"
-          onChangeText={(activeTime) => setActiveTime(activeTime)}
+          onChangeText={(activeTime) => {
+            setActiveTime(Number.parseFloat(activeTime));
+            setError({ category: false, activeTime: false });
+          }}
         />
+        {displayErrorMessage(err)}
         <TextButton
           style={styles.button}
           name="Submit"
-          onPress={() => console.log(category, activeTime)}
+          onPress={() => submit()}
         />
       </View>
     </Screen>

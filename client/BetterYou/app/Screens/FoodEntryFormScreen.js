@@ -12,7 +12,6 @@ import colors from "../config/colors";
 
 function isValidInput(numberOfServings, setError) {
   const validNumber = isNumber(numberOfServings) && numberOfServings > 0;
-  console.log(validNumber);
   setError({ numberOfServings: !validNumber });
   return validNumber;
 }
@@ -28,14 +27,14 @@ function FoodEntryFormScreen() {
   function submit() {
     if (!isValidInput(numberOfServings, setError)) {
       console.log(err);
-      setError({ numberOfServings: true });
+      // setError({ numberOfServings: true });
       return;
     }
     console.log(`post number of servings to endpoint ${numberOfServings}`);
   }
 
-  function displayErrorMessage(err) {
-    if (err.numberOfServings) {
+  function displayErrorMessage(error) {
+    if (error.numberOfServings) {
       return <ErrorMessage message="Must be a number greater than 0." />;
     }
   }
