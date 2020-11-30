@@ -7,10 +7,38 @@ import NutritionFacts from "../components/NutritionFacts";
 import Screen from "../components/Screen";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
+import ErrorMessage from "../components/ErrorMessage";
 import colors from "../config/colors";
+
+function isValidInput(numberOfServings, setError) {
+  const validNumber = isNumber(numberOfServings) && numberOfServings > 0;
+  console.log(validNumber);
+  setError({ numberOfServings: !validNumber });
+  return validNumber;
+}
+
+function isNumber(value) {
+  return typeof value === "number" && isFinite(value);
+}
 
 function FoodEntryFormScreen() {
   const [numberOfServings, setNumberOfServings] = useState(0);
+  const [err, setError] = useState({ numberOfServings: false });
+
+  function submit() {
+    if (!isValidInput(numberOfServings, setError)) {
+      console.log(err);
+      setError({ numberOfServings: true });
+      return;
+    }
+    console.log(`post number of servings to endpoint ${numberOfServings}`);
+  }
+
+  function displayErrorMessage(err) {
+    if (err.numberOfServings) {
+      return <ErrorMessage message="Must be a number greater than 0." />;
+    }
+  }
 
   const nutritionData = {
     label: "Jamba Juice Orange Carrot Karma Smoothie",
@@ -33,14 +61,17 @@ function FoodEntryFormScreen() {
         <AppTextInput
           placeholder="1 serving"
           keyboardType="numeric"
-          onChangeText={(text) => setNumberOfServings(text)}
+          onChangeText={(text) => {
+            setNumberOfServings(Number.parseFloat(text));
+            setError({ numberOfServings: false });
+          }}
         />
+        {displayErrorMessage(err)}
         <TextButton
+          style={styles.textButton}
           name="Submit"
           onPress={() => {
-            console.log(
-              `post number of servings to endpoint ${numberOfServings}`
-            );
+            submit();
           }}
         />
       </View>
@@ -58,6 +89,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  textButton: {
+    marginTop: 10,
   },
 });
 
