@@ -7,9 +7,43 @@ import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import TitleText from "../components/TitleText";
 import DailyFitnessEntries from "../components/DailyFitnessEntries";
+import HeaderText from "../components/HeaderText";
+import DailyBreakdownList from "../components/DailyBreakdownList";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 const { totalActiveTime, totalCaloriesBurned } = getWeeklyStats();
+
+//TODO: change this hard coded thing
+const daysinWeekBreakdown = [
+  {
+    title: "Sunday",
+    description: "540 Cals",
+  },
+  {
+    title: "Monday",
+    description: "540 Cals",
+  },
+  {
+    title: "Tuesday",
+    description: "540 Cals",
+  },
+  {
+    title: "Wednesday",
+    description: "540 Cals",
+  },
+  {
+    title: "Thursday",
+    description: "540 Cals",
+  },
+  {
+    title: "Friday",
+    description: "540 Cals",
+  },
+  {
+    title: "Saturday",
+    description: "540 Cals",
+  },
+];
 
 function WeeklyFitnessScreen() {
   const currentWeek = getDaysInWeek();
@@ -20,7 +54,7 @@ function WeeklyFitnessScreen() {
 
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
         <TitleText style={styles.header} children="Fitness Trends" />
         <FitnessBarChart
           selectedChartType={selectedChartType}
@@ -33,6 +67,12 @@ function WeeklyFitnessScreen() {
           onTabPress={(chartType) => setSelectedChartType(chartType)}
         />
         {/* for loop over this when we make the actual response */}
+        {/* To Evan, I feel like we could leave the logged entries to the daily ones and have like a list of the days in summary.
+            From there we can have navigations to allow transition from this weekly screen to a breakdown of each day.
+            I will try to get to it when I'm applying navigations and if it's too difficult we can keep this, if not I think this
+            would prevent the Daily pages of fitness being too repetitive with the weekly ones.
+        */}
+        {/*
         <DailyFitnessEntries
           style={styles.dailyEntries}
           day="Sunday, Nov. 22"
@@ -72,6 +112,11 @@ function WeeklyFitnessScreen() {
               duration: "00:20:07",
             },
           ]}
+        />
+        */}
+        <HeaderText style={styles.header} children={"Daily Breakdowns"} />
+        <DailyBreakdownList 
+          entries={daysinWeekBreakdown}
         />
       </ScrollView>
     </SafeAreaView>
@@ -159,11 +204,11 @@ function getWeeklyStats() {
 }
 
 function getWeeklyHeader(currentWeek) {
-  return `${currentWeek[0].format("MMMM D")} - ${currentWeek[6].format("D")}`;
+  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format("MMM D, YYYY")}`;
 }
 
 const activeTimeData = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   datasets: [
     {
       data: [60, 20, 30, 30, 0, 20, 26],

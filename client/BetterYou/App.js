@@ -13,6 +13,16 @@ import TestScreen1 from './app/Screens/TestScreen1';
 import TestScreen2 from './app/Screens/TestScreen2';
 import TabNagivator from './app/components/TabNagivator';
 import LoginScreen from "./app/Screens/LoginScreen";
+import WeeklyFitnessScreen from './app/Screens/WeeklyFitnessScreen';
+import DailyNutritionScreen from './app/Screens/DailyNutritionScreen';
+import DailySleepScreen from './app/Screens/DailySleepScreen';
+import WeeklySleepScreen from './app/Screens/WeeklySleepScreen';
+import DietGoalsScreen from './app/Screens/DietGoalsScreen';
+import SleepEntryFormScreen from './app/Screens/SleepEntryFormScreen';
+import FitnessGoalsScreen from './app/Screens/FitnessGoalsScreen';
+import FitnessGoalEntryTypeSelectScreen from './app/Screens/FitnessGoalEntryTypeSelectScreen';
+import DailyFitnessScreen from './app/Screens/DailyFitnessScreen';
+import WeeklyNutritionScreen from './app/Screens/WeeklyNutritionScreen';
 
 
 
@@ -29,7 +39,21 @@ export default function App() {
     // </Stack.Navigator>*/}
     // </NavigationContainer>
     // <TestScreen1 />
-    <LoginScreen />
+    //<LoginScreen />
+    
+    <WeeklyFitnessScreen />
+    //<WeeklySleepScreen />
+    //<WeeklyNutritionScreen />
+
+
+    //<DailyFitnessScreen />
+    //<DailySleepScreen />
+    //<DailyNutritionScreen />
+    
+    //<DietGoalsScreen />
+    //<SleepEntryFormScreen />
+    //<FitnessGoalsScreen />
+    //<FitnessGoalEntryTypeSelectScreen />
 
     // <DemoScreen /> 
   );

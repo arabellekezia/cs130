@@ -11,6 +11,7 @@ function AppProgressRing({
   radius = 32,
   backgroundColor = "#ffffff",
   scaleDimensions = 1,
+  hideLegend,
 }) {
   return (
     <ProgressChart
@@ -27,6 +28,7 @@ function AppProgressRing({
         labelColor: labelColor,
       }}
       style={styles.container}
+      hideLegend={hideLegend}
     />
   );
 }

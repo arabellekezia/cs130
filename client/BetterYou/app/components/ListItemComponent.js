@@ -3,16 +3,17 @@ import { StyleSheet, Text , View, TouchableOpacity, Dimensions } from 'react-nat
 import { AntDesign } from "@expo/vector-icons";
 
 
-import TitleText from "./TitleText";
+//import TitleText from "./TitleText";
 import AppText from "./AppText";
-import Icon from "./Icon";
+import HeaderText from './HeaderText';
+//import Icon from "./Icon";
 
 function ListItemComponent({title, icon, description, navigation, destination}) {
     return (
       <View style={styles.container}>
           <TouchableOpacity style={styles.titlerow} onPress={() => console.log({destination})}>
             {icon}
-            <TitleText style={styles.titletext}>{title}</TitleText>
+            <HeaderText style={styles.headertext}>{title}</HeaderText>
               <AntDesign style={styles.arrow} name="right" size={24} color="black" />
           </TouchableOpacity>
           <AppText>
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
       //justifyContent: 'flex-start',
     },
     descriptiontext: {
-      fontSize: 22,
+      fontSize: 15,
       lineHeight: 30,
       top: 10,
       textAlign: "justify"
@@ -52,9 +53,9 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       width: Dimensions.get('window').width * .95,
     },
-    titletext: {
+    headertext: {
       color: "red",
-      left: 10,
+      //left: 10,
     },
 })
 
