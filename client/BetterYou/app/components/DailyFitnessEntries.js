@@ -3,11 +3,14 @@ import { StyleSheet, View } from "react-native";
 import FitnessEntry from "./FitnessEntry";
 import AppText from "./AppText";
 
-function DailyFitnessEntries({ style, day, entries }) {
+function DailyFitnessEntries({ style, day, entries, headerTextStyle }) {
   return (
     <View style={{ ...styles.container, ...style }}>
       <View style={styles.headerContainer}>
-        <AppText style={styles.headerText} children={day} />
+        <AppText
+          style={{ ...styles.headerText, ...headerTextStyle }}
+          children={day}
+        />
       </View>
       {entries.map((entry, key) => {
         const {
