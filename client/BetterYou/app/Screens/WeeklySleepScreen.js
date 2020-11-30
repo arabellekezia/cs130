@@ -51,33 +51,41 @@ function WeeklySleepScreen() {
 
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container} >
-        <TitleText style={styles.pagetitle} children="Weekly Sleep Trends" />
-        <AppText style={styles.dateheader} children={getWeeklyHeader(currentWeek)} />
-        <HeaderText style={styles.header} children={"Summary"} />
-
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
+        <TitleText style={styles.pageTitle} children="Sleep Trends" />
+        <AppText
+          style={styles.dateHeader}
+          children={getWeeklyHeader(currentWeek)}
+        />
+        <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} />
         <View style={styles.chartcontainer}>
-          <AppText style={{marginLeft: 10,}}>
+          <AppText style={styles.smallSummaryText}>
             You averaged
             <AppText style={styles.boldtext} children={` ${sleepAvg} hours `} />
             of sleep this week.
-          </AppText> 
-          <AppBarChart 
+          </AppText>
+          <AppBarChart
             style={styles.barChart}
             yAxisSuffix="min"
             data={mockSleepData}
             color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
             //scaleDimensions={0.9}
           />
-          <AppText>
+          <AppText style={styles.smallSummaryText}>
             Your goal was
-            <AppText style={styles.boldtext} children={` ${sleepGoal} hours `} />
-            of sleep. 
+            <AppText
+              style={styles.boldtext}
+              children={` ${sleepGoal} hours `}
+            />
+            of sleep.
           </AppText>
           {printSleepDiffText(sleepDiff)}
         </View>
 
-        <HeaderText style={styles.header} children={"Average Stats"} />
+        <HeaderText style={styles.sectionHeader} children={"Average Stats"} />
         <View style={styles.sleepsummary}>
           {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
           <SummaryItem
@@ -85,7 +93,8 @@ function WeeklySleepScreen() {
             size={40}
             detail="11:34"
             unit="PM"
-            label="Average Bedtime"
+            label={`Average\nbedtime`}
+            iconBackgroundColor="#d5f7f7"
             style={styles.summaryindividual}
           />
           <SummaryItem
@@ -93,7 +102,8 @@ function WeeklySleepScreen() {
             size={40}
             detail="7:10"
             unit="AM"
-            label="Average Wake Time"
+            label={`Average\nwake time`}
+            iconBackgroundColor="#d5f7f7"
             style={styles.summaryindividual}
           />
           <SummaryItem
@@ -101,15 +111,17 @@ function WeeklySleepScreen() {
             size={40}
             detail={sleepAvg}
             unit="Hours"
-            label="Average    Time Slept"
+            label={`Average\nduration`}
+            iconBackgroundColor="#d5f7f7"
             style={styles.summaryindividual}
           />
         </View>
-        
-        <HeaderText style={styles.header} children={"Daily Breakdowns"} />
-        <DailyBreakdownList 
-          entries={daysinWeekBreakdown}
+
+        <HeaderText
+          style={styles.sectionHeader}
+          children={"Daily Breakdown"}
         />
+        <DailyBreakdownList entries={daysinWeekBreakdown} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -117,44 +129,43 @@ function WeeklySleepScreen() {
 
 const styles = StyleSheet.create({
   barChart: {
-    //marginVertical: 10,
     alignItems: "center",
   },
   boldtext: {
     fontWeight: "bold",
   },
   chartcontainer: {
-    width: Dimensions.get('window').width * .9,
-    marginBottom: 15,
-    //flex: 1,
+    width: Dimensions.get("window").width * 0.9,
   },
   container: {
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
-  dateheader: {
+  dateHeader: {
     alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 12,
-  },
-  header: {
-    alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 10,
-  },
-  pagetitle: {
-    alignSelf: "flex-start",
-    marginTop: "10%",
     marginLeft: "5%",
+    fontSize: 16
+  },
+  sectionHeader: {
+    alignSelf: "flex-start",
+    marginHorizontal: 20,
+    marginTop: "10%",
+    marginBottom: "5%"
+  },
+  smallSummaryText: {
+    marginLeft: 10 
+  }, 
+  pageTitle: {
+    alignSelf: "flex-start",
+    marginTop: "15%",
+    marginLeft: "5%", 
     marginBottom: 12,
   },
   sleepsummary: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    //flex: 1,
     width: "90%",
-    marginBottom: 25,
   },
   summaryindividual: {
     borderWidth: 1,
@@ -162,7 +173,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: "#d5f7f7",
   },
-})
+});
 
 function getDaysInWeek() {
   const weekStart = moment().startOf("week");
@@ -193,22 +204,20 @@ function calculateAverage(dataset) {
 function printSleepDiffText(diff) {
   if (diff > 0) {
     return(
-      <AppText>
+      <AppText style={styles.smallSummaryText}>
         On average, you slept
         <AppText style={styles.boldtext} children={` ${diff} hours `}/>
         less than your goal.
       </AppText>
     );
-
   } else {
     return(
-      <AppText>
+      <AppText style={styles.smallSummaryText}>
         On average, you slept
         <AppText style={styles.boldtext} children={` ${Math.abs(diff)} hours `}/>
         more than your goal.
       </AppText>
     );
-
   }
 }
 

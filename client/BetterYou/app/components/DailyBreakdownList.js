@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     width: "100%",
   },
-})
+});
 
 export default DailyBreakdownList;

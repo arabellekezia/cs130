@@ -4,13 +4,13 @@ import { View, StyleSheet} from "react-native";
 import AppText from "./AppText";
 import Icon from "./Icon";
 
-function SummaryItem({ name, size, iconColor = "black", detail, unit, label, secondaryDetail, secondaryUnit, style }) {
+function SummaryItem({ name, size, iconColor = "black", iconBackgroundColor = "white", detail, unit, label, secondaryDetail, secondaryUnit, style }) {
   return (
     <View style={{...styles.container, ...style}}>
       <Icon
         name={name}
         size={size}
-        backgroundColor="white"
+        backgroundColor={iconBackgroundColor}
         iconColor={iconColor}
         iconScale={0.9}
       />

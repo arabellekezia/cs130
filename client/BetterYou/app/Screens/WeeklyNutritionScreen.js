@@ -54,12 +54,12 @@ function WeeklyNutritionScreen(props) {
   return (
     <SafeAreaView>
       <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-        <TitleText style={styles.pagetitle} children="Weekly Nutrition" />
-        <AppText style={styles.dateheader} children={getWeeklyHeader(currentWeek)} />
-        <HeaderText style={styles.header} children={"Summary"} />
+        <TitleText style={styles.pageTitle} children="Weekly Nutrition" />
+        <AppText style={styles.dateHeader} children={getWeeklyHeader(currentWeek)} />
+        <HeaderText style={styles.sectionHeader} children={"Summary"} />
 
         <View style={styles.chartcontainer}>
-          <AppText style={{marginLeft: 10,}}>
+          <AppText style={styles.smallSummaryText}>
             You consumed an average of
             <AppText style={styles.boldtext} children={` ${calAvg} Calories `} />
             per day this week.
@@ -71,13 +71,13 @@ function WeeklyNutritionScreen(props) {
             color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
             //scaleDimensions={0.9}
           />
-          <AppText>
+          <AppText style={styles.smallSummaryText}>
             Your daily calorie goal was
             <AppText style={styles.boldtext} children={` ${calGoal} Calories.`} /> 
           </AppText>
           {printCalDiffText(calDiff)}
         </View>
-        <HeaderText style={styles.header} children={"Macronutrient Averages"} />
+        <HeaderText style={styles.sectionHeader} children={"Macronutrient Averages"} />
         <View style={styles.sleepsummary}>
           {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
           <SummaryItem
@@ -85,28 +85,31 @@ function WeeklyNutritionScreen(props) {
             size={40}
             detail="200"
             unit="grams"
-            label="Average Carbs"
+            label={`Average\nCarbs`}
             style={styles.summaryindividual}
+            iconBackgroundColor="#d5f7f7"
           />
           <SummaryItem
             name="sausage"
             size={40}
             detail="140"
             unit="grams"
-            label="Average Protein"
+            label={`Average\nProtein`}
             style={styles.summaryindividual}
+            iconBackgroundColor="#d5f7f7"
           />
           <SummaryItem
             name="hamburger"
             size={40}
             detail="50"
             unit="grams"
-            label="Average     Fat"
+            label={`Average\nFat`}
             style={styles.summaryindividual}
+            iconBackgroundColor="#d5f7f7"
           />
         </View>
 
-        <HeaderText style={styles.header} children={"Daily Breakdowns"} />
+        <HeaderText style={styles.sectionHeader} children={"Daily Breakdown"} />
         <DailyBreakdownList 
           entries={daysinWeekBreakdown}
         />
@@ -117,7 +120,6 @@ function WeeklyNutritionScreen(props) {
 
 const styles = StyleSheet.create({
   barChart: {
-    marginVertical: 10,
     alignItems: "center",
   },
   boldtext: {
@@ -125,36 +127,33 @@ const styles = StyleSheet.create({
   },
   chartcontainer: {
     width: Dimensions.get('window').width * .9,
-    marginBottom: 15,
-    //flex: 1,
   },
   container: {
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
-  dateheader: {
+  dateHeader: {
     alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 12,
-  },
-  header: {
-    alignSelf: "flex-start",
-    marginLeft: "7%",
-    marginBottom: 10,
-  },
-  pagetitle: {
-    alignSelf: "flex-start",
-    marginTop: "10%",
     marginLeft: "5%",
+    fontSize: 16
+  },
+  sectionHeader: {
+    alignSelf: "flex-start",
+    marginHorizontal: 20,
+    marginTop: "10%",
+    marginBottom: "5%"
+  },
+  pageTitle: {
+    alignSelf: "flex-start",
+    marginTop: "15%",
+    marginLeft: "5%", 
     marginBottom: 12,
   },
   sleepsummary: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    //flex: 1,
     width: "90%",
-    marginBottom: 25,
   },
   summaryindividual: {
     borderWidth: 1,
@@ -162,6 +161,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: "#d5f7f7", //should change accordingly
   },
+  smallSummaryText: {
+    marginLeft: 10 
+  }, 
 })
 
 function getDaysInWeek() {
@@ -192,7 +194,7 @@ function calculateAverage(dataset) {
 function printCalDiffText(diff) {
   if (diff > 0) {
     return(
-      <AppText>
+      <AppText style={styles.smallSummaryText}>
         Your average daily consumption was
         <AppText style={styles.boldtext} children={` ${diff} Calories `}/>
         less than your goal.
@@ -201,7 +203,7 @@ function printCalDiffText(diff) {
 
   } else {
     return(
-      <AppText>
+      <AppText style={styles.smallSummaryText}>
         Your average daily consumption was
         <AppText style={styles.boldtext} children={` ${Math.abs(diff)} Calories `}/>
         more than your goal.

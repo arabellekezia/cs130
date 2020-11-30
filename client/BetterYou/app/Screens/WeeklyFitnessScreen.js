@@ -54,8 +54,15 @@ function WeeklyFitnessScreen() {
 
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-        <TitleText style={styles.header} children="Fitness Trends" />
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
+        <TitleText style={styles.pageTitle} children="Fitness Trends" />
+        <AppText
+          style={styles.dateHeader}
+          children={getWeeklyHeader(currentWeek)}
+        />
         <FitnessBarChart
           selectedChartType={selectedChartType}
           currentWeek={currentWeek}
@@ -114,20 +121,24 @@ function WeeklyFitnessScreen() {
           ]}
         />
         */}
-        <HeaderText style={styles.header} children={"Daily Breakdowns"} />
-        <DailyBreakdownList 
-          entries={daysinWeekBreakdown}
+        <HeaderText style={styles.dailyBreakdownHeader} 
+          children={"Daily Breakdown"}
         />
+        <DailyBreakdownList entries={daysinWeekBreakdown} />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 function FitnessBarChart({ selectedChartType, currentWeek }) {
+  const barChartTitle = selectedChartType === BarchartType.ACTIVE_TIME
+  ? "Active Minutes Per Day"
+  : "Calories Burned Per Day";
+
   const totalWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
-      ? `${totalActiveTime} Active Minutes`
-      : `${totalCaloriesBurned} Calories Burned`;
+      ? `${totalActiveTime} minutes`
+      : `${totalCaloriesBurned} calories`;
 
   const barChartData =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -141,46 +152,72 @@ function FitnessBarChart({ selectedChartType, currentWeek }) {
 
   return (
     <View style={styles.barChartContainer}>
-      <AppText
-        style={styles.weekHeader}
-        children={getWeeklyHeader(currentWeek)}
-      />
-      <AppText style={styles.weeklyMetric} children={totalWeeklyMetric} />
+      <AppText style={styles.weeklyMetric} children={barChartTitle} />
       <AppBarChart
         style={styles.barChart}
         yAxisSuffix="min"
         data={barChartData}
         color={barChartColor}
       />
+      {/* TODO: find average active time during the week */}
+      <View style={styles.smallSummaryContainer}>
+        {selectedChartType === BarchartType.ACTIVE_TIME && 
+        <AppText>
+          You exercised for a total of 
+          <AppText style={styles.boldtext} children={` ${totalWeeklyMetric} `} />
+          this week.
+        </AppText>}
+
+        {selectedChartType === BarchartType.CALORIES_BURNED && 
+        <AppText>
+          You burned a total of 
+          <AppText style={styles.boldtext} children={` ${totalWeeklyMetric} `} />
+          this week.
+        </AppText>}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  boldtext: {
+    fontWeight: "bold",
+  },
   container: {
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
+  pageTitle: {
+    alignSelf: "flex-start",
+    marginTop: "15%",
+    marginLeft: "5%", 
+    marginBottom: 12,
+  },
+  dateHeader: {
+    alignSelf: "flex-start",
+    marginLeft: "5%",
+    fontSize: 16, 
+    marginBottom: "5%"
+  },
+  dailyBreakdownHeader: {
     alignSelf: "flex-start",
     marginTop: "10%",
-    marginLeft: "5%",
-    marginBottom: 12,
+    marginHorizontal: 20,
+    marginBottom: 20,
   },
   barChartContainer: {
     marginVertical: 10,
     alignItems: "center",
     justifyContent: "center",
   },
-  weekHeader: {
-    fontSize: 19,
-    fontWeight: "bold",
-    marginBottom: 2,
-  },
   weeklyMetric: {
     textAlign: "center",
-    fontSize: 15,
+    fontSize: 18,
+    fontWeight: "bold"
+  },
+  smallSummaryContainer: {
+    marginVertical: 10
   },
   barChart: {
     marginVertical: 10,

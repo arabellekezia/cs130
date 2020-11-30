@@ -10,53 +10,67 @@ import HeaderText from './HeaderText';
 
 function ListItemComponent({title, icon, description, navigation, destination}) {
     return (
-      <View style={styles.container}>
-          <TouchableOpacity style={styles.titlerow} onPress={() => console.log({destination})}>
-            {icon}
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => console.log({ destination })}
+      >
+        <View style={styles.titlerow}> 
+          {icon}
+          <View style={styles.dayOfWeekContainer}> 
             <HeaderText style={styles.headertext}>{title}</HeaderText>
-              <AntDesign style={styles.arrow} name="right" size={24} color="black" />
-          </TouchableOpacity>
-          <AppText>
-            <AppText style={styles.descriptiontext}>
-              {description}
-            </AppText>
-          </AppText>
-      </View>
+          </View>
+          <View style={styles.arrowContainer}> 
+            <AntDesign
+              name="right"
+              size={24}
+              color="black"
+            />
+          </View>
+        </View>
+        <AppText>
+          <AppText style={styles.descriptiontext}>{description}</AppText>
+        </AppText>
+      </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
-    arrow: {
-      position: "absolute",
-      //right: 10,
-      right: 10,
-      top: 5
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      //flexDirection: "row",
-      width: Dimensions.get('window').width * .95,
-      padding: 7,
-      margin: 5,
-      borderRadius: 10,
-      //alignItems: 'flex-start',
-      //justifyContent: 'flex-start',
-    },
-    descriptiontext: {
-      fontSize: 15,
-      lineHeight: 30,
-      top: 10,
-      textAlign: "justify"
-    },
-    titlerow: {
-      flexDirection: "row",
-      width: Dimensions.get('window').width * .95,
-    },
-    headertext: {
-      color: "red",
-      //left: 10,
-    },
-})
+  arrowContainer: {
+    flex: 1, 
+    flexDirection: "row", 
+    justifyContent: "flex-end", 
+   }, 
+  container: {
+    width: Dimensions.get("window").width * 0.9,
+    marginLeft: 20,
+    marginBottom: 20,
+    padding: 12,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderWidth: 1
+  },
+  descriptiontext: {
+    fontSize: 15,
+    lineHeight: 30,
+    top: 10,
+    textAlign: "justify",
+    color: "#474747"  
+  },
+  titlerow: {
+    flexDirection: "row",
+    justifyContent: "space-between", 
+    alignItems: 'center',
+  },
+  dayOfWeekContainer: {
+    flex: 1, 
+    flexDirection: "row", 
+    justifyContent: "flex-start"
+  }, 
+  headertext: {
+    color: "black"  
+  },
+});
 
 export default ListItemComponent;
