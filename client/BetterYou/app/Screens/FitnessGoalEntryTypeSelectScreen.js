@@ -8,7 +8,7 @@ import HeaderText from "../components/HeaderText";
 import IconButton from "../components/IconButton";
 import Screen from "../components/Screen";
 
-function FitnessGoalEntryTypeSelectScreen(props) {
+function FitnessGoalEntryTypeSelectScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <HeaderText>Select an input method</HeaderText>
@@ -19,7 +19,7 @@ function FitnessGoalEntryTypeSelectScreen(props) {
           label="Workout timer"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to timer screen ")}
+          onPress={() => navigation.navigate("FitnessTimer")}
         />
         <IconButton
           name="fountain-pen-tip"
@@ -27,7 +27,7 @@ function FitnessGoalEntryTypeSelectScreen(props) {
           label="Manual input"
           iconColor={colors.dark}
           border={2}
-          onPress={() => console.log("navigate to manual input screen")}
+          onPress={() => navigation.navigate("FitnessEntryForm")}
         />
       </View>
     </Screen>

@@ -29,9 +29,11 @@ function isValidCategory(category) {
   return category.length > 0;
 }
 
-function FitnessEntryFormScreen() {
+function FitnessEntryFormScreen({ navigation, route }) {
+  const initTime = route.params ? route.params.elapsedTime / 1000 / 60 : 0;
+
   const [category, setCategory] = useState("");
-  const [activeTime, setActiveTime] = useState(0);
+  const [activeTime, setActiveTime] = useState(initTime);
   const [err, setError] = useState({ category: false, activeTime: false });
 
   const activities = [
@@ -50,6 +52,7 @@ function FitnessEntryFormScreen() {
       return;
     }
     console.log(category, activeTime);
+    navigation.popToTop();
   }
 
   function displayErrorMessage(error) {
@@ -85,6 +88,7 @@ function FitnessEntryFormScreen() {
         <AppText style={styles.text}>How many minutes were you active?</AppText>
         <AppTextInput
           placeholder="30 minutes"
+          value={activeTime > 0 ? activeTime.toString() : ""}
           keyboardType="numeric"
           onChangeText={(activeTime) => {
             setActiveTime(Number.parseFloat(activeTime));

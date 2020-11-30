@@ -7,15 +7,16 @@ import colors from "../config/colors";
 import Screen from "../components/Screen";
 import Stopwatch from "../components/Stopwatch";
 
-function FitnessTimerScreen(props) {
+function FitnessTimerScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <Stopwatch
-        onStop={(elapsedTimeInMilliseconds) =>
+        onStop={({ elapsedTime }) => {
           console.log(
-            `Navigate to manual input form screen-- Elapsed time (milliseconds): ${elapsedTimeInMilliseconds}`
-          )
-        }
+            `Navigate to manual input form screen-- Elapsed time (milliseconds): ${elapsedTime}`
+          );
+          navigation.navigate("FitnessEntryForm", { elapsedTime: elapsedTime });
+        }}
       />
     </Screen>
   );

@@ -5,7 +5,7 @@ import EntryCategorySelectScreen from "../Screens/EntryCategorySelectScreen";
 import DietGoalEntryTypeSelectScreen from "../Screens/DietGoalEntryTypeSelectScreen";
 import FitnessGoalEntryTypeSelectScreen from "../Screens/FitnessGoalEntryTypeSelectScreen";
 import SleepGoalEntryTypeSelectScreen from "../Screens/SleepGoalEntryTypeScreen";
-import FitnessTimerScreen from "../Screens/SleepTimerScreen";
+import FitnessTimerScreen from "../Screens/FitnessTimerScreen";
 import SleepTimerScreen from "../Screens/SleepTimerScreen";
 import SleepEntryFormScreen from "../Screens/SleepEntryFormScreen";
 import FitnessEntryFormScreen from "../Screens/FitnessEntryFormScreen";
@@ -55,7 +55,11 @@ function NewEntryNavigator() {
         }}
       />
 
-      <Stack.Screen name="FitnessTimer" component={FitnessTimerScreen} />
+      <Stack.Screen
+        name="FitnessTimer"
+        component={FitnessTimerScreen}
+        options={{ title: "Workout Timer" }}
+      />
       <Stack.Screen
         name="SleepTimer"
         component={SleepTimerScreen}
@@ -71,6 +75,7 @@ function NewEntryNavigator() {
       <Stack.Screen
         name="FitnessEntryForm"
         component={FitnessEntryFormScreen}
+        options={{ title: "Fitness Entry" }}
       />
       <Stack.Screen
         name="FoodDatabaseSearch"
