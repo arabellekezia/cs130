@@ -38,10 +38,12 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    width: Dimensions.get('window').width * .85,
+    width: Dimensions.get("window").width * 0.9,
+    paddingVertical: 6, 
+    paddingHorizontal: 12, 
   },
   header: {
-    paddingLeft: 7,
+    paddingLeft: 4,
     width: "100%",
   },
   headertext: {
@@ -54,20 +56,20 @@ const styles = StyleSheet.create({
     // width: Dimensions.get('window').width * .65,
     width: "90%",
   },
-  foodstats:{
+  foodstats: {
     flexDirection: "row",
     justifyContent: "space-between",
     //width: Dimensions.get('window').width * .80,
     //width: "80%",
     paddingBottom: 10,
-    //paddingLeft: 5,
-    paddingHorizontal: 5,
+    // paddingLeft: 5,
+    paddingHorizontal: 8,
   },
   headerunderline: {
     marginVertical: 15,
     borderBottomColor: "#dddddd",
     borderBottomWidth: 1,
-    width: "95%",
+    width: "100%",
   },
   percentagetext: {
     //marginBottom: 10,
@@ -76,7 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
   },
-
 });
 
 
