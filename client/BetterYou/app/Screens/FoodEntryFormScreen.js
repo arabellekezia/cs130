@@ -3,20 +3,34 @@ import { StyleSheet, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import HeaderText from "../components/HeaderText";
+import NutritionFacts from "../components/NutritionFacts";
 
 import Screen from "../components/Screen";
 import TextButton from "../components/TextButton";
+import TitleText from "../components/TitleText";
 import colors from "../config/colors";
 
 function FoodEntryFormScreen() {
   const [numberOfServings, setNumberOfServings] = useState(0);
 
   const selectedFood = "Chicken Casserole";
-  // TO DO: add nutrition label or similar component (incl food serving sizes at min)
+  const nutritionData = {
+    label: "Jamba Juice Orange Carrot Karma Smoothie",
+    servingSize: "22 fl oz",
+    nutrients: {
+      calories: 41.499027861352765,
+      protein: 0.6148004127607817,
+      fat: 0.15370010319019542,
+      carbohydrates: 10.144206810552898,
+      fiber: 0.6148004127607817,
+    },
+  };
+
   return (
     <Screen>
       <View style={{ padding: 10 }}>
-        <HeaderText style={styles.header}>{selectedFood}</HeaderText>
+        <TitleText style={styles.header}>{nutritionData.label}</TitleText>
+        <NutritionFacts data={nutritionData} />
         <AppText style={styles.text}>How many servings did you eat?</AppText>
         <AppTextInput
           placeholder="1 serving"

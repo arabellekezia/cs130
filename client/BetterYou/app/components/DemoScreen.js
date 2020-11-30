@@ -19,6 +19,7 @@ import AppTextInput from "./AppTextInput";
 import DailyFitnessEntries from "./DailyFitnessEntries";
 
 import DropDownPicker from "react-native-dropdown-picker";
+import NutritionFacts from "./NutritionFacts";
 
 function DemoScreen(props) {
   const [name, setName] = useState("");
@@ -90,6 +91,18 @@ function DemoScreen(props) {
       [...Array(3)].map(() => Math.floor(Math.random() * 9)),
     ],
     barColors: ["#da29ad", "#eeaaee", "red"],
+  };
+
+  const nutritionData = {
+    label: "Jamba Juice Orange Carrot Karma Smoothie",
+    servingSize: "22 fl oz",
+    nutrients: {
+      calories: 41.499027861352765,
+      protein: 0.6148004127607817,
+      fat: 0.15370010319019542,
+      carbohydrates: 10.144206810552898,
+      fiber: 0.6148004127607817,
+    },
   };
 
   return (
@@ -190,6 +203,7 @@ function DemoScreen(props) {
             },
           ]}
         />
+        <NutritionFacts data={nutritionData} />
       </ScrollView>
     </Screen>
   );
