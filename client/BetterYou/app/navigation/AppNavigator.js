@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewEntryNavigator from "./NewEntryNavigator";
 import GoalsNavigator from "./GoalsNavigator";
 import SummaryScreen from "../Screens/SummaryScreen";
+import SummaryNavigator from "./SummaryNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +16,7 @@ function AppNavigator() {
     <Tab.Navigator>
       <Tab.Screen
         name="Summary"
-        component={SummaryScreen}
+        component={SummaryNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

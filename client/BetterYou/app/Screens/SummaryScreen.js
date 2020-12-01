@@ -49,8 +49,7 @@ function SummaryScreen({ navigation }) {
               />
             }
             description="1850 Calories"
-            //navigation= {navigation.navigate("Details")}
-            destination="Details"
+            onPress={() => navigation.navigate("DailyNutrition")}
           />
 
           <ListItemComponent
@@ -65,6 +64,7 @@ function SummaryScreen({ navigation }) {
               />
             }
             description="0.72 hours total active time"
+            onPress={() => navigation.navigate("DailyFitness")}
           />
 
           <ListItemComponent
@@ -80,6 +80,7 @@ function SummaryScreen({ navigation }) {
               />
             }
             description="7 hours slept"
+            onPress={() => navigation.navigate("DailySleep")}
           />
         </View>
 
@@ -97,6 +98,7 @@ function SummaryScreen({ navigation }) {
                 of sleep per day over the last 7 days.
               </AppText>
             }
+            onPress={() => navigation.navigate("WeeklySleep")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
@@ -121,6 +123,7 @@ function SummaryScreen({ navigation }) {
                 per day over the last 7 days.
               </AppText>
             }
+            onPress={() => navigation.navigate("WeeklyNutrition")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
@@ -148,6 +151,7 @@ function SummaryScreen({ navigation }) {
                 per day over the last 7 days.
               </AppText>
             }
+            onPress={() => navigation.navigate("WeeklyFitness")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
