@@ -1,63 +1,58 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
-import IconButton from "../components/IconButton";
-import TitleText from "../components/TitleText";
 
-function GoalSelectionScreen() {
+import { View, StyleSheet } from "react-native";
+
+import colors from "../config/colors";
+import HeaderText from "../components/HeaderText";
+import IconButton from "../components/IconButton";
+import Screen from "../components/Screen";
+
+function GoalSelectionScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <TitleText style={styles.header} children="Goals" />
-      <View style={styles.rowSelection}>
+    <Screen style={styles.container}>
+      <HeaderText>Select a category</HeaderText>
+      <View style={styles.buttonContainer}>
         <IconButton
-          style={styles.button}
-          name="food-apple"
-          size={74}
-          iconColor="#7e7e7e"
-          label="Diet"
-          border={2}
-          onPress={() => console.log("navigate to diet screen")}
-        />
-        <IconButton
-          style={styles.button}
-          name="dumbbell"
-          size={74}
-          iconColor="#7e7e7e"
-          label="Fitness"
-          border={2}
-          onPress={() => console.log("navigate to fitness screen")}
-        />
-        <IconButton
-          style={styles.button}
           name="sleep"
-          size={74}
-          iconColor="#7e7e7e"
+          size={60}
           label="Sleep"
+          iconColor={colors.sleep}
           border={2}
-          onPress={() => console.log("navigate to sleep screen")}
+          onPress={() => navigation.navigate("SleepGoals")}
+        />
+        <IconButton
+          name="food-apple"
+          size={60}
+          label="Diet"
+          iconColor={colors.diet}
+          border={2}
+          onPress={() => navigation.navigate("DietGoals")}
+        />
+        <IconButton
+          name="google-fit"
+          size={60}
+          label="Fitness"
+          iconColor={colors.fitness}
+          border={2}
+          onPress={() => navigation.navigate("FitnessGoals")}
         />
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    marginVertical: 40,
+    alignSelf: "stretch",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   container: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
     justifyContent: "center",
-  },
-  rowSelection: {
-    flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-  },
-  header: {
-    alignSelf: "flex-start",
-    marginTop: "10%",
-    marginLeft: "5%",
+    backgroundColor: colors.white,
   },
 });
 

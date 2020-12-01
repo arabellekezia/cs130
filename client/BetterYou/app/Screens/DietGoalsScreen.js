@@ -4,11 +4,11 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
-import GoalsService from "../services/GoalsService"; 
+import GoalsService from "../services/GoalsService";
 
 const MIN_CALORIES = 1000;
 
-function DietGoalsScreen() {
+function DietGoalsScreen({ navigation }) {
   const [calorieGoal, setCalorieGoal] = React.useState(0);
   const [err, setError] = React.useState({ calorieBudget: false });
 
@@ -20,6 +20,7 @@ function DietGoalsScreen() {
       return;
     }
     await GoalsService.setCalorieGoal(calorieGoal);
+    navigation.popToTop();
   }
 
   function resetErrors() {

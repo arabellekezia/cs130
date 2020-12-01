@@ -9,6 +9,7 @@ const colors = {
   sleep: "#5a009c",
   white: "#ffffff",
   background: "#ecfeff",
+  background_secondary: "#ebffe5",
 };
 
 export default colors;

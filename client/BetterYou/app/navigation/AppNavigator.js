@@ -6,6 +6,7 @@ import StartScreen from "../Screens/StartScreen";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewEntryNavigator from "./NewEntryNavigator";
+import GoalsNavigator from "./GoalsNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ function AppNavigator() {
       />
       <Tab.Screen
         name="Goals"
-        component={GoalSelectionScreen}
+        component={GoalsNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
