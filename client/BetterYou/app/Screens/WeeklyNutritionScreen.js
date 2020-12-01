@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   chartcontainer: {
-    width: Dimensions.get('window').width * .9,
+    width: Dimensions.get("window").width * 0.9,
   },
   container: {
     backgroundColor: "white",
@@ -136,18 +136,18 @@ const styles = StyleSheet.create({
   dateHeader: {
     alignSelf: "flex-start",
     marginLeft: "5%",
-    fontSize: 16
+    fontSize: 16,
   },
   sectionHeader: {
     alignSelf: "flex-start",
     marginHorizontal: 20,
     marginTop: "10%",
-    marginBottom: "5%"
+    marginBottom: "5%",
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
-    marginLeft: "5%", 
+    marginTop: "5%",
+    marginLeft: "5%",
     marginBottom: 12,
   },
   sleepsummary: {
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#d5f7f7", //should change accordingly
   },
   smallSummaryText: {
-    marginLeft: 10 
-  }, 
-})
+    marginLeft: 10,
+  },
+});
 
 function getDaysInWeek() {
   const weekStart = moment().startOf("week");

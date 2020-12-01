@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
+    marginTop: "5%",
     marginLeft: "5%",
     marginBottom: 12,
   },

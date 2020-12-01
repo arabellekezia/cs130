@@ -27,7 +27,7 @@ function DailyNutritionScreen() {
         alwaysBounceVertical={false}
         contentContainerStyle={styles.container}
       >
-        <TitleText style={styles.header} children="Diet" />
+        <TitleText style={styles.pageTitle} children="Diet" />
         <AppText style={styles.dateHeader} children={currentDay} />
 
         <DailyNutritionCharts selectedChartType={selectedChartType} />
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 24,
   },
-  header: {
+  pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "10%",
+    marginTop: "5%",
     marginLeft: "5%",
     marginBottom: 12,
   },

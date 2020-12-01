@@ -190,15 +190,15 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
-    marginLeft: "5%", 
+    marginTop: "5%",
+    marginLeft: "5%",
     marginBottom: 12,
   },
   dateHeader: {
     alignSelf: "flex-start",
     marginLeft: "5%",
-    fontSize: 16, 
-    marginBottom: "5%"
+    fontSize: 16,
+    marginBottom: "5%",
   },
   dailyBreakdownHeader: {
     alignSelf: "flex-start",
@@ -214,10 +214,10 @@ const styles = StyleSheet.create({
   weeklyMetric: {
     textAlign: "center",
     fontSize: 18,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   smallSummaryContainer: {
-    marginVertical: 10
+    marginVertical: 10,
   },
   barChart: {
     marginVertical: 10,
