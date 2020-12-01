@@ -110,7 +110,7 @@ class StaywellExternalAPI:
 
         calories = self._get_exact_calories(weight, workout, mins)
         dt = datetime.utcnow()
-        insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, CaloriesBurned, 'Datetime') values "
+        insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, CaloriesBurned, Datetime) values "
                             f"({userID}, '{workout}', {mins}, {calories}, {dt});")
         db.insert_data(insert_statement)
         return str(calories), 200
