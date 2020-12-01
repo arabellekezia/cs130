@@ -115,7 +115,7 @@ function SummaryScreen({ navigation }) {
         <View style={styles.listItems}>
           <ListItemComponent
             style={styles.graphCard}
-            title="Diet"
+            title="Nutrition"
             description={
               <AppText>
                 You consumed an average of

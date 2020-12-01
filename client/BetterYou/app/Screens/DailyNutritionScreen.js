@@ -27,7 +27,7 @@ function DailyNutritionScreen() {
         alwaysBounceVertical={false}
         contentContainerStyle={styles.container}
       >
-        <TitleText style={styles.pageTitle} children="Diet" />
+        <TitleText style={styles.pageTitle} children="Nutrition" />
         <AppText style={styles.dateHeader} children={currentDay} />
 
         <DailyNutritionCharts selectedChartType={selectedChartType} />

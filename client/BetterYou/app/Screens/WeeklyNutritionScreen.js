@@ -53,18 +53,27 @@ function WeeklyNutritionScreen(props) {
 
   return (
     <SafeAreaView>
-      <ScrollView alwaysBounceVertical={false} contentContainerStyle={styles.container}>
-        <TitleText style={styles.pageTitle} children="Weekly Nutrition" />
-        <AppText style={styles.dateHeader} children={getWeeklyHeader(currentWeek)} />
-        <HeaderText style={styles.sectionHeader} children={"Summary"} />
+      <ScrollView
+        alwaysBounceVertical={false}
+        contentContainerStyle={styles.container}
+      >
+        <TitleText style={styles.pageTitle} children="Nutritional Trends" />
+        <AppText
+          style={styles.dateHeader}
+          children={getWeeklyHeader(currentWeek)}
+        />
+        <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} />
 
         <View style={styles.chartcontainer}>
           <AppText style={styles.smallSummaryText}>
             You consumed an average of
-            <AppText style={styles.boldtext} children={` ${calAvg} Calories `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${calAvg} Calories `}
+            />
             per day this week.
-          </AppText> 
-          <AppBarChart 
+          </AppText>
+          <AppBarChart
             style={styles.barChart}
             yAxisSuffix="min"
             data={mockCalData}
@@ -73,11 +82,17 @@ function WeeklyNutritionScreen(props) {
           />
           <AppText style={styles.smallSummaryText}>
             Your daily calorie goal was
-            <AppText style={styles.boldtext} children={` ${calGoal} Calories.`} /> 
+            <AppText
+              style={styles.boldtext}
+              children={` ${calGoal} Calories.`}
+            />
           </AppText>
           {printCalDiffText(calDiff)}
         </View>
-        <HeaderText style={styles.sectionHeader} children={"Macronutrient Averages"} />
+        <HeaderText
+          style={styles.sectionHeader}
+          children={"Macronutrient Averages"}
+        />
         <View style={styles.sleepsummary}>
           {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
           <SummaryItem
@@ -110,9 +125,7 @@ function WeeklyNutritionScreen(props) {
         </View>
 
         <HeaderText style={styles.sectionHeader} children={"Daily Breakdown"} />
-        <DailyBreakdownList 
-          entries={daysinWeekBreakdown}
-        />
+        <DailyBreakdownList entries={daysinWeekBreakdown} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -17,31 +17,31 @@ const { totalActiveTime, totalCaloriesBurned } = getWeeklyStats();
 const daysinWeekBreakdown = [
   {
     title: "Sunday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Monday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Tuesday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Wednesday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Thursday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Friday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
   {
     title: "Saturday",
-    description: "540 Cals",
+    description: "540 minutes",
   },
 ];
 
