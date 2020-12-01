@@ -3,10 +3,9 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
-import AuthenticationService from "../services/AuthenticationService"; 
+import AuthenticationService from "../services/AuthenticationService";
 
-
-function SignupScreen() {
+function SignupScreen({ navigation }) {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -39,7 +38,7 @@ function SignupScreen() {
         <ErrorMessage message="An account with this email already exists." />
       );
     }
-    
+
     if (err.email) {
       return <ErrorMessage message="Please use a valid email." />;
     }
@@ -123,6 +122,7 @@ function SignupScreen() {
           style={{ color: "#0079d3" }}
           onPress={() => {
             console.log("Navigate to the login screen");
+            navigation.navigate("Login");
           }}
         >
           {" Log in!"}

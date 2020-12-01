@@ -3,9 +3,9 @@ import { SafeAreaView, StyleSheet, Text } from "react-native";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
-import AuthenticationService from "../services/AuthenticationService"; 
+import AuthenticationService from "../services/AuthenticationService";
 
-function LoginScreen() {
+function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [err, setError] = React.useState({ email: false, password: false });
@@ -16,9 +16,9 @@ function LoginScreen() {
       return;
     }
 
-    const isSuccess = await AuthenticationService.login(email, password); 
+    const isSuccess = await AuthenticationService.login(email, password);
     if (!isSuccess) {
-      setError({email: true, password: true});
+      setError({ email: true, password: true });
     }
   }
 
@@ -77,6 +77,7 @@ function LoginScreen() {
           style={{ color: "#0079d3" }}
           onPress={() => {
             console.log("Navigate to the signup screen");
+            navigation.navigate("Signup");
           }}
         >
           {" Sign up!"}
