@@ -9,7 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import DemoScreen from "./app/components/DemoScreen";
-import StartScreen from "./app/Screens/StartScreen";
+import SummaryScreen from "./app/Screens/SummaryScreen";
 import TestScreen2 from "./app/Screens/TestScreen2";
 import TabNagivator from "./app/components/TabNagivator";
 import LoginScreen from "./app/Screens/LoginScreen";
@@ -55,7 +55,7 @@ export default function App() {
     // <LoginScreen />
     // <SignupScreen />
     // <DemoScreen />
-    // <StartScreen />
+    // <SummaryScreen />
   );
 }
 

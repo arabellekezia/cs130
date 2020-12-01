@@ -2,11 +2,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import EntryCategorySelectScreen from "../Screens/EntryCategorySelectScreen";
 import GoalSelectionScreen from "../Screens/GoalSelectionScreen";
-import StartScreen from "../Screens/StartScreen";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewEntryNavigator from "./NewEntryNavigator";
 import GoalsNavigator from "./GoalsNavigator";
+import SummaryScreen from "../Screens/SummaryScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ function AppNavigator() {
     <Tab.Navigator>
       <Tab.Screen
         name="Summary"
-        component={StartScreen}
+        component={SummaryScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
