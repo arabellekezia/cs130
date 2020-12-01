@@ -24,6 +24,55 @@ const GoalsService = {
     }
     return true;
   },
+  getGoal: async (type) => {
+    try {
+      const response = await server.get("/getTypeGoals", {
+        params: {
+          token: await getUserToken(),
+          type,
+        },
+      });
+      return response.data[0].Value;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  /* Returns the logged in user's goals as {calories, activeTime, sleepDuration}. */
+  getAllGoals: async () => {
+    try {
+      const response = await server.get("/getAllGoals", {
+        params: {
+          token: await getUserToken(),
+        },
+      });
+      let goals = {};
+      response.data.forEach((goal) => {
+        switch (goal.Type) {
+          case DIET_GOAL_TYPE:
+            goals.calories = goal.Value;
+            break;
+          case FITNESS_GOAL_TYPE:
+            goals.activeTime = goal.Value;
+            break;
+          case SLEEP_GOAL_TYPE:
+            goals.sleepDuration = goal.Value;
+            break;
+        }
+      });
+      return goals;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getCalorieGoal: async () => {
+    return await GoalsService.getGoal(DIET_GOAL_TYPE);
+  },
+  getActiveTimeGoal: async () => {
+    return await GoalsService.getGoal(FITNESS_GOAL_TYPE);
+  },
+  getSleepDurationGoal: async () => {
+    return await GoalsService.getGoal(SLEEP_GOAL_TYPE);
+  },
   setCalorieGoal: async (calories) => {
     const isSuccess = await GoalsService.setGoal(DIET_GOAL_TYPE, calories);
     if (isSuccess) {
