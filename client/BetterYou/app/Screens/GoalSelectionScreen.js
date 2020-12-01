@@ -10,7 +10,7 @@ import Screen from "../components/Screen";
 function GoalSelectionScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
-      <HeaderText>Select a category</HeaderText>
+      <HeaderText>Select a goal category</HeaderText>
       <View style={styles.buttonContainer}>
         <IconButton
           name="sleep"
