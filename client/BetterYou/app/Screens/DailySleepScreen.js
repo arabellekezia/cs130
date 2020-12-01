@@ -17,7 +17,7 @@ function DailySleepScreen() {
         alwaysBounceVertical={false}
         contentContainerStyle={styles.container}
       >
-        <TitleText style={styles.header} children="Sleep" />
+        <TitleText style={styles.pageTitle} children="Sleep" />
         <AppText style={styles.dateHeader} children={currentDay} />
         {/*<View style={styles.sleepsummary}>
             {/* TODO: This portion should be changed to accomodate calculations from backend data 
@@ -49,20 +49,17 @@ function DailySleepScreen() {
           */}
 
         <DailySleepEntries
-          style={styles.sleeplog}
+          style={styles.sleepLog}
+          headerTextStyle={styles.sleepEntryHeader}
           headerText="Last night"
           entries={[getTodaySleepEntries().sleep]}
         />
 
         <DailySleepEntries
-          style={styles.sleeplog}
+          style={styles.sleepLog}
+          headerTextStyle={styles.sleepEntryHeader}
           headerText="Recorded naps"
           entries={getTodaySleepEntries().naps}
-        />
-        <TextButton
-          name={"Add New Entry"}
-          onPress={() => console.log("pressed")}
-          style={styles.logEntryButton}
         />
       </ScrollView>
     </SafeAreaView>
@@ -70,11 +67,6 @@ function DailySleepScreen() {
 }
 
 const styles = StyleSheet.create({
-  logEntryButton: {
-    alignSelf: "flex-end",
-    marginVertical: 30,
-    minWidth: "80%"
-  },
   container: {
     backgroundColor: "white",
     alignItems: "center",
@@ -86,14 +78,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 24,
   },
-  header: {
+  pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "10%",
+    marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 12,
+    marginBottom: 8,
   },
-  sleeplog: {
-    marginTop: 25,
+  sleepLog: {
+    marginTop: 12,
+  },
+  sleepEntryHeader: {
+    marginLeft: "5%",
   },
   sleepsummary: {
     flexDirection: "row",
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     //backgroundColor: "#d5f7f7",
   },
-})
+});
 
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later

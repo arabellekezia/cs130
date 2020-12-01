@@ -1,8 +1,6 @@
 from backend.db import DB
+from backend.setup.set_up_db import drop_all_tables
 
 db = DB()
-db.insert_data("drop table Goals;")
-db.insert_data("drop table Fitness;")
-db.insert_data("drop table Diet;")
-db.insert_data("drop table Sleep;")
-db.insert_data("drop table Users;")
+drop_all_tables(db)
+print("Removed all tables from test db")

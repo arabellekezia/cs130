@@ -36,7 +36,7 @@ class User:
             return -1
         return int(data['id'])
 
-    def create_new_user(self, email: str, password: str, fullname:str) -> bool:
+    def create_new_user(self, email: str, password: str, fullname: str) -> bool:
         existing = self.check_email_match(email)
         if existing < 0:
             salt = os.urandom(32)

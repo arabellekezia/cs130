@@ -43,22 +43,6 @@ function DailyFitnessScreen(props) {
           <View style={styles.headerTextContainer}>
             <AppText style={styles.logHeaderText} children={"Activity log"} />
           </View>
-          <View style={styles.entryButtonContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                console.log("move to fitness entry types screen");
-              }}
-              activeOpacity={0.7}
-            >
-              <Icon
-                name="plus-box"
-                size={36}
-                iconScale={1}
-                iconColor="#7e7e7e"
-                backgroundColor="white"
-              />
-            </TouchableOpacity>
-          </View>
         </View>
 
         <DailyFitnessEntries
@@ -100,13 +84,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     fontSize: 25,
   },
-  entryButtonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignContent: "center",
-    marginRight: 12,
-  },
   logHeaderContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -121,7 +98,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
+    marginTop: "5%",
     marginLeft: "5%",
     marginBottom: 12,
   },

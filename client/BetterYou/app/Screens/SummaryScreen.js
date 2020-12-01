@@ -69,7 +69,7 @@ function SummaryScreen({ navigation }) {
           />
 
           <ListItemComponent
-            title="Workout"
+            title="Fitness"
             icon={
               <Icon
                 name="google-fit"
@@ -87,6 +87,7 @@ function SummaryScreen({ navigation }) {
         <TitleText style={styles.weeklyStatsHeader}>
           Weekly Statistics
         </TitleText>
+
         <View style={styles.listItems}>
           <ListItemComponent
             style={styles.graphCard}
@@ -115,7 +116,7 @@ function SummaryScreen({ navigation }) {
         <View style={styles.listItems}>
           <ListItemComponent
             style={styles.graphCard}
-            title="Diet"
+            title="Nutrition"
             description={
               <AppText>
                 You consumed an average of
@@ -175,15 +176,15 @@ const styles = StyleSheet.create({
   },
   pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
+    marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 6,
+    marginBottom: 8,
   },
   dateHeader: {
     alignSelf: "flex-start",
     marginLeft: "5%",
     fontSize: 18,
-    marginBottom: "10%",
+    marginBottom: 30,
   },
   weeklyStatsHeader: {
     alignSelf: "flex-start",
