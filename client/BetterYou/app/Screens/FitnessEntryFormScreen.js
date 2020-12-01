@@ -67,7 +67,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
 
   return (
     <Screen style={styles.container}>
-      <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
+      <ScrollView style={{ padding: 20 }} keyboardShouldPersistTaps="handled">
         <AppText style={styles.text}>What activity did you do?</AppText>
 
         <DropDownPicker

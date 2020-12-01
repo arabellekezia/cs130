@@ -55,7 +55,7 @@ function FoodEntryFormScreen({ navigation, route }) {
 
   return (
     <Screen style={styles.container}>
-      <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
+      <ScrollView style={{ padding: 20 }} keyboardShouldPersistTaps="handled">
         <TitleText style={styles.header}>{route.params.item}</TitleText>
         <NutritionFacts data={nutritionData} />
         <AppText style={styles.text}>How many servings did you eat?</AppText>

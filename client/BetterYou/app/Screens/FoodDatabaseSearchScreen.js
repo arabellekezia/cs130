@@ -37,7 +37,7 @@ function FoodDatabaseSearchScreen({ navigation }) {
 
   return (
     <Screen style={styles.container}>
-      <ScrollView style={{ padding: 10 }}>
+      <ScrollView style={{ padding: 20 }}>
         <AppTextInput
           placeholder="Search our database"
           icon="search-web"
@@ -83,7 +83,7 @@ function FoodDatabaseSearchScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   button: {
-    marginBottom: 10,
+    marginVertical: 10,
   },
   container: {
     flex: 1,
