@@ -8,7 +8,7 @@ import AppText from "../components/AppText";
 import TextButton from "../components/TextButton";
 import colors from "../config/colors";
 import ErrorMessage from "../components/ErrorMessage";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, Switch } from "react-native-gesture-handler";
 
 function isValidInput(startDate, endDate, setError) {
   const validStartDate = isValidDate(startDate);
@@ -28,6 +28,7 @@ function SleepEntryFormScreen({ navigation, route }) {
 
   const [startDate, setStartDate] = useState(initStartDate);
   const [endDate, setEndDate] = useState(initEndDate);
+  const [isNap, setIsNap] = useState(false);
   const [err, setError] = useState({ startDate: false, endDate: false });
 
   function submit() {
@@ -51,40 +52,76 @@ function SleepEntryFormScreen({ navigation, route }) {
     }
   }
 
+  function toggleSwitch() {
+    setIsNap((previousState) => !previousState);
+  }
+
   return (
     <Screen style={styles.container}>
       <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
-        <AppText style={styles.text}>What time did you start sleeping?</AppText>
-        <AppDateTimePicker
-          placeholder="Select a time"
-          init={startDate}
-          onChange={(date) => {
-            setStartDate(date);
-            setError({ startDate: false, endDate: false });
+        <View
+          style={{
+            backgroundColor: colors.white,
+            padding: 10,
+            borderColor: "black",
+            borderRadius: 10,
+            borderWidth: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 10,
+            justifyContent: "space-between",
           }}
-        />
-        <AppText style={styles.text}>What time did you wake up?</AppText>
-        <AppDateTimePicker
-          placeholder="Select a time"
-          init={endDate}
-          onChange={(date) => {
-            setEndDate(date);
-            setError({ startDate: false, endDate: false });
-          }}
-        />
-        {displayErrorMessage(err)}
-        <TextButton
-          name="Submit"
-          onPress={() => {
-            submit();
-          }}
-        />
+        >
+          <AppText style={[styles.text, { fontWeight: "bold" }]}>
+            Is this a nap?
+          </AppText>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            thumbColor={isNap ? "#f5dd4b" : "#f4f3f4"}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isNap}
+          />
+        </View>
+        <View style={{ padding: 10 }}>
+          <AppText style={styles.text}>
+            What time did you start sleeping?
+          </AppText>
+          <AppDateTimePicker
+            placeholder="Select a time"
+            init={startDate}
+            onChange={(date) => {
+              setStartDate(date);
+              setError({ startDate: false, endDate: false });
+            }}
+          />
+          <AppText style={styles.text}>What time did you wake up?</AppText>
+          <AppDateTimePicker
+            placeholder="Select a time"
+            init={endDate}
+            onChange={(date) => {
+              setEndDate(date);
+              setError({ startDate: false, endDate: false });
+            }}
+          />
+          {displayErrorMessage(err)}
+          <TextButton
+            style={styles.button}
+            name="Submit"
+            onPress={() => {
+              submit();
+            }}
+          />
+        </View>
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginVertical: 10,
+  },
   container: {
     flex: 1,
     padding: 10,
