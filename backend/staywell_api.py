@@ -1,6 +1,6 @@
 from typing import Any, Dict, Tuple
-from datetime import datetime
 from backend.db import DB
+from backend.Fitness import Fitness
 
 # source: http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
 # code/values/workout types come from this website however they only provided HTML and not JSON data
@@ -109,10 +109,12 @@ class StaywellExternalAPI:
             mins = mins_param['minutes']
 
         calories = self._get_exact_calories(weight, workout, mins)
-        dt = datetime.utcnow()
-        insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, CaloriesBurned, Datetime) values "
-                            f"({userID}, '{workout}', {mins}, {calories}, {dt});")
-        db.insert_data(insert_statement)
+        fitness_dict = {'WorkoutType': workout, 'Minutes': mins, 'CaloriesBurned': calories}
+
+        fitness = Fitness(db, userID)
+        success = fitness.insert_in_database(fitness_dict)
+        if not success:
+            return "Server Error", 500
         return str(calories), 200
 
     def _get_calories_list_per_hour(self, weight: int) -> int:
