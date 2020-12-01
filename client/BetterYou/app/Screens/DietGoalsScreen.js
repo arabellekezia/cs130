@@ -44,7 +44,7 @@ function DietGoalsScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TitleText style={styles.header} children="Diet Goals" />
+      <TitleText style={styles.pageTitle} children="Diet Goals" />
       <View style={styles.form}>
         <AppText
           style={styles.question}
@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
+  pageTitle: {
     alignSelf: "flex-start",
-    marginTop: "15%",
+    marginTop: "5%",
     marginLeft: "5%",
   },
   form: {
