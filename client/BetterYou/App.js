@@ -26,14 +26,18 @@ import WeeklyNutritionScreen from "./app/Screens/WeeklyNutritionScreen";
 import SignupScreen from "./app/Screens/SignupScreen";
 import AppNavigator from "./app/navigation/AppNavigator";
 import navTheme from "./app/navigation/navTheme";
+import AuthNavigator from "./app/navigation/AuthNavigator";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  // will need to be set by checking if auth token is inside asyncStorage. Make userToken as a state variable and effect hook to retrieve token on first load
+  // https://reactnavigation.org/docs/auth-flow/#how-it-will-work
+  const isSignedIn = true;
   return (
     <NavigationContainer theme={navTheme}>
-      <AppNavigator />
+      {isSignedIn ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
 
     // <LoginScreen />
