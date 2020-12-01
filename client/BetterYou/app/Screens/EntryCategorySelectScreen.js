@@ -23,7 +23,7 @@ function EntryCategorySelectScreen({ navigation }) {
         <IconButton
           name="food-apple"
           size={60}
-          label="Diet"
+          label="Nutrition"
           iconColor={colors.diet}
           border={2}
           onPress={() => navigation.navigate("DietGoalEntryTypeSelect")}
