@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python3.7 setup_test_db.py
+python3.7 set_up_test_db.py
 python3.7 test_db.py
 python3.7 test_staywell.py
 python3.7 test_diet_aditya.py
