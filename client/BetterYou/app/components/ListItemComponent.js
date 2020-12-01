@@ -14,7 +14,9 @@ import HeaderText from "./HeaderText";
 //import Icon from "./Icon";
 
 function ListItemComponent({
+  containerStyle,
   title,
+  titleStyle,
   icon,
   description,
   descriptionStyle,
@@ -22,10 +24,15 @@ function ListItemComponent({
   onPress,
 }) {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container, containerStyle]}
+      onPress={onPress}
+    >
       <View style={styles.titlerow}>
         <View style={styles.dayOfWeekContainer}>
-          <HeaderText style={styles.headertext}>{title}</HeaderText>
+          <HeaderText style={[styles.headertext, titleStyle]}>
+            {title}
+          </HeaderText>
           {icon}
         </View>
         <View style={styles.arrowContainer}>

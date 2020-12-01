@@ -8,7 +8,7 @@ const colors = {
   primary: "#007AFF",
   sleep: "#5a009c",
   white: "#ffffff",
-  background: "#ecfeff",
+  background: "#fff",
   background_secondary: "#ebffe5",
 };
 

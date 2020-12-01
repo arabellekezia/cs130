@@ -9,6 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 
 import moment from "moment";
+import colors from "../config/colors";
 
 const data = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -44,12 +45,14 @@ function SummaryScreen({ navigation }) {
                 name="sleep"
                 size={17}
                 backgroundColor="white"
-                iconColor="black"
+                iconColor={colors.sleep}
                 iconScale={0.85}
                 border={0}
               />
             }
             description="7 hours slept"
+            containerStyle={{ borderColor: colors.sleep }}
+            titleStyle={{ color: colors.sleep }}
             onPress={() => navigation.navigate("DailySleep")}
           />
 
@@ -60,11 +63,13 @@ function SummaryScreen({ navigation }) {
                 name="food-apple"
                 size={17}
                 backgroundColor="white"
-                iconColor="black"
+                iconColor={colors.diet}
                 iconScale={1}
               />
             }
             description="1850 Calories"
+            containerStyle={{ borderColor: colors.diet }}
+            titleStyle={{ color: colors.diet }}
             onPress={() => navigation.navigate("DailyNutrition")}
           />
 
@@ -75,11 +80,13 @@ function SummaryScreen({ navigation }) {
                 name="google-fit"
                 size={17}
                 backgroundColor="white"
-                iconColor="black"
+                iconColor={colors.fitness}
                 iconScale={1}
               />
             }
             description="0.72 hours total active time"
+            containerStyle={{ borderColor: colors.fitness }}
+            titleStyle={{ color: colors.fitness }}
             onPress={() => navigation.navigate("DailyFitness")}
           />
         </View>
@@ -99,13 +106,15 @@ function SummaryScreen({ navigation }) {
                 of sleep per day over the last 7 days.
               </AppText>
             }
+            containerStyle={{ borderColor: colors.sleep }}
+            titleStyle={{ color: colors.sleep }}
             onPress={() => navigation.navigate("WeeklySleep")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
                 <AppBarChart
                   data={data}
-                  color={(opacity = 1) => `rgba(0, 0, 0, ${opacity})`}
+                  color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
                   scaleDimensions={0.8}
                 />
               </View>
@@ -124,13 +133,15 @@ function SummaryScreen({ navigation }) {
                 per day over the last 7 days.
               </AppText>
             }
+            containerStyle={{ borderColor: colors.diet }}
+            titleStyle={{ color: colors.diet }}
             onPress={() => navigation.navigate("WeeklyNutrition")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
                 <AppBarChart
                   data={data}
-                  color={(opacity = 1) => `rgba(0, 0, 0, ${opacity})`}
+                  color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
                   scaleDimensions={0.8}
                 />
               </View>
@@ -152,13 +163,15 @@ function SummaryScreen({ navigation }) {
                 per day over the last 7 days.
               </AppText>
             }
+            containerStyle={{ borderColor: colors.fitness }}
+            titleStyle={{ color: colors.fitness }}
             onPress={() => navigation.navigate("WeeklyFitness")}
           >
             <View style={styles.chartcontainer}>
               <View style={styles.charts}>
                 <AppBarChart
                   data={data}
-                  color={(opacity = 1) => `rgba(0, 0, 0, ${opacity})`}
+                  color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
                   scaleDimensions={0.8}
                 />
               </View>
