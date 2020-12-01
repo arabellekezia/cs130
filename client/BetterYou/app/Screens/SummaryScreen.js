@@ -38,10 +38,26 @@ function SummaryScreen({ navigation }) {
         <AppText style={styles.dateHeader} children={currentDay} />
         <View style={styles.listItems}>
           <ListItemComponent
+            title="Sleep"
+            icon={
+              <Icon
+                name="sleep"
+                size={17}
+                backgroundColor="white"
+                iconColor="black"
+                iconScale={0.85}
+                border={0}
+              />
+            }
+            description="7 hours slept"
+            onPress={() => navigation.navigate("DailySleep")}
+          />
+
+          <ListItemComponent
             title="Nutrition"
             icon={
               <Icon
-                name="food-variant"
+                name="food-apple"
                 size={17}
                 backgroundColor="white"
                 iconColor="black"
@@ -56,7 +72,7 @@ function SummaryScreen({ navigation }) {
             title="Workout"
             icon={
               <Icon
-                name="dumbbell"
+                name="google-fit"
                 size={17}
                 backgroundColor="white"
                 iconColor="black"
@@ -65,22 +81,6 @@ function SummaryScreen({ navigation }) {
             }
             description="0.72 hours total active time"
             onPress={() => navigation.navigate("DailyFitness")}
-          />
-
-          <ListItemComponent
-            title="Sleep"
-            icon={
-              <Icon
-                name="sleep"
-                size={20}
-                backgroundColor="white"
-                iconColor="black"
-                iconScale={0.85}
-                border={0}
-              />
-            }
-            description="7 hours slept"
-            onPress={() => navigation.navigate("DailySleep")}
           />
         </View>
 
