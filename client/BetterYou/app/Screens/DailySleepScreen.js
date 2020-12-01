@@ -59,22 +59,12 @@ function DailySleepScreen() {
           headerText="Recorded naps"
           entries={getTodaySleepEntries().naps}
         />
-        <TextButton
-          name={"Add New Entry"}
-          onPress={() => console.log("pressed")}
-          style={styles.logEntryButton}
-        />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  logEntryButton: {
-    alignSelf: "flex-end",
-    marginVertical: 30,
-    minWidth: "80%"
-  },
   container: {
     backgroundColor: "white",
     alignItems: "center",
@@ -112,7 +102,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     //backgroundColor: "#d5f7f7",
   },
-})
+});
 
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later
