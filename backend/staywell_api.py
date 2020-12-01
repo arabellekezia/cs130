@@ -1,4 +1,5 @@
 from typing import Any, Dict, Tuple
+from datetime import datetime
 from backend.db import DB
 
 # source: http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
@@ -108,9 +109,9 @@ class StaywellExternalAPI:
             mins = mins_param['minutes']
 
         calories = self._get_exact_calories(weight, workout, mins)
-        
-        insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, CaloriesBurned) values "
-                            f"({userID}, '{workout}', {mins}, {calories});")
+        dt = datetime.utcnow()
+        insert_statement = (f"insert into Fitness (UserID, WorkoutType, Minutes, CaloriesBurned, 'Datetime') values "
+                            f"({userID}, '{workout}', {mins}, {calories}, {dt});")
         db.insert_data(insert_statement)
         return str(calories), 200
 
