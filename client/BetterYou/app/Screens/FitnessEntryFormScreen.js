@@ -9,6 +9,7 @@ import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import ErrorMessage from "../components/ErrorMessage";
+import { ScrollView } from "react-native-gesture-handler";
 
 function isValidInput(category, activeTime, setError) {
   const validCategory = isValidCategory(category);
@@ -66,7 +67,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
 
   return (
     <Screen style={styles.container}>
-      <View style={{ padding: 10 }}>
+      <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
         <AppText style={styles.text}>What activity did you do?</AppText>
 
         <DropDownPicker
@@ -90,8 +91,8 @@ function FitnessEntryFormScreen({ navigation, route }) {
           placeholder="30 minutes"
           value={activeTime > 0 ? activeTime.toString() : ""}
           keyboardType="numeric"
-          onChangeText={(activeTime) => {
-            setActiveTime(Number.parseFloat(activeTime));
+          onChangeText={(time) => {
+            setActiveTime(Number.parseFloat(time));
             setError({ category: false, activeTime: false });
           }}
         />
@@ -101,7 +102,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
           name="Submit"
           onPress={() => submit()}
         />
-      </View>
+      </ScrollView>
     </Screen>
   );
 }

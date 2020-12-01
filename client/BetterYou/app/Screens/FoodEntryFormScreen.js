@@ -9,6 +9,7 @@ import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
 import ErrorMessage from "../components/ErrorMessage";
 import colors from "../config/colors";
+import { ScrollView } from "react-native-gesture-handler";
 
 function isValidInput(numberOfServings, setError) {
   const validNumber = isNumber(numberOfServings) && numberOfServings > 0;
@@ -53,8 +54,8 @@ function FoodEntryFormScreen({ navigation, route }) {
   };
 
   return (
-    <Screen>
-      <View style={{ padding: 10 }}>
+    <Screen style={styles.container}>
+      <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
         <TitleText style={styles.header}>{route.params.item}</TitleText>
         <NutritionFacts data={nutritionData} />
         <AppText style={styles.text}>How many servings did you eat?</AppText>
@@ -74,7 +75,7 @@ function FoodEntryFormScreen({ navigation, route }) {
             submit();
           }}
         />
-      </View>
+      </ScrollView>
     </Screen>
   );
 }

@@ -8,6 +8,7 @@ import AppText from "../components/AppText";
 import TextButton from "../components/TextButton";
 import colors from "../config/colors";
 import ErrorMessage from "../components/ErrorMessage";
+import { ScrollView } from "react-native-gesture-handler";
 
 function isValidInput(startDate, endDate, setError) {
   const validStartDate = isValidDate(startDate);
@@ -52,7 +53,7 @@ function SleepEntryFormScreen({ navigation, route }) {
 
   return (
     <Screen style={styles.container}>
-      <View style={{ padding: 10 }}>
+      <ScrollView style={{ padding: 10 }} keyboardShouldPersistTaps="handled">
         <AppText style={styles.text}>What time did you start sleeping?</AppText>
         <AppDateTimePicker
           placeholder="Select a time"
@@ -78,7 +79,7 @@ function SleepEntryFormScreen({ navigation, route }) {
             submit();
           }}
         />
-      </View>
+      </ScrollView>
     </Screen>
   );
 }
