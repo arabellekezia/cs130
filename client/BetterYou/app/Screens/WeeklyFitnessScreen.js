@@ -192,13 +192,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   dateHeader: {
     alignSelf: "flex-start",
     marginLeft: "5%",
-    fontSize: 16,
-    marginBottom: "5%",
+    fontSize: 18,
+    marginBottom: 24,
   },
   dailyBreakdownHeader: {
     alignSelf: "flex-start",

@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignItems: "center",
     justifyContent: "center",
-    height: 270,  //this height is hardcoded but I think will be fine in the grand scheme
+    height: 270, //this height is hardcoded but I think will be fine in the grand scheme
   },
   dateHeader: {
     alignSelf: "flex-start",
@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   macronutrientCardContainer: {
-    marginTop: 20
+    marginTop: 20,
   },
   overfillpercent: {
     fontWeight: "bold",

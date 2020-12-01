@@ -53,7 +53,7 @@ function SummaryScreen({ navigation }) {
           />
 
           <ListItemComponent
-            title="Workout"
+            title="Fitness"
             icon={
               <Icon
                 name="dumbbell"
@@ -87,30 +87,6 @@ function SummaryScreen({ navigation }) {
         <TitleText style={styles.weeklyStatsHeader}>
           Weekly Statistics
         </TitleText>
-        <View style={styles.listItems}>
-          <ListItemComponent
-            style={styles.graphCard}
-            title="Sleep"
-            description={
-              <AppText>
-                You averaged
-                <AppText style={styles.boldText} children={` 6.07 hours `} />
-                of sleep per day over the last 7 days.
-              </AppText>
-            }
-            onPress={() => navigation.navigate("WeeklySleep")}
-          >
-            <View style={styles.chartcontainer}>
-              <View style={styles.charts}>
-                <AppBarChart
-                  data={data}
-                  color={(opacity = 1) => `rgba(0, 0, 0, ${opacity})`}
-                  scaleDimensions={0.8}
-                />
-              </View>
-            </View>
-          </ListItemComponent>
-        </View>
 
         <View style={styles.listItems}>
           <ListItemComponent
@@ -164,6 +140,32 @@ function SummaryScreen({ navigation }) {
             </View>
           </ListItemComponent>
         </View>
+
+        <View style={styles.listItems}>
+          <ListItemComponent
+            style={styles.graphCard}
+            title="Sleep"
+            description={
+              <AppText>
+                You averaged
+                <AppText style={styles.boldText} children={` 6.07 hours `} />
+                of sleep per day over the last 7 days.
+              </AppText>
+            }
+            onPress={() => navigation.navigate("WeeklySleep")}
+          >
+            <View style={styles.chartcontainer}>
+              <View style={styles.charts}>
+                <AppBarChart
+                  data={data}
+                  color={(opacity = 1) => `rgba(0, 0, 0, ${opacity})`}
+                  scaleDimensions={0.8}
+                />
+              </View>
+            </View>
+          </ListItemComponent>
+        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -177,13 +179,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 6,
+    marginBottom: 8,
   },
   dateHeader: {
     alignSelf: "flex-start",
     marginLeft: "5%",
     fontSize: 18,
-    marginBottom: "10%",
+    marginBottom: 30,
   },
   weeklyStatsHeader: {
     alignSelf: "flex-start",

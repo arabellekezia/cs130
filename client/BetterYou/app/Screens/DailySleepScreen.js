@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: "5%",
     marginLeft: "5%",
-    marginBottom: 12,
+    marginBottom: 8,
   },
   sleepLog: {
     marginTop: 12,
   },
   sleepEntryHeader: {
-    marginLeft: "5%" 
-  }, 
+    marginLeft: "5%",
+  },
   sleepsummary: {
     flexDirection: "row",
     justifyContent: "space-evenly",
