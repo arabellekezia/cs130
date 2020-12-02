@@ -8,7 +8,7 @@ from backend.user import User
 from backend.db import DB
 from backend.Diet import Diet
 from backend.Fitness import Fitness
-from backend.Sleep_aditya import Sleep
+from backend.Sleep import Sleep
 from backend.goals import Goals
 
 app = Flask(__name__)

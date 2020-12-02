@@ -43,7 +43,8 @@ class Fitness(Health):
     
     def insert_in_database(self, input_dict: Dict,\
                           input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
+                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float},\
+                          date_time: datetime = None) -> bool:
         """Inserts input in the database. Returns true if success o/w false
 
         Parameters
@@ -70,46 +71,10 @@ class Fitness(Health):
         
         data_dict = copy.deepcopy(input_dict)
         data_dict['UserID'] = self._user_id
-        data_dict['Datetime'] = datetime.utcnow()
-
-        try:
-            self._database_manager.insert_row_1(self._table_name,data_dict)
-            return True
-        except:
-            return False
-        
-    def insert_in_database_datetime(self, input_dict: Dict, date_time: datetime,\
-                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types: Dict[str,Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float}) -> bool:
-        """Inserts input in the database. Returns true if success o/w false
-
-        Parameters
-        ----------
-        input_dict : dict
-            The input dictionary with keys 'input_dict_keys' i.e. 'WorkoutType', 'Minutes', 'CaloriesBurned'
-        input_dict_keys : dict
-            The keys of 'input_dict'
-        input_dict_types : dict
-            The datatypes of the input_dict
-        date_time : datetime
-            Manually entering the datetime
-            
-        Returns
-        -------
-        bool
-            returns true if entry is without errors o/w false
-        """    
-        for k in input_dict.keys():
-            
-            if k not in input_dict_keys:
-                return False
-            
-            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
-                return False
-        
-        data_dict = copy.deepcopy(input_dict)
-        data_dict['UserID'] = self._user_id
-        data_dict['Datetime'] = date_time
+        if date_time is None:
+            data_dict['Datetime'] = datetime.utcnow()
+        else:
+            data_dict['Datetime'] = date_time
 
         try:
             self._database_manager.insert_row_1(self._table_name,data_dict)

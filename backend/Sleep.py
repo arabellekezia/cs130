@@ -1,70 +1,83 @@
-from Health import Health
-from datetime import datetime, date, timedelta
-from db import DB
+from backend.Health import Health
+from datetime import date, datetime, timezone
 import copy
+from typing import List, Dict, Any
+from backend.db import DB
 
 class Sleep(Health):
-    def __init__(self, database, user_id):
-        super().__init__(database, user_id, 'Sleep')
+    """
+    A class used to represent Sleep
+
+    ...
+
+    Attributes
+    ----------
+    database_manager : DB
+        the database manager
+    user_id : int
+        the unique user id
+    table_name : str
+        the name of the table for that aspect of health, like Diet, Fitness, Sleep
+
+    Methods
+    -------
+    get_columns_give_range()
+        Returns the columns from the table 'table_name' for a given time range
+    insert_in_database()
+        Inserts the input into the database
+    """
+    def __init__(self, database_manager: DB, user_id: int) -> None:
+        self._sleep_params = ['Minutes', 'Nap', 'SleepTime', 'WakeupTime', 'Datetime', 'UserID']
+        super().__init__(database_manager, user_id, 'Sleep', self._sleep_params)
 
 
-    # Input dict will have keys: SleepTime, WakeupTime
-    # Table columns: UserID, Date, SleepTime, WakeupTime, Minutes (sleep duration)
-    def insert_in_database(self, input_dict):
+    def insert_in_database(self, input_dict: Dict,\
+                          input_dict_keys: List[str] = ['SleepTime', 'WakeupTime', 'Nap'],\
+                          input_dict_types: Dict[str,Any] = {'SleepTime': datetime,'WakeupTime': datetime,'Nap': bool},\
+                          date_time: datetime = None) -> bool:
 
-        # Description:
-        # Inserts the input from the front end in the table.
-        #
-        # Input:
-        # input_dict (Dictionary): input dictionary from the user, described above
-        #
-        # Output:
-        # Returns True if the entry is correctly made
-        # Else returns False
-
-        input_key_list = ['SleepTime', 'WakeupTime']
-
-        ct = 0
         for k in input_dict.keys():
-            # Make sure we get all the valid keys
-            if k not in input_key_list():
+            
+            if k not in input_dict_keys:
+                return False
+            
+            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
                 return False
 
-        # Get the duration given sleep/ wake up time in minutes
         duration = input_dict['WakeupTime'] - input_dict['SleepTime']
         d_mins = divmod(duration.seconds, 60)[0]
 
         data_dict = copy.deepcopy(input_dict)
-        data_dict['UserID'] = self.__user_id
+        data_dict['UserID'] = self._user_id
         data_dict['Minutes'] = d_mins
+        if date_time is None:
+            data_dict['Datetime'] = datetime.utcnow()
+        else:
+            data_dict['Datetime'] = date_time
 
         try:
-            self.__database.insert_row(self.__table_name,data_dict)
+            self._database_manager.insert_row_1(self._table_name,data_dict)
             return True
         except:
-            print(f"insert_in_database: could not make an entry in {self.__table_name} for {data_dict}")
             return False
+            
+    def get_columns_given_range(self, startDate: datetime, endDate: datetime) -> (List[Dict], bool):
 
 
-    def get_columns_given_range(self, startDate, endDate):
-        # Description:
-        # Returns all Sleep data from startDate to endDate
-
-        # Input:
-        # startDate : datetime
-        # endDate : datetime
-
-        # Output:
-        # Returns all column data containing :
-        # Date, SleepTime, WakeupTime, Minutes
-
-        query = (f"SELECT * FROM {self.__table_name} "
-                 f"join Users on Users.id={self.__table_name}.UserID "
-                 f"WHERE Users.id = {self.__user_id} AND WakeupTime BETWEEN "
-                 f"'{str(startDate)} 00:00:00' AND '{str(endDate)} 00:00:00';"
+        query = (f"SELECT {self._get_params(self._params)} FROM {self._table_name} "\
+                 f"join Users on Users.id={self._table_name}.UserID "\
+                 f"WHERE Users.id = {self._user_id} AND WakeupTime BETWEEN "\
+                 f"'{str(startDate)}' AND '{str(endDate)}';")
 
         try:
-            data = self.__database.select_data(query)
-            return data_dict, True
+            result = self._database_manager.select_data(query)
+            if result:
+                for r in result:
+                    r['Datetime'] = int(r['Datetime'].replace(tzinfo=timezone.utc).timestamp())
+                    r['SleepTime'] = int(r['SleepTime'].replace(tzinfo=timezone.utc).timestamp())
+                    r['WakeupTime'] = int(r['WakeupTime'].replace(tzinfo=timezone.utc).timestamp())
+                return result, True
+            else:
+                return None, False
         except:
-            return "get_data_range: error getting data from database", False
+            return -1, False
