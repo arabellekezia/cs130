@@ -66,8 +66,6 @@ class Health(ABC):
             Returns a string which is used to query the database.
         
         """
-        if len(params) == 1:
-            return params[0]
         params_string = ''
         for p in params:
             params_string += p + ', '
