@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
@@ -58,77 +59,84 @@ function SignupScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppText
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: "5%",
-          marginBottom: "5%",
-          fontSize: 34,
-        }}
-        children="Let's get started!"
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Full name"
-        icon="account"
-        isError={err.name}
-        onChangeText={(name) => {
-          setName(name);
-          resetErrors();
-        }}
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Email"
-        icon="email"
-        isError={err.email}
-        onChangeText={(email) => {
-          setEmail(email);
-          resetErrors();
-        }}
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Password"
-        icon="lock"
-        onChangeText={(password) => {
-          setPassword(password);
-          resetErrors();
-        }}
-        isError={err.password}
-        secureTextEntry={true}
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Confirm password"
-        icon="lock"
-        onChangeText={(password) => {
-          setConfirmPassword(password);
-          resetErrors();
-        }}
-        isError={err.password}
-        secureTextEntry={true}
-      />
-      {displayErrorMessage(err)}
-      <TextButton
-        style={styles.submitButton}
-        name="Sign Up"
-        onPress={async () => await signup()}
-      />
-      <Text style={{ marginVertical: "5%" }}>
-        Already have an account?
-        <Text
-          style={{ color: "#0079d3" }}
-          onPress={() => {
-            console.log("Navigate to the login screen");
-            navigation.navigate("Login");
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+      }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <SafeAreaView style={styles.container}>
+        <AppText
+          style={{
+            alignSelf: "flex-start",
+            marginLeft: "5%",
+            marginBottom: "5%",
+            fontSize: 34,
           }}
-        >
-          {" Log in!"}
+          children="Let's get started!"
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Full name"
+          icon="account"
+          isError={err.name}
+          onChangeText={(name) => {
+            setName(name);
+            resetErrors();
+          }}
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Email"
+          icon="email"
+          isError={err.email}
+          onChangeText={(email) => {
+            setEmail(email);
+            resetErrors();
+          }}
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Password"
+          icon="lock"
+          onChangeText={(password) => {
+            setPassword(password);
+            resetErrors();
+          }}
+          isError={err.password}
+          secureTextEntry={true}
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Confirm password"
+          icon="lock"
+          onChangeText={(password) => {
+            setConfirmPassword(password);
+            resetErrors();
+          }}
+          isError={err.password}
+          secureTextEntry={true}
+        />
+        {displayErrorMessage(err)}
+        <TextButton
+          style={styles.submitButton}
+          name="Sign Up"
+          onPress={async () => await signup()}
+        />
+        <Text style={{ marginVertical: "5%" }}>
+          Already have an account?
+          <Text
+            style={{ color: "#0079d3" }}
+            onPress={() => {
+              console.log("Navigate to the login screen");
+              navigation.navigate("Login");
+            }}
+          >
+            {" Log in!"}
+          </Text>
         </Text>
-      </Text>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 

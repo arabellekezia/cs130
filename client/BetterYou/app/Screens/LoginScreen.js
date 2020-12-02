@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
@@ -29,61 +30,68 @@ function LoginScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppText
-        style={{
-          alignSelf: "flex-start",
-          marginLeft: "5%",
-          marginBottom: "5%",
-          fontSize: 34,
-        }}
-        children="Welcome!"
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        icon="account"
-        isError={err.email || err.password}
-        autoFocus={true}
-        onChangeText={(email) => {
-          setEmail(email);
-          setError({ email: false, password: false });
-        }}
-      />
-      <AppTextInput
-        style={styles.textInput}
-        placeholder="Password"
-        icon="lock"
-        onChangeText={(password) => {
-          setPassword(password);
-          setError({ email: false, password: false });
-        }}
-        isError={err.email || err.password}
-        secureTextEntry={true}
-      />
-      {displayErrorMessage(err)}
-      <TextButton
-        style={styles.submitButton}
-        name="Login"
-        onPress={async () => {
-          await login();
-        }}
-      />
-      <Text style={{ marginVertical: "5%" }}>
-        Don't have an account?
-        <Text
-          style={{ color: "#0079d3" }}
-          onPress={() => {
-            console.log("Navigate to the signup screen");
-            navigation.navigate("Signup");
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+      }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <SafeAreaView style={styles.container}>
+        <AppText
+          style={{
+            alignSelf: "flex-start",
+            marginLeft: "5%",
+            marginBottom: "5%",
+            fontSize: 34,
           }}
-        >
-          {" Sign up!"}
+          children="Welcome!"
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          icon="account"
+          isError={err.email || err.password}
+          autoFocus={true}
+          onChangeText={(email) => {
+            setEmail(email);
+            setError({ email: false, password: false });
+          }}
+        />
+        <AppTextInput
+          style={styles.textInput}
+          placeholder="Password"
+          icon="lock"
+          onChangeText={(password) => {
+            setPassword(password);
+            setError({ email: false, password: false });
+          }}
+          isError={err.email || err.password}
+          secureTextEntry={true}
+        />
+        {displayErrorMessage(err)}
+        <TextButton
+          style={styles.submitButton}
+          name="Login"
+          onPress={async () => {
+            await login();
+          }}
+        />
+        <Text style={{ marginVertical: "5%" }}>
+          Don't have an account?
+          <Text
+            style={{ color: "#0079d3" }}
+            onPress={() => {
+              console.log("Navigate to the signup screen");
+              navigation.navigate("Signup");
+            }}
+          >
+            {" Sign up!"}
+          </Text>
         </Text>
-      </Text>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, View, Text, Linking } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
@@ -49,34 +50,41 @@ function SleepGoalsScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TitleText style={styles.pageTitle} children="Sleep Goals" />
-      <View style={styles.form}>
-        <AppText
-          style={styles.question}
-          children="What is your target number of hours of sleep per night?"
-        />
-        <AppTextInput
-          style={styles.textInput}
-          placeholder="7 hours"
-          isError={err.sleepHours}
-          keyboardType="numeric"
-          onChangeText={(sleepHours) => {
-            setSleepHours(sleepHours);
-            resetErrors();
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+      }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <SafeAreaView style={styles.container}>
+        <TitleText style={styles.header} children="Sleep Goals" />
+        <View style={styles.form}>
+          <AppText
+            style={styles.question}
+            children="What is your target number of hours of sleep per night?"
+          />
+          <AppTextInput
+            style={styles.textInput}
+            placeholder="7 hours"
+            isError={err.sleepHours}
+            keyboardType="numeric"
+            onChangeText={(sleepHours) => {
+              setSleepHours(sleepHours);
+              resetErrors();
+            }}
+          />
+          {displayErrorMessage(err)}
+          <HealthInfo style={styles.healthInfoContainer} />
+        </View>
+        <TextButton
+          style={styles.saveButton}
+          name="Save"
+          onPress={async () => {
+            await save();
           }}
         />
-        {displayErrorMessage(err)}
-        <HealthInfo style={styles.healthInfoContainer} />
-      </View>
-      <TextButton
-        style={styles.saveButton}
-        name="Save"
-        onPress={async () => {
-          await save();
-        }}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
@@ -130,9 +138,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  pageTitle: {
+  header: {
     alignSelf: "flex-start",
-    marginTop: "5%",
+    marginTop: "15%",
     marginLeft: "5%",
   },
   form: {

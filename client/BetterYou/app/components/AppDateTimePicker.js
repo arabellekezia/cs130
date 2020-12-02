@@ -9,7 +9,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function AppDateTimePicker({ placeholder, init, onChange }) {
-  const initDate = init ? init : "";
+  const initDate = init ? init : false;
 
   const [date, setDate] = useState(initDate);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -84,6 +84,7 @@ function AppDateTimePicker({ placeholder, init, onChange }) {
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
+        date={new Date()}
         mode="date"
         onConfirm={handleDateConfirm}
         onCancel={() => {
