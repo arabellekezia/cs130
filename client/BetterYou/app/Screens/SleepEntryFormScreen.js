@@ -10,6 +10,8 @@ import colors from "../config/colors";
 import ErrorMessage from "../components/ErrorMessage";
 import { ScrollView, Switch } from "react-native-gesture-handler";
 
+import SleepService from "../services/SleepService";
+
 function isValidInput(startDate, endDate, setError) {
   const validStartDate = isValidDate(startDate);
   const validEndDate =
@@ -36,6 +38,7 @@ function SleepEntryFormScreen({ navigation, route }) {
       console.log(err);
       return;
     }
+
     console.log("start: " + startDate.toLocaleString());
     console.log("end: " + endDate.toLocaleString());
     navigation.popToTop();
