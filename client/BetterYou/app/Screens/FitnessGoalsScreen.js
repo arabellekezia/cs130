@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, View, Text, Linking } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
@@ -56,32 +57,39 @@ function FitnessGoalsScreen(navigation) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TitleText style={styles.pageTitle} children="Fitness Goals" />
-      <View style={styles.form}>
-        <AppText
-          style={styles.question}
-          children="What is your daily active minutes goal?"
+    <ScrollView
+      contentContainerStyle={{
+        flex: 1,
+      }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <SafeAreaView style={styles.container}>
+        <TitleText style={styles.pageTitle} children="Fitness Goals" />
+        <View style={styles.form}>
+          <AppText
+            style={styles.question}
+            children="What is your daily active minutes goal?"
+          />
+          <AppTextInput
+            style={styles.textInput}
+            placeholder="30 minutes"
+            isError={err.activeTime}
+            keyboardType="numeric"
+            onChangeText={(activeTime) => {
+              setActiveTimeGoal(activeTime);
+              resetErrors();
+            }}
+          />
+          {displayErrorMessage(err)}
+          <HealthInfo style={styles.healthInfoContainer} />
+        </View>
+        <TextButton
+          style={styles.saveButton}
+          name="Save"
+          onPress={async () => await save()}
         />
-        <AppTextInput
-          style={styles.textInput}
-          placeholder="30 minutes"
-          isError={err.activeTime}
-          keyboardType="numeric"
-          onChangeText={(activeTime) => {
-            setActiveTimeGoal(activeTime);
-            resetErrors();
-          }}
-        />
-        {displayErrorMessage(err)}
-        <HealthInfo style={styles.healthInfoContainer} />
-      </View>
-      <TextButton
-        style={styles.saveButton}
-        name="Save"
-        onPress={async () => await save()}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
