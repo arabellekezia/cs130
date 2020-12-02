@@ -18,7 +18,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_single(self):
         """
-        Test single option. Best match.
+        Test get_top_matches() with k=1, i.e. the best match.
         """
         k = 1
         for query in self.query_list:
@@ -28,14 +28,12 @@ class TestEdamamAPI(unittest.TestCase):
             
     def test_serving(self): 
         """
-        Test single option. Best match along with serving size.
+        Test the total nutrient computation after taking the serving size into account.
         """
-#         {0: {'Label': 'apple', 'Nutrients': {'Cals': 52.0, 'Protein': 0.26, 'Fat': 0.17, 'Carbs': 13.81, 'Fiber': 2.4}}}
         k = 1
         query = 'Apple'
         serving_size = 2.5
         result, success = self.api.get_top_matches(query=query, upc=False, k=k, serving_size=serving_size)
-#         print(result)
         self.assertTrue(success)
         self.assertEqual(len(result.keys()), 1)
         self.assertEqual(result[0]['Nutrients']['Cals'], 52.0 * serving_size)
@@ -47,7 +45,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_barcode(self):
         """
-        Test single option. Best match.
+        Test barcode query, i.e. with the input to API is a barcode number.
         """
         k = 1
         query = '016000275287'
@@ -59,7 +57,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_multiple(self):
         """
-        Test multiple options. Top k matches.
+        Test get_top_matches() for k>1. It should correctly return the top k matches.
         """
         k = 5
         for query in self.query_list:
@@ -80,7 +78,10 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_similarity_metric(self):
         """
-        Test the similarity metric. This query also has 16, 28 fl oz variants.
+        Test the similarity metric. We will use this query:
+        'jamba juice orange carrot karma smoothie, 22 fl oz'
+        This query also has 16, 28 fl oz variants. So the method get_top_matches()
+        should be able to correctly return the 22 fl oz variant.
         """
         query = 'jamba juice orange carrot karma smoothie, 22 fl oz'
         k = 1
@@ -90,7 +91,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_caps_invariance(self):
         """
-        Test the query invariance to caps lock.
+        Test the query invariance to caps lock. 'apple' and 'ApPlE' should give the same nutrients.
         """
         k = 1
         query_1 = 'apple'
@@ -104,7 +105,9 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_nutrient_dict_keys(self):
         """
-        Test the keys of the dictionary returned by the API
+        Test the keys of the dictionary returned by the API. Since we change the
+        keys of the nutrients dictionary used in Edamam Food APi, we check if the
+        keys are correctly transformed.
         """
         keys = ['Cals', 'Carbs', 'Protein', 'Fiber', 'Fat']
         k = 5
@@ -120,7 +123,8 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_incorrect_spelling(self):
         """
-        Test for incorrect spelling.
+        Test for incorrect query spelling. 'upple' is not a food item, so the method
+        should return False.
         """
         query = 'upple'
         k = 1
@@ -129,7 +133,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_incorrect_query(self):
         """
-        Test for incorrect query. Something random.
+        Test for incorrect query. Something random. The API should return False.
         """
         query = 'asdfghjkl'
         k = 1
@@ -138,7 +142,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_incorrect_wrong_query_type(self):
         """
-        Test for incorrect query type.
+        Test for incorrect query type. The query data type should be correct.
         """
         query = 3.5
         k = 1
@@ -147,7 +151,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_incorrect_wrong_upc_type(self):
         """
-        Test for incorrect upc type.
+        Test for incorrect upc type. The upc data type should be correct.
         """
         query = 'apple'
         upc = 'apple'
@@ -157,7 +161,7 @@ class TestEdamamAPI(unittest.TestCase):
 
     def test_incorrect_wrong_k_type(self):
         """
-        Test for incorrect k type.
+        Test for incorrect k type. k should be an integer.
         """
         query = 'apple'
         k = 'apple'

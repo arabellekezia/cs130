@@ -4,6 +4,37 @@ from difflib import SequenceMatcher
 from typing import Any, List, Dict
 
 class EdamamAPI():
+    """
+    The Edamam food API. 
+    
+    Provides the nutrient information for a food item when provided with the food name or the barcode number.
+
+    ...
+
+    Attributes
+    ----------
+    url : str
+        The API url.
+    key : str
+        The API key.
+    host : str
+        The API host.
+    headers : str
+        The api headers
+    transform_dict : dict
+        Dictionary which transforms the API nutrient labels to our apps nutrient labels. For instance
+        the API uses ENER_KCAL for the calories while we use Cals.
+        
+    Methods
+    -------
+    get_similar()
+        The computes the similarity score between two strings.
+    get_food_information()
+        Get the nutrient information from the food API given a query item.
+    get_top_matches()
+        Given a query, obtains the top k matches from the Food API. For each match, the function returns the total nutrients 
+        after taking the serving size into account.
+    """
     def __init__(self) -> None:
         self._url = "https://edamam-food-and-grocery-database.p.rapidapi.com/parser"
         self._key = "de414b4bedmsh907dea7bd3b009dp13afd1jsnee0e8e17539c"
@@ -21,9 +52,41 @@ class EdamamAPI():
                             }
         
     def get_similar(self, a: str, b: str) -> float:
+        """
+        Computes the similarity metric between two strings.
+        
+        Parameters
+        ----------
+        a : str
+            The first string.
+        b : str
+            The second string.
+        
+        Returns
+        -------
+        
+        similarity_score : float
+            The similarity score for the two strings. Useful while computing the top k matches for a given query.
+        
+        """
         return SequenceMatcher(None, a, b).ratio()
 
     def get_food_information(self, query: str, upc: bool = False) -> Dict:
+        """
+        Computes the nutrient information for a given query from the Edamam Food API.
+        
+        Parameters
+        ----------
+        query : str
+            The input query, for instance 'Apple', 'Orange' or a barcode number.
+        upc : bool
+            True if query is a barcode number, otherwise False.
+            
+        Returns
+        -------
+        response : dict
+            Returns a dictionary of the nutrients for a given query.
+        """
 
         # Check UPC code or Ingredient
         # UPC are barcodes and Ingredients are all other foods.
@@ -39,53 +102,40 @@ class EdamamAPI():
         return response.json()
     
     def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5, serving_size: float = 1.0) -> (Dict[int, Any], bool):
-        """Returns the food options dictionary. 
+        """Returns the top k matches from the Edamam Food APi for a given query. For each match it returns the total nutrients consumed
+        after taking the serving size into account.
 
         Parameters
         ----------
         query : string
-            The input query which can either be a food item name like "Apple" or the barcode number in str
+            The input query which can either be a food item name like "Apple" or the barcode number in str.
         upc : bool
-            Should be true when the query is a barcode number
+            Should be true when the query is a barcode number.
         k : int
-            The number of top matches
+            The number of top matches.
+        serving_size : float
+            The serving size for that food item.
 
         Returns
         -------
-        dict
-            dictionary with first level keys as the number of top matches required. Each of the match is another dictionary
-            with keys Label and Nutrients. Then Nutrients is another dictionary with keys: Cals, Protein, Carbs, Fiber, Fat.
-            Example:
-                # 0
-                # 	Label
-                # 		Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz
-                # 	Nutrients
-                # 		Cals
-                # 			41.499027861352765
-                # 		Protein
-                # 			0.6148004127607817
-                # 		Fat
-                # 			0.15370010319019542
-                # 		Carbs
-                # 			10.144206810552898
-                # 		Fiber
-                # 			0.6148004127607817
-                # 1
-                # 	Label
-                # 		Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz
-                # 	Nutrients
-                # 		Cals
-                # 			37.43695370561189
-                # 		Protein
-                # 			0.6038218339614821
-                # 		Fat
-                # 			0.12076436679229642
-                # 		Carbs
-                # 			9.178091876214529
-                # 		Fiber
-                # 			0.6038218339614821
-        bool
-            true if food api query is successful, otherwise false.
+        food_options_dict : dict
+            Returns a dictionary of the top k matches.
+
+        success ; bool
+            True if food api query is successful, otherwise False.
+
+        Notes
+        -----
+            An Example:
+                # {0:
+                #  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz',
+                #   'Nutrients' : {'Cals' : 41.499027861352765, 'Protein' : 0.6148004127607817,
+                #                  'Fat' : 0.15370010319019542, 'Carbs' : 10.144206810552898, 'Fiber': 0.6148004127607817}},
+                # 1: 
+                #  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz',
+                #   'Nutrients' : {'Cals' : 37.43695370561189, 'Protein' : 0.6038218339614821, 'Fat' : 0.12076436679229642,
+                #   'Carbs' : 9.178091876214529, 'Fiber' : 0.6038218339614821}}}
+
         """
         if not isinstance(query, str) or not isinstance(upc, bool) or not isinstance(k, int) or ((isinstance(k, int)) and k < 0):
             return {}, False

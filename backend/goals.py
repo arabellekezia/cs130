@@ -13,34 +13,42 @@ class Goals():
     Attributes
     ----------
     database_manager : DB
-        The database manager
+        The database manager.
     user_id : int
-        The unique user id
+        The unique user id.
     table_name : str
-        The name of the goal table
+        The name of the goal table.
+    params : list of string
+        Column names for the goal table.
 
     Methods
     -------
     set_goal()
-            Inserts the goal in the database
+            Inserts goals in the database.
     get_latest_goal()
-            Returns the latest goal depending on the type
+            Returns the latest goal depending on the type.
     get_all_goals()
-            Returns all the goals stored in the goals table
+            Returns all the goals stored in the goals table.
     get_type_goals()
-            Returns all the goals of a particular type
+            Returns all the goals of a particular type.
+    alter_goals()
+            Change the goals.
     """
  
     def __init__(self, database_manager: DB, user_id: int) -> None:
         """
+        Initialize the goal class.
+        
         Parameters
         ----------
         database_manager : DB
-            The database manager 
+            The database manager. 
         user_id : int
-            The unique user id
+            The unique user id.
         table_name : str
-            The name of the table
+            The name of the table.
+        params : list of strings
+            Columns of the goal table.
         """
         self._database_manager = database_manager
         self._user_id = user_id
@@ -48,6 +56,20 @@ class Goals():
         self._params = ['Type', 'Value', 'Datetime', 'UserID']
     
     def _get_params(self, params):
+        """
+        Converts a list of strings (subset of column names of the goals table) into a string which can be used to query the database.
+        
+        Parameters
+        ----------
+        params : list of strings
+            List of a subset of columns of the table 'table_name' for which data is returned given a get query.
+            
+        Returns
+        -------
+        out : str
+            Returns a string which is used to query the database.
+        
+        """
         if len(params) == 1:
             return params[0]
         params_string = ''
@@ -57,7 +79,7 @@ class Goals():
         return params_string
     
     def set_goal(self, input_dict: Dict, input_dict_keys: List[str] = ['Type', 'Value'], input_dict_types: Dict[str, Any] = {'Type': str,'Value': float}) -> bool:
-        """Inserts input in the database. Returns true if success o/w false
+        """Inserts input in the database. Returns true if success otherwise false
     
         Parameters
         ----------
@@ -70,8 +92,8 @@ class Goals():
                     
         Returns
         -------
-        bool
-            returns true if entry is without errors o/w false
+        success ; bool
+            Returns true if entry is without errors otherwise false
         """ 
         for k in input_dict.keys():
 
@@ -101,10 +123,10 @@ class Goals():
                     
         Returns
         -------
-        list
-            Returns a the latest goal from the table of type 'Type' in a list. The elements of the list are dictionaries.
-        bool
-            true if database query succesful, false otherwise
+        result ; list of dictionarites
+            Returns a the latest goal from the table of type 'Type' in a list.
+        success : bool
+            True if database query succesful, False otherwise
         """ 
             
         query = f"SELECT {self._get_params(self._params)} FROM {self._table_name}\
@@ -124,16 +146,13 @@ class Goals():
 
     def get_all_goals(self) -> (List[Dict], bool):
         """Gets all the goal of from the goal table.
-    
-        Parameters
-        ----------
                     
         Returns
         -------
-        list
-            Returns all the goals from the table in a list. The elements of the list are dictionaries.
-        bool
-            true if database query succesful, false otherwise 
+        result : list of dictionaries
+            Returns all the goals from the table in a list.
+        success : bool
+            True if database query succesful, False otherwise 
         """ 
         query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "
@@ -154,15 +173,15 @@ class Goals():
     
         Parameters
         ----------
-        Type : char
-            D for Diet (Cals), F for Fitness (Minutes), S for Sleep (Minutes)
+        Type : str
+            Calories for Diet (Cals), FitnessMinutes for Fitness (Minutes), SleepHours for Sleep (Minutes)
                     
         Returns
         -------
-        list
-            Returns all the goals from the table of type Type in a list. The elements of the list are dictionaries.
-        bool
-            true if database query succesful, false otherwise
+        result : list of dictionaries
+            Returns all the goals from the table of type Type in a list.
+        success : bool
+            true if database query succesful, false otherwise.
         """ 
         query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "
@@ -179,6 +198,23 @@ class Goals():
             return -1, False
 
     def alter_goal(self, goal_type: str, value: float, type_list: List = ['Calories', 'FitnessMinutes', 'SleepHours']) -> bool:
+        """
+        Change the existing goals.
+        
+        Parameters
+        ----------
+        goal_type : str
+            The type of goal to be changed, Diet, Fitness or Sleep
+        value : float
+            The new goal value.
+        type_list : list of strings
+            List of the three types of goals.
+        
+        Returns
+        -------
+        success : bool
+            Returns True if the goal is changed successfully, otherwise False.
+        """
         if goal_type not in type_list:
             return False
         if not isinstance(value, float):

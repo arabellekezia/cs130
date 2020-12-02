@@ -28,7 +28,7 @@ class TestGoals(unittest.TestCase):
         
     def test_alter_goal(self):
         """
-        Test altering a goal
+        Test altering a goal.
         """
         self.assertTrue(self.goals.alter_goal('Calories', 99.0))
         self.assertTrue(self.goals.alter_goal('FitnessMinutes', 50.0))
@@ -42,7 +42,7 @@ class TestGoals(unittest.TestCase):
 
     def test_incorrect_alter_type_goal(self):
         """
-        Test for incorrect alter type.
+        Test for incorrect alter type. The function alter_goal() should return False.
         """ 
         self.assertFalse(self.goals.alter_goal('CaloriesS', 99.0))
         self.assertFalse(self.goals.alter_goal('FitnessMinutesS', 50.0))
