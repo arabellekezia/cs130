@@ -63,6 +63,6 @@ class User:
             payload = decode(token, self._key, algorithms=['HS256'])
             return payload['sub'], 200
         except ExpiredSignatureError:
-            return 'Signature expired. Please log in again.', 400
+            return 'Signature expired. Please log in again.', 401
         except InvalidTokenError:
-            return 'Invalid token. Please log in again.', 400
+            return 'Invalid token. Please log in again.', 401

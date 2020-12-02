@@ -33,7 +33,7 @@ def enterWorkout():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     return STAYWELL_API.staywell(args, id, DB_OBJECT)
 
 # params: item - str/int, barcode - optional boolean, serving_size - float
@@ -158,7 +158,7 @@ def getMeals():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     diet = Diet(DB_OBJECT, id)
     db_data, success = diet.get_columns_given_range(dateFrom, dateTo)
     if not success:
@@ -199,7 +199,7 @@ def addMeal():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     insert_food_dict = {'Item': item, 'ServingSize': serving_size, 'Barcode': barcode}
     nutri_dict = {}
     for k, v in food_dict.items():
@@ -229,7 +229,7 @@ def getSleepData():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     sleep = Sleep(DB_OBJECT, id)
     db_data, success = sleep.get_columns_given_range(dateFrom, dateTo)
     if not success:
@@ -258,7 +258,7 @@ def insertSleepEntry():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     Nap = False
     if 'nap' in args and args['nap'].upper() == 'TRUE':
         Nap = True
@@ -286,7 +286,7 @@ def getFitnessData():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     fitness = Fitness(DB_OBJECT, id)
     db_data, success = fitness.get_columns_given_range(dateFrom, dateTo)
     if not success:
@@ -310,7 +310,7 @@ def getAllGoals():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     goals = Goals(DB_OBJECT, id)
     db_data, success = goals.get_all_goals()
     if not success:
@@ -338,7 +338,7 @@ def getTypeGoals():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     goals = Goals(DB_OBJECT, id)
     db_data, success = goals.get_type_goals(goal_type)
     if not success:
@@ -370,7 +370,7 @@ def changeGoal():
     token = token['token']
     id = getIdFromToken(token)
     if id < 0:
-        return "Invalid Token", 400
+        return "Invalid Token", 401
     goals = Goals(DB_OBJECT, id)
     success = goals.alter_goal(goal_type, goal_value)
     if not success:
