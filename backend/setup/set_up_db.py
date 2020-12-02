@@ -38,5 +38,8 @@ def drop_all_tables(db: DB) -> None:
     db.insert_data('drop table Goals')
     db.insert_data('drop table Users')
 
-db = DB(False)
-set_up_db(db)
+try:
+    db = DB(False)
+    set_up_db(db)
+except:
+    pass
