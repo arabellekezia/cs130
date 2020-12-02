@@ -9,4 +9,16 @@ let server = axios.create({
   timeout: 10000,
 });
 
+server.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response.status == 401) {
+      console.log("Expired JWT token!");
+      // i want to redirect user to the login screen if their token is expired, but i don't think this is possible
+      // even if i use a top level navigator
+    }
+    throw err;
+  }
+);
+
 export default server;
