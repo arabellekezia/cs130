@@ -10,6 +10,7 @@ import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import ErrorMessage from "../components/ErrorMessage";
 import { ScrollView } from "react-native-gesture-handler";
+import FitnessService from "../services/FitnessService";
 
 function isValidInput(category, activeTime, setError) {
   const validCategory = isValidCategory(category);
@@ -35,6 +36,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
 
   const [category, setCategory] = useState("");
   const [activeTime, setActiveTime] = useState(initTime);
+  const [weight, setWeight] = useState(0);
   const [err, setError] = useState({ category: false, activeTime: false });
 
   const activities = [
@@ -47,12 +49,12 @@ function FitnessEntryFormScreen({ navigation, route }) {
     { label: "Weightlifting", value: "Weightlifting: general" },
   ];
 
-  function submit() {
+  async function submit() {
     if (!isValidInput(category, activeTime, setError)) {
       console.log(err);
       return;
     }
-    console.log(category, activeTime);
+    await FitnessService.addFitnessEntry(weight, activeTime, category);
     navigation.popToTop();
   }
 
@@ -96,11 +98,23 @@ function FitnessEntryFormScreen({ navigation, route }) {
             setError({ category: false, activeTime: false });
           }}
         />
+
+        <AppText style={styles.text}>How much do you currently weigh?</AppText>
+        <AppTextInput
+          placeholder="140 pounds"
+          value={weight > 0 ? weight.toString() : ""}
+          keyboardType="numeric"
+          onChangeText={(weight) => {
+            setWeight(weight);
+            setError({ category: false, activeTime: false });
+          }}
+        />
+
         {displayErrorMessage(err)}
         <TextButton
           style={styles.button}
           name="Submit"
-          onPress={() => submit()}
+          onPress={async () => await submit()}
         />
       </ScrollView>
     </Screen>

@@ -6,6 +6,8 @@ import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
 import TitleText from "../components/TitleText";
 import GoalsService from "../services/GoalsService";
+import FitnessService from "../services/FitnessService";
+
 
 const MIN_CALORIES = 1000;
 

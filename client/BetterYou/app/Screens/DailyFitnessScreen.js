@@ -1,15 +1,22 @@
-import React from 'react';
-import { View, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
-import AppText from '../components/AppText';
-import TitleText from '../components/TitleText';
+import AppText from "../components/AppText";
+import TitleText from "../components/TitleText";
 import AppPieChart from "../components/AppPieChart";
 
 import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import ProgressCircle from 'react-native-progress-circle'
+import ProgressCircle from "react-native-progress-circle";
 import DailyFitnessEntries from "../components/DailyFitnessEntries";
-import Icon from '../components/Icon';
+import Icon from "../components/Icon";
 
 const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 const { totalActiveTime, totalCaloriesBurned } = getFitnessStats();
@@ -20,7 +27,7 @@ function DailyFitnessScreen(props) {
   const [selectedChartType, setSelectedChartType] = React.useState(
     chartOptions.ACTIVE_TIME
   );
-  
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -52,6 +59,154 @@ function DailyFitnessScreen(props) {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+function DailyFitnessChart({ selectedChartType, stats, pieChartData }) {
+  const {
+    totalActiveTime,
+    totalCaloriesBurned,
+    activeTimeGoal,
+    goalPercentage,
+  } = stats;
+
+  if (selectedChartType === chartOptions.ACTIVE_TIME) {
+    return (
+      <ActiveMinutesProgressCircle
+        goalPercentage={goalPercentage}
+        activeTime={totalActiveTime}
+        activeTimeGoal={activeTimeGoal}
+      />
+    );
+  } else {
+    return (
+      <View style={styles.chartContainer}>
+        <AppText
+          style={styles.totalMetricsText}
+          children={`${totalCaloriesBurned} Calories Burned `}
+        />
+        <AppPieChart
+          data={pieChartData}
+          accessor="percentage"
+          paddingLeft="15"
+          absolute={true}
+        />
+      </View>
+    );
+  }
+}
+
+function ActiveMinutesProgressCircle({
+  goalPercentage,
+  activeTime,
+  activeTimeGoal,
+}) {
+  const progressCircleHeader = `Active time of ${activeTime} minutes`;
+  return (
+    <View style={styles.chartContainer}>
+      <AppText
+        style={styles.totalMetricsText}
+        children={progressCircleHeader}
+      />
+      <ProgressCircle
+        percent={goalPercentage}
+        radius={100}
+        borderWidth={10}
+        color={goalPercentage >= 100 ? "#7ff587" : "#3399FF"}
+        bgColor={goalPercentage >= 100 ? "#f7fff8" : "#f2fdff"}
+        shadowColor="#999"
+      >
+        <Text style={styles.percentage}>{goalPercentage.toFixed(1)}%</Text>
+        <Text>of your daily goal of</Text>
+        <Text style={styles.dailyGoal}>{activeTimeGoal} Minutes</Text>
+      </ProgressCircle>
+    </View>
+  );
+}
+
+function getToday() {
+  //making this function in case this has to work with backend if not might simplify later
+  return moment().format("dddd, MMMM Do");
+}
+
+function computeAggregatedStatistics(entries, activeTimeGoal) {
+  let totalActiveTime = 0;
+  let totalCaloriesBurned = 0;
+  entries.forEach((entry) => {
+    totalActiveTime += entry.Minutes;
+    totalCaloriesBurned += entry.CaloriesBurned;
+  });
+  return {
+    totalActiveTime,
+    totalCaloriesBurned,
+    activeTimeGoal,
+    goalPercentage: (totalActiveTime / activeTimeGoal) * 100,
+  };
+}
+
+function formatActivityLog(entries) {
+  const activityNameToIconName = new Map([
+    ["Cycling", "bicycle"],
+    ["Hiking", "hiking"],
+    ["Jogging", "run"],
+    ["Sprinting", "run-fast"],
+    ["Swimming", "swim"],
+    ["Walking", "walk"],
+    ["Weightlifting", "dumbbell"],
+  ]);
+  entries = entries.map((entry) => {
+    return {
+      iconName: activityNameToIconName.get(entry.WorkoutType),
+      startTime: moment.unix(entry.Datetime).local().format("hh:mm A"),
+      activity: entry.WorkoutType,
+      caloriesBurned: entry.CaloriesBurned,
+      duration: moment
+        .utc(moment.duration(entry.Minutes, "minutes").as("milliseconds"))
+        .format("HH:mm:ss"),
+    };
+  });
+  return entries;
+}
+
+//randomly generating 10 colors for the pie chart to use (maybe could be improved)
+const piechartColors = [...Array(10)].map(
+  () =>
+    "rgb(" +
+    Math.floor(Math.random() * 256) +
+    "," +
+    Math.floor(Math.random() * 256) +
+    "," +
+    Math.floor(Math.random() * 256) +
+    ")"
+);
+
+function getCaloriesBurnedByActivity(entries) {
+  let result = {};
+  entries.forEach((entry) => {
+    if (result.hasOwnProperty(entry.WorkoutType)) {
+      result[entry.WorkoutType] += entry.CaloriesBurned;
+    } else {
+      result[entry.WorkoutType] = entry.CaloriesBurned;
+    }
+  });
+  return result;
+}
+
+function formatPieChartData(entries) {
+  const caloriesBurned = getCaloriesBurnedByActivity(entries);
+
+  let index = 0;
+  const data = [];
+  for (const activity in caloriesBurned) {
+    data.push({
+      name: activity,
+      percentage: caloriesBurned[activity],
+      color: piechartColors[index],
+      legendFontColor: "#000",
+      legendFontSize: 12,
+    });
+    index++;
+  }
+  return data;
 }
 
 const styles = StyleSheet.create({
@@ -106,8 +261,8 @@ const styles = StyleSheet.create({
 
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later
-  return moment().format("dddd, MMMM Do")
-};
+  return moment().format("dddd, MMMM Do");
+}
 
 function getFitnessStats() {
   //hard coded rn TODO: backend integration
@@ -115,12 +270,12 @@ function getFitnessStats() {
   const totalCaloriesBurned = 400;
   const goalActiveTime = 100;
   const totalToGoal = totalActiveTime / goalActiveTime;
-  const percentage = (totalToGoal * 100);
+  const percentage = totalToGoal * 100;
   const percentToDisplay = (totalToGoal * 100).toFixed(1);
-  return { 
-    totalActiveTime, 
-    totalCaloriesBurned, 
-    goalActiveTime, 
+  return {
+    totalActiveTime,
+    totalCaloriesBurned,
+    goalActiveTime,
     totalToGoal,
     percentage,
     percentToDisplay,
@@ -144,12 +299,12 @@ function getFitnessEntries() {
       caloriesBurned: 238,
       duration: "00:20:07",
     },
-  ]
+  ];
 
   return entry;
-};
+}
 
-function DailyFitnessChart({selectedChartType}) {
+function DailyFitnessChart({ selectedChartType }) {
   const totalMetrics =
     selectedChartType === chartOptions.ACTIVE_TIME
       ? `${totalActiveTime} Active Minutes`
@@ -168,22 +323,23 @@ function DailyFitnessChart({selectedChartType}) {
       justifyContent: "center",
       height: 270, //this height is hardcoded but I think will be fine in the grand scheme
     },
-    percentage: { 
-      fontWeight: "bold", 
-      fontSize: 36, 
-      textAlign: "center", 
-      padding: 10 
-    }, 
-    dailyGoal: { 
-      fontWeight: "bold", 
-      fontSize: 16, 
-      textAlign: "center", 
-      padding: 10 
-    }
-  })
+    percentage: {
+      fontWeight: "bold",
+      fontSize: 36,
+      textAlign: "center",
+      padding: 10,
+    },
+    dailyGoal: {
+      fontWeight: "bold",
+      fontSize: 16,
+      textAlign: "center",
+      padding: 10,
+    },
+  });
 
   if (selectedChartType === chartOptions.ACTIVE_TIME) {
-    if (activeTimeData.data[0] >= 1) { //if we go over the goal, we display a different color to indicate it
+    if (activeTimeData.data[0] >= 1) {
+      //if we go over the goal, we display a different color to indicate it
       return (
         <View style={styles.chartContainer}>
           <AppText style={styles.totalMetricsText} children={totalMetrics} />
@@ -198,9 +354,7 @@ function DailyFitnessChart({selectedChartType}) {
             <Text style={styles.percentage}>
               {getFitnessStats().percentToDisplay}%
             </Text>
-            <Text>
-              of your daily goal of 
-            </Text>
+            <Text>of your daily goal of</Text>
             <Text style={styles.dailyGoal}>
               {getFitnessStats().goalActiveTime} Minutes
             </Text>
@@ -222,9 +376,7 @@ function DailyFitnessChart({selectedChartType}) {
             <Text style={styles.percentage}>
               {getFitnessStats().percentToDisplay}%
             </Text>
-            <Text>
-              of your goal of 
-            </Text>
+            <Text>of your goal of</Text>
             <Text style={styles.dailyGoal}>
               {getFitnessStats().goalActiveTime} Minutes
             </Text>
@@ -232,21 +384,23 @@ function DailyFitnessChart({selectedChartType}) {
         </View>
       );
     }
-  }
-  else {
+  } else {
     return (
       <View style={styles.chartContainer}>
-        <AppText style={styles.totalMetricsText} children= {`${getFitnessStats().totalCaloriesBurned} Calories Burned `} />
-        <AppPieChart 
+        <AppText
+          style={styles.totalMetricsText}
+          children={`${getFitnessStats().totalCaloriesBurned} Calories Burned `}
+        />
+        <AppPieChart
           data={caloriesBurnedData}
           accessor="percentage"
           paddingLeft="15"
           absolute={true}
         />
       </View>
-    );  
+    );
   }
-};
+}
 
 //possibly not needed
 const activeTimeData = {
@@ -256,9 +410,16 @@ const activeTimeData = {
 };
 
 //randomly generating 10 colors for the pie chart to use (maybe could be improved)
-const piechartColors = [...Array(10)].map(() =>
-  'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')');
-
+const piechartColors = [...Array(10)].map(
+  () =>
+    "rgb(" +
+    Math.floor(Math.random() * 256) +
+    "," +
+    Math.floor(Math.random() * 256) +
+    "," +
+    Math.floor(Math.random() * 256) +
+    ")"
+);
 
 const caloriesBurnedData = [
   //TODO: Change from hardcoded to using grabbed data
