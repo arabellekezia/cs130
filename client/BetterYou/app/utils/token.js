@@ -24,4 +24,12 @@ async function getUserToken() {
   }
 }
 
-export { storeUserToken, getUserToken };
+async function clearUserToken() {
+  try {
+    await AsyncStorage.removeItem(TOKEN_KEY);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { storeUserToken, getUserToken, clearUserToken };
