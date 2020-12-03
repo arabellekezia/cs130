@@ -83,8 +83,8 @@ function FitnessBarChart({
 
   const totalWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
-      ? `${totalActiveTime} minutes`
-      : `${totalCaloriesBurned} calories`;
+      ? `${totalActiveTime.toFixed(0)} minutes`
+      : `${totalCaloriesBurned.toFixed(0)} calories`;
 
   const barChartData =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -144,9 +144,11 @@ function getCumulativeStats(entries) {
   entries.forEach((entry, index) => {
     totalCaloriesBurned += entry.caloriesBurned;
     totalActiveTime += entry.activeTime;
-    activeTimeData.datasets[0].data.push(entry.activeTime); 
-    caloriesBurnedData.datasets[0].data.push(entry.caloriesBurned); 
-    dailyBreakdownData[index].description = `${entry.activeTime} minutes`; 
+    activeTimeData.datasets[0].data.push(entry.activeTime.toFixed(0));
+    caloriesBurnedData.datasets[0].data.push(entry.caloriesBurned.toFixed(0));
+    dailyBreakdownData[index].description = `${entry.activeTime.toFixed(
+      0
+    )} minutes`; 
   });
   return { totalCaloriesBurned, totalActiveTime, activeTimeData, caloriesBurnedData, dailyBreakdownData};
 }
