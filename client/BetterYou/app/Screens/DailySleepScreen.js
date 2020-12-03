@@ -11,9 +11,11 @@ import TextButton from "../components/TextButton";
 import DailySleepEntries from "../components/DailySleepEntries";
 import SleepService from "../services/SleepService";
 
-function DailySleepScreen() {
+function DailySleepScreen({ route }) {
   const [isReady, setReady] = useState(false);
   const [sleepEntries, setSleepEntries] = useState({ sleep: [], naps: [] });
+
+  const date = route.params ? route.params.date : Date.now();
 
   useEffect(() => {
     loadSleepEntries();
@@ -21,7 +23,7 @@ function DailySleepScreen() {
 
   const loadSleepEntries = async () => {
     setReady(false);
-    const entries = await getTodaySleepEntries();
+    const entries = await getTodaySleepEntries(date);
     setSleepEntries(entries);
     setReady(true);
   };
@@ -34,7 +36,7 @@ function DailySleepScreen() {
           contentContainerStyle={styles.container}
         >
           <TitleText style={styles.pageTitle} children="Sleep" />
-          <AppText style={styles.dateHeader} children={getToday()} />
+          <AppText style={styles.dateHeader} children={getToday(date)} />
           {/*<View style={styles.sleepsummary}>
             {/* TODO: This portion should be changed to accomodate calculations from backend data 
             <SummaryItem
@@ -126,13 +128,21 @@ const styles = StyleSheet.create({
   },
 });
 
-function getToday() {
+/**
+ *
+ * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
+ */
+function getToday(date) {
   //making this function in case this has to work with backend if not might simplify later
-  return moment().format("dddd, MMMM Do");
+  return moment(date).format("dddd, MMMM Do");
 }
 
-function getTodayDate() {
-  const today = moment();
+/**
+ *
+ * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
+ */
+function getTodayDate(date) {
+  const today = moment(date);
   return {
     year: today.year(),
     month: today.month(),
@@ -140,7 +150,12 @@ function getTodayDate() {
   };
 }
 
-async function getTodaySleepEntries() {
+/**
+ *
+ * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
+ */
+
+async function getTodaySleepEntries(date) {
   //TODO: change from hardcoded to integration
   /* Note from evan - backend allows us to differentiate between naps + actual sleep, so i'm using that info */
 
@@ -161,7 +176,7 @@ async function getTodaySleepEntries() {
   //   ],
   // };
   try {
-    const today = getTodayDate();
+    const today = getTodayDate(date);
     const sleepEntries = await SleepService.getDailySleepEntries(today);
     const groupedSleepEntries = await groupSleepByCategory(sleepEntries);
     return groupedSleepEntries;
