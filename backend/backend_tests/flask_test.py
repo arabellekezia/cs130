@@ -29,7 +29,7 @@ class FlaskTest(unittest.TestCase):
     def test_enterWorkout(self):
         token = self.token
         data = {'weight':120,
-                'workout':'basketball',
+                'workout':'Basketball: game',
                 'minutes': 45.8,
                 'token':token}
         method = 'enterWorkout'
@@ -39,7 +39,7 @@ class FlaskTest(unittest.TestCase):
     def test_mult_enterWorkout(self):
         method = 'enterWorkout'
         data1 = {'weight':130,
-                'workout':'run',
+                'workout':'Running: 6 min/mile',
                 'minutes': 68.2,
                 'token':self.token}
 
@@ -47,7 +47,7 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
         data2 = {'weight':120,
-                'workout':'swim',
+                'workout':'Swimming: general',
                 'minutes': 57.4,
                 'token':self.token}
         req = requests.post(self.url + method, data=data2)
@@ -58,7 +58,7 @@ class FlaskTest(unittest.TestCase):
         req = requests.post(self.url + method, data={})
         self.assertEqual(req, 400)
 
-        data1 = {'weight':120.1,
+        data1 = {'weight':120,
                 'workout':'run',
                 'minutes': 68.2,
                 'token':self.token}
@@ -66,11 +66,25 @@ class FlaskTest(unittest.TestCase):
         req = requests.post(self.url + method, data=data1)
         self.assertNotEqual(req, 200)
 
-        data2 = {'weight':120,
+        data2 = {'weight':120.5,
+                'workout':'Running: 6 min/mile',
                 'minutes': 57.4,
                 'token':self.token}
         req = requests.post(self.url + method, data=data2)
         self.assertNotEqual(req, 200)
+
+        data3 = {'weight':120,
+                'minutes': 57.4,
+                'token':self.token}
+        req = requests.post(self.url + method, data=data3)
+        self.assertNotEqual(req, 200)
+
+    def test_getFitnessData(self):
+        method = 'getFitnessData'
+        req = requests.get(self.url + method, data=self.get_data)
+        self.assertEqual(req, 200)
+        self.assertEqual(len(req), 3)
+        self.assertEqual(req[0]['workout'], 'Basketball: game')
 
     def test_addMeal(self):
         data = {'token':self.token,
@@ -108,6 +122,7 @@ class FlaskTest(unittest.TestCase):
 
     def test_error_addMeal(self):
         method = 'addMeal'
+
         data1 = {'token':self.token,
                 'item': 'Chicken',
                 'ServingSize': 1.98,
@@ -126,6 +141,59 @@ class FlaskTest(unittest.TestCase):
                 'ServingSize': 3}
         req = requests.post(self.url + method, data=data3)
         self.assertNotEqual(req, 200)
+
+    def test_getNutritionalData(self):
+        data = {'item': 'Cookie Butter Cookies',
+                'barcode': 'false',
+                'serving_size': 2}
+        method = 'getNutritionalData'
+        req = requests.get(self.url + method, data=data)
+        self.assertEqual(req, 200)
+        self.assertEqual(req[0], 'Cookie Butter Cookies')
+
+    def test_error_getNutritionalData(self):
+        method = 'getNutritionalData'
+
+        data1 = {'item': 2,
+                'serving_size': 1.6}
+        req = requests.get(self.url + method, data=data1)
+        self.assertEqual(req, 200)
+
+        data2 = {'item': 'Cookie Butter Cookies',
+                'barcode': 'false'}
+        req = requests.get(self.url + method, data=data2)
+        self.assertEqual(req, 200)
+
+    def test_getAvailableFoods(self):
+        data = {'item': 'Peanut Butter',
+                'barcode': 'false',
+                'nMatches': 2,
+                'serving_size': 2}
+        method = 'getAvailableFoods'
+        req = requests.get(self.url + method, data=data)
+        self.assertEqual(req, 200)
+        self.assertEqual(len(req),2)
+
+    def test_error_getAvailableFoods(self):
+        method = 'getAvailableFoods'
+
+        data1 = {'item': 'Peanut Butter',
+                'barcode': 'false',
+                'nMatches': 2.4,
+                'serving_size': 2}
+        req = requests.get(self.url + method, data=data1)
+        self.assertNotEqual(req, 200)
+
+        data2 = {'item': 'Peanut Butter',
+                'barcode': 'false',
+                'nMatches': 2}
+        req = requests.get(self.url + method, data=data2)
+        self.assertNotEqual(req, 200)
+
+    def test_getMeals(self):
+        method = 'getMeals'
+        req = requests.get(self.url + method, data=self.get_data)
+        self.assertEqual(req, 200)
 
     def test_insertSleepEntry(self):
         dateTo = datetime.utcnow()
@@ -155,8 +223,13 @@ class FlaskTest(unittest.TestCase):
                 'dateFrom': dateFrom2,
                 'dateTo': dateTo2,
                 'nap': False}
-        req = requests.post(self.url + method, data=data)
+        req = requests.post(self.url + method, data=data2)
         self.assertNotEqual(req, 200)
+
+    def test_getSleepData(self):
+        method = 'getSleepData'
+        req = requests.get(self.url + method, data=self.get_data)
+        self.assertEqual(req, 200)
 
     def test_changeGoal(self):
         method = 'changeGoal'
@@ -178,6 +251,45 @@ class FlaskTest(unittest.TestCase):
         req = requests.post(self.url + method, data=data3)
         self.assertEqual(req, 200)
 
+    def test_mult_changeGoal(self):
+        method = 'changeGoal'
+        data1 = {'token':self.token,
+                'type': 'FitnessMinutes',
+                'value':60}
+        req = requests.post(self.url + method, data=data1)
+        self.assertEqual(req, 200)
+
+        method = 'changeGoal'
+        data2 = {'token':self.token,
+                'type': 'FitnessMinutes',
+                'value':57}
+        req = requests.post(self.url + method, data=data2)
+        self.assertEqual(req, 200)
+
+        data3 = {'token':self.token,
+                'type': 'Calories',
+                'value':1800}
+        req = requests.post(self.url + method, data=data3)
+        self.assertEqual(req, 200)
+
+        data4 = {'token':self.token,
+                'type': 'Calories',
+                'value':1500}
+        req = requests.post(self.url + method, data=data4)
+        self.assertEqual(req, 200)
+
+        data5 = {'token':self.token,
+                'type': 'SleepHours',
+                'value':8}
+        req = requests.post(self.url + method, data=data5)
+        self.assertEqual(req, 200)
+
+        data6 = {'token':self.token,
+                'type': 'SleepHours',
+                'value':9}
+        req = requests.post(self.url + method, data=data6)
+        self.assertEqual(req, 200)
+
     def test_error_changeGoal(self):
         method = 'changeGoal'
         data1 = {'token':self.token,
@@ -197,38 +309,6 @@ class FlaskTest(unittest.TestCase):
                 'value':8}
         req = requests.post(self.url + method, data=data3)
         self.assertNotEqual(req, 200)
-
-    def test_getNutritionalData(self):
-        data = {'item': 'Cookie Butter Cookies',
-                'barcode': 'false',
-                'serving_size': 2}
-        method = 'getNutritionalData'
-        req = requests.get(self.url + method, data=data)
-        self.assertEqual(req, 200)
-
-    def test_getAvailableFoods(self):
-        data = {'item': 'Cookie Butter Cookies',
-                'barcode': 'false',
-                'nMatches': 1,
-                'serving_size': 2}
-        method = 'getAvailableFoods'
-        req = requests.get(self.url + method, data=data)
-        self.assertEqual(req, 200)
-
-    def test_getMeals(self):
-        method = 'getMeals'
-        req = requests.get(self.url + method, data=self.get_data)
-        self.assertEqual(req, 200)
-
-    def test_getSleepData(self):
-        method = 'getSleepData'
-        req = requests.get(self.url + method, data=self.get_data)
-        self.assertEqual(req, 200)
-
-    def test_getFitnessData(self):
-        method = 'getFitnessData'
-        req = requests.get(self.url + method, data=self.get_data)
-        self.assertEqual(req, 200)
 
     def test_getAllGoals(self):
         method = 'getAllGoals'
