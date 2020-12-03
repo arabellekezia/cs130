@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, List
 from backend.db import DB
 from backend.Fitness import Fitness
 
@@ -6,8 +6,40 @@ from backend.Fitness import Fitness
 # code/values/workout types come from this website however they only provided HTML and not JSON data
 # so I made this script to do the same functionality as the website linked
 
-class StaywellExternalAPI:
+class StaywellAPI:
+    """
+    This class contains all of the code to calculate the amount of calories burned during a specified
+    type and duration of a workout based on the person's weight. It is adapted from:
+    http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator
+
+    ...
+
+    Attributes
+    ----------
+    _workout_list : List[str]
+        List of all possible workouts supported by this API.
+
+    Methods
+    -------
+    staywell(args: Dict[str, Any], userID: int, db: DB) -> Tuple[str, int]
+        Function to check the arguments, calculate the amount of calories burnes based on given information, and
+        enter the data into the database for the Fitness table.
+    _get_calories_list_per_hour(weight: int) -> List[int]
+        Based on the entered weight, get a list of calories burned in one hour in the same order and corresponding
+        to the _workout_list. (Private method)
+    _get_exact_calories(weight: int, workout: str, minutes: float) -> float
+        For the specified weight, workout, and minutes, calculate the exact number of calories burned. (Private method)
+    _check_weight(data: Dict[str, Any]) -> Dict[str, Any]
+        Check that the weight parameter is valid. (Private method)
+    _check_workout_type(data: Dict[str, Any]) -> Dict[str, Any]
+        Check that the workout parameter is valid and a part of the list of options in _workout_list. (Private method)
+    _check_minutes(data: Dict[str, Any]) -> Dict[str, Any]
+        Check that the duration (minutes) of the workout is valid. (Private method)
+    """
     def __init__(self) -> None:
+        """
+        Initialization for the StaywellAPI.
+        """
         self._workout_list = ['Aerobics, step: high impact',
                               'Aerobics, step: low impact',
                               'Aerobics: high impact',
@@ -90,6 +122,25 @@ class StaywellExternalAPI:
                               'Volleyball general play']
 
     def staywell(self, args: Dict[str, Any], userID: int, db: DB) -> Tuple[str, int]:
+        """
+        Function to check the arguments, calculate the amount of calories burnes based on given information, and
+        enter the data into the database for the Fitness table.
+
+        Parameters
+        ----------
+        args: Dict[str, Any]
+            Dictionary of the arguments and their values given to the Flask endpoint as an HTTP URL.
+        userID: int
+            Unique user ID for the specific app user.
+        db: DB
+            Database managing object to connect, select, and insert data.
+
+        Returns
+        -------
+        result : Tuple[str, int]
+            The first part of the Tuple corresponds to the message for the HTTP request, the second part of the Tuple
+            corresponds to the HTTP status code.
+        """
         if not args:
             return "Arguments needed.", 400
         weight_param = self._check_weight(args)
@@ -117,7 +168,22 @@ class StaywellExternalAPI:
             return "Server Error", 500
         return str(calories), 200
 
-    def _get_calories_list_per_hour(self, weight: int) -> int:
+    def _get_calories_list_per_hour(self, weight: int) -> List[int]:
+        """
+        Based on the entered weight, get a list of calories burned in one hour in the same order and corresponding
+        to the _workout_list.
+
+        Parameters
+        ----------
+        weight: int
+            Weight (in lbs.) of the user.
+
+        Returns
+        -------
+        calories_for_exercise : List[int]
+            Ordered by the _workout_list, this is the number of calories burned in an hour for each corresponding
+            exercise.
+        """
         calories_for_exercise = []
         if weight < 113:
             calories_for_exercise = [480, 336, 336, 264, 192, 384, 312, 336, 504, 792, 384, 480,
@@ -162,12 +228,44 @@ class StaywellExternalAPI:
         return calories_for_exercise
 
     def _get_exact_calories(self, weight: int, workout: str, minutes: float) -> float:
+        """
+        For the specified weight, workout, and minutes, calculate the exact number of calories burned.
+
+        Parameters
+        ----------
+        weight: int
+            Weight (in lbs.) of the user.
+        workout: str
+            Workout from _workout_list performed by user.
+        minutes: float
+            Duration of workout.
+
+        Returns
+        -------
+        calories_burned : float
+            Exact number of calories burned based on the weight, workout, and duration.
+        """
         calories_for_exercise = self._get_calories_list_per_hour(weight)
         index = self._workout_list.index(workout)
         calories_per_min = calories_for_exercise[index] / 60
-        return (minutes*calories_per_min)
+        calories_burned = (minutes*calories_per_min)
+        return calories_burned
 
     def _check_weight(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Check that the weight parameter is valid.
+
+        Parameters
+        ----------
+        args: Dict[str, Any]
+            Dictionary of the arguments and their values given to the Flask endpoint as an HTTP URL.
+
+        Returns
+        -------
+        result : Dict[str, Any]
+            This returns a Dict containing information from the parser, such as the valid data entry or
+            message to display to user if invalid weight was given, and a Dict entry for the HTTP status code.
+        """
         if 'weight' in data:
             weight = data['weight']
             try:
@@ -185,6 +283,20 @@ class StaywellExternalAPI:
                     "status_code": 400}
 
     def _check_workout_type(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Check that the workout parameter is valid and a part of the list of options in _workout_list.
+
+        Parameters
+        ----------
+        args: Dict[str, Any]
+            Dictionary of the arguments and their values given to the Flask endpoint as an HTTP URL.
+
+        Returns
+        -------
+        result : Dict[str, Any]
+            This returns a Dict containing information from the parser, such as the valid data entry or
+            message to display to user if invalid workout was given, and a Dict entry for the HTTP status code.
+        """
         if 'workout' in data:
             workout = data['workout']
             if workout in self._workout_list:
@@ -197,6 +309,20 @@ class StaywellExternalAPI:
                     "status_code": 400}
 
     def _check_minutes(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Check that the duration (minutes) of the workout is valid.
+
+        Parameters
+        ----------
+        args: Dict[str, Any]
+            Dictionary of the arguments and their values given to the Flask endpoint as an HTTP URL.
+
+        Returns
+        -------
+        result : Dict[str, Any]
+            This returns a Dict containing information from the parser, such as the valid data entry or
+            message to display to user if invalid duration was given, and a Dict entry for the HTTP status code.
+        """
         if 'minutes' in data:
             mins = data['minutes']
             try:

@@ -2,7 +2,7 @@ from flask import Flask, request
 import requests
 from datetime import datetime, timezone, timedelta 
 import json
-from backend.staywell_api import StaywellExternalAPI
+from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
 from backend.db import DB
@@ -14,7 +14,7 @@ from backend.goals import Goals
 app = Flask(__name__)
 DB_OBJECT = DB(False)
 USER = User(DB_OBJECT)
-STAYWELL_API = StaywellExternalAPI()
+STAYWELL_API = StaywellAPI()
 EDAMAM_API = EdamamAPI()
 
 @app.route('/')

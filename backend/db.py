@@ -11,7 +11,6 @@ class DB:
 
     Attributes
     ----------
-
     _host : str
         Hostname for the database server. (Private member variable)
     _user : str
