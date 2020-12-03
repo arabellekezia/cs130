@@ -6,6 +6,7 @@ import TitleText from "../components/TitleText";
 import AppPieChart from "../components/AppPieChart";
 
 import moment from "moment";
+import { useIsFocused } from "@react-navigation/native";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import ProgressCircle from "react-native-progress-circle";
 import DailyFitnessEntries from "../components/DailyFitnessEntries";
@@ -24,6 +25,8 @@ function DailyFitnessScreen({ route }) {
   const [dailyEntries, setDailyEntries] = React.useState([]);
   const [stats, setStats] = React.useState(undefined);
 
+  const isFocused = useIsFocused();
+
   // Fetch daily entries
   useEffect(() => {
     async function getDailyEntries() {
@@ -38,10 +41,20 @@ function DailyFitnessScreen({ route }) {
         activeTimeGoal
       );
       setStats(computedStats);
-      setIsReady(true);
+      //setIsReady(true);
     }
-    getDailyEntries();
-  }, []);
+    let mounted = true;
+
+    getDailyEntries().then(() => {
+      if (mounted) {
+        setIsReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [isFocused]);
 
   return (
     <SafeAreaView>

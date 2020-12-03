@@ -135,7 +135,17 @@ function SummaryScreen({ navigation }) {
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
-    fetchAllData();
+    let mounted = true;
+
+    fetchAllData().then(() => {
+      if (mounted) {
+        setIsReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, [isFocused]);
 
   async function fetchFitnessData() {
@@ -186,7 +196,7 @@ function SummaryScreen({ navigation }) {
       await fetchFitnessData();
       await fetchSleepData();
       await fetchNutritionData();
-      setIsReady(true);
+      //setIsReady(true);
     } catch (err) {
       console.log(err);
     }

@@ -31,6 +31,11 @@ import AuthContext from "./app/context/AuthContext";
 import { getUserToken } from "./app/utils/token";
 import { AppLoading } from "expo";
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

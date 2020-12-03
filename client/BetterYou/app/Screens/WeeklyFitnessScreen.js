@@ -10,6 +10,7 @@ import DailyBreakdownList from "../components/DailyBreakdownList";
 import DateUtils from "../utils/date";
 import FitnessService from "../services/FitnessService";
 import moment from "moment";
+import { useIsFocused } from "@react-navigation/native";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
@@ -23,15 +24,28 @@ function WeeklyFitnessScreen() {
   const [stats, setStats] = React.useState({});
   const [isReady, setIsReady] = React.useState(false);
 
+  const isFocused = useIsFocused();
+
   // Fetch weekly entries
   React.useEffect(() => {
     async function getWeeklyEntries() {
       const entries = await FitnessService.getWeeklyFitnessEntries();
       setStats(getCumulativeStats(entries));
-      setIsReady(true);
+      //setIsReady(true);
     }
-    getWeeklyEntries();
-  }, []);
+
+    let mounted = true;
+
+    getWeeklyEntries().then(() => {
+      if (mounted) {
+        setIsReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [isFocused]);
 
   return (
     <SafeAreaView>

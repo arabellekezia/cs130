@@ -7,6 +7,7 @@ import AppText from "../components/AppText";
 import TitleText from "../components/TitleText";
 
 import moment from "moment";
+import { useIsFocused } from "@react-navigation/native";
 import TextButton from "../components/TextButton";
 import DailySleepEntries from "../components/DailySleepEntries";
 import SleepService from "../services/SleepService";
@@ -17,15 +18,27 @@ function DailySleepScreen({ route }) {
 
   const date = route.params ? route.params.date : Date.now();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    loadSleepEntries();
-  }, []);
+    let mounted = true;
+
+    loadSleepEntries().then(() => {
+      if (mounted) {
+        setReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [isFocused]);
 
   const loadSleepEntries = async () => {
     setReady(false);
     const entries = await getTodaySleepEntries(date);
     setSleepEntries(entries);
-    setReady(true);
+    //setReady(true);
   };
 
   return (
