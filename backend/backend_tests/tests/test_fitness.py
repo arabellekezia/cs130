@@ -30,7 +30,7 @@ class TestFitness(unittest.TestCase):
 
         self.fitness = Fitness(self.db, self.user_id)
         self.fitness_dict = {'WorkoutType': 'Running',\
-                             'Minutes': 10,\
+                             'Minutes': 10.0,\
                              'CaloriesBurned': 100.9}
         self.fitness_1 = Fitness(self.db, self.user_id_1)
         self.fitness_dict_1 = {'WorkoutType': 'Sleeping',\
@@ -111,14 +111,14 @@ class TestFitness(unittest.TestCase):
 
         self.assertTrue(success)
         self.assertEqual(result[0]['WorkoutType'], 'Running')
-        self.assertEqual(result[0]['Minutes'], 10)
+        self.assertEqual(result[0]['Minutes'], 10.0)
         self.assertEqual(result[0]['CaloriesBurned'], 100.9)
         
         result_1, success_1 = self.fitness_1.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success_1)
         self.assertEqual(result_1[0]['WorkoutType'], 'Sleeping')
-        self.assertEqual(result_1[0]['Minutes'], 100)
+        self.assertEqual(result_1[0]['Minutes'], 100.0)
         self.assertEqual(result_1[0]['CaloriesBurned'], 10.9)
 
     def test_7_incorrect_data_fetching(self):
@@ -135,15 +135,15 @@ class TestFitness(unittest.TestCase):
         Test fetching multiple fitness data entries from the database.
         """
         d = {'WorkoutType': 'Running',\
-             'Minutes': 10,\
+             'Minutes': 10.0,\
              'CaloriesBurned': 100.9}
         _ = self.fitness.insert_in_database(d, date_time=datetime.utcnow()+timedelta(days=1)+timedelta(minutes=1))
         d = {'WorkoutType': 'Jogging',\
-             'Minutes': 10,\
+             'Minutes': 10.0,\
              'CaloriesBurned': 100.9}
         _ = self.fitness.insert_in_database(d, date_time=datetime.utcnow()+timedelta(days=1)+timedelta(minutes=2))
         d = {'WorkoutType': 'Dancing',\
-             'Minutes': 10,\
+             'Minutes': 10.0,\
              'CaloriesBurned': 100.9}
         _ = self.fitness.insert_in_database(d, date_time=datetime.utcnow()+timedelta(days=1)+timedelta(minutes=4))
         d1 = date.today() + timedelta(days=1)

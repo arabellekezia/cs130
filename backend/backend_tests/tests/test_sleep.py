@@ -32,13 +32,13 @@ class TestSleep(unittest.TestCase):
         self.sleep_1 = Sleep(self.db, self.user_id_1)
         
         self.sleep_time = datetime.utcnow()
-        self.wakeup_time = datetime.utcnow() + timedelta(hours=1) + timedelta(minutes=3)
+        self.wakeup_time = datetime.utcnow() + timedelta(minutes=1)
         self.sleep_dict = {'Nap': False,\
                            'SleepTime': self.sleep_time,\
                            'WakeupTime': self.wakeup_time}
         
-        self.sleep_time_1 = datetime.utcnow() + timedelta(hours=1)
-        self.wakeup_time_1 = datetime.utcnow() + timedelta(hours=2) + timedelta(minutes=3)
+        self.sleep_time_1 = datetime.utcnow()
+        self.wakeup_time_1 = datetime.utcnow() + timedelta(minutes=2)
         self.sleep_dict_1 = {'Nap': False,\
                            'SleepTime': self.sleep_time_1,\
                            'WakeupTime': self.wakeup_time_1}
@@ -47,10 +47,16 @@ class TestSleep(unittest.TestCase):
         self.unix_time = round(time.time())
 
     def test_0_data_insertion(self):
+        """
+        Test data insertion for sleep for a single user.
+        """
         s = self.sleep.insert_in_database(self.sleep_dict, date_time=self.dt1)
         self.assertTrue(s)
         
     def test_1_data_insertion_multiple_user(self):
+        """
+        Test data insertion for sleep for multiple users.
+        """
         s = self.sleep.insert_in_database(self.sleep_dict, date_time=self.dt1)
         self.assertTrue(s)
         s_1 = self.sleep_1.insert_in_database(self.sleep_dict_1, date_time=self.dt1)
@@ -58,7 +64,7 @@ class TestSleep(unittest.TestCase):
 
     def test_2_incorrect_key(self):
         """
-        Test for incorrect keys. We send incorrect key: ItemS
+        Test for incorrect keys.
         """
         d = copy.deepcopy(self.sleep_dict)
         del(d['Nap'])
@@ -77,7 +83,7 @@ class TestSleep(unittest.TestCase):
         
     def test_3_incorrect_value(self):
         """
-        Test for incorrect value type.
+        Test for incorrect value data type.
         """
         d = copy.deepcopy(self.sleep_dict)
         d['Nap'] = 10
@@ -93,7 +99,7 @@ class TestSleep(unittest.TestCase):
        
     def test_4_data_fetching_unix_time_and_insertion(self):
         """
-        Test fetching sleep data from database
+        Test fetching sleep data from database and the UNIX TIMESTAMP.
         """
         d1 = date.today()
         dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
@@ -101,19 +107,18 @@ class TestSleep(unittest.TestCase):
         self.assertTrue(success)
         self.assertEqual(result[0]['Datetime'],self.unix_time)
 
-    def test_4_data_fetching_value(self):
+    def test_5_data_fetching_value(self):
         """
-        Test fetching sleep data from database
+        Test fetching sleep data from database for multiple users.
         """
         d1 = date.today()
         dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.sleep.get_columns_given_range(dt1, dt1+timedelta(days=1))
-
         self.assertTrue(success)
         self.assertEqual(result[0]['SleepTime'],round(self.sleep_time.replace(tzinfo=timezone.utc).timestamp()))
         self.assertEqual(result[0]['WakeupTime'],round(self.wakeup_time.replace(tzinfo=timezone.utc).timestamp()))
         self.assertFalse(result[0]['Nap'])
-        self.assertTrue(result[0]['Minutes'],263)
+        self.assertEqual(result[0]['Minutes'],1)
         
         result_1, success_1 = self.sleep_1.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
@@ -121,22 +126,22 @@ class TestSleep(unittest.TestCase):
         self.assertEqual(result_1[0]['SleepTime'],round(self.sleep_time_1.replace(tzinfo=timezone.utc).timestamp()))
         self.assertEqual(result_1[0]['WakeupTime'],round(self.wakeup_time_1.replace(tzinfo=timezone.utc).timestamp()))
         self.assertFalse(result_1[0]['Nap'])
-        self.assertTrue(result_1[0]['Minutes'],263)
+        self.assertEqual(result_1[0]['Minutes'],2)
 
-    def test_5_minutes_computation(self):
+    def test_6_minutes_computation(self):
         """
-        Test the minute computation in sleep
+        Test the minute computation in sleep.
         """
         d1 = date.today()
         dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
         result, success = self.sleep.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success)
-        self.assertTrue(result[0]['Minutes'],263)
+        self.assertEqual(result[0]['Minutes'],1)
         
-    def test_6_incorrect_data_fetching(self):
+    def test_7_incorrect_data_fetching(self):
         """
-        Test fetching sleep data from database
+        Test fetching sleep data from database.
         """
         d1 = date.today()
         dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
@@ -144,24 +149,24 @@ class TestSleep(unittest.TestCase):
 
         self.assertFalse(success)        
         
-    def test_7_data_fetching_multiple(self):
+    def test_8_data_fetching_multiple(self):
         """
-        Test fetching sleep data from database
+        Test fetching of multiple sleep entries from database.
         """
         d = {
                'Nap': False,\
                'SleepTime': datetime.utcnow() + timedelta(days=1),\
-               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(hours=1) + timedelta(minutes=23)}
+               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(minutes=1)}
         _ = self.sleep.insert_in_database(d)
         d = {
                'Nap': False,\
                'SleepTime': datetime.utcnow() + timedelta(days=1),\
-               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(hours=1) + timedelta(minutes=30)}
+               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(minutes=2)}
         _ = self.sleep.insert_in_database(d)
         d = {
                'Nap': False,\
                'SleepTime': datetime.utcnow() + timedelta(days=1),\
-               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(hours=1) + timedelta(minutes=35)}
+               'WakeupTime': datetime.utcnow() + timedelta(days=1) + timedelta(minutes=3)}
         _ = self.sleep.insert_in_database(d)
         d1 = date.today() + timedelta(days=1)
         dt1 = datetime(d1.year, d1.month, d1.day) + timedelta(hours=8)
@@ -169,6 +174,10 @@ class TestSleep(unittest.TestCase):
 
         self.assertTrue(success)
         self.assertEqual(len(result),3)
+        self.assertEqual(result[0]['Minutes'], 1)
+        self.assertEqual(result[1]['Minutes'], 2)
+        self.assertEqual(result[2]['Minutes'], 3)
+
 
 if __name__ == '__main__':
     unittest.main()

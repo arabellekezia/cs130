@@ -2,7 +2,7 @@ from backend.Health import Health
 import copy
 from datetime import datetime
 from backend.db import DB
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple, Optional
 
 class Fitness(Health):
     """
@@ -14,44 +14,55 @@ class Fitness(Health):
 
     Attributes
     ----------
-    params_fitness : list of strings
-        Columns to query from the fitness table for a get request. Data from all the columns is not required to 
-        for different features of our app. For instance we dont need the user email/password.
+    _database_manager : DB
+        The database manager.
+    _user_id : int
+        The unique user id.
+    _table_name : str
+        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep.
+    _params : List[str]
+        List of strings corresponding to the columns of table 'table_name'. The frontend does not require all
+        the columns from the database, for instance, user name or email is not required for computing the total workout minutes.
 
     Methods
     -------
-    get_columns_give_range()
-        Returns data from fitness between a given date-time range.
-    insert_in_database()
+    get_columns_give_range(start_date: datetime, end_date: datatima) -> Tuple[List[Dict],bool]
+        Returns data from the fitness table between a given date-time range.
+    insert_in_database(input_dict: Dict, input_dict_keys: List[str], input_dict_types: Dict[str, Any],date_time: datetime) -> bool
+        Inserts the fitness entry in the fitness table.
     """
     
-    def __init__(self, database_manager: DB, user_id: int) -> None:
+    def __init__(self, database_manager: DB, user_id: int, params_fitness: Optional[List[str]] = ['WorkoutType', 'Minutes',\
+                                                                    'CaloriesBurned', 'Datetime', 'UserID']) -> None:
         """
         Initializes the fitness class.
         
         Parameters
         ----------
-        params_fitness : list of strings
-        Columns to query from the fitness table for a get request. Data from all the columns is not required to 
-        for different features of our app. For instance we dont need the user email/password.
+        database_manager: DB
+            The database manager
+        user_id: int
+            The unique user id
+        params_fitness: List[str]
+            The list of columns from the Fitness table required by the frontend. 
         """
-        self._params_fitness = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']
-        super().__init__(database_manager, user_id, 'Fitness', self._params_fitness)
+        super().__init__(database_manager, user_id, 'Fitness', params_fitness)
     
     def insert_in_database(self, input_dict: Dict,\
-                          input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},\
-                          date_time: datetime = None) -> bool:
-        """Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
+                          input_dict_keys: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
+                          input_dict_types: Optional[Dict[str, Any]] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},\
+                          date_time: Optional[datetime] = None) -> bool:
+        """
+        Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
         the workout type, workout duration in minutes and the amount of calories burned.
 
         Parameters
         ----------
-        input_dict : dict
+        input_dict : Dict
             The input dictionary with keys 'input_dict_keys' i.e. 'WorkoutType', 'Minutes', 'CaloriesBurned'
-        input_dict_keys : list of strings
+        input_dict_keys : List[str]
             The keys of 'input_dict'.
-        input_dict_types : dict
+        input_dict_types : Dict
             The datatypes of the input_dict.
         date_time : datetime
             Manually entering the date-time for the workout. Useful while testing the code.

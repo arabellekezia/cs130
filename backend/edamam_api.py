@@ -20,18 +20,18 @@ class EdamamAPI():
     host : str
         The API host.
     headers : str
-        The api headers
-    transform_dict : dict
+        The API headers.
+    transform_dict : Dict
         Dictionary which transforms the API nutrient labels to our apps nutrient labels. For instance
         the API uses ENER_KCAL for the calories while we use Cals.
         
     Methods
     -------
-    get_similar()
+    get_similar(a: str, b: str) -> float
         The computes the similarity score between two strings.
-    get_food_information()
+    get_food_information(query: str, upc: bool) -> Dict
         Get the nutrient information from the food API given a query item.
-    get_top_matches()
+    get_top_matches(query: str, upc: bool, k: int, serving_size: float) -> (Dict[int, Any], bool)
         Given a query, obtains the top k matches from the Food API. For each match, the function returns the total nutrients 
         after taking the serving size into account.
     """
@@ -84,7 +84,7 @@ class EdamamAPI():
             
         Returns
         -------
-        response : dict
+        response : Dict
             Returns a dictionary of the nutrients for a given query.
         """
 
@@ -118,11 +118,11 @@ class EdamamAPI():
 
         Returns
         -------
-        food_options_dict : dict
+        food_options_dict : Dict
             Returns a dictionary of the top k matches.
 
         success ; bool
-            True if food api query is successful, otherwise False.
+            True if food API query is successful, otherwise False.
 
         Notes
         -----
