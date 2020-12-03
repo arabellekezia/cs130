@@ -192,6 +192,7 @@ def addMeal():
     food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1, serving_size)
     if not success:
         return "Unable to find the food item based on given info", 400
+    label = food_dict[0]['Label']
     food_dict = food_dict[0]['Nutrients']
     token = check_token(args)
     if token['status_code'] != 200:
@@ -200,7 +201,7 @@ def addMeal():
     id = getIdFromToken(token)
     if id < 0:
         return "Invalid Token", 401
-    insert_food_dict = {'Item': item, 'ServingSize': serving_size, 'Barcode': barcode}
+    insert_food_dict = {'Item': label, 'ServingSize': serving_size, 'Barcode': barcode}
     nutri_dict = {}
     for k, v in food_dict.items():
         nutri_dict[k] = v
