@@ -13,11 +13,11 @@ import FitnessService from "../services/FitnessService";
 import GoalsService from "../services/GoalsService";
 const momentDurationFormatSetup = require("moment-duration-format");
 
-
 const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
-function DailyFitnessScreen({ day }) {
+function DailyFitnessScreen({ route }) {
   const currentDay = getToday();
+  const date = route.params ? route.params.date : Date.now();
 
   const [isReady, setIsReady] = React.useState(false);
   const [selectedChartType, setSelectedChartType] = React.useState(
@@ -30,7 +30,7 @@ function DailyFitnessScreen({ day }) {
   useEffect(() => {
     async function getDailyEntries() {
       const [entries, activeTimeGoal] = await Promise.all([
-        FitnessService.getDailyFitnessEntries(moment(day)),
+        FitnessService.getDailyFitnessEntries(moment(date)),
         GoalsService.getActiveTimeGoal(),
       ]);
       setDailyEntries(entries);
@@ -52,7 +52,7 @@ function DailyFitnessScreen({ day }) {
         contentContainerStyle={styles.container}
       >
         <TitleText style={styles.pageTitle} children="Fitness" />
-        <AppText style={styles.dateHeader} children={currentDay} />
+        <AppText style={styles.dateHeader} children={getToday(date)} />
 
         {isReady && (
           <DailyFitnessChart
@@ -153,9 +153,9 @@ function ActiveMinutesProgressCircle({
   );
 }
 
-function getToday() {
+function getToday(date) {
   //making this function in case this has to work with backend if not might simplify later
-  return moment().format("dddd, MMMM Do");
+  return moment(date).format("dddd, MMMM Do");
 }
 
 function computeAggregatedStatistics(entries, activeTimeGoal) {
@@ -226,7 +226,7 @@ function formatPieChartData(entries, totalCaloriesBurned) {
   for (const activity in caloriesBurned) {
     data.push({
       name: activity,
-      percentage:  Math.round(caloriesBurned[activity]),
+      percentage: Math.round(caloriesBurned[activity]),
       color: pieChartColors[index],
       legendFontColor: "#000",
       legendFontSize: 12,

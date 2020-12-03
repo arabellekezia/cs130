@@ -8,7 +8,7 @@ import TitleText from "../components/TitleText";
 import HeaderText from "../components/HeaderText";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 import DateUtils from "../utils/date";
-import FitnessService from "../services/FitnessService"; 
+import FitnessService from "../services/FitnessService";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
@@ -62,19 +62,23 @@ function WeeklyFitnessScreen() {
           style={styles.dailyBreakdownHeader}
           children={"Daily Breakdown"}
         />
-        {isReady && <DailyBreakdownList entries={stats.dailyBreakdownData} />}
+        {isReady && (
+          <DailyBreakdownList
+            entries={stats.dailyBreakdownData}
+            type="DailyFitness"
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-
 function FitnessBarChart({
   selectedChartType,
   totalActiveTime,
   totalCaloriesBurned,
-  activeTimeData, 
-  caloriesBurnedData
+  activeTimeData,
+  caloriesBurnedData,
 }) {
   const barChartTitle =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -136,10 +140,24 @@ function FitnessBarChart({
 function getCumulativeStats(entries) {
   let totalCaloriesBurned = 0;
   let totalActiveTime = 0;
-  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 
-  const activeTimeData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
-  const caloriesBurnedData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
-  const dailyBreakdownData = [{title: "Sunday"}, {title: "Monday"}, {title: "Tuesday"}, {title: "Wednesday"}, {title: "Thursday"}, {title: "Friday"}, {title: "Saturday"}];
+  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const activeTimeData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  const caloriesBurnedData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  const dailyBreakdownData = [
+    { title: "Sunday" },
+    { title: "Monday" },
+    { title: "Tuesday" },
+    { title: "Wednesday" },
+    { title: "Thursday" },
+    { title: "Friday" },
+    { title: "Saturday" },
+  ];
 
   entries.forEach((entry, index) => {
     totalCaloriesBurned += entry.caloriesBurned;
@@ -148,9 +166,15 @@ function getCumulativeStats(entries) {
     caloriesBurnedData.datasets[0].data.push(entry.caloriesBurned.toFixed(0));
     dailyBreakdownData[index].description = `${entry.activeTime.toFixed(
       0
-    )} minutes`; 
+    )} minutes`;
   });
-  return { totalCaloriesBurned, totalActiveTime, activeTimeData, caloriesBurnedData, dailyBreakdownData};
+  return {
+    totalCaloriesBurned,
+    totalActiveTime,
+    activeTimeData,
+    caloriesBurnedData,
+    dailyBreakdownData,
+  };
 }
 
 function getWeeklyHeader(currentWeek) {
