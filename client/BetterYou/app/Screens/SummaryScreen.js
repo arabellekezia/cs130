@@ -12,6 +12,8 @@ import colors from "../config/colors";
 
 import DateUtils from "../utils/date";
 import { useIsFocused } from "@react-navigation/native";
+import moment from "moment";
+
 
 const data = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -38,7 +40,7 @@ function getFitnessCardData(weeklyEntries) {
   });
   return {
     activeTimeData,
-    averageActiveTime: (totalActiveTime / 7).toFixed(0),
+    averageActiveTime: (totalActiveTime / (moment().day() + 1)).toFixed(0),
   };
 }
 

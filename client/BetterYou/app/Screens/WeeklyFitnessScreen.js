@@ -9,6 +9,7 @@ import HeaderText from "../components/HeaderText";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 import DateUtils from "../utils/date";
 import FitnessService from "../services/FitnessService";
+import moment from "moment";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
@@ -92,8 +93,8 @@ function FitnessBarChart({
 
   const averageWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
-      ? `${(totalActiveTime / 7).toFixed(0)} minutes`
-      : `${(totalCaloriesBurned / 7).toFixed(0)} calories`;
+      ? `${(totalActiveTime / (moment().day() + 1)).toFixed(0)} minutes`
+      : `${(totalCaloriesBurned / (moment().day() + 1)).toFixed(0)} calories`;
 
   const barChartData =
     selectedChartType === BarchartType.ACTIVE_TIME
