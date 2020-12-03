@@ -1,17 +1,6 @@
 #!/bin/bash
 
-# python3.7 set_up_test_db.py
-# python3.7 test_db.py
-# python3.7 test_staywell.py
-# python3.7 test_diet.py
-# python3.7 test_edamam_api.py
-# python3.7 test_fitness.py
-# python3.7 test_goals.py
-# python3.7 test_sleep.py
-# python3.7 test_user.py
-# python3.7 drop_test_tables.py
-
-python3.7 set_up_test_db.py
+/usr/local/bin/python3 set_up_test_db.py
 coverage run -m unittest discover tests 
 coverage report -m
-python3.7 drop_test_tables.py
+/usr/local/bin/python3 drop_test_tables.py
