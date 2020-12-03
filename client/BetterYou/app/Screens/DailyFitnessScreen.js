@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { View, SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 
 import AppText from "../components/AppText";
 import TitleText from "../components/TitleText";
@@ -48,7 +55,7 @@ function DailyFitnessScreen({ route }) {
     getDailyEntries().then(() => {
       if (mounted) {
         setIsReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -58,14 +65,17 @@ function DailyFitnessScreen({ route }) {
 
   return (
     <SafeAreaView>
-      <ScrollView
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.container}
-      >
-        <TitleText style={styles.pageTitle} children="Fitness" />
-        <AppText style={styles.dateHeader} children={getToday(date)} />
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
+      {isReady && (
+        <ScrollView
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.container}
+        >
+          <TitleText style={styles.pageTitle} children="Fitness" />
+          <AppText style={styles.dateHeader} children={getToday(date)} />
 
-        {isReady && (
           <DailyFitnessChart
             selectedChartType={selectedChartType}
             stats={stats}
@@ -74,28 +84,26 @@ function DailyFitnessScreen({ route }) {
               stats.totalCaloriesBurned
             )}
           />
-        )}
 
-        <SegmentedControlTab
-          tabsContainerStyle={{ width: "80%" }}
-          values={["Active time", "Calories burned"]}
-          selectedIndex={selectedChartType}
-          onTabPress={(chartType) => setSelectedChartType(chartType)}
-        />
+          <SegmentedControlTab
+            tabsContainerStyle={{ width: "80%" }}
+            values={["Active time", "Calories burned"]}
+            selectedIndex={selectedChartType}
+            onTabPress={(chartType) => setSelectedChartType(chartType)}
+          />
 
-        <View style={styles.logHeaderContainer}>
-          <View style={styles.headerTextContainer}>
-            <AppText style={styles.logHeaderText} children={"Activity log"} />
+          <View style={styles.logHeaderContainer}>
+            <View style={styles.headerTextContainer}>
+              <AppText style={styles.logHeaderText} children={"Activity log"} />
+            </View>
           </View>
-        </View>
 
-        {isReady && (
           <DailyFitnessEntries
             headerTextStyle={{ marginVertical: 0, fontSize: 0 }}
             entries={formatActivityLog(dailyEntries)}
           />
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -153,7 +161,7 @@ function ActiveMinutesProgressCircle({
         <Text>of your daily goal of</Text>
         <Text style={styles.dailyGoal}>{activeTimeGoal} Minutes</Text>
       </ProgressCircle>
-      <AppText style={{marginTop: 25}}>
+      <AppText style={{ marginTop: 25 }}>
         You exercised for a total of
         <AppText
           style={styles.boldtext}
@@ -250,7 +258,7 @@ function formatPieChartData(entries, totalCaloriesBurned) {
 
 const styles = StyleSheet.create({
   boldtext: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   container: {
     backgroundColor: "white",
