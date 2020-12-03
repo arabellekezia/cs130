@@ -1,5 +1,5 @@
 import server from "../utils/server";
-import { storeUserToken } from "../utils/token";
+import { storeUserToken, clearUserToken } from "../utils/token";
 
 const AuthenticationService = {
   login: async (email, password) => {
@@ -47,6 +47,16 @@ const AuthenticationService = {
 
     await AuthenticationService.login(email, password);
     return true;
+  },
+
+  logout: async () => {
+    try {
+      await clearUserToken();
+      return true;
+    } catch (err) {
+      console.log("Logout unsuccessful. Unable to clear token");
+      return false;
+    }
   },
 };
 

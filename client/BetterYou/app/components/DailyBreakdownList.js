@@ -29,7 +29,9 @@ function DailyBreakdownList({ style, entries, type }) {
             description={description}
             onPress={() => {
               const weekStart = moment().startOf("week");
-              const date = moment(weekStart).add(daysOfWeek[title], "days");
+              const date = moment(weekStart)
+                .add(daysOfWeek[title], "days")
+                .valueOf();
               navigation.navigate(type, { date: date });
             }}
           />

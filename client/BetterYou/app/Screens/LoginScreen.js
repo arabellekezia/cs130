@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 import TextButton from "../components/TextButton";
+import AuthContext from "../context/AuthContext";
 import AuthenticationService from "../services/AuthenticationService";
 
 function LoginScreen({ navigation }) {
+  const authContext = useContext(AuthContext);
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [err, setError] = React.useState({ email: false, password: false });
@@ -18,7 +21,9 @@ function LoginScreen({ navigation }) {
     }
 
     const isSuccess = await AuthenticationService.login(email, password);
-    if (!isSuccess) {
+    if (isSuccess) {
+      authContext.setIsSignedIn(true);
+    } else {
       setError({ email: true, password: true });
     }
   }
@@ -53,7 +58,6 @@ function LoginScreen({ navigation }) {
           keyboardType="email-address"
           icon="account"
           isError={err.email || err.password}
-          autoFocus={true}
           onChangeText={(email) => {
             setEmail(email);
             setError({ email: false, password: false });

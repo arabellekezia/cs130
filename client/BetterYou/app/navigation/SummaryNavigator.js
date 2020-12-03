@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import SummaryScreen from "../Screens/SummaryScreen";
@@ -8,13 +8,50 @@ import DailySleepScreen from "../Screens/DailySleepScreen";
 import WeeklyFitnessScreen from "../Screens/WeeklyFitnessScreen";
 import WeeklyNutritionScreen from "../Screens/WeeklyNutritionScreen";
 import WeeklySleepScreen from "../Screens/WeeklySleepScreen";
+import { Button } from "react-native";
+import Icon from "../components/Icon";
+import IconButton from "../components/IconButton";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import AuthContext from "../context/AuthContext";
+import AuthenticationService from "../services/AuthenticationService";
 
 const Stack = createStackNavigator();
 
 function SummaryNavigator(props) {
+  const authContext = useContext(AuthContext);
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Summary" component={SummaryScreen} />
+      <Stack.Screen
+        name="Summary"
+        component={SummaryScreen}
+        options={{
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={async () => {
+                try {
+                  const isSuccess = await AuthenticationService.logout();
+                  if (isSuccess) {
+                    authContext.setIsSignedIn(false);
+                  } else {
+                    console.log("Logout Unsuccessful!");
+                  }
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+              activeOpacity={0.7}
+            >
+              <Icon
+                name="logout"
+                size={50}
+                backgroundColor="white"
+                iconColor="grey"
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Stack.Screen
         name="DailyFitness"
         component={DailyFitnessScreen}

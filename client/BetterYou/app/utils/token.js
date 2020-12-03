@@ -28,7 +28,7 @@ async function clearUserToken() {
   try {
     await AsyncStorage.removeItem(TOKEN_KEY);
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
 

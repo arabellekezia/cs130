@@ -27,6 +27,7 @@ import SignupScreen from "./app/Screens/SignupScreen";
 import AppNavigator from "./app/navigation/AppNavigator";
 import navTheme from "./app/navigation/navTheme";
 import AuthNavigator from "./app/navigation/AuthNavigator";
+import AuthContext from "./app/context/AuthContext";
 import { getUserToken } from "./app/utils/token";
 import { AppLoading } from "expo";
 
@@ -41,8 +42,12 @@ export default function App() {
   const [isReady, setIsReady] = React.useState(false);
 
   async function fetchToken() {
-    const userToken = await getUserToken();
-    setIsSignedIn(userToken !== null);
+    try {
+      const userToken = await getUserToken();
+      setIsSignedIn(userToken !== null);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   if (!isReady) {
@@ -54,10 +59,13 @@ export default function App() {
       />
     );
   }
+
   return (
-    <NavigationContainer theme={navTheme}>
-      {isSignedIn ? <AppNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
+    <AuthContext.Provider value={{ isSignedIn, setIsSignedIn }}>
+      <NavigationContainer theme={navTheme}>
+        {isSignedIn ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 
