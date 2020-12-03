@@ -67,7 +67,7 @@ class TestFitness(unittest.TestCase):
 
         d = copy.deepcopy(self.fitness_dict)
         del(d['Minutes'])
-        d['MinutesS'] = 10
+        d['MinutesS'] = 10.0
         self.assertFalse(self.fitness.insert_in_database(d))
 
         d = copy.deepcopy(self.fitness_dict)

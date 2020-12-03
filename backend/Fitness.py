@@ -40,7 +40,7 @@ class Fitness(Health):
     
     def insert_in_database(self, input_dict: Dict,\
                           input_dict_keys: List[str] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': int, 'CaloriesBurned': float},\
+                          input_dict_types: Dict[str, Any] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},\
                           date_time: datetime = None) -> bool:
         """Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
         the workout type, workout duration in minutes and the amount of calories burned.
