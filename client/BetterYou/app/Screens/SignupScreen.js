@@ -24,7 +24,9 @@ function SignupScreen({ navigation }) {
       return;
     }
     const isSuccess = await AuthenticationService.signup(name, email, password);
-    if (!isSuccess) {
+    if (isSuccess) {
+      navigation.navigate("Login");
+    } else {
       setError({ email: true, accountExists: true });
     }
   }
@@ -88,6 +90,8 @@ function SignupScreen({ navigation }) {
         <AppTextInput
           style={styles.textInput}
           placeholder="Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
           icon="email"
           isError={err.email}
           onChangeText={(email) => {
