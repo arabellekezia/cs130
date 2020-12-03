@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 from datetime import datetime, timezone, timedelta 
 import json
+import sys
 from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
@@ -12,8 +13,8 @@ from backend.Sleep import Sleep
 from backend.goals import Goals
 
 app = Flask(__name__)
-DB_OBJECT = DB(False)
-USER = User(DB_OBJECT)
+DB_OBJECT = None
+USER = None
 STAYWELL_API = StaywellAPI()
 EDAMAM_API = EdamamAPI()
 
@@ -359,7 +360,7 @@ def changeGoal():
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
     if goal_data['status_code'] != 200:
-        return goal_type['msg'], goal_type['status_code']
+        return goal_data['msg'], goal_data['status_code']
     goal_type = goal_data['type']
     goal_val_data = check_goal_value(args)
     if goal_val_data['status_code'] != 200:
@@ -440,4 +441,15 @@ def getIdFromToken(token):
 
 
 if __name__ == '__main__':
+    test = False
+    try:
+        test = sys.argv[1]
+        test = bool(test)
+    except:
+        test = False
+
+    print(test)
+    DB_OBJECT = DB(test)
+    USER = User(DB_OBJECT)
+       
     app.run(host="0.0.0.0", port=5000, debug=False)
