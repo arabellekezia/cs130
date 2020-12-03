@@ -34,7 +34,7 @@ class TestFitness(unittest.TestCase):
                              'CaloriesBurned': 100.9}
         self.fitness_1 = Fitness(self.db, self.user_id_1)
         self.fitness_dict_1 = {'WorkoutType': 'Sleeping',\
-                             'Minutes': 100,\
+                             'Minutes': 100.0,\
                              'CaloriesBurned': 10.9}
         
         self.dt1 = datetime.utcnow()

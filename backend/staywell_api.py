@@ -161,7 +161,7 @@ class StaywellExternalAPI:
                                      576, 288, 288, 576, 480, 576, 768, 288]
         return calories_for_exercise
 
-    def _get_exact_calories(self, weight: int, workout: str, minutes: int) -> float:
+    def _get_exact_calories(self, weight: int, workout: str, minutes: float) -> float:
         calories_for_exercise = self._get_calories_list_per_hour(weight)
         index = self._workout_list.index(workout)
         calories_per_min = calories_for_exercise[index] / 60
@@ -200,7 +200,7 @@ class StaywellExternalAPI:
         if 'minutes' in data:
             mins = data['minutes']
             try:
-                mins = int(mins)
+                mins = float(mins)
             except ValueError:
                 return {"msg": "Please enter an integer for minutes of the workout duration.",
                         "status_code": 400}

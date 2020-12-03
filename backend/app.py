@@ -21,7 +21,7 @@ EDAMAM_API = EdamamAPI()
 def index():
     return 'Better You'
 
-# params: weight - int, workout - str, minutes - int, token - str
+# params: weight - int, workout - str, minutes - float, token - str
 @app.route('/enterWorkout', methods=['POST'])
 def enterWorkout():
     args = request.form
