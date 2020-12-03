@@ -95,7 +95,9 @@ function DailyNutritionScreen({ route }) {
 
   return (
     <SafeAreaView>
-      {!isReady && <ActivityIndicator animating={!isReady} size="large" />}
+      {!isReady && (
+        <ActivityIndicator animating={!isReady} size="large" color="#343434" />
+      )}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}

@@ -65,7 +65,9 @@ function DailyFitnessScreen({ route }) {
 
   return (
     <SafeAreaView>
-      {!isReady && <ActivityIndicator animating={!isReady} size="large" />}
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}

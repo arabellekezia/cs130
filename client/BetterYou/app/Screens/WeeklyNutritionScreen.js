@@ -74,7 +74,9 @@ function WeeklyNutritionScreen(props) {
 
   return (
     <SafeAreaView>
-      {!isReady && <ActivityIndicator animating={true} size="large" />}
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}
