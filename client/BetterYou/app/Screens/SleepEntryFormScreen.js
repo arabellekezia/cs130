@@ -117,8 +117,8 @@ function SleepEntryFormScreen({ navigation, route }) {
           <TextButton
             style={styles.button}
             name="Submit"
-            onPress={() => {
-              submit();
+            onPress={async () => {
+              await submit();
             }}
           />
         </View>
