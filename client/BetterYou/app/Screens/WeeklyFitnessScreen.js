@@ -84,7 +84,7 @@ function FitnessBarChart({
   const barChartTitle =
     selectedChartType === BarchartType.ACTIVE_TIME
       ? "Active Minutes Per Day"
-      : "Active Calories Burned Per Day";
+      : "Calories Burned Per Day";
 
   const totalWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
