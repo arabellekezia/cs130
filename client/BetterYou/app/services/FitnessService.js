@@ -14,7 +14,11 @@ const FitnessService = {
           dateTo,
         },
       });
-      return res.body;
+      const entries = res.data.map((entry) => {
+        entry.WorkoutType = APIActivityToActivityName.get(entry.WorkoutType);
+        return entry;
+      });
+      return entries;
     } catch (err) {
       console.log(err);
       return null;
@@ -39,8 +43,8 @@ const FitnessService = {
     }
     return true;
   },
-  getDailyFitnessEntries: async () => {
-    const today = DateUtils.getTodayTimeRange();
+  getDailyFitnessEntries: async (day) => {
+    const today = DateUtils.getDayTimeRange(day);
     return await FitnessService.getFitnessEntries(today.dateFrom, today.dateTo);
   },
 };

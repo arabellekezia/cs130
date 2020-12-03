@@ -59,6 +59,7 @@ export default function App() {
       {isSignedIn ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
+  // return <LoginScreen />
 }
 
     // <LoginScreen />

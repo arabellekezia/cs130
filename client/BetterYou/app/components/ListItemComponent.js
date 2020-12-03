@@ -22,6 +22,7 @@ function ListItemComponent({
   descriptionStyle,
   children,
   onPress,
+  navigation,
 }) {
   return (
     <TouchableOpacity

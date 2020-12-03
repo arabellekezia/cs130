@@ -21,12 +21,33 @@ import Icon from "../components/Icon";
 const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 const { totalActiveTime, totalCaloriesBurned } = getFitnessStats();
 
-function DailyFitnessScreen(props) {
+function DailyFitnessScreen({ day = moment() }) {
   const currentDay = getToday();
 
   const [selectedChartType, setSelectedChartType] = React.useState(
     chartOptions.ACTIVE_TIME
   );
+  const [dailyEntries, setDailyEntries] = React.useState([]);
+  const [stats, setStats] = React.useState(undefined);
+
+  // Fetch daily entries
+  useEffect(() => {
+    async function getDailyEntries() {
+      const [entries, activeTimeGoal] = await Promise.all([
+        FitnessService.getDailyFitnessEntries(day),
+        GoalsService.getActiveTimeGoal(),
+      ]);
+      setDailyEntries(entries);
+
+      const computedStats = computeAggregatedStatistics(
+        entries,
+        activeTimeGoal
+      );
+      setStats(computedStats);
+      setIsReady(true);
+    }
+    getDailyEntries();
+  }, []);
 
   return (
     <SafeAreaView>
@@ -37,7 +58,13 @@ function DailyFitnessScreen(props) {
         <TitleText style={styles.pageTitle} children="Fitness" />
         <AppText style={styles.dateHeader} children={currentDay} />
 
-        <DailyFitnessChart selectedChartType={selectedChartType} />
+        {isReady && (
+          <DailyFitnessChart
+            selectedChartType={selectedChartType}
+            stats={stats}
+            pieChartData={formatPieChartData(dailyEntries)}
+          />
+        )}
 
         <SegmentedControlTab
           tabsContainerStyle={{ width: "80%" }}
@@ -52,10 +79,12 @@ function DailyFitnessScreen(props) {
           </View>
         </View>
 
-        <DailyFitnessEntries
-          headerTextStyle={{ marginVertical: 0, fontSize: 0 }}
-          entries={getFitnessEntries()}
-        />
+        {isReady && (
+          <DailyFitnessEntries
+            headerTextStyle={{ marginVertical: 0, fontSize: 0 }}
+            entries={formatActivityLog(dailyEntries)}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

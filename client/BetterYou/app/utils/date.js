@@ -8,6 +8,7 @@ const DateUtils = {
       dateTo: day.endOf("day").add(1, "minute").unix(),
     };
   },
+
   // Get date objects for all the days in the current week
   // Can be used in weekly screens to pass date prop into each daily screen
   getDaysInWeek: () => {

@@ -9,6 +9,7 @@ import TitleText from "../components/TitleText";
 import DailyFitnessEntries from "../components/DailyFitnessEntries";
 import HeaderText from "../components/HeaderText";
 import DailyBreakdownList from "../components/DailyBreakdownList";
+import DateUtils from "../utils/date";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 const { totalActiveTime, totalCaloriesBurned } = getWeeklyStats();
@@ -46,7 +47,7 @@ const daysinWeekBreakdown = [
 ];
 
 function WeeklyFitnessScreen() {
-  const currentWeek = getDaysInWeek();
+  const currentWeek = DateUtils.getDayTimeRange();
 
   const [selectedChartType, setSelectedChartType] = React.useState(
     BarchartType.ACTIVE_TIME
@@ -73,12 +74,6 @@ function WeeklyFitnessScreen() {
           selectedIndex={selectedChartType}
           onTabPress={(chartType) => setSelectedChartType(chartType)}
         />
-        {/* for loop over this when we make the actual response */}
-        {/* To Evan, I feel like we could leave the logged entries to the daily ones and have like a list of the days in summary.
-            From there we can have navigations to allow transition from this weekly screen to a breakdown of each day.
-            I will try to get to it when I'm applying navigations and if it's too difficult we can keep this, if not I think this
-            would prevent the Daily pages of fitness being too repetitive with the weekly ones.
-        */}
         {/*
         <DailyFitnessEntries
           style={styles.dailyEntries}
@@ -121,7 +116,8 @@ function WeeklyFitnessScreen() {
           ]}
         />
         */}
-        <HeaderText style={styles.dailyBreakdownHeader} 
+        <HeaderText
+          style={styles.dailyBreakdownHeader}
           children={"Daily Breakdown"}
         />
         <DailyBreakdownList entries={daysinWeekBreakdown} />

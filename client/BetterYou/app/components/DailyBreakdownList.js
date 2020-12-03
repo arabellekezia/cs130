@@ -1,8 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-
-//import AppText from './AppText';
+import { StyleSheet, View } from "react-native";
 import ListItemComponent from './ListItemComponent';
 
 function DailyBreakdownList({ style, entries }) {
