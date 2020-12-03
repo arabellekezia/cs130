@@ -1,25 +1,41 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 
-import AppText from '../components/AppText';
-import TitleText from '../components/TitleText';
+import { groupBy } from "lodash";
+
+import AppText from "../components/AppText";
+import TitleText from "../components/TitleText";
 
 import moment from "moment";
-import TextButton from '../components/TextButton';
+import TextButton from "../components/TextButton";
 import DailySleepEntries from "../components/DailySleepEntries";
+import SleepService from "../services/SleepService";
 
 function DailySleepScreen() {
-  const currentDay = getToday();
+  const [isReady, setReady] = useState(false);
+  const [sleepEntries, setSleepEntries] = useState({ sleep: [], naps: [] });
+
+  useEffect(() => {
+    loadSleepEntries();
+  }, []);
+
+  const loadSleepEntries = async () => {
+    setReady(false);
+    const entries = await getTodaySleepEntries();
+    setSleepEntries(entries);
+    setReady(true);
+  };
 
   return (
     <SafeAreaView>
-      <ScrollView
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.container}
-      >
-        <TitleText style={styles.pageTitle} children="Sleep" />
-        <AppText style={styles.dateHeader} children={currentDay} />
-        {/*<View style={styles.sleepsummary}>
+      {isReady && (
+        <ScrollView
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.container}
+        >
+          <TitleText style={styles.pageTitle} children="Sleep" />
+          <AppText style={styles.dateHeader} children={getToday()} />
+          {/*<View style={styles.sleepsummary}>
             {/* TODO: This portion should be changed to accomodate calculations from backend data 
             <SummaryItem
               name="power-sleep"
@@ -48,20 +64,21 @@ function DailySleepScreen() {
           </View>
           */}
 
-        <DailySleepEntries
-          style={styles.sleepLog}
-          headerTextStyle={styles.sleepEntryHeader}
-          headerText="Last night"
-          entries={[getTodaySleepEntries().sleep]}
-        />
+          <DailySleepEntries
+            style={styles.sleepLog}
+            headerTextStyle={styles.sleepEntryHeader}
+            headerText="Last night"
+            entries={sleepEntries.sleep}
+          />
 
-        <DailySleepEntries
-          style={styles.sleepLog}
-          headerTextStyle={styles.sleepEntryHeader}
-          headerText="Recorded naps"
-          entries={getTodaySleepEntries().naps}
-        />
-      </ScrollView>
+          <DailySleepEntries
+            style={styles.sleepLog}
+            headerTextStyle={styles.sleepEntryHeader}
+            headerText="Recorded naps"
+            entries={sleepEntries.naps}
+          />
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -112,27 +129,88 @@ const styles = StyleSheet.create({
 function getToday() {
   //making this function in case this has to work with backend if not might simplify later
   return moment().format("dddd, MMMM Do");
-};
+}
 
-function getTodaySleepEntries() {
+function getTodayDate() {
+  const today = moment();
+  return {
+    year: today.year(),
+    month: today.month(),
+    day: today.date(),
+  };
+}
+
+async function getTodaySleepEntries() {
   //TODO: change from hardcoded to integration
   /* Note from evan - backend allows us to differentiate between naps + actual sleep, so i'm using that info */
-  return {
-    sleep: {
-      sleeptime: "10:00 pm",
-      waketime: "6:00 am",
-    }, 
-    naps: [
-      {
-        sleeptime: "11:00 pm",
-        waketime: "8:00 am",
-      },
-      {
-        sleeptime: "11:00 pm",
-        waketime: "8:00 am",
-      },
-    ]
-  };
+
+  // return {
+  //   sleep: {
+  //     sleeptime: "10:00 pm",
+  //     waketime: "6:00 am",
+  //   },
+  //   naps: [
+  //     {
+  //       sleeptime: "11:00 pm",
+  //       waketime: "8:00 am",
+  //     },
+  //     {
+  //       sleeptime: "11:00 pm",
+  //       waketime: "8:00 am",
+  //     },
+  //   ],
+  // };
+  try {
+    const today = getTodayDate();
+    const sleepEntries = await SleepService.getDailySleepEntries(today);
+    const groupedSleepEntries = await groupSleepByCategory(sleepEntries);
+    return groupedSleepEntries;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function groupSleepByCategory(sleepEntries) {
+  try {
+    const groupedEntries = groupBy(sleepEntries, "Nap");
+
+    let naps = [];
+    let sleep = [];
+    if (groupedEntries.hasOwnProperty("0")) {
+      for (let i = 0; i < groupedEntries["0"].length; i++) {
+        const sleepTimeSeconds = groupedEntries["0"][i].SleepTime;
+        const wakeTimeSeconds = groupedEntries["0"][i].WakeupTime;
+
+        sleep.push({
+          sleeptime: moment(sleepTimeSeconds * 1000).format("LT"),
+          waketime: moment(wakeTimeSeconds * 1000).format("LT"),
+          minutes: groupedEntries["0"][i].Minutes,
+        });
+      }
+    }
+
+    if (groupedEntries.hasOwnProperty("1")) {
+      for (let i = 0; i < groupedEntries["1"].length; i++) {
+        const sleepTimeSeconds = groupedEntries["1"][i].SleepTime;
+        const wakeTimeSeconds = groupedEntries["1"][i].WakeupTime;
+
+        naps.push({
+          sleeptime: moment(sleepTimeSeconds * 1000).format("LT"),
+          waketime: moment(wakeTimeSeconds * 1000).format("LT"),
+          minutes: groupedEntries["1"][i].Minutes,
+        });
+      }
+    }
+    let res = {
+      sleep: sleep,
+      naps: naps,
+    };
+
+    console.log(res);
+    return res;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 
 export default DailySleepScreen;

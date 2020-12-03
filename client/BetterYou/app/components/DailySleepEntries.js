@@ -14,13 +14,14 @@ function DailySleepEntries({ style, entries, headerText, headerTextStyle }) {
         />
       </View>
       {entries.map((entry, key) => {
-        const { sleeptime, waketime } = entry;
+        const { sleeptime, waketime, minutes } = entry;
         return (
           <SleepEntry
             key={key}
             style={styles.entry}
             sleeptime={sleeptime}
             waketime={waketime}
+            minutes={minutes}
           />
         );
       })}

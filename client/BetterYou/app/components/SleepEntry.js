@@ -1,14 +1,10 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import SummaryItem from './SummaryItem';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import SummaryItem from "./SummaryItem";
 
 import moment from "moment";
 
-function SleepEntry({
-  style,
-  sleeptime,
-  waketime,
-}) {
+function SleepEntry({ style, sleeptime, waketime, minutes }) {
   const [sleeptimenum, sleeptimeunit] = parseTime(sleeptime);
   const [waketimenum, waketimeunit] = parseTime(waketime);
 
@@ -36,7 +32,7 @@ function SleepEntry({
       <SummaryItem
         name="sleep"
         size={40}
-        detail={5.6}
+        detail={roundToOne(minutes / 60)}
         unit="Hours"
         label="Duration"
         iconColor="#A0BAFF"
@@ -65,8 +61,12 @@ function parseTime(timestamp) {
   //takes in a timestamp string like "10:00 pm" and should parse it to 10:00 and "pm" for our summaryitem to use
   const timenum = moment(timestamp, "LT").format("hh:mm");
   const timeunit = moment(timestamp, "LT").format("A");
-  
+
   return [timenum, timeunit];
+}
+
+function roundToOne(num) {
+  return +(Math.round(num + "e+1") + "e-1");
 }
 
 export default SleepEntry;
