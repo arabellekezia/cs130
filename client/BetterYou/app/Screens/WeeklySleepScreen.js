@@ -297,7 +297,7 @@ function printSleepDiffText(diff) {
  * @param {*} weeklySleep : 2-dimensional array of daily sleep
  */
 function getTotalHoursPerDay(weeklySleep) {
-  let dataSet = [];
+  const dataSet = [];
 
   for (let i = 0; i < weeklySleep.length; i++) {
     const days = [
