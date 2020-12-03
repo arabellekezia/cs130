@@ -141,7 +141,7 @@ function ActiveMinutesProgressCircle({
         <Text style={styles.dailyGoal}>{activeTimeGoal} Minutes</Text>
       </ProgressCircle>
       <AppText style={{marginTop: 25}}>
-        You've exercised for a total of
+        You exercised for a total of
         <AppText
           style={styles.boldtext}
           children={` ${activeTime.toFixed(0)} minutes `}

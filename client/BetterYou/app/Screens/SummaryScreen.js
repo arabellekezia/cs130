@@ -151,7 +151,8 @@ function SummaryScreen({ navigation }) {
       setSleepCardData(getSleepCardData(weeklySleepEntries));
       setSleepDailySummary(getSleepDailySummary(dailySleepEntries));
     } catch (err) {
-      throw new Error(err);
+      console.log(err)
+      // throw new Error(err);
     }
   }
 
@@ -312,7 +313,7 @@ function SummaryScreen({ navigation }) {
               title="Fitness"
               description={
                 <AppText>
-                  You've exercised for an average of
+                  You exercised for an average of
                   <AppText
                     style={styles.boldText}
                     children={` ${fitnessCardData.averageActiveTime} minutes `}

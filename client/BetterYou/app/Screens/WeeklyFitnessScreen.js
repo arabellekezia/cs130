@@ -119,7 +119,7 @@ function FitnessBarChart({
       <View style={styles.smallSummaryContainer}>
         {selectedChartType === BarchartType.ACTIVE_TIME && (
           <AppText>
-            You've exercised for a total of
+            You exercised for a total of
             <AppText
               style={styles.boldtext}
               children={` ${totalWeeklyMetric} `}

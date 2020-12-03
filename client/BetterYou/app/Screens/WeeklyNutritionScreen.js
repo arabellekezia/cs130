@@ -67,17 +67,10 @@ function WeeklyNutritionScreen(props) {
           style={styles.dateHeader}
           children={getWeeklyHeader(currentWeek)}
         />
-        <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} />
+        {/* <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} /> */}
 
         <View style={styles.chartcontainer}>
-          <AppText style={styles.smallSummaryText}>
-            You consumed an average of
-            <AppText
-              style={styles.boldtext}
-              children={` ${calAvg} Calories `}
-            />
-            per day this week.
-          </AppText>
+          <AppText style={styles.chartHeader} children="Calories Consumed Per Day" />
           <AppBarChart
             style={styles.barChart}
             yAxisSuffix="min"
@@ -89,8 +82,16 @@ function WeeklyNutritionScreen(props) {
             Your daily calorie goal was
             <AppText
               style={styles.boldtext}
-              children={` ${calGoal} Calories.`}
+              children={` ${calGoal} cal.`}
             />
+          </AppText>
+          <AppText style={styles.smallSummaryText}>
+           You consumed an average of
+            <AppText
+              style={styles.boldtext}
+              children={` ${calAvg} cal `}
+            />
+            per day.
           </AppText>
           {printCalDiffText(calDiff)}
         </View>
@@ -232,8 +233,8 @@ function printCalDiffText(diff) {
   if (diff > 0) {
     return(
       <AppText style={styles.smallSummaryText}>
-        Your average daily consumption was
-        <AppText style={styles.boldtext} children={` ${diff} Calories `}/>
+        On average, your daily consumption was
+        <AppText style={styles.boldtext} children={` ${diff} cal `}/>
         less than your goal.
       </AppText>
     );
@@ -241,8 +242,8 @@ function printCalDiffText(diff) {
   } else {
     return(
       <AppText style={styles.smallSummaryText}>
-        Your average daily consumption was
-        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} Calories `}/>
+        On average, your daily consumption was
+        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} cal `}/>
         more than your goal.
       </AppText>
     );
@@ -259,6 +260,14 @@ const styles = StyleSheet.create({
   },
   chartcontainer: {
     width: Dimensions.get("window").width * 0.9,
+    marginTop: "10%",
+    alignItems: "center", 
+    justifyContent: "center",
+  },
+  chartHeader: {
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   container: {
     backgroundColor: "white",
@@ -295,6 +304,7 @@ const styles = StyleSheet.create({
   },
   smallSummaryText: {
     marginLeft: 10,
+    textAlign: "center"
   },
 });
 
