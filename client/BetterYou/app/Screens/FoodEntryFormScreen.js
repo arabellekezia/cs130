@@ -11,6 +11,9 @@ import ErrorMessage from "../components/ErrorMessage";
 import colors from "../config/colors";
 import { ScrollView } from "react-native-gesture-handler";
 
+import NutritionService from "../services/NutritionService";
+
+
 function isValidInput(numberOfServings, setError) {
   const validNumber = isNumber(numberOfServings) && numberOfServings > 0;
   setError({ numberOfServings: !validNumber });
@@ -25,14 +28,28 @@ function FoodEntryFormScreen({ navigation, route }) {
   const [numberOfServings, setNumberOfServings] = useState(0);
   const [err, setError] = useState({ numberOfServings: false });
 
-  function submit() {
+  const nutritionData = {
+    label: route.params.item,
+    nutrients: route.params.data,
+  };
+
+  async function submit() {
     if (!isValidInput(numberOfServings, setError)) {
       console.log(err);
       // setError({ numberOfServings: true });
       return;
     }
     console.log(`post number of servings to endpoint ${numberOfServings}`);
-    navigation.popToTop();
+    try {
+      await NutritionService.addMeals(
+        route.params.item,
+        numberOfServings,
+        route.params.barcode,
+      );
+      navigation.popToTop();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function displayErrorMessage(error) {
@@ -40,18 +57,6 @@ function FoodEntryFormScreen({ navigation, route }) {
       return <ErrorMessage message="Must be a number greater than 0." />;
     }
   }
-
-  const nutritionData = {
-    label: "Jamba Juice Orange Carrot Karma Smoothie",
-    servingSize: "22 fl oz",
-    nutrients: {
-      calories: 41.499027861352765,
-      protein: 0.6148004127607817,
-      fat: 0.15370010319019542,
-      carbohydrates: 10.144206810552898,
-      fiber: 0.6148004127607817,
-    },
-  };
 
   return (
     <Screen style={styles.container}>
@@ -71,8 +76,8 @@ function FoodEntryFormScreen({ navigation, route }) {
         <TextButton
           style={styles.textButton}
           name="Submit"
-          onPress={() => {
-            submit();
+          onPress={async () => {
+            await submit();
           }}
         />
       </ScrollView>

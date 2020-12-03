@@ -5,12 +5,12 @@ import AppText from '../components/AppText';
 import TitleText from '../components/TitleText';
 import AppPieChart from '../components/AppPieChart';
 import AppProgressRing from '../components/AppProgressRing';
+import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
 
 import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
-//import IndivMacroCard from '../components/IndivMacroCard';
-import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
+import NutritionService from "../services/NutritionService";
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 

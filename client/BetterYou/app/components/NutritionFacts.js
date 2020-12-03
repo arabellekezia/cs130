@@ -9,35 +9,39 @@ function extractNutrientAmountsAndUnits(nutrientAmount) {
   if (nutrientAmount == null) {
     return null;
   }
-  if (nutrientAmount > 10) {
+  if (nutrientAmount > 1) {
     return {
-      amount: nutrientAmount * 0.1,
+      amount: nutrientAmount ,
       unit: "g",
     };
   } else {
     return {
-      amount: nutrientAmount * 100,
+      amount: nutrientAmount * 1000,
       unit: "mg",
     };
   }
 }
 
 function NutritionFacts({ data }) {
-  const { label, servingSize, nutrients } = data;
+  const { label, nutrients } = data;
 
-  const carbAmount = extractNutrientAmountsAndUnits(nutrients.carbohydrates);
-  const fatAmount = extractNutrientAmountsAndUnits(nutrients.fat);
-  const proteinAmount = extractNutrientAmountsAndUnits(nutrients.protein);
-  const fiberAmount = extractNutrientAmountsAndUnits(nutrients.fiber);
+  const carbAmount = extractNutrientAmountsAndUnits(nutrients.Carbs);
+  const fatAmount = extractNutrientAmountsAndUnits(nutrients.Fat);
+  const proteinAmount = extractNutrientAmountsAndUnits(nutrients.Protein);
+  const fiberAmount = extractNutrientAmountsAndUnits(nutrients.Fiber);
 
   return (
     <View style={styles.container}>
       <TitleText>Nutrition Facts</TitleText>
-      <AppText>{`Serving Size ${servingSize}`}</AppText>
+      {/* hardcoded 100grams*/}  
+      <AppText>{`Serving Size 100g`}</AppText>
       <Divider height={10} />
       <HeaderText>Amount per serving</HeaderText>
       <Divider height={1} />
-      <HeaderText>{`Calories ${Math.round(nutrients.calories)}`}</HeaderText>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", marginRight: 5 }}>
+        <HeaderText>{`Calories `}</HeaderText>
+        <HeaderText>{Math.round(nutrients.Cals)}</HeaderText>
+      </View>
       <Divider height={5} />
       {fatAmount && (
         <AppText style={styles.text}>{`Fat ${Math.round(fatAmount.amount)}${

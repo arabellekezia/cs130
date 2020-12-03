@@ -7,11 +7,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HeaderText from "../components/HeaderText";
 import AppText from "../components/AppText";
 
+import NutritionService from "../services/NutritionService";
+
 function BarcodeScanCameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState("");
+  const [nutritionData, setNutritionData] = useState({});
 
   // useEffect(() => {
   //   (async () => {
@@ -37,11 +40,14 @@ function BarcodeScanCameraScreen({ navigation }) {
       });
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
+    console.log({type, data});
+    console.log(data);
     setScanned(true);
     // api call to get product
-    const result = "Jamba Juice Orange Carrot Karma Smoothie";
-    setProduct(result);
+    const result = await NutritionService.getNutritionalData(data, 1, "true");
+    setProduct(result[0].Label);
+    setNutritionData(result[0].Nutrients);
 
     setModalVisible(true);
   };
@@ -84,7 +90,7 @@ function BarcodeScanCameraScreen({ navigation }) {
               onPress={() => {
                 console.log("navigate to entry form screen");
                 setModalVisible(false);
-                navigation.navigate("FoodEntryForm", { item: product });
+                navigation.navigate("FoodEntryForm", { item: product, barcode: "true", data: nutritionData });
               }}
             >
               <AppText style={styles.linkText}>Continue</AppText>

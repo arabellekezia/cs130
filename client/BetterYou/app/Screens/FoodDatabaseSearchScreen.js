@@ -9,6 +9,9 @@ import Screen from "../components/Screen";
 import TextButton from "../components/TextButton";
 import colors from "../config/colors";
 
+import NutritionService from "../services/NutritionService";
+
+
 function FoodDatabaseSearchScreen({ navigation }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -19,7 +22,7 @@ function FoodDatabaseSearchScreen({ navigation }) {
         bottomDivider
         onPress={() => {
           console.log("going to form page with " + item.name);
-          navigation.navigate("FoodEntryForm", { item: item.name });
+          navigation.navigate("FoodEntryForm", { item: item.name, barcode: "false", data: item.nutrition });
         }}
       >
         <ListItem.Content>
@@ -45,26 +48,14 @@ function FoodDatabaseSearchScreen({ navigation }) {
         />
         <TextButton
           name="Search"
-          onPress={() => {
+          onPress={async () => {
             if (query) {
+              // upon pressing the search button and query is sent and fetched
+              const entries = await getListOfFoods(query);
               console.log(
                 `call search api with search query: ${query}, then set results`
               );
-              setResults([
-                { name: "item1", subtitle: "subtitle1" },
-                { name: "item2", subtitle: "subtitle2" },
-                { name: "item3", subtitle: "subtitle3" },
-                { name: "item4", subtitle: "subtitle4" },
-                { name: "item5", subtitle: "subtitle5" },
-                { name: "item6", subtitle: "subtitle6" },
-                { name: "item7", subtitle: "subtitle7" },
-                { name: "item8", subtitle: "subtitle8" },
-                { name: "item9", subtitle: "subtitle9" },
-                { name: "item10", subtitle: "subtitle10" },
-                { name: "item11", subtitle: "subtitle11" },
-                { name: "item12", subtitle: "subtitle12" },
-                { name: "item13", subtitle: "subtitle13" },
-              ]);
+              setResults(entries);
             }
           }}
           style={styles.button}
@@ -90,5 +81,32 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
 });
+
+async function getListOfFoods(searchquery) {
+  try {
+    const foodList = await NutritionService.getAvailableFoods(searchquery, 15, 1);
+    const parsedList = pairItemNameAndCalories(foodList)
+
+    return parsedList;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function pairItemNameAndCalories(list) {
+  const pairList = [];
+  //const calsList = [];
+  for (const index in list) {
+    const itemPair = { 
+      name: list[index].Label, 
+      subtitle: (list[index].Nutrients.Cals !== undefined)
+        ? `${Math.round(list[index].Nutrients.Cals)} Cals per 100g ` //added rounding to cals
+        : "", 
+      nutrition: list[index].Nutrients  //passing this so the entry form screen doesn't have to make another call
+    } 
+    pairList.push(itemPair);
+  }
+  return pairList;
+}
 
 export default FoodDatabaseSearchScreen;
