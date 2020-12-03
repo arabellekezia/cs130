@@ -75,7 +75,6 @@ class Diet(Health):
         success : bool 
             Returns True if the database entry is successful without any errors, False otherwise.
         """    
-            Returns True if the database entry is successful without any errors, False otherwise.
         for k in input_dict.keys():
             
             if k not in input_dict_keys:

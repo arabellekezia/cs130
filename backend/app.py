@@ -417,7 +417,6 @@ def check_datetimes(data):
         timestamp_to = int(data['dateTo'])
         dateFrom = datetime.fromtimestamp(timestamp_from) + timedelta(hours=8); 
         dateTo = datetime.fromtimestamp(timestamp_to) + timedelta(hours=8); 
-        print(dateFrom)
     except:
         return {'msg': "Please format the dateFrom and dateTo as timestamp objects",
                 "status_code": 400}
