@@ -141,7 +141,7 @@ class User:
         code : int
             HTTP status code.
         """
-        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=10),
+        payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=365, seconds=10),
                     'iat': datetime.datetime.utcnow(),
                     'sub': id}
         try:
