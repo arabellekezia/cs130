@@ -111,7 +111,7 @@ function getNutritionDailySummary(dailyEntries) {
   dailyEntries.forEach((entry) => {
     todayCals += entry.Cals;
   });
-  return roundToOne(todayCals);
+  return Math.round(todayCals);
 }
 
 function SummaryScreen({ navigation }) {
