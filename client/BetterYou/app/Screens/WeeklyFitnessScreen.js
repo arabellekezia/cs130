@@ -3,55 +3,34 @@ import { SafeAreaView, StyleSheet, View, ScrollView } from "react-native";
 import AppText from "../components/AppText";
 import AppBarChart from "../components/AppBarChart";
 
-import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import TitleText from "../components/TitleText";
-import DailyFitnessEntries from "../components/DailyFitnessEntries";
 import HeaderText from "../components/HeaderText";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 import DateUtils from "../utils/date";
+import FitnessService from "../services/FitnessService"; 
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
-const { totalActiveTime, totalCaloriesBurned } = getWeeklyStats();
-
-//TODO: change this hard coded thing
-const daysinWeekBreakdown = [
-  {
-    title: "Sunday",
-    description: "540 minutes",
-  },
-  {
-    title: "Monday",
-    description: "540 minutes",
-  },
-  {
-    title: "Tuesday",
-    description: "540 minutes",
-  },
-  {
-    title: "Wednesday",
-    description: "540 minutes",
-  },
-  {
-    title: "Thursday",
-    description: "540 minutes",
-  },
-  {
-    title: "Friday",
-    description: "540 minutes",
-  },
-  {
-    title: "Saturday",
-    description: "540 minutes",
-  },
-];
 
 function WeeklyFitnessScreen() {
-  const currentWeek = DateUtils.getDayTimeRange();
+  const currentWeek = DateUtils.getDaysInWeek();
 
   const [selectedChartType, setSelectedChartType] = React.useState(
     BarchartType.ACTIVE_TIME
   );
+
+  const [stats, setStats] = React.useState({});
+  const [isReady, setIsReady] = React.useState(false);
+
+  // Fetch weekly entries
+  React.useEffect(() => {
+    async function getWeeklyEntries() {
+      const entries = await FitnessService.getWeeklyFitnessEntries();
+      setStats(getCumulativeStats(entries));
+      setIsReady(true);
+    }
+    getWeeklyEntries();
+  }, []);
 
   return (
     <SafeAreaView>
@@ -64,72 +43,43 @@ function WeeklyFitnessScreen() {
           style={styles.dateHeader}
           children={getWeeklyHeader(currentWeek)}
         />
-        <FitnessBarChart
-          selectedChartType={selectedChartType}
-          currentWeek={currentWeek}
-        />
+        {isReady && (
+          <FitnessBarChart
+            selectedChartType={selectedChartType}
+            totalActiveTime={stats.totalActiveTime}
+            totalCaloriesBurned={stats.totalCaloriesBurned}
+            activeTimeData={stats.activeTimeData}
+            caloriesBurnedData={stats.caloriesBurnedData}
+          />
+        )}
         <SegmentedControlTab
           tabsContainerStyle={{ width: "80%" }}
           values={["Active time", "Calories burned"]}
           selectedIndex={selectedChartType}
           onTabPress={(chartType) => setSelectedChartType(chartType)}
         />
-        {/*
-        <DailyFitnessEntries
-          style={styles.dailyEntries}
-          day="Sunday, Nov. 22"
-          entries={[
-            {
-              iconName: "walk",
-              startTime: "7:00 PM",
-              activity: "Walking",
-              caloriesBurned: 238,
-              duration: "00:20:07",
-            },
-            {
-              iconName: "swim",
-              startTime: "7:00 PM",
-              activity: "Swimming",
-              caloriesBurned: 238,
-              duration: "00:20:07",
-            },
-          ]}
-        />
-        <DailyFitnessEntries
-          style={styles.dailyEntries}
-          day="Sunday, Nov. 22"
-          entries={[
-            {
-              iconName: "walk",
-              startTime: "7:00 PM",
-              activity: "Walking",
-              caloriesBurned: 238,
-              duration: "00:20:07",
-            },
-            {
-              iconName: "swim",
-              startTime: "7:00 PM",
-              activity: "Swimming",
-              caloriesBurned: 238,
-              duration: "00:20:07",
-            },
-          ]}
-        />
-        */}
         <HeaderText
           style={styles.dailyBreakdownHeader}
           children={"Daily Breakdown"}
         />
-        <DailyBreakdownList entries={daysinWeekBreakdown} />
+        {isReady && <DailyBreakdownList entries={stats.dailyBreakdownData} />}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function FitnessBarChart({ selectedChartType, currentWeek }) {
-  const barChartTitle = selectedChartType === BarchartType.ACTIVE_TIME
-  ? "Active Minutes Per Day"
-  : "Calories Burned Per Day";
+
+function FitnessBarChart({
+  selectedChartType,
+  totalActiveTime,
+  totalCaloriesBurned,
+  activeTimeData, 
+  caloriesBurnedData
+}) {
+  const barChartTitle =
+    selectedChartType === BarchartType.ACTIVE_TIME
+      ? "Active Minutes Per Day"
+      : "Calories Burned Per Day";
 
   const totalWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -157,22 +107,54 @@ function FitnessBarChart({ selectedChartType, currentWeek }) {
       />
       {/* TODO: find average active time during the week */}
       <View style={styles.smallSummaryContainer}>
-        {selectedChartType === BarchartType.ACTIVE_TIME && 
-        <AppText>
-          You exercised for a total of 
-          <AppText style={styles.boldtext} children={` ${totalWeeklyMetric} `} />
-          this week.
-        </AppText>}
+        {selectedChartType === BarchartType.ACTIVE_TIME && (
+          <AppText>
+            You exercised for a total of
+            <AppText
+              style={styles.boldtext}
+              children={` ${totalWeeklyMetric} `}
+            />
+            this week.
+          </AppText>
+        )}
 
-        {selectedChartType === BarchartType.CALORIES_BURNED && 
-        <AppText>
-          You burned a total of 
-          <AppText style={styles.boldtext} children={` ${totalWeeklyMetric} `} />
-          this week.
-        </AppText>}
+        {selectedChartType === BarchartType.CALORIES_BURNED && (
+          <AppText>
+            You burned a total of
+            <AppText
+              style={styles.boldtext}
+              children={` ${totalWeeklyMetric} `}
+            />
+            this week.
+          </AppText>
+        )}
       </View>
     </View>
   );
+}
+
+function getCumulativeStats(entries) {
+  let totalCaloriesBurned = 0;
+  let totalActiveTime = 0;
+  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 
+  const activeTimeData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
+  const caloriesBurnedData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
+  const dailyBreakdownData = [{title: "Sunday"}, {title: "Monday"}, {title: "Tuesday"}, {title: "Wednesday"}, {title: "Thursday"}, {title: "Friday"}, {title: "Saturday"}];
+
+  entries.forEach((entry, index) => {
+    totalCaloriesBurned += entry.caloriesBurned;
+    totalActiveTime += entry.activeTime;
+    activeTimeData.datasets[0].data.push(entry.activeTime); 
+    caloriesBurnedData.datasets[0].data.push(entry.caloriesBurned); 
+    dailyBreakdownData[index].description = `${entry.activeTime} minutes`; 
+  });
+  return { totalCaloriesBurned, totalActiveTime, activeTimeData, caloriesBurnedData, dailyBreakdownData};
+}
+
+function getWeeklyHeader(currentWeek) {
+  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format(
+    "MMM D, YYYY"
+  )}`;
 }
 
 const styles = StyleSheet.create({
@@ -222,42 +204,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-
-function getDaysInWeek() {
-  const weekStart = moment().startOf("week");
-  const days = [];
-  for (let i = 0; i <= 6; i++) {
-    days.push(moment(weekStart).add(i, "days"));
-  }
-  return days;
-}
-
-function getWeeklyStats() {
-  return { totalActiveTime: 150, totalCaloriesBurned: 1000 };
-}
-
-function getWeeklyHeader(currentWeek) {
-  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format("MMM D, YYYY")}`;
-}
-
-const activeTimeData = {
-  labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  datasets: [
-    {
-      data: [60, 20, 30, 30, 0, 20, 26],
-      strokeWidth: 2, // optional
-    },
-  ],
-};
-
-const caloriesBurnedData = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [500, 200, 150, 200, 300, 400, 60],
-      strokeWidth: 2, // optional
-    },
-  ],
-};
 
 export default WeeklyFitnessScreen;
