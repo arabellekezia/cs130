@@ -32,8 +32,8 @@ class Fitness(Health):
         Inserts the fitness entry in the fitness table.
     """
     
-    def __init__(self, database_manager: DB, user_id: int, params_fitness: Optional[List[str]] = ['WorkoutType', 'Minutes',\
-                                                                    'CaloriesBurned', 'Datetime', 'UserID']) -> None:
+    def __init__(self, database_manager: DB, user_id: int,
+                 params_fitness: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']) -> None:
         """
         Initializes the fitness class.
         
@@ -43,14 +43,14 @@ class Fitness(Health):
             The database manager
         user_id: int
             The unique user id
-        params_fitness: List[str]
-            The list of columns from the Fitness table required by the frontend. 
+        params_fitness: Optional[List[str]]
+            The list of columns from the Fitness table required by the frontend. Defaults to all fields of the Fitness table.
         """
         super().__init__(database_manager, user_id, 'Fitness', params_fitness)
     
-    def insert_in_database(self, input_dict: Dict,\
-                          input_dict_keys: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],\
-                          input_dict_types: Optional[Dict[str, Any]] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},\
+    def insert_in_database(self, input_dict: Dict,
+                          input_dict_keys: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],
+                          input_dict_types: Optional[Dict[str, Any]] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},
                           date_time: Optional[datetime] = None) -> bool:
         """
         Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
@@ -59,18 +59,19 @@ class Fitness(Health):
         Parameters
         ----------
         input_dict : Dict
-            The input dictionary with keys 'input_dict_keys' i.e. 'WorkoutType', 'Minutes', 'CaloriesBurned'
-        input_dict_keys : List[str]
-            The keys of 'input_dict'.
-        input_dict_types : Dict
-            The datatypes of the input_dict.
-        date_time : datetime
-            Manually entering the date-time for the workout. Useful while testing the code.
+            The input dictionary with fields and values that need to be entered into the database for the Fitness table.
+        input_dict_keys : Optional[List[str]]
+            The keys of the input_dict, these correspond to fields in the Fitness table. Defaulted to a List of all the fields.
+        input_dict_types : Optional[Dict[str, Any]]
+            The fields and corresponding data types in the Fitness table, defaulted to the schema of the table.
+        date_time : Optional[datetime]
+            Manually entered datetime for the workout entry, defaults to None since the database is configured to use
+            CURRENT_TIMESTAMP when one is not provided.
             
         Returns
         -------
         success : bool
-            Returns True if the database entry is successful without any errors otherwise False
+            Returns True if the database entry is successful without any errors, False otherwise.
         """    
         for k in input_dict.keys():
             

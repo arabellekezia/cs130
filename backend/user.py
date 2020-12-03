@@ -6,8 +6,6 @@ from typing import Tuple
 from backend.db import DB
 from backend.setup.config import MY_KEY
 
-# Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
-
 class User:
     """
     A class used to represent the User. 
@@ -19,7 +17,7 @@ class User:
     _db : DB
         The database manager.
     _key : int
-        The unique user id.
+        The unique key on which to encode and decode tokens.
 
     Methods
     -------
@@ -60,12 +58,13 @@ class User:
         Returns
         -------
         id : int
-            The user id.
+            The user id, nonnegative is used exists in db, negative otherwise.
         """
         query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
         if data:
             key = data[0]['password']
+            # Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
             salt = data[0]['salt']
             new_key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
             if not key == new_key:
@@ -87,7 +86,7 @@ class User:
         Returns
         -------
         id : int
-            The user id.
+            The user id, nonnegative is used exists in db, negative otherwise.
         """
         query = f"select * from Users where email='{email}';"
         data = self._db.select_data(query)
@@ -117,6 +116,7 @@ class User:
         """
         existing = self.check_email_match(email)
         if existing < 0:
+            # Password Hashing: https://nitratine.net/blog/post/how-to-hash-passwords-in-python/
             salt = os.urandom(32)
             key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
             data = {'email': email, 'password': key, 'salt': salt, 'fullname': fullname}
@@ -139,7 +139,7 @@ class User:
         encoding : str
             The payload encoding.
         code : int
-            Success code.
+            HTTP status code.
         """
         payload = { 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=10),
                     'iat': datetime.datetime.utcnow(),
@@ -164,7 +164,7 @@ class User:
         payload : str
             The payload
         code : int
-            Success code.
+            HTTP status code.
         """
         try:
             payload = decode(token, self._key, algorithms=['HS256'])

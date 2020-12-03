@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
 from backend.db import DB
 from datetime import datetime, timezone
-from typing import List, Dict, Optional, Tuple
+from typing import Any, List, Dict, Optional, Tuple
 import copy
 
 class Health(ABC):
     """
     A class used to represent Health
     
-    The main abstract class for our app which is inherited by the three major components: Diet, Fitness and Sleep.
+    The main abstract base class for our app which is inherited by the three major components: Diet, Fitness, and Sleep.
 
     ...
 
@@ -47,9 +47,10 @@ class Health(ABC):
             The unique user id.
         table_name : str
             The name of the table.
-        params : List[str]
-            List of the columns from table 'table_name' 
+        params : Optional[List[str]]
+            List of the columns from table 'table_name', defaults to all fields in any table.
         """
+
         self._database_manager = database_manager
         self._user_id = user_id
         self._table_name = table_name
@@ -67,7 +68,7 @@ class Health(ABC):
             
         Returns
         -------
-        out : str
+        params_string : str
             Returns a string which is used to query the database.
         
         """
@@ -77,8 +78,9 @@ class Health(ABC):
         params_string = params_string[:-2]
         return params_string
     
-    def get_columns_given_range(self, start_date: datetime, end_date: datetime) -> Tuple[List[Dict], bool]:
-        """Gets data from table 'table_name' between 'start_date' and 'end_date'.
+    def get_columns_given_range(self, start_date: datetime, end_date: datetime) -> Tuple[Any, bool]:
+        """
+        Gets data from table 'table_name' between 'start_date' and 'end_date'.
 
         Parameters
         ----------
@@ -89,11 +91,10 @@ class Health(ABC):
 
         Returns
         -------
-        result : List[Dict]
-            A list of dictionaries between 'start_date' to 'end_date' from table 'table_name'. The exact keys/structure
-            of the dictionaries depends on the specific component of the app.
-        success : bool
-            Returns True if query succesful, otherwise False.
+        result : Tuple[Any, bool]
+            Returns a list of dictionaries corresponding to database rows between 'start_date' to 'end_date' from table
+            'table_name', None if no entries, and -1 if there is an error. The second part of the tuple returns True if
+            the query is succesful, False otherwise.
         """
         try:
             result = self._database_manager.sel_time_frame(self._table_name, f"{start_date}", f"{end_date}", self._user_id, params=self._get_params(self._params)) 
@@ -107,12 +108,19 @@ class Health(ABC):
             return -1, False
     
     @abstractmethod
-    def insert_in_database(self, input_dict):
-        """Inserts input in the database. Returns true if success o/w false.
+    def insert_in_database(self, input_dict) -> bool:
+        """
+        Inserts input in the database. Returns true if success o/w false.
         This is an Abstract method which is implemented by the individual components, Diet, Fitness, Sleep.
 
         Parameters
         ----------
         input_dict : dict
+            Fields and values for the table to insert data into.
+
+        Returns
+        -------
+        success : bool
+            Whether or not the entry was able to be inserted in the database.
         """
         pass
