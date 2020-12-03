@@ -64,7 +64,7 @@ class Goals():
             
         Returns
         -------
-        out : str
+        params_string : str
             Returns a string which is used to query the database.
         
         """
@@ -76,16 +76,17 @@ class Goals():
     
     def set_goal(self, input_dict: Dict, input_dict_keys: Optional[List[str]] = ['Type', 'Value'],\
                  input_dict_types: Optional[Dict[str, Any]] = {'Type': str,'Value': float}) -> bool:
-        """Inserts input in the database. Returns true if success otherwise false
+        """
+        Inserts input in the database. Returns true if success otherwise false
     
         Parameters
         ----------
         input_dict : Dict
             The input dictionary with keys 'input_dict_keys' i.e. Type, Value
-        input_dict_keys : Dict
-            The keys of 'input_dict'
-        input_types: Dict[str, Any]
-            List with the data types of input_dict
+        input_dict_keys : Optional[List[str]]
+            The keys of 'input_dict' in a List, defaults to field names in the Goals table.
+        input_types: Optional[Dict[str, Any]]
+            List with the data types of input_dict, defaults to fields and types for the Goals table.
                     
         Returns
         -------
@@ -110,20 +111,21 @@ class Goals():
         except:
             return False 
         
-    def get_latest_goal(self, Type: str) -> Tuple[List[Dict], bool]:
-        """Gets the latests goal of type Type from the goal table.
+    def get_latest_goal(self, Type: str) -> Tuple[Any, bool]:
+        """
+        Gets the latests goal of type Type from the goal table.
     
         Parameters
         ----------
         Type : str
-            Calories, FitnessMinutes, SleepHours
+            Calories, FitnessMinutes, SleepHours -> Types of Goals
                     
         Returns
         -------
-        result : List[Dict]
-            Returns a the latest goal from the table of type 'Type' in a list.
-        success : bool
-            True if database query succesful, False otherwise.
+        result : Tuple[Any, bool]
+            Returns the latest goal from the table of type 'Type' in a list, None if no goal, or -1 if there
+            is an issue with the query. The second part of the tuple is a bool for whether or not the query was
+            successful.
         """ 
             
         query = f"SELECT {self._get_params(self._params)} FROM {self._table_name}\
@@ -141,15 +143,15 @@ class Goals():
         except:
             return -1, False
 
-    def get_all_goals(self) -> Tuple[List[Dict], bool]:
-        """Gets all the goal of from the goal table.
+    def get_all_goals(self) -> Tuple[Any, bool]:
+        """
+        Gets all the goal of from the goal table.
                     
         Returns
         -------
-        result : List[Dict]
-            Returns all the goals from the table in a list.
-        success : bool
-            True if database query succesful, False otherwise. 
+        result : Tuple[Any, bool]
+            Returns all goals from the table in a list, None if no goal, or -1 if there is an issue with the query.
+            The second part of the tuple is a bool for whether or not the query was successful.
         """ 
         query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "
@@ -165,8 +167,9 @@ class Goals():
         except:
             return -1, False
 
-    def get_type_goals(self, Type: str) -> Tuple[List[Dict], bool]:
-        """Gets all the goal of type Type of from the goal table.
+    def get_type_goals(self, Type: str) -> Tuple[Any, bool]:
+        """
+        Gets all the goal of type Type of from the goal table.
     
         Parameters
         ----------
@@ -175,10 +178,9 @@ class Goals():
                     
         Returns
         -------
-        result : List[Dict]
-            Returns all the goals from the table of type Type in a list.
-        success : bool
-            true if database query succesful, false otherwise.
+        result : Tuple[Any, bool]
+            Returns all goals from the table of type 'Type' in a list, None if no goal, or -1 if there is an issue
+            with the query. The second part of the tuple is a bool for whether or not the query was successful.
         """ 
         query = (f"select {self._get_params(self._params)} from {self._table_name} "
                  f"join Users on Users.id={self._table_name}.UserID "

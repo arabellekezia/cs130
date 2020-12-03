@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import patch
 import backend.db
-from backend.staywell_api import StaywellExternalAPI
+from backend.staywell_api import StaywellAPI
 
 class TestStaywellAPI(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
         self.database = None
-        self.staywellAPI = StaywellExternalAPI()
+        self.staywellAPI = StaywellAPI()
         self.userID = 11
 
     def test_no_data(self):

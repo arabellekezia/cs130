@@ -2,7 +2,7 @@ from flask import Flask, request
 import requests
 from datetime import datetime, timezone, timedelta 
 import json
-from backend.staywell_api import StaywellExternalAPI
+from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
 from backend.db import DB
@@ -14,7 +14,7 @@ from backend.goals import Goals
 app = Flask(__name__)
 DB_OBJECT = DB(False)
 USER = User(DB_OBJECT)
-STAYWELL_API = StaywellExternalAPI()
+STAYWELL_API = StaywellAPI()
 EDAMAM_API = EdamamAPI()
 
 @app.route('/')
@@ -192,6 +192,7 @@ def addMeal():
     food_dict, success = EDAMAM_API.get_top_matches(item, barcode, 1, serving_size)
     if not success:
         return "Unable to find the food item based on given info", 400
+    label = food_dict[0]['Label']
     food_dict = food_dict[0]['Nutrients']
     token = check_token(args)
     if token['status_code'] != 200:
@@ -200,7 +201,7 @@ def addMeal():
     id = getIdFromToken(token)
     if id < 0:
         return "Invalid Token", 401
-    insert_food_dict = {'Item': item, 'ServingSize': serving_size, 'Barcode': barcode}
+    insert_food_dict = {'Item': label, 'ServingSize': serving_size, 'Barcode': barcode}
     nutri_dict = {}
     for k, v in food_dict.items():
         nutri_dict[k] = v
@@ -416,7 +417,6 @@ def check_datetimes(data):
         timestamp_to = int(data['dateTo'])
         dateFrom = datetime.fromtimestamp(timestamp_from) + timedelta(hours=8); 
         dateTo = datetime.fromtimestamp(timestamp_to) + timedelta(hours=8); 
-        print(dateFrom)
     except:
         return {'msg': "Please format the dateFrom and dateTo as timestamp objects",
                 "status_code": 400}

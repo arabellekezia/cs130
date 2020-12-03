@@ -1,7 +1,7 @@
 import requests
 import numpy as np
 from difflib import SequenceMatcher
-from typing import Any, List, Dict
+from typing import Any, Tuple, List, Dict, Optional
 
 class EdamamAPI():
     """
@@ -13,11 +13,11 @@ class EdamamAPI():
 
     Attributes
     ----------
-    url : str
+    _url : str
         The API url.
-    key : str
+    _key : str
         The API key.
-    host : str
+    _host : str
         The API host.
     headers : str
         The API headers.
@@ -64,14 +64,13 @@ class EdamamAPI():
         
         Returns
         -------
-        
         similarity_score : float
             The similarity score for the two strings. Useful while computing the top k matches for a given query.
         
         """
         return SequenceMatcher(None, a, b).ratio()
 
-    def get_food_information(self, query: str, upc: bool = False) -> Dict:
+    def get_food_information(self, query: str, upc: Optional[bool] = False) -> Dict:
         """
         Computes the nutrient information for a given query from the Edamam Food API.
         
@@ -79,8 +78,8 @@ class EdamamAPI():
         ----------
         query : str
             The input query, for instance 'Apple', 'Orange' or a barcode number.
-        upc : bool
-            True if query is a barcode number, otherwise False.
+        upc : Optional[bool]
+            True if query is a barcode number, otherwise False. Defaulted to False.
             
         Returns
         -------
@@ -101,40 +100,39 @@ class EdamamAPI():
 
         return response.json()
     
-    def get_top_matches(self, query: str = None, upc: bool = False, k: int = 5, serving_size: float = 1.0) -> (Dict[int, Any], bool):
-        """Returns the top k matches from the Edamam Food APi for a given query. For each match it returns the total nutrients consumed
+    def get_top_matches(self, query: str, upc: Optional[bool] = False, k: Optional[int] = 5, serving_size: Optional[float] = 1.0) -> Tuple[Dict[int, Any], bool]:
+        """
+        Returns the top k matches from the Edamam Food APi for a given query. For each match it returns the total nutrients consumed
         after taking the serving size into account.
 
         Parameters
         ----------
         query : string
             The input query which can either be a food item name like "Apple" or the barcode number in str.
-        upc : bool
-            Should be true when the query is a barcode number.
-        k : int
-            The number of top matches.
-        serving_size : float
-            The serving size for that food item.
+        upc : Optional[bool]
+            True if query is a barcode number, otherwise False. Defaulted to False.
+        k : Optional[int]
+            The number of top matches, defaults to 5 closest matches.
+        serving_size : Optional[float]
+            The serving size for that food item, defaults to 1.0.
 
         Returns
         -------
-        food_options_dict : Dict
-            Returns a dictionary of the top k matches.
-
-        success ; bool
-            True if food API query is successful, otherwise False.
+        results : Tuple[Dict[int, Any], bool]
+            Returns a dictionary of the top k matches ranked, and the second part of the Tuple is True if food API query is successful,
+            False otherwise.
 
         Notes
         -----
             An Example:
-                # {0:
-                #  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz',
-                #   'Nutrients' : {'Cals' : 41.499027861352765, 'Protein' : 0.6148004127607817,
-                #                  'Fat' : 0.15370010319019542, 'Carbs' : 10.144206810552898, 'Fiber': 0.6148004127607817}},
-                # 1: 
-                #  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz',
-                #   'Nutrients' : {'Cals' : 37.43695370561189, 'Protein' : 0.6038218339614821, 'Fat' : 0.12076436679229642,
-                #   'Carbs' : 9.178091876214529, 'Fiber' : 0.6038218339614821}}}
+                {0:
+                  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz',
+                   'Nutrients' : {'Cals' : 41.499027861352765, 'Protein' : 0.6148004127607817,
+                                  'Fat' : 0.15370010319019542, 'Carbs' : 10.144206810552898, 'Fiber': 0.6148004127607817}},
+                 1: 
+                  {'Label' : 'Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz',
+                   'Nutrients' : {'Cals' : 37.43695370561189, 'Protein' : 0.6038218339614821, 'Fat' : 0.12076436679229642,
+                   'Carbs' : 9.178091876214529, 'Fiber' : 0.6038218339614821}}}
 
         """
         if not isinstance(query, str) or not isinstance(upc, bool) or not isinstance(k, int) or ((isinstance(k, int)) and k < 0):
