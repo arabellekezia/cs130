@@ -33,15 +33,21 @@ function SleepEntryFormScreen({ navigation, route }) {
   const [isNap, setIsNap] = useState(false);
   const [err, setError] = useState({ startDate: false, endDate: false });
 
-  function submit() {
+  async function submit() {
     if (!isValidInput(startDate, endDate, setError)) {
       console.log(err);
       return;
     }
-
-    console.log("start: " + startDate.toLocaleString());
-    console.log("end: " + endDate.toLocaleString());
-    navigation.popToTop();
+    try {
+      await SleepService.addSleepEntry(
+        Math.floor(startDate.getTime() / 1000),
+        Math.floor(endDate.getTime() / 1000),
+        isNap
+      );
+      navigation.popToTop();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function displayErrorMessage(error) {
@@ -111,8 +117,8 @@ function SleepEntryFormScreen({ navigation, route }) {
           <TextButton
             style={styles.button}
             name="Submit"
-            onPress={() => {
-              submit();
+            onPress={async () => {
+              await submit();
             }}
           />
         </View>

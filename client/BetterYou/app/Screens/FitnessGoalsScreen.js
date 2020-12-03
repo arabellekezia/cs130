@@ -10,7 +10,7 @@ import GoalsService from "../services/GoalsService";
 const MIN_ACTIVE_TIME = 0;
 const MAX_ACTIVE_TIME = 1440;
 
-function FitnessGoalsScreen(navigation) {
+function FitnessGoalsScreen({ navigation }) {
   const [activeTimeGoal, setActiveTimeGoal] = React.useState(0);
   const [err, setError] = React.useState({ activeTime: false });
 
