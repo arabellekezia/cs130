@@ -1,10 +1,10 @@
 import pymysql
 import datetime
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional
 from backend.setup.config import TEST_DB, PRODUCTION_DB
 
 class DB:
-    def __init__(self, test = True) -> None:
+    def __init__(self, test: Optional[bool] = True) -> None:
         config_info = TEST_DB
         if not test:
             config_info = PRODUCTION_DB
@@ -66,7 +66,7 @@ class DB:
         cmd = f"insert into {table} ({keys}) values ({vals});"
         self.insert_data_1(cmd,data)
 
-    def sel_time_frame(self, table: str, start_date: str, end_date: str, userID: int, params: str = "*"):
+    def sel_time_frame(self, table: str, start_date: str, end_date: str, userID: int, params: Optional[str] = "*"):
         query = f"select {params} from {table} "
         query += f"join Users on Users.id={table}.UserID "
         query += f"where Datetime >= '{start_date}' and Datetime <= '{end_date}' "
