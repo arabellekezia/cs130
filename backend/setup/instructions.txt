@@ -3,6 +3,7 @@ Imports (for python3.7):
   - pyjwt
   - numpy
   - pymysql
+  - coverage
 
 Database:
   - install MySQL
