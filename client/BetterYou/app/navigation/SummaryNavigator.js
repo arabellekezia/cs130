@@ -8,13 +8,32 @@ import DailySleepScreen from "../Screens/DailySleepScreen";
 import WeeklyFitnessScreen from "../Screens/WeeklyFitnessScreen";
 import WeeklyNutritionScreen from "../Screens/WeeklyNutritionScreen";
 import WeeklySleepScreen from "../Screens/WeeklySleepScreen";
+import { Button } from "react-native";
+import Icon from "../components/Icon";
+import IconButton from "../components/IconButton";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { clearUserToken } from "../utils/token"
+
 
 const Stack = createStackNavigator();
 
 function SummaryNavigator(props) {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Summary" component={SummaryScreen} />
+      <Stack.Screen name="Summary" component={SummaryScreen} 
+        options={{
+          headerRight: () => (
+            <TouchableOpacity onPress={async () => {await clearUserToken()}} activeOpacity={0.7}>
+              <Icon
+                name="logout"
+                size={50}
+                backgroundColor="white"
+                iconColor="grey"
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Stack.Screen
         name="DailyFitness"
         component={DailyFitnessScreen}
