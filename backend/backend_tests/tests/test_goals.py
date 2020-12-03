@@ -39,6 +39,9 @@ class TestGoals(unittest.TestCase):
         self.assertEqual(goal[0]['Value'], 50.0)
         goal, status = self.goals.get_latest_goal(Type='SleepHours')
         self.assertEqual(goal[0]['Value'], 1.99)
+        
+        goals = Goals(None, self.user_id)
+        self.assertFalse(goals.alter_goal('Calories', 99.0))
 
     def test_incorrect_alter_type_goal(self):
         """
@@ -68,6 +71,10 @@ class TestGoals(unittest.TestCase):
         goal, status = self.goals.get_latest_goal(Type='SleepHours')
         self.assertTrue(status)
         
+        goals = Goals(None, self.user_id)
+        goal, status = goals.get_latest_goal(Type='Calories')
+        self.assertFalse(status)
+        
     def test_incorrect_get_latest_goal(self):
         """
         Test incorrect goal type while getting the latest goal of a particular type.
@@ -82,13 +89,20 @@ class TestGoals(unittest.TestCase):
         goals, status = self.goals.get_all_goals()
         self.assertTrue(status)
         
+        goals = Goals(None, self.user_id)
+        goal, status = goals.get_all_goals()
+        self.assertFalse(status)
+        
     def test_get_type_goals(self):
         """
         Test getting all the goals of a particular type. Mostly we will only be interested in the latest goal.
         """
         goal, status = self.goals.get_type_goals('Calories')
-
         self.assertTrue(status)
+        
+        goals = Goals(None, self.user_id)
+        goal, status = goals.get_type_goals('Calories')
+        self.assertFalse(status)
         
     def test_incorrect_get_type_goals(self):
         """
@@ -104,6 +118,9 @@ class TestGoals(unittest.TestCase):
         self.assertTrue(self.goals.set_goal(self.diet_goal_dict))
         self.assertTrue(self.goals.set_goal(self.fitness_goal_dict))
         self.assertTrue(self.goals.set_goal(self.sleep_goal_dict))
+        
+        goals = Goals(None, self.user_id)
+        self.assertFalse(goals.set_goal(self.diet_goal_dict))
 
     def test_incorrect_key_set_goal(self):
         """

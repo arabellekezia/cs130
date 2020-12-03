@@ -119,7 +119,7 @@ class TestSleep(unittest.TestCase):
         self.assertEqual(result[0]['WakeupTime'],round(self.wakeup_time.replace(tzinfo=timezone.utc).timestamp()))
         self.assertFalse(result[0]['Nap'])
         self.assertEqual(result[0]['Minutes'],1)
-        
+                
         result_1, success_1 = self.sleep_1.get_columns_given_range(dt1, dt1+timedelta(days=1))
 
         self.assertTrue(success_1)
@@ -127,6 +127,10 @@ class TestSleep(unittest.TestCase):
         self.assertEqual(result_1[0]['WakeupTime'],round(self.wakeup_time_1.replace(tzinfo=timezone.utc).timestamp()))
         self.assertFalse(result_1[0]['Nap'])
         self.assertEqual(result_1[0]['Minutes'],2)
+        
+        sleep = Sleep(None, self.user_id_1)
+        result, success = sleep.get_columns_given_range(dt1, dt1+timedelta(days=1))
+        self.assertFalse(success)
 
     def test_6_minutes_computation(self):
         """
@@ -177,6 +181,14 @@ class TestSleep(unittest.TestCase):
         self.assertEqual(result[0]['Minutes'], 1)
         self.assertEqual(result[1]['Minutes'], 2)
         self.assertEqual(result[2]['Minutes'], 3)
+        
+    def test_9_incorrect_database(self):
+        """
+        Test database insertion for a single user with incorrect database. Test case to increase the coverage. 
+        """
+        sleep = Sleep(None, self.user_id_1)
+        s = sleep.insert_in_database(self.sleep_dict, date_time=self.dt1)
+        self.assertFalse(s)
 
 
 if __name__ == '__main__':
