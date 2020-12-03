@@ -1,26 +1,37 @@
-import React from 'react';
+import React from "react";
 import { StyleSheet, View } from "react-native";
-import ListItemComponent from './ListItemComponent';
+import { useNavigation } from "@react-navigation/native";
+import ListItemComponent from "./ListItemComponent";
 
-function DailyBreakdownList({ style, entries }) {
+import moment from "moment";
+
+function DailyBreakdownList({ style, entries, type }) {
+  const daysOfWeek = {
+    Sunday: 0,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+  };
+
+  const navigation = useNavigation();
   return (
     <View style={{ ...styles.container, ...style }}>
       {entries.map((entry, key) => {
-        const {
-          title, 
-          icon, 
-          description, 
-          navigation, 
-          destination
-        } = entry;
+        const { title, icon, description } = entry;
         return (
           <ListItemComponent
             key={key}
             title={title}
             icon={icon}
             description={description}
-            navigation={navigation}
-            destination={destination}
+            onPress={() => {
+              const weekStart = moment().startOf("week");
+              const date = moment(weekStart).add(daysOfWeek[title], "days");
+              navigation.navigate(type, { date: date });
+            }}
           />
         );
       })}

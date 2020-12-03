@@ -20,6 +20,9 @@ const DateUtils = {
     }
     return days;
   },
+  getFormattedDate: (day = moment()) => {
+    return day.format("dddd, MMMM Do");
+  },
 };
 
 export default DateUtils;

@@ -8,7 +8,8 @@ import TitleText from "../components/TitleText";
 import HeaderText from "../components/HeaderText";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 import DateUtils from "../utils/date";
-import FitnessService from "../services/FitnessService"; 
+import FitnessService from "../services/FitnessService";
+import moment from "moment";
 
 const BarchartType = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
@@ -62,19 +63,23 @@ function WeeklyFitnessScreen() {
           style={styles.dailyBreakdownHeader}
           children={"Daily Breakdown"}
         />
-        {isReady && <DailyBreakdownList entries={stats.dailyBreakdownData} />}
+        {isReady && (
+          <DailyBreakdownList
+            entries={stats.dailyBreakdownData}
+            type="DailyFitness"
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-
 function FitnessBarChart({
   selectedChartType,
   totalActiveTime,
   totalCaloriesBurned,
-  activeTimeData, 
-  caloriesBurnedData
+  activeTimeData,
+  caloriesBurnedData,
 }) {
   const barChartTitle =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -85,6 +90,11 @@ function FitnessBarChart({
     selectedChartType === BarchartType.ACTIVE_TIME
       ? `${totalActiveTime.toFixed(0)} minutes`
       : `${totalCaloriesBurned.toFixed(0)} calories`;
+
+  const averageWeeklyMetric =
+    selectedChartType === BarchartType.ACTIVE_TIME
+      ? `${(totalActiveTime / (moment().day() + 1)).toFixed(0)} minutes`
+      : `${(totalCaloriesBurned / (moment().day() + 1)).toFixed(0)} calories`;
 
   const barChartData =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -109,7 +119,7 @@ function FitnessBarChart({
       <View style={styles.smallSummaryContainer}>
         {selectedChartType === BarchartType.ACTIVE_TIME && (
           <AppText>
-            You exercised for a total of
+            You've exercised for a total of
             <AppText
               style={styles.boldtext}
               children={` ${totalWeeklyMetric} `}
@@ -117,7 +127,16 @@ function FitnessBarChart({
             this week.
           </AppText>
         )}
-
+        {selectedChartType === BarchartType.ACTIVE_TIME && (
+          <AppText>
+            On average, that's about
+            <AppText
+              style={styles.boldtext}
+              children={` ${averageWeeklyMetric} `}
+            />
+            per day.
+          </AppText>
+        )}
         {selectedChartType === BarchartType.CALORIES_BURNED && (
           <AppText>
             You burned a total of
@@ -128,6 +147,16 @@ function FitnessBarChart({
             this week.
           </AppText>
         )}
+        {selectedChartType === BarchartType.CALORIES_BURNED && (
+          <AppText>
+            On average, that's about
+            <AppText
+              style={styles.boldtext}
+              children={` ${averageWeeklyMetric} `}
+            />
+            per day.
+          </AppText>
+        )}
       </View>
     </View>
   );
@@ -136,10 +165,24 @@ function FitnessBarChart({
 function getCumulativeStats(entries) {
   let totalCaloriesBurned = 0;
   let totalActiveTime = 0;
-  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 
-  const activeTimeData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
-  const caloriesBurnedData = {labels: dayOfWeekLabels, datasets:[{data: [], strokeWidth: 2}]}; 
-  const dailyBreakdownData = [{title: "Sunday"}, {title: "Monday"}, {title: "Tuesday"}, {title: "Wednesday"}, {title: "Thursday"}, {title: "Friday"}, {title: "Saturday"}];
+  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const activeTimeData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  const caloriesBurnedData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  const dailyBreakdownData = [
+    { title: "Sunday" },
+    { title: "Monday" },
+    { title: "Tuesday" },
+    { title: "Wednesday" },
+    { title: "Thursday" },
+    { title: "Friday" },
+    { title: "Saturday" },
+  ];
 
   entries.forEach((entry, index) => {
     totalCaloriesBurned += entry.caloriesBurned;
@@ -148,9 +191,15 @@ function getCumulativeStats(entries) {
     caloriesBurnedData.datasets[0].data.push(entry.caloriesBurned.toFixed(0));
     dailyBreakdownData[index].description = `${entry.activeTime.toFixed(
       0
-    )} minutes`; 
+    )} minutes`;
   });
-  return { totalCaloriesBurned, totalActiveTime, activeTimeData, caloriesBurnedData, dailyBreakdownData};
+  return {
+    totalCaloriesBurned,
+    totalActiveTime,
+    activeTimeData,
+    caloriesBurnedData,
+    dailyBreakdownData,
+  };
 }
 
 function getWeeklyHeader(currentWeek) {
@@ -198,6 +247,8 @@ const styles = StyleSheet.create({
   },
   smallSummaryContainer: {
     marginVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   barChart: {
     marginVertical: 10,
