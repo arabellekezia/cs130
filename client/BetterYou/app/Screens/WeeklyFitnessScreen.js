@@ -1,5 +1,11 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, View, ScrollView } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import AppText from "../components/AppText";
 import AppBarChart from "../components/AppBarChart";
 
@@ -39,7 +45,7 @@ function WeeklyFitnessScreen() {
     getWeeklyEntries().then(() => {
       if (mounted) {
         setIsReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -49,16 +55,18 @@ function WeeklyFitnessScreen() {
 
   return (
     <SafeAreaView>
-      <ScrollView
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.container}
-      >
-        <TitleText style={styles.pageTitle} children="Fitness Trends" />
-        <AppText
-          style={styles.dateHeader}
-          children={getWeeklyHeader(currentWeek)}
-        />
-        {isReady && (
+      {!isReady && <ActivityIndicator animating={true} size="large" />}
+
+      {isReady && (
+        <ScrollView
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.container}
+        >
+          <TitleText style={styles.pageTitle} children="Fitness Trends" />
+          <AppText
+            style={styles.dateHeader}
+            children={getWeeklyHeader(currentWeek)}
+          />
           <FitnessBarChart
             selectedChartType={selectedChartType}
             totalActiveTime={stats.totalActiveTime}
@@ -66,24 +74,22 @@ function WeeklyFitnessScreen() {
             activeTimeData={stats.activeTimeData}
             caloriesBurnedData={stats.caloriesBurnedData}
           />
-        )}
-        <SegmentedControlTab
-          tabsContainerStyle={{ width: "80%" }}
-          values={["Active time", "Calories burned"]}
-          selectedIndex={selectedChartType}
-          onTabPress={(chartType) => setSelectedChartType(chartType)}
-        />
-        <HeaderText
-          style={styles.dailyBreakdownHeader}
-          children={"Daily Breakdown"}
-        />
-        {isReady && (
+          <SegmentedControlTab
+            tabsContainerStyle={{ width: "80%" }}
+            values={["Active time", "Calories burned"]}
+            selectedIndex={selectedChartType}
+            onTabPress={(chartType) => setSelectedChartType(chartType)}
+          />
+          <HeaderText
+            style={styles.dailyBreakdownHeader}
+            children={"Daily Breakdown"}
+          />
           <DailyBreakdownList
             entries={stats.dailyBreakdownData}
             type="DailyFitness"
           />
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

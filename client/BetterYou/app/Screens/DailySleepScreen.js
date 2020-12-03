@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 
 import { groupBy } from "lodash";
 
@@ -26,7 +32,7 @@ function DailySleepScreen({ route }) {
     loadSleepEntries().then(() => {
       if (mounted) {
         setReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -43,6 +49,7 @@ function DailySleepScreen({ route }) {
 
   return (
     <SafeAreaView>
+      {!isReady && <ActivityIndicator animating={!isReady} size="large" />}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}
