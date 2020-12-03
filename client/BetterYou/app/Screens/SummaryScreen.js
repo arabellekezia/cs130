@@ -17,6 +17,7 @@ import { roundToOne } from "../utils/time";
 import { useIsFocused } from "@react-navigation/native";
 
 import SleepService from "../services/SleepService";
+import NutritionService from "../services/NutritionService";
 
 const data = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -88,6 +89,31 @@ function getSleepDailySummary(dailyEntries) {
   return roundToOne(totalSleepTime / 60);
 }
 
+function getNutritionCardData(weeklyEntries) {
+  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const dailyCalsData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  let totalWeeklyCals = 0;
+  weeklyEntries.forEach((entry) => {
+    totalWeeklyCals += entry.dailyCals;
+    dailyCalsData.datasets[0].data.push(Math.round(entry.dailyCals));
+  });
+  return {
+    dailyCalsData,
+    averageCals: roundToOne((totalWeeklyCals / (moment().day() + 1))),
+  };
+}
+
+function getNutritionDailySummary(dailyEntries) {
+  let todayCals = 0;
+  dailyEntries.forEach((entry) => {
+    todayCals += entry.Cals;
+  });
+  return roundToOne(todayCals);
+}
+
 function SummaryScreen({ navigation }) {
   const currentDay = DateUtils.getFormattedDate();
   const [isReady, setIsReady] = React.useState(false);
@@ -95,6 +121,8 @@ function SummaryScreen({ navigation }) {
   const [fitnessDailySummary, setFitnessDailySummary] = React.useState(false);
   const [sleepCardData, setSleepCardData] = React.useState(false);
   const [sleepDailySummary, setSleepDailySummary] = React.useState(false);
+  const [nutritionCardData, setNutritionCardData] = React.useState(false);
+  const [nutritionDailySummary, setNutritionDailySummary] = React.useState(false);
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -127,10 +155,24 @@ function SummaryScreen({ navigation }) {
     }
   }
 
+  async function fetchNutritionData() {
+    try {
+      const [dailyNutritionEntries, weeklyNutritionEntries] = await Promise.all([
+        NutritionService.getDailyMealEntries(),
+        NutritionService.getWeeklyNutritionEntries(),
+      ]);
+      setNutritionCardData(getNutritionCardData(weeklyNutritionEntries));
+      setNutritionDailySummary(getNutritionDailySummary(dailyNutritionEntries));
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   async function fetchAllData() {
     try {
       await fetchFitnessData();
       await fetchSleepData();
+      await fetchNutritionData();
       setIsReady(true);
     } catch (err) {
       console.log(err);
@@ -176,7 +218,7 @@ function SummaryScreen({ navigation }) {
                   iconScale={1}
                 />
               }
-              description="1850 calories"
+              description={`${nutritionDailySummary} Calories Consumed`}
               containerStyle={{ borderColor: colors.diet }}
               titleStyle={{ color: colors.diet }}
               onPress={() => navigation.navigate("DailyNutrition")}
@@ -243,7 +285,7 @@ function SummaryScreen({ navigation }) {
                   You consumed an average of
                   <AppText
                     style={styles.boldText}
-                    children={` 2000 calories `}
+                    children={` ${nutritionCardData.averageCals} calories `}
                   />
                   per day over the last 7 days.
                 </AppText>
@@ -255,7 +297,7 @@ function SummaryScreen({ navigation }) {
               <View style={styles.chartcontainer}>
                 <View style={styles.charts}>
                   <AppBarChart
-                    data={data}
+                    data={nutritionCardData.dailyCalsData}
                     color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
                     scaleDimensions={0.8}
                   />

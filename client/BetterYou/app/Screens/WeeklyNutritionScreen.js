@@ -221,7 +221,8 @@ function calculateAverage(dataset, unit) {
     arrayToAverage.push(Math.round(day[unit]));
   });
 
-  const arrAvg = arrayToAverage.reduce((a,b) => a + b, 0) / arrayToAverage.length;
+  const arrAvg = (arrayToAverage.reduce((a,b) => a + b, 0) / (moment().day() + 1));
+  //arrayToAverage.reduce((a,b) => a + b, 0) / arrayToAverage.length;
   const arrTrunc = Math.round(arrAvg);
   return arrTrunc;
 };

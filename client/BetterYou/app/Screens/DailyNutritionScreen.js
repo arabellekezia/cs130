@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
-=======
-import React from "react";
-import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
->>>>>>> 60c33cd65b20a881b956a67f7d55478ea03f5f06
 
 import AppText from "../components/AppText";
 import TitleText from "../components/TitleText";
@@ -15,15 +10,10 @@ import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import NutritionService from "../services/NutritionService";
-<<<<<<< HEAD
 import GoalsService from "../services/GoalsService";
-import DateUtils from '../utils/date';
-import { entries } from "lodash";
-=======
 
 import DailyMacronutrientEntries from "../components/DailyMacronutrientEntries";
 import DateUtils from "../utils/date";
->>>>>>> 60c33cd65b20a881b956a67f7d55478ea03f5f06
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 
@@ -110,7 +100,6 @@ function DailyNutritionScreen({ route }) {
         <DailyMacronutrientEntries
           style={styles.macronutrientCardContainer}
           entries={[
-            //these are just hard coded, TODO: have to adapt this when backend integration happens
             {
               macroName: "Carbohydrates",
               percentage: `${macroStats.CarbPer}%`,
@@ -134,42 +123,6 @@ function DailyNutritionScreen({ route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  boldtext: {
-    fontWeight: "bold",
-  },
-  container: {
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  chartContainer: {
-    marginBottom: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 270, //this height is hardcoded but I think will be fine in the grand scheme
-  },
-  dateHeader: {
-    alignSelf: "flex-start",
-    marginLeft: "5%",
-    fontSize: 18,
-    marginBottom: 24,
-  },
-  pageTitle: {
-    alignSelf: "flex-start",
-    marginTop: "5%",
-    marginLeft: "5%",
-    marginBottom: 8,
-  },
-  macronutrientCardContainer: {
-    marginTop: 20,
-  },
-  overfillpercent: {
-    fontWeight: "bold",
-    color: "red",
-  },
-});
-
 
 function getToday(date) {
   //making this function in case this has to work with backend if not might simplify later
@@ -180,6 +133,7 @@ async function getTodaysMealsAndStats(date) {
   try {
     //fetching mealList
     const mealList = await NutritionService.getDailyMealEntries(moment(date));
+    /* currently there is a problem that fooditems stored by barcode is showing barcode instead of name */
 
     //calculating calorie stats
     const currentCals = sumCalories(mealList);
@@ -316,5 +270,40 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
   }
 }
 
+const styles = StyleSheet.create({
+  boldtext: {
+    fontWeight: "bold",
+  },
+  container: {
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chartContainer: {
+    marginBottom: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 270,
+  },
+  dateHeader: {
+    alignSelf: "flex-start",
+    marginLeft: "5%",
+    fontSize: 18,
+    marginBottom: 24,
+  },
+  pageTitle: {
+    alignSelf: "flex-start",
+    marginTop: "5%",
+    marginLeft: "5%",
+    marginBottom: 8,
+  },
+  macronutrientCardContainer: {
+    marginTop: 20,
+  },
+  overfillpercent: {
+    fontWeight: "bold",
+    color: "red",
+  },
+});
 
 export default DailyNutritionScreen;
