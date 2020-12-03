@@ -12,7 +12,6 @@ import TitleText from "../components/TitleText";
 import HeaderText from "../components/HeaderText";
 import AppBarChart from "../components/AppBarChart";
 import SummaryItem from "../components/SummaryItem";
-//import AppStackedBarChart from '../components/AppStackedBarChart';
 
 import moment from "moment";
 import DailyBreakdownList from "../components/DailyBreakdownList";
@@ -21,7 +20,6 @@ import DateUtils from "../utils/date";
 import SleepService from "../services/SleepService";
 import GoalsService from "../services/GoalsService";
 
-//TODO: change this hard coded thing
 const daysinWeekBreakdown = [
   {
     title: "Sunday",
@@ -153,7 +151,6 @@ function WeeklySleepScreen() {
 
           <HeaderText style={styles.sectionHeader} children={"Average Stats"} />
           <View style={styles.sleepsummary}>
-            {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
             <SummaryItem
               name="power-sleep"
               size={40}
@@ -258,9 +255,7 @@ function getWeeklyHeader(currentWeek) {
 }
 
 async function getSleepGoal() {
-  //TODO: make this not hard coded
-  // const sleepGoal = 7;
-  try {
+=  try {
     const sleepGoal = await GoalsService.getGoal("SleepHours");
     return sleepGoal;
   } catch (err) {
@@ -361,27 +356,6 @@ function getAverageBedOrWakeTime(weeklySleep, type) {
   let averageMinutes = count ? totalMinutes / count : 0;
   let hourValue = Math.floor(averageMinutes / 60);
   let minuteValue = averageMinutes % 60;
-  return moment().hour(hourValue).minute(minuteValue);
-}
-
-function getAverageWakeTime(weeklySleep) {
-  // extract the hours and minutes of the day.
-  // create new date objects of today, and set the hours and day to that.
-  // get the unix timestamp
-  // average it
-  // create new datetime object with the averaged time
-  // get the hours and minutes of the day
-  let totalMinutes = 0;
-  for (let i = 0; i < weeklySleep.length; i++) {
-    for (let j = 0; j < weeklySleep[i].length; i++) {
-      if (!weeklySleep[i][j].Nap) {
-        const waketime = moment(weeklySleep[i][j].WakeupTime * 1000);
-        totalMinutes += waketime.minute() + waketime.hour() * 60;
-      }
-    }
-  }
-  let hourValue = Math.floor(totalMinutes / 60);
-  let minuteValue = totalMinutes % 60;
   return moment().hour(hourValue).minute(minuteValue);
 }
 
