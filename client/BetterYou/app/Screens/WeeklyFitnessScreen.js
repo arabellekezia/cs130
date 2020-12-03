@@ -83,12 +83,17 @@ function FitnessBarChart({
   const barChartTitle =
     selectedChartType === BarchartType.ACTIVE_TIME
       ? "Active Minutes Per Day"
-      : "Calories Burned Per Day";
+      : "Active Calories Burned Per Day";
 
   const totalWeeklyMetric =
     selectedChartType === BarchartType.ACTIVE_TIME
       ? `${totalActiveTime.toFixed(0)} minutes`
       : `${totalCaloriesBurned.toFixed(0)} calories`;
+
+  const averageWeeklyMetric =
+    selectedChartType === BarchartType.ACTIVE_TIME
+      ? `${(totalActiveTime / 7).toFixed(0)} minutes`
+      : `${(totalCaloriesBurned / 7).toFixed(0)} calories`;
 
   const barChartData =
     selectedChartType === BarchartType.ACTIVE_TIME
@@ -113,7 +118,7 @@ function FitnessBarChart({
       <View style={styles.smallSummaryContainer}>
         {selectedChartType === BarchartType.ACTIVE_TIME && (
           <AppText>
-            You exercised for a total of
+            You've exercised for a total of
             <AppText
               style={styles.boldtext}
               children={` ${totalWeeklyMetric} `}
@@ -121,7 +126,16 @@ function FitnessBarChart({
             this week.
           </AppText>
         )}
-
+        {selectedChartType === BarchartType.ACTIVE_TIME && (
+          <AppText>
+            On average, that's about
+            <AppText
+              style={styles.boldtext}
+              children={` ${averageWeeklyMetric} `}
+            />
+            per day.
+          </AppText>
+        )}
         {selectedChartType === BarchartType.CALORIES_BURNED && (
           <AppText>
             You burned a total of
@@ -130,6 +144,16 @@ function FitnessBarChart({
               children={` ${totalWeeklyMetric} `}
             />
             this week.
+          </AppText>
+        )}
+        {selectedChartType === BarchartType.CALORIES_BURNED && (
+          <AppText>
+            On average, that's about
+            <AppText
+              style={styles.boldtext}
+              children={` ${averageWeeklyMetric} `}
+            />
+            per day.
           </AppText>
         )}
       </View>
@@ -222,6 +246,8 @@ const styles = StyleSheet.create({
   },
   smallSummaryContainer: {
     marginVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   barChart: {
     marginVertical: 10,

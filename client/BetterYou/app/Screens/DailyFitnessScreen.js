@@ -17,7 +17,6 @@ const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
 function DailyFitnessScreen({ route }) {
   const date = route.params ? route.params.date : Date.now();
-
   const [isReady, setIsReady] = React.useState(false);
   const [selectedChartType, setSelectedChartType] = React.useState(
     chartOptions.ACTIVE_TIME

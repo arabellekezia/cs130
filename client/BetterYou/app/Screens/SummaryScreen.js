@@ -7,9 +7,11 @@ import AppBarChart from "../components/AppBarChart";
 import TitleText from "../components/TitleText";
 import { ScrollView } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
-
-import moment from "moment";
+import FitnessService from "../services/FitnessService";
 import colors from "../config/colors";
+
+import DateUtils from "../utils/date";
+import { useIsFocused } from "@react-navigation/native";
 
 const data = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -22,13 +24,52 @@ const data = {
   legend: ["Hours Slept"], // optional
 };
 
-function getToday() {
-  //making this function in case this has to work with backend if not might simplify later
-  return moment().format("dddd, MMMM Do");
+
+function getFitnessCardData(weeklyEntries) {
+  const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const activeTimeData = {
+    labels: dayOfWeekLabels,
+    datasets: [{ data: [], strokeWidth: 2 }],
+  };
+  let totalActiveTime = 0;
+  weeklyEntries.forEach((entry) => {
+    totalActiveTime += entry.activeTime;
+    activeTimeData.datasets[0].data.push(entry.activeTime.toFixed(0));
+  });
+  return {
+    activeTimeData,
+    averageActiveTime: (totalActiveTime / 7).toFixed(0),
+  };
+}
+
+function getFitnessDailySummary(dailyEntries) {
+  let totalActiveTime = 0;
+  dailyEntries.forEach((entry) => {
+    totalActiveTime += entry.Minutes;
+  });
+  return totalActiveTime.toFixed(1);
 }
 
 function SummaryScreen({ navigation }) {
-  const currentDay = getToday();
+  const currentDay = DateUtils.getFormattedDate();
+  const [isReady, setIsReady] = React.useState(false);
+  const [fitnessCardData, setFitnessCardData] = React.useState(false);
+  const [fitnessDailySummary, setFitnessDailySummary] = React.useState(false);
+  const isFocused = useIsFocused();
+
+  React.useEffect(() => {
+    async function fetchFitnessData() {
+      const [weeklyEntries, dailyEntries] = await Promise.all([
+        FitnessService.getWeeklyFitnessEntries(),
+        FitnessService.getDailyFitnessEntries(),
+      ]);
+      setFitnessCardData(getFitnessCardData(weeklyEntries));
+      setFitnessDailySummary(getFitnessDailySummary(dailyEntries));
+      setIsReady(true);
+    }
+    fetchFitnessData();
+  }, [isFocused]);
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -67,13 +108,13 @@ function SummaryScreen({ navigation }) {
                 iconScale={1}
               />
             }
-            description="1850 Calories"
+            description="1850 calories"
             containerStyle={{ borderColor: colors.diet }}
             titleStyle={{ color: colors.diet }}
             onPress={() => navigation.navigate("DailyNutrition")}
           />
 
-          <ListItemComponent
+          {isReady && <ListItemComponent
             title="Fitness"
             icon={
               <Icon
@@ -84,11 +125,11 @@ function SummaryScreen({ navigation }) {
                 iconScale={1}
               />
             }
-            description="0.72 hours total active time"
+            description={`${fitnessDailySummary} minutes of active time`}
             containerStyle={{ borderColor: colors.fitness }}
             titleStyle={{ color: colors.fitness }}
             onPress={() => navigation.navigate("DailyFitness")}
-          />
+          />}
         </View>
 
         <TitleText style={styles.weeklyStatsHeader}>
@@ -149,35 +190,37 @@ function SummaryScreen({ navigation }) {
           </ListItemComponent>
         </View>
 
-        <View style={styles.listItems}>
-          <ListItemComponent
-            style={styles.graphCard}
-            title="Fitness"
-            description={
-              <AppText>
-                You exercised for an average of
-                <AppText
-                  style={styles.boldText}
-                  children={` 120 active minutes `}
-                />
-                per day over the last 7 days.
-              </AppText>
-            }
-            containerStyle={{ borderColor: colors.fitness }}
-            titleStyle={{ color: colors.fitness }}
-            onPress={() => navigation.navigate("WeeklyFitness")}
-          >
-            <View style={styles.chartcontainer}>
-              <View style={styles.charts}>
-                <AppBarChart
-                  data={data}
-                  color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
-                  scaleDimensions={0.8}
-                />
+        {isReady && (
+          <View style={styles.listItems}>
+            <ListItemComponent
+              style={styles.graphCard}
+              title="Fitness"
+              description={
+                <AppText>
+                  You've exercised for an average of
+                  <AppText
+                    style={styles.boldText}
+                    children={` ${fitnessCardData.averageActiveTime} minutes `}
+                  />
+                  per day over the last 7 days.
+                </AppText>
+              }
+              containerStyle={{ borderColor: colors.fitness }}
+              titleStyle={{ color: colors.fitness }}
+              onPress={() => navigation.navigate("WeeklyFitness")}
+            >
+              <View style={styles.chartcontainer}>
+                <View style={styles.charts}>
+                  <AppBarChart
+                    data={fitnessCardData.activeTimeData}
+                    color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
+                    scaleDimensions={0.8}
+                  />
+                </View>
               </View>
-            </View>
-          </ListItemComponent>
-        </View>
+            </ListItemComponent>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

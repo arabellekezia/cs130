@@ -11,11 +11,12 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 
 //import IndivMacroCard from '../components/IndivMacroCard';
 import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
+import DateUtils from '../utils/date';
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 
 function DailyNutritionScreen() {
-  const currentDay = getToday();
+  const currentDay = DateUtils.getToday();
 
   const [selectedChartType, setSelectedChartType] = React.useState(
     chartOptions.CALORIES
@@ -100,11 +101,6 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
-
-function getToday() {
-  //making this function in case this has to work with backend if not might simplify later
-  return moment().format("dddd, MMMM Do");
-};
 
 //placeholder for backend integration
 function getCalories() {
