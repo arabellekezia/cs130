@@ -11,6 +11,8 @@ import ProgressCircle from "react-native-progress-circle";
 import DailyFitnessEntries from "../components/DailyFitnessEntries";
 import FitnessService from "../services/FitnessService";
 import GoalsService from "../services/GoalsService";
+const momentDurationFormatSetup = require("moment-duration-format");
+
 
 const chartOptions = Object.freeze({ ACTIVE_TIME: 0, CALORIES_BURNED: 1 });
 
@@ -181,10 +183,10 @@ function formatActivityLog(entries) {
       iconName: activityNameToIconName.get(entry.WorkoutType),
       startTime: moment.unix(entry.Datetime).local().format("hh:mm A"),
       activity: entry.WorkoutType,
-      caloriesBurned: entry.CaloriesBurned,
+      caloriesBurned: entry.CaloriesBurned.toFixed(1),
       duration: moment
-        .utc(moment.duration(entry.Minutes, "minutes").as("milliseconds"))
-        .format("HH:mm:ss"),
+        .duration(entry.Minutes, "minutes")
+        .format("h[h] m[m] s[s]"),
     };
   });
   return entries;
