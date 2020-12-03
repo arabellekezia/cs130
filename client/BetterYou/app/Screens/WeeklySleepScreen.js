@@ -40,7 +40,7 @@ function WeeklySleepScreen() {
     try {
       setReady(false);
 
-      const sleepData = await getWeeklySleep();
+      const sleepData = await SleepService.getWeeklySleepEntries();
       console.log(sleepData);
       const aggregate = getTotalHoursPerDay(sleepData);
       const hours = aggregate.map((d) => d.hours);
@@ -271,25 +271,12 @@ function printSleepDiffText(diff) {
   }
 }
 
-async function getWeeklySleep() {
-  const days = DateUtils.getDaysInWeek();
-  const res = [];
-  for (let i = 0; i < days.length; i++) {
-    try {
-      res[i] = await SleepService.getDailySleepEntries(days[i].valueOf());
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-  return res;
-}
-
 /**
  *
  * @param {*} weeklySleep : 2-dimensional array of daily sleep
  */
 function getTotalHoursPerDay(weeklySleep) {
-  let dataSet = [];
+  const dataSet = [];
 
   for (let i = 0; i < weeklySleep.length; i++) {
     const days = [

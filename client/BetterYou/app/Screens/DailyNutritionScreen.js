@@ -1,19 +1,18 @@
-import React from 'react';
-import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import React from "react";
+import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
 
-import AppText from '../components/AppText';
-import TitleText from '../components/TitleText';
-import AppPieChart from '../components/AppPieChart';
-import AppProgressRing from '../components/AppProgressRing';
-import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
+import AppText from "../components/AppText";
+import TitleText from "../components/TitleText";
+import AppPieChart from "../components/AppPieChart";
+import AppProgressRing from "../components/AppProgressRing";
 
 import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import NutritionService from "../services/NutritionService";
 
-import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
-import DateUtils from '../utils/date';
+import DailyMacronutrientEntries from "../components/DailyMacronutrientEntries";
+import DateUtils from "../utils/date";
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 
@@ -106,12 +105,17 @@ const styles = StyleSheet.create({
 
 //placeholder for backend integration
 function getCalories() {
-  const currentCals = 2500;   //hardcoded; will change later
-  const goalCals = 2100;      //same
+  const currentCals = 2500; //hardcoded; will change later
+  const goalCals = 2100; //same
   const currentToGoalRatio = currentCals / goalCals;
   const percentage = (currentToGoalRatio * 100).toFixed(1);
-  return { calRatio: currentToGoalRatio, currentCalories: currentCals, calorieGoal: goalCals, calPercent: percentage };
-};
+  return {
+    calRatio: currentToGoalRatio,
+    currentCalories: currentCals,
+    calorieGoal: goalCals,
+    calPercent: percentage,
+  };
+}
 
 function getFoods() {
   //hardcoded for now
@@ -119,44 +123,51 @@ function getFoods() {
     foodarray: [
       {
         name: "Chicken and Ricefakuyefhakwyefgakuygfrakueryfgkuaeyfgakueryg",
-        grams: 100
+        grams: 100,
       },
       {
         name: "Cheese Pizza",
-        grams: 150
+        grams: 150,
       },
       {
         name: "Hamburger",
-        grams: 200
+        grams: 200,
       },
       {
         name: "KBBQ",
-        grams: 300
-      }
-    ]
-  }
+        grams: 300,
+      },
+    ],
+  };
 
   return foods;
-};
+}
 
-function DailyNutritionCharts({selectedChartType}) {
+function DailyNutritionCharts({ selectedChartType }) {
   if (selectedChartType === chartOptions.CALORIES) {
-    if (progressRingData.data[0] > 1) { //if we go over the calorie limit we display a different color to indicate it
-      const percentOver = [progressRingData.data[0] % 1] //this was a way to prevent some weird glitch with the progress ring when it goes over 100%
+    if (progressRingData.data[0] > 1) {
+      //if we go over the calorie limit we display a different color to indicate it
+      const percentOver = [progressRingData.data[0] % 1]; //this was a way to prevent some weird glitch with the progress ring when it goes over 100%
       //console.log(percentOver)
       return (
         <View style={styles.chartContainer}>
           <AppText>
             You consumed
-            <AppText style={styles.boldtext} children={` ${getCalories().currentCalories} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${getCalories().currentCalories} `}
+            />
             calories
           </AppText>
           <AppText>
             out of your
-            <AppText style={styles.boldtext} children={` ${getCalories().calorieGoal} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${getCalories().calorieGoal} `}
+            />
             calorie budget
           </AppText>
-          <AppProgressRing 
+          <AppProgressRing
             data={percentOver}
             radius={70}
             strokeWidth={14}
@@ -166,7 +177,10 @@ function DailyNutritionCharts({selectedChartType}) {
           />
           <AppText>
             You have filled
-            <AppText style={styles.overfillpercent} children={` ${getCalories().calPercent}% `} />
+            <AppText
+              style={styles.overfillpercent}
+              children={` ${getCalories().calPercent}% `}
+            />
             of your calorie budget
           </AppText>
         </View>
@@ -176,15 +190,21 @@ function DailyNutritionCharts({selectedChartType}) {
         <View style={styles.chartContainer}>
           <AppText>
             You consumed
-            <AppText style={styles.boldtext} children={` ${getCalories().currentCalories} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${getCalories().currentCalories} `}
+            />
             calories
           </AppText>
           <AppText>
             out of your
-            <AppText style={styles.boldtext} children={` ${getCalories().calorieGoal} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${getCalories().calorieGoal} `}
+            />
             calorie budget
           </AppText>
-          <AppProgressRing 
+          <AppProgressRing
             data={progressRingData}
             radius={70}
             strokeWidth={14}
@@ -194,26 +214,31 @@ function DailyNutritionCharts({selectedChartType}) {
           />
           <AppText>
             You have filled
-            <AppText style={styles.boldtext} children={` ${getCalories().calPercent}% `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${getCalories().calPercent}% `}
+            />
             of your calorie budget
           </AppText>
         </View>
       );
     }
-  }
-  else {
+  } else {
     return (
       <View style={styles.chartContainer}>
-        <AppText style={styles.boldtext} children="Macronutrient Breakdowns (in grams): " />
-        <AppPieChart 
+        <AppText
+          style={styles.boldtext}
+          children="Macronutrient Breakdowns (in grams): "
+        />
+        <AppPieChart
           data={mockPieChartData}
           accessor="percentage"
           paddingLeft="15"
         />
       </View>
-    );  
+    );
   }
-};
+}
 
 const mockPieChartData = [
   {
