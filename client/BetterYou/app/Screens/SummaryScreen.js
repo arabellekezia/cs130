@@ -102,7 +102,7 @@ function getNutritionCardData(weeklyEntries) {
   });
   return {
     dailyCalsData,
-    averageCals: roundToOne((totalWeeklyCals / (moment().day() + 1))),
+    averageCals: roundToOne(totalWeeklyCals / (moment().day() + 1)),
   };
 }
 
@@ -117,12 +117,21 @@ function getNutritionDailySummary(dailyEntries) {
 function SummaryScreen({ navigation }) {
   const currentDay = DateUtils.getFormattedDate();
   const [isReady, setIsReady] = React.useState(false);
-  const [fitnessCardData, setFitnessCardData] = React.useState(false);
-  const [fitnessDailySummary, setFitnessDailySummary] = React.useState(false);
-  const [sleepCardData, setSleepCardData] = React.useState(false);
-  const [sleepDailySummary, setSleepDailySummary] = React.useState(false);
-  const [nutritionCardData, setNutritionCardData] = React.useState(false);
-  const [nutritionDailySummary, setNutritionDailySummary] = React.useState(false);
+  const [fitnessCardData, setFitnessCardData] = React.useState({
+    activeTimeData: [],
+    averageActiveTime: 0,
+  });
+  const [fitnessDailySummary, setFitnessDailySummary] = React.useState(0);
+  const [sleepCardData, setSleepCardData] = React.useState({
+    sleepTimeData: [],
+    averageSleepTime: 0,
+  });
+  const [sleepDailySummary, setSleepDailySummary] = React.useState(0);
+  const [nutritionCardData, setNutritionCardData] = React.useState({
+    dailyCalsData: [],
+    averageCals: 0,
+  });
+  const [nutritionDailySummary, setNutritionDailySummary] = React.useState(0);
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -151,14 +160,17 @@ function SummaryScreen({ navigation }) {
       setSleepCardData(getSleepCardData(weeklySleepEntries));
       setSleepDailySummary(getSleepDailySummary(dailySleepEntries));
     } catch (err) {
-      console.log(err)
+      console.log(err);
       // throw new Error(err);
     }
   }
 
   async function fetchNutritionData() {
     try {
-      const [dailyNutritionEntries, weeklyNutritionEntries] = await Promise.all([
+      const [
+        dailyNutritionEntries,
+        weeklyNutritionEntries,
+      ] = await Promise.all([
         NutritionService.getDailyMealEntries(),
         NutritionService.getWeeklyNutritionEntries(),
       ]);
