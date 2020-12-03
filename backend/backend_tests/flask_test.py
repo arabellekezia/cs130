@@ -16,7 +16,6 @@ class FlaskTest(unittest.TestCase):
         req = requests.post(self.url + 'register', data=self.reg_user)
         if req != 200:
             print("User can't be registered")
-            print(req)
 
         self.token = requests.post(self.url + 'login', data=self.user)
 
@@ -27,6 +26,9 @@ class FlaskTest(unittest.TestCase):
                         'dateTo': dateTo}
 
     def test_enterWorkout(self):
+        """
+        Test data insertion for Fitness to the database.
+        """
         token = self.token
         data = {'weight':120,
                 'workout':'Basketball: game',
@@ -37,6 +39,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_mult_enterWorkout(self):
+        """
+        Test multiple data insertions for Fitness to the database.
+        """
         method = 'enterWorkout'
         data1 = {'weight':130,
                 'workout':'Running: 6 min/mile',
@@ -54,6 +59,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_error_enterWorkout(self):
+        """
+        Test incorrect data insertion for Fitness to the database.
+        """
         method = 'enterWorkout'
         req = requests.post(self.url + method, data={})
         self.assertEqual(req, 400)
@@ -80,6 +88,9 @@ class FlaskTest(unittest.TestCase):
         self.assertNotEqual(req, 200)
 
     def test_getFitnessData(self):
+        """
+        Test fetching data for Fitness from the database.
+        """
         method = 'getFitnessData'
         req = requests.get(self.url + method, data=self.get_data)
         self.assertEqual(req, 200)
@@ -87,6 +98,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req[0]['workout'], 'Basketball: game')
 
     def test_addMeal(self):
+        """
+        Test inserting data for meals to the database.
+        """
         data = {'token':self.token,
                 'item': 'Cookie Butter Cookies',
                 'ServingSize': 2,
@@ -96,6 +110,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_addMeal_API(self):
+        """
+        Test inserting data for meals to the database using the Edamam API.
+        """
         data = {'token':self.token,
                 'item': 'Oreo',
                 'ServingSize': 5,
@@ -105,6 +122,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_mult_addMeal(self):
+        """
+        Test multiple insertions of data for meals to the database.
+        """
         method = 'addMeal'
         data1 = {'token':self.token,
                 'item': 'Chicken',
@@ -121,6 +141,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_error_addMeal(self):
+        """
+        Test incorrect insertion of meals data to the database.
+        """
         method = 'addMeal'
 
         data1 = {'token':self.token,
@@ -143,6 +166,9 @@ class FlaskTest(unittest.TestCase):
         self.assertNotEqual(req, 200)
 
     def test_getNutritionalData(self):
+        """
+        Test fetching data for nutritional data from the database.
+        """
         data = {'item': 'Cookie Butter Cookies',
                 'barcode': 'false',
                 'serving_size': 2}
@@ -152,6 +178,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req[0], 'Cookie Butter Cookies')
 
     def test_error_getNutritionalData(self):
+        """
+        Test fetching data for Fitness from the database with incorrect search values.
+        """
         method = 'getNutritionalData'
 
         data1 = {'item': 2,
@@ -165,6 +194,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_getAvailableFoods(self):
+        """
+        Test fetching available food data from Edamam API given item name and number of matches.
+        """
         data = {'item': 'Peanut Butter',
                 'barcode': 'false',
                 'nMatches': 2,
@@ -175,6 +207,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(len(req),2)
 
     def test_error_getAvailableFoods(self):
+        """
+        Test fetching available food data from Edamam API given incorrect search parameters.
+        """
         method = 'getAvailableFoods'
 
         data1 = {'item': 'Peanut Butter',
@@ -191,11 +226,17 @@ class FlaskTest(unittest.TestCase):
         self.assertNotEqual(req, 200)
 
     def test_getMeals(self):
+        """
+        Test fetching all meals inputted by the user from the database.
+        """
         method = 'getMeals'
         req = requests.get(self.url + method, data=self.get_data)
         self.assertEqual(req, 200)
 
     def test_insertSleepEntry(self):
+        """
+        Test inserting sleep data to the database.
+        """
         dateTo = datetime.utcnow()
         dateFrom = dateTo - timedelta(hours=6) - timedelta(minutes=27)
         data = {'token':self.token,
@@ -207,6 +248,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_error_insertSleepEntry(self):
+        """
+        Test inserting incorrect sleep data to the database.
+        """
         method = 'insertSleepEntry'
         dateTo = datetime.utcnow()
         dateFrom = dateTo - timedelta(hours=6) - timedelta(minutes=27)
@@ -214,7 +258,7 @@ class FlaskTest(unittest.TestCase):
         data1 = {'token':self.token,
                 'dateTo': dateTo,
                 'nap': False}
-        req = requests.post(self.url + method, data=data)
+        req = requests.post(self.url + method, data=data1)
         self.assertNotEqual(req, 200)
 
         dateTo2 = datetime.now()
@@ -227,11 +271,17 @@ class FlaskTest(unittest.TestCase):
         self.assertNotEqual(req, 200)
 
     def test_getSleepData(self):
+        """
+        Test fetching all sleep data inputted by the user from the database.
+        """
         method = 'getSleepData'
         req = requests.get(self.url + method, data=self.get_data)
         self.assertEqual(req, 200)
 
     def test_changeGoal(self):
+        """
+        Test modifying goals data in the database.
+        """
         method = 'changeGoal'
         data1 = {'token':self.token,
                 'type': 'FitnessMinutes',
@@ -252,6 +302,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_mult_changeGoal(self):
+        """
+        Test modifying goals data multiple times in the database.
+        """
         method = 'changeGoal'
         data1 = {'token':self.token,
                 'type': 'FitnessMinutes',
@@ -291,6 +344,9 @@ class FlaskTest(unittest.TestCase):
         self.assertEqual(req, 200)
 
     def test_error_changeGoal(self):
+        """
+        Test modifying goals data in the database given incorrect parameters.
+        """
         method = 'changeGoal'
         data1 = {'token':self.token,
                 'type': 'Fitness',
@@ -311,27 +367,64 @@ class FlaskTest(unittest.TestCase):
         self.assertNotEqual(req, 200)
 
     def test_getAllGoals(self):
+        """
+        Test fetching all goal data from database.
+        Make sure the goal values are correct and updated.
+        """
         method = 'getAllGoals'
         req = requests.get(self.url + method, data={'token':self.token})
         self.assertEqual(req, 200)
+        for goal in req:
+            if goal['type'] == 'FitnessMinutes':
+                self.assertEqual(goal['value'], 57)
+            elif goal['type'] == 'Calories':
+                self.assertEqual(goal['value'], 1500)
+            elif goal['type'] == 'SleepHours':
+                self.assertEqual(goal['value'], 9)
 
     def test_getTypeGoals(self):
+        """
+        Test fetching goal data from database based on goal type.
+        Make sure the values are correct and updated.
+        """
         method = 'getTypeGoals'
         data1 = {'token':self.token,
                 'type':'Calories'}
         req = requests.get(self.url + method, data=data1)
         self.assertEqual(req, 200)
+        self.assertEqual(req['value'], 57)
 
         data2 = {'token':self.token,
                 'type':'FitnessMinutes'}
         req = requests.get(self.url + method, data=data2)
         self.assertEqual(req, 200)
+        self.assertEqual(req['value'], 1500)
 
         data3 = {'token':self.token,
                 'type':'SleepHours'}
         req = requests.get(self.url + method, data=data3)
         self.assertEqual(req, 200)
+        self.assertEqual(req['value'], 9)
 
+    def test_error_getTypeGoals(self):
+        """
+        Test fetching goal data from database given incorrect goal type.
+        """
+        method = 'getTypeGoals'
+        data1 = {'token':self.token,
+                'type':'Diet'}
+        req = requests.get(self.url + method, data=data1)
+        self.assertNotEqual(req, 200)
+
+        data2 = {'token':self.token,
+                'type':'Fitness'}
+        req = requests.get(self.url + method, data=data2)
+        self.assertNotEqual(req, 200)
+
+        data3 = {'token':self.token,
+                'type':'Sleep'}
+        req = requests.get(self.url + method, data=data3)
+        self.assertNotEqual(req, 200)
 
 if __name__ == '__main__':
     unittest.main()
