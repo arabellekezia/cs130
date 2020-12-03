@@ -20,37 +20,6 @@ import DateUtils from "../utils/date";
 import SleepService from "../services/SleepService";
 import GoalsService from "../services/GoalsService";
 
-const daysinWeekBreakdown = [
-  {
-    title: "Sunday",
-    description: "6 Hours",
-  },
-  {
-    title: "Monday",
-    description: "6 Hours",
-  },
-  {
-    title: "Tuesday",
-    description: "6 Hours",
-  },
-  {
-    title: "Wednesday",
-    description: "6 Hours",
-  },
-  {
-    title: "Thursday",
-    description: "6 Hours",
-  },
-  {
-    title: "Friday",
-    description: "6 Hours",
-  },
-  {
-    title: "Saturday",
-    description: "6 Hours",
-  },
-];
-
 function WeeklySleepScreen() {
   const [isReady, setReady] = useState(false);
   const [weeklySleep, setWeeklySleep] = useState([]);
@@ -118,19 +87,12 @@ function WeeklySleepScreen() {
             style={styles.dateHeader}
             children={getWeeklyHeader(currentWeek)}
           />
-          <HeaderText
+          {/* <HeaderText
             style={styles.sectionHeader}
             children={"Weekly Summary"}
-          />
+          /> */}
           <View style={styles.chartcontainer}>
-            <AppText style={styles.smallSummaryText}>
-              You averaged
-              <AppText
-                style={styles.boldtext}
-                children={` ${sleepAvg} hours `}
-              />
-              of sleep this week.
-            </AppText>
+            <AppText style={styles.chartHeader} children="Sleep Duration Per Day" />
             <AppBarChart
               style={styles.barChart}
               yAxisSuffix="min"
@@ -145,6 +107,14 @@ function WeeklySleepScreen() {
                 children={` ${sleepGoal} hours `}
               />
               of sleep.
+            </AppText>
+            <AppText style={styles.smallSummaryText}>
+              You averaged
+              <AppText
+                style={styles.boldtext}
+                children={` ${sleepAvg} hours `}
+              />
+              of sleep this week.
             </AppText>
             {printSleepDiffText(sleepDiff)}
           </View>
@@ -200,6 +170,9 @@ const styles = StyleSheet.create({
   },
   chartcontainer: {
     width: Dimensions.get("window").width * 0.9,
+    alignItems: "center", 
+    justifyContent: "center",
+    marginTop: "10%",
   },
   container: {
     backgroundColor: "white",
@@ -219,6 +192,7 @@ const styles = StyleSheet.create({
   },
   smallSummaryText: {
     marginLeft: 10,
+    fontSize: 14
   },
   pageTitle: {
     alignSelf: "flex-start",
@@ -237,6 +211,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: "#d5f7f7",
   },
+  chartHeader: {
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+  }
 });
 
 function getDaysInWeek() {

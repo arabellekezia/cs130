@@ -126,15 +126,8 @@ function ActiveMinutesProgressCircle({
   activeTime,
   activeTimeGoal,
 }) {
-  const progressCircleHeader = `Active time of ${activeTime.toFixed(
-    0
-  )} minutes`;
   return (
     <View style={styles.chartContainer}>
-      <AppText
-        style={styles.totalMetricsText}
-        children={progressCircleHeader}
-      />
       <ProgressCircle
         percent={goalPercentage}
         radius={100}
@@ -147,6 +140,14 @@ function ActiveMinutesProgressCircle({
         <Text>of your daily goal of</Text>
         <Text style={styles.dailyGoal}>{activeTimeGoal} Minutes</Text>
       </ProgressCircle>
+      <AppText style={{marginTop: 25}}>
+        You've exercised for a total of
+        <AppText
+          style={styles.boldtext}
+          children={` ${activeTime.toFixed(0)} minutes `}
+        />
+        today.
+      </AppText>
     </View>
   );
 }
@@ -235,6 +236,9 @@ function formatPieChartData(entries, totalCaloriesBurned) {
 }
 
 const styles = StyleSheet.create({
+  boldtext: {
+    fontWeight: "bold"
+  },
   container: {
     backgroundColor: "white",
     alignItems: "center",
