@@ -184,7 +184,7 @@ function WeeklySleepScreen() {
             style={styles.sectionHeader}
             children={"Daily Breakdown"}
           />
-          <DailyBreakdownList entries={weeklyBreakdown} />
+          <DailyBreakdownList entries={weeklyBreakdown} type="DailySleep" />
         </ScrollView>
       )}
     </SafeAreaView>
@@ -255,7 +255,7 @@ function getWeeklyHeader(currentWeek) {
 }
 
 async function getSleepGoal() {
-=  try {
+  try {
     const sleepGoal = await GoalsService.getGoal("SleepHours");
     return sleepGoal;
   } catch (err) {
