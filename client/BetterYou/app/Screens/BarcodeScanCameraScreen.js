@@ -14,6 +14,7 @@ function BarcodeScanCameraScreen({ navigation }) {
   const [scanned, setScanned] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [product, setProduct] = useState("");
+  const [barcodenum, setBarcodeNum] = useState(""); //need to save the barcode to send
   const [nutritionData, setNutritionData] = useState({});
 
   // useEffect(() => {
@@ -47,6 +48,7 @@ function BarcodeScanCameraScreen({ navigation }) {
     // api call to get product
     const result = await NutritionService.getNutritionalData(data, 1, "true");
     setProduct(result[0].Label);
+    setBarcodeNum(data);
     setNutritionData(result[0].Nutrients);
 
     setModalVisible(true);
@@ -90,7 +92,7 @@ function BarcodeScanCameraScreen({ navigation }) {
               onPress={() => {
                 console.log("navigate to entry form screen");
                 setModalVisible(false);
-                navigation.navigate("FoodEntryForm", { item: product, barcode: "true", data: nutritionData });
+                navigation.navigate("FoodEntryForm", { item: barcodenum, barcode: "true", data: nutritionData });
               }}
             >
               <AppText style={styles.linkText}>Continue</AppText>

@@ -1,5 +1,7 @@
 import server from "../utils/server";
 import { getUserToken } from "../utils/token";
+import DateUtils from "../utils/date";
+import moment from "moment";
 
 const NutritionService = {
   // sends POST request to add the meal that is chosen by user
@@ -38,6 +40,37 @@ const NutritionService = {
       console.log(err);
       return null;
     }
+  },
+  // helper function to call getMeals specified for the single day
+  getDailyMealEntries: async (day = moment()) => {
+    const today = DateUtils.getDayTimeRange(day);
+    return await NutritionService.getMeals(today.dateFrom, today.dateTo);
+  },
+  //helper to get data needly for weekly nutrition pages
+  getWeeklyNutritionEntries: async () => {
+    const week = DateUtils.getDaysInWeek();
+    let results = [];
+    week.forEach((day) => {
+      const date = DateUtils.getDayTimeRange(day);
+      results.push(
+        NutritionService.getMeals(date.dateFrom, date.dateTo)
+      );
+    });
+    const weeklyEntries = await Promise.all(results);
+    //console.log(weeklyEntries);
+    return weeklyEntries.map((dayEntries) => {
+      let dailyCals = 0;
+      let dailyCarbs = 0;
+      let dailyProtein = 0;
+      let dailyFat = 0;
+      dayEntries.forEach((entry) => {
+        dailyCals += entry.Cals;
+        dailyCarbs += entry.Carbs;
+        dailyProtein += entry.Protein;
+        dailyFat += entry.Fat;
+      });
+      return { dailyCals, dailyCarbs, dailyProtein, dailyFat };
+    });
   },
   /*
     sends GET request to get {nMatches} number of food items from our API that most closely matches the {item}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { Dimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 
 import AppText from '../components/AppText';
@@ -8,51 +8,56 @@ import AppBarChart from '../components/AppBarChart';
 import SummaryItem from '../components/SummaryItem';
 
 import moment from "moment";
-import ListItemComponent from '../components/ListItemComponent';
 import DailyBreakdownList from '../components/DailyBreakdownList';
 
-//TODO: change this hard coded thing
-const daysinWeekBreakdown = [
-  {
-    title: "Sunday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Monday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Tuesday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Wednesday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Thursday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Friday",
-    description: "2000 Cals",
-  },
-  {
-    title: "Saturday",
-    description: "2000 Cals",
-  },
-];
+import NutritionService from "../services/NutritionService";
+import GoalsService from "../services/GoalsService";
 
 
 function WeeklyNutritionScreen(props) {
   const currentWeek = getDaysInWeek();
-  const calAvg = calculateAverage(mockCalData.datasets[0].data);
-  const calGoal = getCalorieGoal();
-  const calDiff = (calGoal - calAvg).toFixed(0);
+
+  const [isReady, setReady] = useState(false);
+  const [stats, setStats] = useState({});
+  const [daysInWeekBreakdown, setDaysInWeekBreakdown] = useState([]);
+  const [calAvg, setCalAvg] = useState(0);
+  const [calGoal, setcalGoal] = useState(0);
+  const [calDiff, setCalDiff] = useState(0);
+  const [carbsAvg, setCarbsAvg] = useState(0);
+  const [proteinAvg, setProteinAvg] = useState(0);
+  const [fatAvg, setFatAvg] = useState(0);
+
+  useEffect(() => {
+    loadNutritionStats();
+  }, []);
+
+  const loadNutritionStats = async () => {
+    setReady(false);
+    const weeklyNutritionStats = await NutritionService.getWeeklyNutritionEntries();
+    //console.log(weeklyNutritionStats)
+    setStats(weeklyNutritionStats);
+
+    //further breakdowns for calories
+    const breakdown = getDailyCals(weeklyNutritionStats);
+    setDaysInWeekBreakdown(breakdown);
+    const calAverage = calculateAverage(weeklyNutritionStats, "dailyCals");
+    setCalAvg(calAverage);
+    const calGoal = await getCalorieGoal();
+    setcalGoal(calGoal);
+    setCalDiff(Math.round(calGoal - calAverage));
+
+    //getting averages for macronutrients
+    setCarbsAvg(calculateAverage(weeklyNutritionStats, "dailyCarbs"));
+    setProteinAvg(calculateAverage(weeklyNutritionStats, "dailyProtein"));
+    setFatAvg(calculateAverage(weeklyNutritionStats, "dailyFat"));
+
+    setReady(true);
+  };
 
 
   return (
     <SafeAreaView>
+      {isReady && (
       <ScrollView
         alwaysBounceVertical={false}
         contentContainerStyle={styles.container}
@@ -76,7 +81,7 @@ function WeeklyNutritionScreen(props) {
           <AppBarChart
             style={styles.barChart}
             yAxisSuffix="min"
-            data={mockCalData}
+            data={createChartData(stats)}
             color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
             //scaleDimensions={0.9}
           />
@@ -98,7 +103,7 @@ function WeeklyNutritionScreen(props) {
           <SummaryItem
             name="baguette"
             size={40}
-            detail="200"
+            detail={carbsAvg}
             unit="grams"
             label={`Average\nCarbs`}
             style={styles.summaryindividual}
@@ -107,7 +112,7 @@ function WeeklyNutritionScreen(props) {
           <SummaryItem
             name="sausage"
             size={40}
-            detail="140"
+            detail={proteinAvg}
             unit="grams"
             label={`Average\nProtein`}
             style={styles.summaryindividual}
@@ -116,7 +121,7 @@ function WeeklyNutritionScreen(props) {
           <SummaryItem
             name="hamburger"
             size={40}
-            detail="50"
+            detail={fatAvg}
             unit="grams"
             label={`Average\nFat`}
             style={styles.summaryindividual}
@@ -125,10 +130,123 @@ function WeeklyNutritionScreen(props) {
         </View>
 
         <HeaderText style={styles.sectionHeader} children={"Daily Breakdown"} />
-        <DailyBreakdownList entries={daysinWeekBreakdown} />
+        <DailyBreakdownList 
+          entries={daysInWeekBreakdown} 
+          type="DailyNutrition"
+        />
       </ScrollView>
+      )}
     </SafeAreaView>
   );
+}
+
+// funciton to get the breakdown data necessary for the small summary info on daily breakdown
+function getDailyCals(stats) {
+  return [
+    {
+      title: "Sunday",
+      description: `${Math.round(stats[0].dailyCals)} Cals`,
+    },
+    {
+      title: "Monday",
+      description: `${Math.round(stats[1].dailyCals)} Cals`,
+    },
+    {
+      title: "Tuesday",
+      description: `${Math.round(stats[2].dailyCals)} Cals`,
+    },
+    {
+      title: "Wednesday",
+      description: `${Math.round(stats[3].dailyCals)} Cals`,
+    },
+    {
+      title: "Thursday",
+      description: `${Math.round(stats[4].dailyCals)} Cals`,
+    },
+    {
+      title: "Friday",
+      description: `${Math.round(stats[5].dailyCals)} Cals`,
+    },
+    {
+      title: "Saturday",
+      description: `${Math.round(stats[6].dailyCals)} Cals`,
+    },
+  ];
+};
+
+//function to create the weekly chart data of calorie summary
+function createChartData(stats) {
+  const chartData = [];
+
+  stats.forEach((day) => {
+    chartData.push(Math.round(day.dailyCals));
+  });
+
+  return {
+    labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    datasets: [
+      {
+        data: chartData,
+        strokeWidth: 2, // optional
+      },
+    ],
+  }
+};
+
+//getting days in week
+function getDaysInWeek() {
+  const weekStart = moment().startOf("week");
+  const days = [];
+  for (let i = 0; i <= 6; i++) {
+    days.push(moment(weekStart).add(i, "days"));
+  }
+  return days;
+}
+
+//formatting the weekly header
+function getWeeklyHeader(currentWeek) {
+  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format("MMM D, YYYY")}`;
+}
+
+//fetching calorie goals
+async function getCalorieGoal() {
+  const calorieGoal = await GoalsService.getCalorieGoal();
+  return calorieGoal;
+}
+
+// helper function to calculate the average of whatever unit passed, parsed from the dataset
+function calculateAverage(dataset, unit) {
+  const arrayToAverage = [];
+  dataset.forEach((day) => {
+    arrayToAverage.push(Math.round(day[unit]));
+  });
+
+  const arrAvg = arrayToAverage.reduce((a,b) => a + b, 0) / arrayToAverage.length;
+  const arrTrunc = Math.round(arrAvg);
+  return arrTrunc;
+};
+
+// function to render the small differences in text depending on whether you went above or below the calorie goal
+function printCalDiffText(diff) {
+  if (diff > 0) {
+    return(
+      <AppText style={styles.smallSummaryText}>
+        Your average daily consumption was
+        <AppText style={styles.boldtext} children={` ${diff} Calories `}/>
+        less than your goal.
+      </AppText>
+    );
+
+  } else {
+    return(
+      <AppText style={styles.smallSummaryText}>
+        Your average daily consumption was
+        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} Calories `}/>
+        more than your goal.
+      </AppText>
+    );
+
+  }
 }
 
 const styles = StyleSheet.create({
@@ -178,63 +296,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-
-function getDaysInWeek() {
-  const weekStart = moment().startOf("week");
-  const days = [];
-  for (let i = 0; i <= 6; i++) {
-    days.push(moment(weekStart).add(i, "days"));
-  }
-  return days;
-}
-
-function getWeeklyHeader(currentWeek) {
-  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format("MMM D, YYYY")}`;
-}
-
-function getCalorieGoal() {
-  //TODO: change this for integration
-  const calorieGoal = 2100;
-  return calorieGoal;
-}
-
-function calculateAverage(dataset) {
-  const arrAvg = dataset.reduce((a,b) => a + b, 0) / dataset.length;
-  const arrTrunc = arrAvg.toFixed(0);
-  return arrTrunc;
-};
-
-function printCalDiffText(diff) {
-  if (diff > 0) {
-    return(
-      <AppText style={styles.smallSummaryText}>
-        Your average daily consumption was
-        <AppText style={styles.boldtext} children={` ${diff} Calories `}/>
-        less than your goal.
-      </AppText>
-    );
-
-  } else {
-    return(
-      <AppText style={styles.smallSummaryText}>
-        Your average daily consumption was
-        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} Calories `}/>
-        more than your goal.
-      </AppText>
-    );
-
-  }
-}
-
-const mockCalData = {
-  labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  datasets: [
-    {
-      data: [2000, 1800, 2483, 1589, 2307, 2108, 2089],
-      strokeWidth: 2, // optional
-    },
-  ],
-};
 
 
 export default WeeklyNutritionScreen;
