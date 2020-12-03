@@ -58,7 +58,10 @@ function DailyFitnessScreen({ day }) {
           <DailyFitnessChart
             selectedChartType={selectedChartType}
             stats={stats}
-            pieChartData={formatPieChartData(dailyEntries)}
+            pieChartData={formatPieChartData(
+              dailyEntries,
+              stats.totalCaloriesBurned
+            )}
           />
         )}
 
@@ -107,7 +110,7 @@ function DailyFitnessChart({ selectedChartType, stats, pieChartData }) {
       <View style={styles.chartContainer}>
         <AppText
           style={styles.totalMetricsText}
-          children={`${totalCaloriesBurned} Calories Burned `}
+          children={`${totalCaloriesBurned.toFixed(0)} Calories Burned `}
         />
         <AppPieChart
           data={pieChartData}
@@ -125,7 +128,9 @@ function ActiveMinutesProgressCircle({
   activeTime,
   activeTimeGoal,
 }) {
-  const progressCircleHeader = `Active time of ${activeTime} minutes`;
+  const progressCircleHeader = `Active time of ${activeTime.toFixed(
+    0
+  )} minutes`;
   return (
     <View style={styles.chartContainer}>
       <AppText
@@ -140,7 +145,7 @@ function ActiveMinutesProgressCircle({
         bgColor={goalPercentage >= 100 ? "#f7fff8" : "#f2fdff"}
         shadowColor="#999"
       >
-        <Text style={styles.percentage}>{goalPercentage}%</Text>
+        <Text style={styles.percentage}>{goalPercentage.toFixed(1)}%</Text>
         <Text>of your daily goal of</Text>
         <Text style={styles.dailyGoal}>{activeTimeGoal} Minutes</Text>
       </ProgressCircle>
@@ -204,7 +209,7 @@ function getCaloriesBurnedByActivity(entries) {
   return result;
 }
 
-function formatPieChartData(entries) {
+function formatPieChartData(entries, totalCaloriesBurned) {
   const caloriesBurned = getCaloriesBurnedByActivity(entries);
   const pieChartColors = [
     "rgb(233, 91, 84)",
@@ -221,7 +226,7 @@ function formatPieChartData(entries) {
   for (const activity in caloriesBurned) {
     data.push({
       name: activity,
-      percentage: caloriesBurned[activity],
+      percentage:  Math.round(caloriesBurned[activity]),
       color: pieChartColors[index],
       legendFontColor: "#000",
       legendFontSize: 12,

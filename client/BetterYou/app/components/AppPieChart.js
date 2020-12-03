@@ -13,6 +13,7 @@ function AppPieChart({
   backgroundColor = "transparent",
   scaleDimensions = 1,
 }) {
+  console.log(data);
   return (
     <PieChart
       data={data}
