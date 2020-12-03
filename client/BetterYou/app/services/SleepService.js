@@ -27,16 +27,15 @@ const SleepService = {
   },
 
   /**
-   * an object {year, month, day}
-   * @param {*} date
+   *
+   * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
    */
   getDailySleepEntries: async (date) => {
-    const { year, month, day } = date;
     const startOfDate = millisecondTimeStampToSeconds(
-      moment([year, month, day]).startOf("date").valueOf()
+      moment(date).startOf("date").valueOf()
     );
     const endOfDate = millisecondTimeStampToSeconds(
-      moment([year, month, day]).endOf("date").valueOf()
+      moment(date).endOf("date").valueOf()
     );
 
     try {

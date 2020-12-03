@@ -141,19 +141,6 @@ function getToday(date) {
  *
  * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
  */
-function getTodayDate(date) {
-  const today = moment(date);
-  return {
-    year: today.year(),
-    month: today.month(),
-    day: today.date(),
-  };
-}
-
-/**
- *
- * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
- */
 
 async function getTodaySleepEntries(date) {
   //TODO: change from hardcoded to integration
@@ -176,8 +163,7 @@ async function getTodaySleepEntries(date) {
   //   ],
   // };
   try {
-    const today = getTodayDate(date);
-    const sleepEntries = await SleepService.getDailySleepEntries(today);
+    const sleepEntries = await SleepService.getDailySleepEntries(date);
     const groupedSleepEntries = await groupSleepByCategory(sleepEntries);
     return groupedSleepEntries;
   } catch (err) {
