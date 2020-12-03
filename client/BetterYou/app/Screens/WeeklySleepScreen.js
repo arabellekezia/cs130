@@ -14,6 +14,7 @@ import AppBarChart from "../components/AppBarChart";
 import SummaryItem from "../components/SummaryItem";
 
 import moment from "moment";
+import { useIsFocused } from "@react-navigation/native";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 
 import DateUtils from "../utils/date";
@@ -32,9 +33,21 @@ function WeeklySleepScreen() {
 
   const currentWeek = getDaysInWeek();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    loadSleepData();
-  }, []);
+    let mounted = true;
+    
+    loadSleepData().then(() => {
+      if (mounted) {
+        setReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [isFocused]);
 
   const loadSleepData = async () => {
     try {
@@ -69,7 +82,7 @@ function WeeklySleepScreen() {
         time: avgWake.format("hh:mm"),
         unit: avgWake.format("A"),
       });
-      setReady(true);
+      //setReady(true);
     } catch (err) {
       console.log(err);
     }

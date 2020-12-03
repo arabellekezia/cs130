@@ -6,9 +6,10 @@ import TitleText from '../components/TitleText';
 import HeaderText from '../components/HeaderText';
 import AppBarChart from '../components/AppBarChart';
 import SummaryItem from '../components/SummaryItem';
+import DailyBreakdownList from '../components/DailyBreakdownList';
 
 import moment from "moment";
-import DailyBreakdownList from '../components/DailyBreakdownList';
+import { useIsFocused } from "@react-navigation/native";
 
 import NutritionService from "../services/NutritionService";
 import GoalsService from "../services/GoalsService";
@@ -27,9 +28,20 @@ function WeeklyNutritionScreen(props) {
   const [proteinAvg, setProteinAvg] = useState(0);
   const [fatAvg, setFatAvg] = useState(0);
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    loadNutritionStats();
-  }, []);
+    let mounted = true;
+    loadNutritionStats().then(() => {
+      if (mounted) {
+        setReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    }
+  }, [isFocused]);
 
   const loadNutritionStats = async () => {
     setReady(false);
@@ -51,7 +63,7 @@ function WeeklyNutritionScreen(props) {
     setProteinAvg(calculateAverage(weeklyNutritionStats, "dailyProtein"));
     setFatAvg(calculateAverage(weeklyNutritionStats, "dailyFat"));
 
-    setReady(true);
+    //setReady(true);
   };
 
 

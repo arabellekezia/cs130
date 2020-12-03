@@ -13,7 +13,7 @@ import NutritionService from "../services/NutritionService";
 import GoalsService from "../services/GoalsService";
 
 import DailyMacronutrientEntries from "../components/DailyMacronutrientEntries";
-import DateUtils from "../utils/date";
+import { useIsFocused } from "@react-navigation/native";
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 
@@ -29,9 +29,21 @@ function DailyNutritionScreen({ route }) {
   const [calStats, setCalStats] = useState({});
   const [macroStats, setMacroStats] = useState({});
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    loadMealEntriesAndStats();
-  }, []);
+    let mounted = true;
+
+    loadMealEntriesAndStats().then(() => {
+      if (mounted) {
+        setReady(true);
+      } 
+    });
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [isFocused]);
 
   const loadMealEntriesAndStats = async () => {
     setReady(false);
@@ -41,7 +53,7 @@ function DailyNutritionScreen({ route }) {
     setCalStats(calStats);
     setMacroStats(macroStats)
 
-    setReady(true);
+    //setReady(true);
   };
 
   const progressRingData = {
