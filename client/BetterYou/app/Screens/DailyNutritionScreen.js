@@ -1,19 +1,29 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+=======
+import React from "react";
+import { View, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+>>>>>>> 60c33cd65b20a881b956a67f7d55478ea03f5f06
 
-import AppText from '../components/AppText';
-import TitleText from '../components/TitleText';
-import AppPieChart from '../components/AppPieChart';
-import AppProgressRing from '../components/AppProgressRing';
-import DailyMacronutrientEntries from '../components/DailyMacronutrientEntries';
+import AppText from "../components/AppText";
+import TitleText from "../components/TitleText";
+import AppPieChart from "../components/AppPieChart";
+import AppProgressRing from "../components/AppProgressRing";
 
 import moment from "moment";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import NutritionService from "../services/NutritionService";
+<<<<<<< HEAD
 import GoalsService from "../services/GoalsService";
 import DateUtils from '../utils/date';
 import { entries } from "lodash";
+=======
+
+import DailyMacronutrientEntries from "../components/DailyMacronutrientEntries";
+import DateUtils from "../utils/date";
+>>>>>>> 60c33cd65b20a881b956a67f7d55478ea03f5f06
 
 const chartOptions = Object.freeze({ CALORIES: 0, MACRONUTRIENTS: 1 });
 
@@ -231,8 +241,9 @@ function pairFoodAndMacro(foodList, macroType) {
 
 function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pieChartData}) {
   if (selectedChartType === chartOptions.CALORIES) {
-    if (progressRingData.data[0] > 1) { //if we go over the calorie limit we display a different color to indicate it
-      const percentOver = [progressRingData.data[0] % 1] //this was a way to prevent some weird glitch with the progress ring when it goes over 100%
+    if (progressRingData.data[0] > 1) {
+      //if we go over the calorie limit we display a different color to indicate it
+      const percentOver = [progressRingData.data[0] % 1]; //this was a way to prevent some weird glitch with the progress ring when it goes over 100%
       //console.log(percentOver)
       return (
         <View style={styles.chartContainer}>
@@ -246,7 +257,7 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
             <AppText style={styles.boldtext} children={` ${calStats.goal} `} />
             calorie budget
           </AppText>
-          <AppProgressRing 
+          <AppProgressRing
             data={percentOver}
             radius={70}
             strokeWidth={14}
@@ -274,7 +285,7 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
             <AppText style={styles.boldtext} children={` ${calStats.goal} `} />
             calorie budget
           </AppText>
-          <AppProgressRing 
+          <AppProgressRing
             data={progressRingData}
             radius={70}
             strokeWidth={14}
@@ -290,8 +301,7 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
         </View>
       );
     }
-  }
-  else {
+  } else {
     return (
       <View style={styles.chartContainer}>
         <AppText style={styles.boldtext} children="Macronutrient Breakdowns (in grams): " />
@@ -302,9 +312,9 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
           absolute
         />
       </View>
-    );  
+    );
   }
-};
+}
 
 
 export default DailyNutritionScreen;

@@ -4,6 +4,7 @@ import { getUserToken } from "../utils/token";
 import moment from "moment";
 
 import { millisecondTimeStampToSeconds } from "../utils/time";
+import DateUtils from "../utils/date";
 
 const SleepService = {
   addSleepEntry: async (startDate, endDate, nap) => {
@@ -50,6 +51,19 @@ const SleepService = {
     } catch (err) {
       throw new Error(err);
     }
+  },
+
+  getWeeklySleepEntries: async () => {
+    const days = DateUtils.getDaysInWeek();
+    const res = [];
+    for (let i = 0; i < days.length; i++) {
+      try {
+        res[i] = await SleepService.getDailySleepEntries(days[i].valueOf());
+      } catch (err) {
+        throw new Error(err);
+      }
+    }
+    return res;
   },
 };
 

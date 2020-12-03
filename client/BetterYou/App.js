@@ -62,25 +62,24 @@ export default function App() {
   // return <LoginScreen />
 }
 
+// <WeeklyFitnessScreen />
+// <WeeklySleepScreen />
+// <WeeklyNutritionScreen />
 
-    // <WeeklyFitnessScreen />
-    // <WeeklySleepScreen />
-    // <WeeklyNutritionScreen />
+// <DailyFitnessScreen />
+// <DailySleepScreen />
+// <DailyNutritionScreen />
 
-    // <DailyFitnessScreen />
-    // <DailySleepScreen />
-    // <DailyNutritionScreen />
+// <DietGoalsScreen />
+//<SleepEntryFormScreen />
+//<FitnessGoalsScreen />
+// <FitnessGoalEntryTypeSelectScreen />
 
-    // <DietGoalsScreen />
-    //<SleepEntryFormScreen />
-    //<FitnessGoalsScreen />
-    // <FitnessGoalEntryTypeSelectScreen />
-
-    // <DemoScreen />
-    // <LoginScreen />
-    // <SignupScreen />
-    // <DemoScreen />
-    // <SummaryScreen />
+// <DemoScreen />
+// <LoginScreen />
+// <SignupScreen />
+// <DemoScreen />
+// <SummaryScreen />
 
 const styles = StyleSheet.create({
   container: {
