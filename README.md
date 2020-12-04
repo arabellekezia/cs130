@@ -145,4 +145,28 @@ TODO
 
 ## Doc Generation
 
-TODO
+The frontend documentation is automatically generated using Documentation.js.
+The generated HTML file can be found under: `client/BetterYou/frontendDocumentation`.
+Here are the steps to reproduce/update the automatic generation of frontend documentation:
+
+1. Globally install Documentation.js using the npm package manager:
+
+   ```sh
+   npm install -g documentation
+   ```
+
+2. After installation, move to the BetterYou directory:
+
+   ```sh
+   cd ./client/BetterYou
+   ```
+
+3. generate the HTML documentation with this command:
+
+   ```sh
+   documentation build ./app/** --config documentation.yml -f html -o frontendDocumentation
+   ```
+
+4. After completion, the command should have updated the index.html file in the frontendDocumentation folder.
+
+To generate the documentation
