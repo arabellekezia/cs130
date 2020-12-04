@@ -145,11 +145,13 @@ TODO
 
 ## Doc Generation
 
-The frontend documentation is automatically generated using Documentation.js.
+### Frontend
+
+The frontend documentation is automatically generated using [Documentation.js](https://documentation.js.org/).
 The generated HTML file can be found under: `client/BetterYou/frontendDocumentation`.
 Here are the steps to reproduce/update the automatic generation of frontend documentation:
 
-1. Globally install Documentation.js using the npm package manager:
+1. Globally install Documentation.js using the [npm](https://www.npmjs.com/) package manager:
 
    ```sh
    npm install -g documentation
@@ -169,4 +171,34 @@ Here are the steps to reproduce/update the automatic generation of frontend docu
 
 4. After completion, the command should have updated the index.html file in the frontendDocumentation folder.
 
-To generate the documentation
+### Backend
+
+The html link to the backend documentation: `docs/source/build/backend.html`
+
+We follow this [link](https://shunsvineyard.info/2019/09/19/use-sphinx-for-python-documentation/) to generate Sphinx documentation.
+
+1. Install Sphinx and Sphinx-RTD-Theme: `pip install -U sphinx` and `pip install sphinx_rtd_theme`
+
+2. Create a `docs/` folder. We already have one `cs130/docs`, to redo the documentation generation just delete current `docs` and create a new `docs` folder inside `cs130`.
+
+3. Go to the `docs/` folder in the terminal and run `sphinx-quickstart`. You will be asked a set of questions, use the following answers:
+
+   ![](images/sphinx_quickstart.png)
+
+4. Configure the `conf.py` file. Open `docs/source/conf.py` and use the following configurations:
+
+   - Path Setup: Uncommend the three lines and use the following path:
+     ![](images/path_setup.png)
+
+   - Use the following extensions:
+     ![](images/extensions.png)
+
+   - Set the html theme:
+     ![](images/theme.png)
+
+5. Go back to the `cs130/docs` folder and run `sphinx-apidoc -f -o source/ ../backend/`. It should create two rst files:
+   ![](images/rst_files.png)
+
+6. Open the file `cs130/docs/source/index.rst` and add the word modules to it:
+   ![](images/index_rst.png)
+7. Go back to the `cs130/docs` folder and run `make html`. The backend html file: `docs/source/build/backend.html`
