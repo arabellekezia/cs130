@@ -2,7 +2,7 @@ import {render, cleanup, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 import SignupScreen from "../app/Screens/SignupScreen"
 
-describe('Login Form', () => {
+describe('Signup Form', () => {
   let wrapper;
   beforeEach(() => {
       wrapper = render(<SignupScreen />);
@@ -26,8 +26,8 @@ describe('Login Form', () => {
     const invalidEnteredEmail = "test";
     fireEvent(emailTextInput, 'onChangeText', invalidEnteredEmail);
     
-    const loginButton = getByText("Sign Up");
-    fireEvent.press(loginButton);
+    const signupButton = getByText("Sign Up");
+    fireEvent.press(signupButton);
   
     const validationError = queryByTestId("error-message");
     expect(validationError).toBeTruthy();
@@ -39,8 +39,8 @@ describe('Login Form', () => {
   it("Shows missing name error when user doesn't provides their name", () => {
     const {getByText, queryByTestId, getByPlaceholderText} = wrapper;
     
-    const loginButton = getByText("Sign Up");
-    fireEvent.press(loginButton);
+    const signupButton = getByText("Sign Up");
+    fireEvent.press(signupButton);
   
     const validationError = queryByTestId("error-message");
     expect(validationError).toBeTruthy();
@@ -63,8 +63,8 @@ describe('Login Form', () => {
     const passwordEntered = "1234567";
     fireEvent(passwordTextInput, 'onChangeText', passwordEntered);
 
-    const loginButton = getByText("Sign Up");
-    fireEvent.press(loginButton);
+    const signupButton = getByText("Sign Up");
+    fireEvent.press(signupButton);
   
     const validationError = queryByTestId("error-message");
     expect(validationError).toBeTruthy();
@@ -91,8 +91,8 @@ describe('Login Form', () => {
     const confirmPasswordEntered = "12345677";
     fireEvent(confirmPasswordTextInput, 'onChangeText', confirmPasswordEntered);
 
-    const loginButton = getByText("Sign Up");
-    fireEvent.press(loginButton);
+    const signupButton = getByText("Sign Up");
+    fireEvent.press(signupButton);
   
     const validationError = queryByTestId("error-message");
     expect(validationError).toBeTruthy();

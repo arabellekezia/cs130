@@ -1,0 +1,216 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Diet goals input form renders correctly 1`] = `
+<RCTScrollView
+  collapsable={false}
+  contentContainerStyle={
+    Object {
+      "flex": 1,
+    }
+  }
+  keyboardShouldPersistTaps="handled"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+>
+  <View>
+    <RCTSafeAreaView
+      emulateUnlessSupported={true}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontSize": 30,
+              "fontWeight": "bold",
+            },
+            Object {
+              "alignSelf": "flex-start",
+              "marginLeft": "5%",
+              "marginTop": "5%",
+            },
+          ]
+        }
+      >
+        Diet Goals
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "column",
+            "width": "90%",
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {},
+              Object {
+                "alignSelf": "flex-start",
+                "color": "#474747",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "marginBottom": "2%",
+                "marginTop": "10%",
+              },
+            ]
+          }
+        >
+          What is your daily calorie budget?
+        </Text>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#efefef",
+              "borderRadius": 10,
+              "flexDirection": "row",
+              "marginVertical": 10,
+              "padding": 15,
+              "width": "100%",
+            }
+          }
+        >
+          <TextInput
+            allowFontScaling={true}
+            keyboardType="numeric"
+            maxLength={25}
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            placeholder="2000 cal"
+            rejectResponderTermination={true}
+            style={
+              Object {
+                "fontSize": 18,
+              }
+            }
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#eafbff",
+              "borderRadius": 24,
+              "justifyContent": "center",
+              "marginTop": "10%",
+              "padding": "5%",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#474747",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "textAlign": "center",
+              }
+            }
+          >
+            New to calorie counting?
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#474747",
+                "fontSize": 16,
+                "lineHeight": 26,
+                "marginTop": "5%",
+                "textAlign": "left",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#474747",
+                  "fontSize": 16,
+                  "lineHeight": 26,
+                  "marginTop": "5%",
+                  "textAlign": "left",
+                }
+              }
+            >
+              Use the following 
+            </Text>
+            <Text
+              onPress={[Function]}
+              style={
+                Object {
+                  "color": "#0079d3",
+                  "fontSize": 16,
+                  "textDecorationLine": "underline",
+                }
+              }
+            >
+              calorie calculator
+            </Text>
+            <Text>
+               as a guideline to determine your daily calorie intake based on your weight loss goals!
+            </Text>
+          </Text>
+        </View>
+      </View>
+      <View
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "flex-end",
+              "backgroundColor": "#007AFF",
+              "borderRadius": 10,
+              "justifyContent": "center",
+              "marginBottom": "10%",
+              "minWidth": "90%",
+              "paddingHorizontal": 30,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {},
+                Object {
+                  "color": "white",
+                  "fontSize": 18,
+                  "fontWeight": "600",
+                },
+              ]
+            }
+          >
+            Save
+          </Text>
+        </View>
+      </View>
+    </RCTSafeAreaView>
+  </View>
+</RCTScrollView>
+`;

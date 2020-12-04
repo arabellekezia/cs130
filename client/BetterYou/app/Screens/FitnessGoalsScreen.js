@@ -101,6 +101,7 @@ function ErrorMessage({ message }) {
         marginLeft: "2.5%",
         color: "red",
       }}
+      testID="error-message"
       children={message}
     />
   );
