@@ -21,7 +21,7 @@ class EdamamAPI():
         The API host.
     headers : str
         The API headers.
-    transform_dict : Dict
+    transform_dict : Dict[str, str]
         Dictionary which transforms the API nutrient labels to our apps nutrient labels. For instance
         the API uses ENER_KCAL for the calories while we use Cals.
 
