@@ -1,0 +1,1859 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>backend package &mdash; BetterYou 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="backend" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BetterYou
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">backend</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">backend package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.Diet">backend.Diet module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.Fitness">backend.Fitness module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.Health">backend.Health module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.Sleep">backend.Sleep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.app">backend.app module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.db">backend.db module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.edamam_api">backend.edamam_api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.goals">backend.goals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.staywell_api">backend.staywell_api module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend.user">backend.user module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-backend">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BetterYou</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">backend</a> &raquo;</li>
+        
+      <li>backend package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/backend.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="backend-package">
+<h1>backend package<a class="headerlink" href="#backend-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-backend.Diet">
+<span id="backend-diet-module"></span><h2>backend.Diet module<a class="headerlink" href="#module-backend.Diet" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.Diet.Diet">
+<em class="property">class </em><code class="sig-prename descclassname">backend.Diet.</code><code class="sig-name descname">Diet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database_manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">params_diet</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">['Item', 'ServingSize', 'Cals', 'Protein', 'Carbs', 'Fat', 'Fiber', 'Barcode', 'Datetime', 'UserID']</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.Diet.Diet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#backend.Health.Health" title="backend.Health.Health"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.Health.Health</span></code></a></p>
+<p>A class used to represent a users ndiet.</p>
+<p>Inherits the Health class.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.Diet.Diet._database_manager">
+<code class="sig-name descname">_database_manager</code><a class="headerlink" href="#backend.Diet.Diet._database_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Diet.Diet._user_id">
+<code class="sig-name descname">_user_id</code><a class="headerlink" href="#backend.Diet.Diet._user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique user id. (Priavte member variance)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Diet.Diet._table_name">
+<code class="sig-name descname">_table_name</code><a class="headerlink" href="#backend.Diet.Diet._table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PyMySQL table name for Diet. (Priavate member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Diet.Diet._params">
+<code class="sig-name descname">_params</code><a class="headerlink" href="#backend.Diet.Diet._params" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of strings corresponding to the columns of the diet table. The frontend does not require all the
+columns from the database, for instance, username/email is not required for computing the total calories. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Diet.Diet.get_columns_give_range">
+<code class="sig-name descname">get_columns_give_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">datatima</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Diet.Diet.get_columns_give_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns data from the diet table between a given date-time range. Useful for computing the daily and weekly nutritional values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Diet.Diet.insert_in_database">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span> <span class="n">datetime</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.Diet.Diet.insert_in_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the user meal with its nutritional values into the diet table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id0">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>datetime.datetime<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a user meal along with its nutritional contents in the database. Returns True if insertion is successful otherwise returns False.
+The input_dict (user meal) consists of the item label, serving size, barcode indicator and the nutrient dictionary for the item. The nutrients
+are obtained using the Edamam API either through a string query look-up or a barcode scan.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dict</strong> (<em>Dict</em>) – The input dictionary corresponding to a user meal including the nutritional value of the meal.</p></li>
+<li><p><strong>date_time</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – Manually entered datetime for a meal entry, defaults to None since the database is configured to use
+current timestamp when ‘date_time’ is not provided. This is useful for testing the backend methods.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Returns True if the database entry is successful without any errors, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.Fitness">
+<span id="backend-fitness-module"></span><h2>backend.Fitness module<a class="headerlink" href="#module-backend.Fitness" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.Fitness.Fitness">
+<em class="property">class </em><code class="sig-prename descclassname">backend.Fitness.</code><code class="sig-name descname">Fitness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database_manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">params_fitness</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.Fitness.Fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#backend.Health.Health" title="backend.Health.Health"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.Health.Health</span></code></a></p>
+<p>A class used to represent users Fitness, monitor workout and track the caloried burned.</p>
+<p>Inherits the Health class.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.Fitness.Fitness._database_manager">
+<code class="sig-name descname">_database_manager</code><a class="headerlink" href="#backend.Fitness.Fitness._database_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Fitness.Fitness._user_id">
+<code class="sig-name descname">_user_id</code><a class="headerlink" href="#backend.Fitness.Fitness._user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique user id. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Fitness.Fitness._table_name">
+<code class="sig-name descname">_table_name</code><a class="headerlink" href="#backend.Fitness.Fitness._table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The PyMySQL table name for Fitness. (Private member variable.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Fitness.Fitness._params">
+<code class="sig-name descname">_params</code><a class="headerlink" href="#backend.Fitness.Fitness._params" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of strings corresponding to the columns of the fitness table. The frontend does not require all the columns
+from the fitness table, for instance, user name or email is not required for computing the total workout minutes. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Fitness.Fitness.get_columns_give_range">
+<code class="sig-name descname">get_columns_give_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">datatima</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Fitness.Fitness.get_columns_give_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns data from the fitness table between a given date-time range. Useful for computing the daily and weekly statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Fitness.Fitness.insert_in_database">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span> <span class="n">datetime</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.Fitness.Fitness.insert_in_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the fitness entry (workout, calories burned etc) into the fitness table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id1">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>datetime.datetime<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the workout input in the database. Returns True if the insertion is successful otherwise False.
+The ‘input_dict’ (workout session) contains the workout type, workout duration in minutes and the amount of calories burned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dict</strong> (<em>Dict</em>) – The input dictionary with fields and values that need to be entered into the database for the Fitness table.</p></li>
+<li><p><strong>date_time</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – Manually entered datetime for the workout entry, defaults to None since the database is configured to use
+current timestamp when ‘date_time’ is not provided. This is useful for testing the fitness class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Returns True if the database entry is successful without any errors, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.Health">
+<span id="backend-health-module"></span><h2>backend.Health module<a class="headerlink" href="#module-backend.Health" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.Health.Health">
+<em class="property">class </em><code class="sig-prename descclassname">backend.Health.</code><code class="sig-name descname">Health</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database_manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">table_name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">params</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">['*']</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.Health.Health" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>A class used to represent the user Health.</p>
+<p>The main abstract class for our app which is inherited by the three major components: Diet, Fitness, and Sleep.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.Health.Health._database_manager">
+<code class="sig-name descname">_database_manager</code><a class="headerlink" href="#backend.Health.Health._database_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Health.Health._user_id">
+<code class="sig-name descname">_user_id</code><a class="headerlink" href="#backend.Health.Health._user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique user id. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Health.Health._table_name">
+<code class="sig-name descname">_table_name</code><a class="headerlink" href="#backend.Health.Health._table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Health.Health._params">
+<code class="sig-name descname">_params</code><a class="headerlink" href="#backend.Health.Health._params" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of strings corresponding to the columns of table ‘table_name’. The frontend does not require all
+the columns from the database, for instance, user name or email is not required for computing the total calories/sleep duration etc. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Health.Health.get_columns_give_range">
+<code class="sig-name descname">get_columns_give_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">datatime</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">datetime</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Health.Health.get_columns_give_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns data from table ‘table_name’ given between a start and end date. The exact type of data (list of dictionaries)
+depends on the health component.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Health.Health.insert_in_database">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.Health.Health.insert_in_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method. Inserts the input into the table ‘table_name’ in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Health.Health._get_params">
+<code class="sig-name descname">_get_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#backend.Health.Health._get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a list of column names to a string which is used to query the database. (Private member method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Health.Health.get_columns_given_range">
+<code class="sig-name descname">get_columns_given_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">datetime.datetime</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">datetime.datetime</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Health.Health.get_columns_given_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets data from table ‘table_name’ between ‘start_date’ and ‘end_date’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_date</strong> (<em>datetime</em>) – The start date.</p></li>
+<li><p><strong>end_date</strong> (<em>datetime</em>) – The end date.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – Returns a list of dictionaries corresponding to database rows between ‘start_date’ to ‘end_date’ from table
+‘table_name’, None if no entries, and -1 if there is an error. The second part of the tuple returns True if
+the query is succesful, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id2">
+<em class="property">abstract </em><code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts input in the database. Returns true if success o/w false.
+This is an Abstract method which is implemented by the individual components, Diet, Fitness, Sleep.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_dict</strong> (<em>dict</em>) – Fields and values for the table to insert data into.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Whether or not the entry was able to be inserted in the database.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.Sleep">
+<span id="backend-sleep-module"></span><h2>backend.Sleep module<a class="headerlink" href="#module-backend.Sleep" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.Sleep.Sleep">
+<em class="property">class </em><code class="sig-prename descclassname">backend.Sleep.</code><code class="sig-name descname">Sleep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database_manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">params_sleep</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">['Minutes', 'Nap', 'SleepTime', 'WakeupTime', 'Datetime', 'UserID']</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.Sleep.Sleep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#backend.Health.Health" title="backend.Health.Health"><code class="xref py py-class docutils literal notranslate"><span class="pre">backend.Health.Health</span></code></a></p>
+<p>A class used to represent a users sleep.</p>
+<p>Inherits the Health class.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.Sleep.Sleep._database_manager">
+<code class="sig-name descname">_database_manager</code><a class="headerlink" href="#backend.Sleep.Sleep._database_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager. (Private member varaible)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Sleep.Sleep._user_id">
+<code class="sig-name descname">_user_id</code><a class="headerlink" href="#backend.Sleep.Sleep._user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique user id. (Private member varaible)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Sleep.Sleep._table_name">
+<code class="sig-name descname">_table_name</code><a class="headerlink" href="#backend.Sleep.Sleep._table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The table name for sleep. (Private member varaible)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.Sleep.Sleep._params">
+<code class="sig-name descname">_params</code><a class="headerlink" href="#backend.Sleep.Sleep._params" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of strings corresponding to the columns of the sleep table. The frontend does not require all the columns from the
+database, for instance, user name or email is not required for computing the total sleep in a given day. (Private member varaible)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Sleep.Sleep.get_columns_give_range">
+<code class="sig-name descname">get_columns_give_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">datetime</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">datatima</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Sleep.Sleep.get_columns_give_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns data from the sleep table between a given date-time range. Useful for computing the daily and weekly statistics.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Sleep.Sleep.insert_in_database">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">data_time</span><span class="p">:</span> <span class="n">datetime</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.Sleep.Sleep.insert_in_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the sleep entry in the sleep table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.Sleep.Sleep.get_columns_given_range">
+<code class="sig-name descname">get_columns_given_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">startDate</span><span class="p">:</span> <span class="n">datetime.datetime</span></em>, <em class="sig-param"><span class="n">endDate</span><span class="p">:</span> <span class="n">datetime.datetime</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.Sleep.Sleep.get_columns_given_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets data from the Sleep table between ‘start_date’ and ‘end_date’. We need to over-write the
+function from the Health class because for sleep when given a start and end date we find all the
+entries whose wake up time is between the two entries, rather than the the date-time of the database entry.
+This is done because the total sleep in a day is a cumulative sum of all the sleeps with wake up times
+in that day. For instance, when a user wakes up in the morning of Dec 4, we will include that sleep
+for Dec 4, similarly if the user has any naps throughtout that day it will also be included in Dec 4.
+So the wake up time is usef here for fetching data from the sleep table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_date</strong> (<em>datetime</em>) – The start date of selected range.</p></li>
+<li><p><strong>end_date</strong> (<em>datetime</em>) – The end date of selected range.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – Returns a list of dictionaries between ‘start_date’ to ‘end_date’ from the Sleep table, None if no entries,
+and -1 for errors. The second entry of the tuple returns True if the query is succesful, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id3">
+<code class="sig-name descname">insert_in_database</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>datetime.datetime<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts sleep entry in the database. Returns True if the insertion is successful otherwise False.
+The ‘input_dict’ (the sleep entry) contains the sleep time, wakeup time and an indicator if the sleep is a nap or a regular night sleep.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dict</strong> (<em>Dict</em>) – The input dictionary with keys ‘input_dict_keys’ i.e. ‘SleepTime’, ‘WakeupTime’ and ‘Nap’.</p></li>
+<li><p><strong>date_time</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – Manually entered datetime for the sleep entry. Defaults to None since the database can use CURRENT_TIMESTAMP.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Returns True if the database entry is successful without any errors, otherwise False</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.app">
+<span id="backend-app-module"></span><h2>backend.app module<a class="headerlink" href="#module-backend.app" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="backend.app.addMeal">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">addMeal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.addMeal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log meal and add it to database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – Food item name or barcode.</p></li>
+<li><p><strong>ServingSize</strong> (<em>float</em>) – Serving size of the food consumed.</p></li>
+<li><p><strong>barcode</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – True if user scans barcode, False otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The first part gives HTTP error message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.changeGoal">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">changeGoal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.changeGoal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change a specific goal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of goal we want to change.
+Available options are: ‘FitnessMinutes’, ‘Calories’, ‘SleepHours’</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – Value of the user’s new goal.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The first part gives HTTP error message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.check_datetimes">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">check_datetimes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.check_datetimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that checks datetime formatting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>Any</em><em>]</em>) – Dictionary containing dateFrom and dateTo dates.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, returns a dict containing the converted datetime values
+for dateTo and dateFrom, and HTTP status code. Otherwise, returns dict
+containing HTTP error message and status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Dict[datetime, datetime, int], Dict[str, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.check_goal_type">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">check_goal_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.check_goal_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that checks validity of the goal type passed in.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>Any</em><em>]</em>) – Data dictionary containing the type of goal passed in.
+Available options are: ‘FitnessMinutes’, ‘Calories’, ‘SleepHours’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part gives the type of goal we are checking.
+Otherwise, it gives an eror message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.check_goal_value">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">check_goal_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.check_goal_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function for changeGoal method. Checks current goal given type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>Any</em><em>]</em>) – Type of goal we want to check.
+Available options are: ‘FitnessMinutes’, ‘Calories’, ‘SleepHours’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part gives the type of goal we are checking.
+Otherwise, it gives an eror message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.check_token">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">check_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.check_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that checks user’s token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Dict</em><em>[</em><em>Any</em><em>]</em>) – Dictionary containing user’s token that needs to be checked.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, returns dictionary of the HTTP status code and user token.
+Otherwise, returns dictionary of HTTP error message and status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[Dict[int, int], Dict[str, int]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.enterWorkout">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">enterWorkout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.enterWorkout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows users to enter workout data. If successful, returns the number of
+calories burned and 200 code. Returns error otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weight</strong> (<em>int</em>) – Weight of the user.</p></li>
+<li><p><strong>workout</strong> (<em>str</em>) – Workout type.</p></li>
+<li><p><strong>minutes</strong> (<em>float</em>) – Duration the user did the workout for in minutes.</p></li>
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the Tuple corresponds to the calories burned
+by the user based on the Staywell API. Otherwise, it’s the HTTP error message.
+The second part of the Tuple corresponds to the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getAllGoals">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getAllGoals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getAllGoals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all of the user’s set goals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing
+all of the user’s goals. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getAvailableFoods">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getAvailableFoods</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getAvailableFoods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses the Edamam API to search available foods given item name or barcode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – Item name in string or barcode number if user scans a barcode.</p></li>
+<li><p><strong>barcode</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – True if user scans barcode, False otherwise. Defaults to False.</p></li>
+<li><p><strong>nMatches</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Number of food matches from the API. Defaults to 5.</p></li>
+<li><p><strong>ServingSize</strong> (<em>float</em>) – Serving size of the item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing
+matches of the given food item. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getFitnessData">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getFitnessData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getFitnessData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all logged fitness data from database given a time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>dateFrom</strong> (<em>timestamp</em>) – Start date of the data that wants to be fetched.</p></li>
+<li><p><strong>dateTo</strong> (<em>timestamp</em>) – End date of the data that wants to be fetched.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing the fitness data
+for the given time period. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getIdFromToken">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getIdFromToken</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getIdFromToken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function that gets user’s ID given token.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – Unique user token.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, returns user ID. Otherwise, returns -1.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getMeals">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getMeals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getMeals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all logged meals from database given a time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>dateFrom</strong> (<em>timestamp</em>) – Start date of the data that wants to be fetched.</p></li>
+<li><p><strong>dateTo</strong> (<em>timestamp</em>) – End date of the data that wants to be fetched.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing the meal data
+for the given time period. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getNutritionalData">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getNutritionalData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getNutritionalData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search nutritional data for a certain food item given its name or barcode.
+If successful, returns the number of
+calories burned and 200 code. Returns error otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>int</em><em>]</em>) – Item name in string or barcode number if user scans a barcode.</p></li>
+<li><p><strong>barcode</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – True if user scans barcode, False otherwise.</p></li>
+<li><p><strong>ServingSize</strong> (<em>float</em>) – Serving size of the item.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing the nutritional
+data of the given food item. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getSleepData">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getSleepData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getSleepData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all logged sleep periods from database given a time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>dateFrom</strong> (<em>timestamp</em>) – Start date of the data that wants to be fetched.</p></li>
+<li><p><strong>dateTo</strong> (<em>timestamp</em>) – End date of the data that wants to be fetched.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing the sleep data
+for the given time period. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.getTypeGoals">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">getTypeGoals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.getTypeGoals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch a certain goal given the type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of goal we want to fetch.
+Available options are: ‘FitnessMinutes’, ‘Calories’, ‘SleepHours’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple gives a dict containing
+all of the user’s goals. Otherwise, it gives an error message.
+The second part of the tuple gives the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.index">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.insertSleepEntry">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">insertSleepEntry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.insertSleepEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log meal and add it to database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str</em>) – Unique token based on user ID.</p></li>
+<li><p><strong>dateFrom</strong> (<em>timestamp</em>) – User’s sleep time.</p></li>
+<li><p><strong>dateTo</strong> (<em>timestamp</em>) – User’s wake up time.</p></li>
+<li><p><strong>nap</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – If this entry is a nap, defaults to False for not a nap.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The first part gives HTTP error message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.login">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Login method using user’s email and password.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<em>str</em>) – User’s email.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – User’s password.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – If successful, the first part of the tuple is the User’s payload encoding.
+Otherwise, it gives HTTP error message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="backend.app.register">
+<code class="sig-prename descclassname">backend.app.</code><code class="sig-name descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#backend.app.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register new user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<em>str</em>) – User’s email.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – User’s password.</p></li>
+<li><p><strong>fullname</strong> (<em>str</em>) – User’s full name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The first part gives HTTP error message. The second part of the tuple is the
+HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.db">
+<span id="backend-db-module"></span><h2>backend.db module<a class="headerlink" href="#module-backend.db" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.db.DB">
+<em class="property">class </em><code class="sig-prename descclassname">backend.db.</code><code class="sig-name descname">DB</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">test</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.db.DB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains the code to access and connect with the database safely.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.db.DB._host">
+<code class="sig-name descname">_host</code><a class="headerlink" href="#backend.db.DB._host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hostname for the database server. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.db.DB._user">
+<code class="sig-name descname">_user</code><a class="headerlink" href="#backend.db.DB._user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Username for the database server. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.db.DB._password">
+<code class="sig-name descname">_password</code><a class="headerlink" href="#backend.db.DB._password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Password to connect to the database. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.db.DB._db">
+<code class="sig-name descname">_db</code><a class="headerlink" href="#backend.db.DB._db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the database to connect to. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB._get_connection">
+<code class="sig-name descname">_get_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pymysql.connections.Connection<a class="headerlink" href="#backend.db.DB._get_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a connection to the database with the credentials in the config. (Private member method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB._close_connection">
+<code class="sig-name descname">_close_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">connection</span><span class="p">:</span> <span class="n">pymysql.connections.Connection</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#backend.db.DB._close_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the given connection to a database. (Private member method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.select_data">
+<code class="sig-name descname">select_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#backend.db.DB.select_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a select statement in the database based on the entered query and return the data from database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.insert_data">
+<code class="sig-name descname">insert_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#backend.db.DB.insert_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run an insert or alter statement that enters a command in the database without expecting a return value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.insert_data_1">
+<code class="sig-name descname">insert_data_1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#backend.db.DB.insert_data_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an insert command and format the values and insert the data in the database, this formats
+the values for mysql without the user needing to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.insert_row">
+<code class="sig-name descname">insert_row</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">data_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#backend.db.DB.insert_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a table name and the data dict of keys and values to enter (formatted in mysql style),
+insert the new row in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.insert_row_1">
+<code class="sig-name descname">insert_row_1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">data_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#backend.db.DB.insert_row_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a table name and the data dict of keys and values to enter, this formats in mysql style and
+insert the new row in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.db.DB.sel_time_frame">
+<code class="sig-name descname">sel_time_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">userID</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">params</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'*'</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#backend.db.DB.sel_time_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the parameters, construct a query within the specified dates and return the data from the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id4">
+<code class="sig-name descname">insert_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run an insert or alter statement that enters a command in the database without expecting a return value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<em>str</em>) – Command to enter or alter data in thre database.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id5">
+<code class="sig-name descname">insert_data_1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an insert command and format the values and insert the data in the database, this formats
+the values for mysql without the user needing to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<em>str</em>) – Command to enter or alter data in thre database.</p></li>
+<li><p><strong>values</strong> (<em>List</em><em>[</em><em>Any</em><em>]</em>) – Values to enter in the database, these do not have to be formatted as per mysql.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id6">
+<code class="sig-name descname">insert_row</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">data_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a table name and the data dict of keys and values to enter (formatted in mysql style),
+insert the new row in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>str</em>) – Name of table in databsase.</p></li>
+<li><p><strong>data_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary of keys and values that correspond to fields in the database, formatted in mysql style.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id7">
+<code class="sig-name descname">insert_row_1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">data_dict</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a table name and the data dict of keys and values to enter, this formats in mysql style and
+insert the new row in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>str</em>) – Name of table in databsase.</p></li>
+<li><p><strong>data_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary of keys and values that correspond to fields in the database.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id8">
+<code class="sig-name descname">sel_time_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">start_date</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">end_date</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">userID</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">params</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'*'</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the parameters, construct a query within the specified dates and return the data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table</strong> (<em>str</em>) – Name of table in databsase.</p></li>
+<li><p><strong>start_date</strong> (<em>str</em>) – Starting date value for the range to check for values.</p></li>
+<li><p><strong>end_date</strong> (<em>str</em>) – Starting date value for the range to check for values.</p></li>
+<li><p><strong>userID</strong> (<em>int</em>) – Foreign key constraint of userID to search for a single, specific user.</p></li>
+<li><p><strong>params</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Specific fields to return for each row of database, defaulted to all fields per row.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – Data selected from the database based on given criteria as a List of Dict entries where each Dict
+correspionds to a row in the database.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id9">
+<code class="sig-name descname">select_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a select statement in the database based on the entered query and return the data from database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>query</strong> (<em>str</em>) – The query to run and get data based on in the database.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – List of dictionary entries for corresponding rows in the database that match the search query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.edamam_api">
+<span id="backend-edamam-api-module"></span><h2>backend.edamam_api module<a class="headerlink" href="#module-backend.edamam_api" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.edamam_api.EdamamAPI">
+<em class="property">class </em><code class="sig-prename descclassname">backend.edamam_api.</code><code class="sig-name descname">EdamamAPI</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Edamam food API.</p>
+<p>Provides the nutrient information for a food item (user meal) when provided with the food name or the barcode number.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.edamam_api.EdamamAPI._url">
+<code class="sig-name descname">_url</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI._url" title="Permalink to this definition">¶</a></dt>
+<dd><p>The API url. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.edamam_api.EdamamAPI._key">
+<code class="sig-name descname">_key</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI._key" title="Permalink to this definition">¶</a></dt>
+<dd><p>The API key. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.edamam_api.EdamamAPI._host">
+<code class="sig-name descname">_host</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI._host" title="Permalink to this definition">¶</a></dt>
+<dd><p>The API host. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.edamam_api.EdamamAPI.headers">
+<code class="sig-name descname">headers</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>The API headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.edamam_api.EdamamAPI.transform_dict">
+<code class="sig-name descname">transform_dict</code><a class="headerlink" href="#backend.edamam_api.EdamamAPI.transform_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary which transforms the API nutrient labels to our apps nutrient labels. For instance
+the API uses ENER_KCAL for the calories while we use Cals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[str, str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.edamam_api.EdamamAPI.get_similar">
+<code class="sig-name descname">get_similar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#backend.edamam_api.EdamamAPI.get_similar" title="Permalink to this definition">¶</a></dt>
+<dd><p>The computes the similarity score between two strings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.edamam_api.EdamamAPI.get_food_information">
+<code class="sig-name descname">get_food_information</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">upc</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#backend.edamam_api.EdamamAPI.get_food_information" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the nutrient information from the food API given a query item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.edamam_api.EdamamAPI.get_top_matches">
+<code class="sig-name descname">get_top_matches</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">upc</span><span class="p">:</span> <span class="n">bool</span></em>, <em class="sig-param"><span class="n">k</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">serving_size</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.edamam_api.EdamamAPI.get_top_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a query, obtains the top k matches from the Food API. For each match, the function returns the total nutrients
+after taking the serving size into account.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id10">
+<code class="sig-name descname">get_food_information</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">upc</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the nutrient information for a given query using the external Edamam Food API.
+(<a class="reference external" href="https://developer.edamam.com">https://developer.edamam.com</a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>str</em>) – The input query, for instance ‘Apple’, ‘Orange’ or a barcode number.</p></li>
+<li><p><strong>upc</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – True if query is a barcode number, otherwise False. Defaulted to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>response</strong> – Returns a dictionary of the nutrients for a given query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id11">
+<code class="sig-name descname">get_similar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">b</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the similarity metric between two strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>str</em>) – The first string.</p></li>
+<li><p><strong>b</strong> (<em>str</em>) – The second string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>similarity_score</strong> – The similarity score for the two strings. Useful while computing the top k matches for a given query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id12">
+<code class="sig-name descname">get_top_matches</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">upc</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">k</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5</span></em>, <em class="sig-param"><span class="n">serving_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1.0</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Dict<span class="p">[</span>int<span class="p">, </span>Any<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the top k matches from the Edamam Food API for a given food query. For each match it returns the total nutrients consumed
+after taking the serving size into account. Returns 5 major nutrients, calories, fats, carbs, fibers and proteins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>string</em>) – The input query which can either be a food item name like “Apple” or the barcode number in str.</p></li>
+<li><p><strong>upc</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – True if query is a barcode number, otherwise False. Defaulted to False.</p></li>
+<li><p><strong>k</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The number of top matches, defaults to 5 closest matches.</p></li>
+<li><p><strong>serving_size</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The serving size for that food item, defaults to 1.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>results</strong> – Returns a dictionary of the top k matches ranked in decreasing order of similarity, i.e. the most closest match
+will the element corresponding to key=0, and the second entry of the Tuple is True if external API query is successful,
+False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Dict[int, Any], bool]</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl>
+<dt>An Example:</dt><dd><dl>
+<dt>{0:</dt><dd><blockquote>
+<div><dl class="simple">
+<dt>{‘Label’<span class="classifier">‘Jamba Juice Orange Carrot Karma Smoothie, 22 fl oz’,</span></dt><dd><dl class="simple">
+<dt>‘Nutrients’<span class="classifier">{‘Cals’</span><span class="classifier">41.499027861352765, ‘Protein’</span><span class="classifier">0.6148004127607817,</span></dt><dd><p>‘Fat’ : 0.15370010319019542, ‘Carbs’ : 10.144206810552898, ‘Fiber’: 0.6148004127607817}},</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>1:</dt><dd><dl class="simple">
+<dt>{‘Label’<span class="classifier">‘Jamba Juice Orange Carrot Karma Smoothie, 28 fl oz’,</span></dt><dd><p>‘Nutrients’ : {‘Cals’ : 37.43695370561189, ‘Protein’ : 0.6038218339614821, ‘Fat’ : 0.12076436679229642,
+‘Carbs’ : 9.178091876214529, ‘Fiber’ : 0.6038218339614821}}}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.goals">
+<span id="backend-goals-module"></span><h2>backend.goals module<a class="headerlink" href="#module-backend.goals" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.goals.Goals">
+<em class="property">class </em><code class="sig-prename descclassname">backend.goals.</code><code class="sig-name descname">Goals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">database_manager</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em>, <em class="sig-param"><span class="n">user_id</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.goals.Goals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to represent a users health goals.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.goals.Goals._database_manager">
+<code class="sig-name descname">_database_manager</code><a class="headerlink" href="#backend.goals.Goals._database_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.goals.Goals._user_id">
+<code class="sig-name descname">_user_id</code><a class="headerlink" href="#backend.goals.Goals._user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique user id. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.goals.Goals._table_name">
+<code class="sig-name descname">_table_name</code><a class="headerlink" href="#backend.goals.Goals._table_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the goal table. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.goals.Goals._params">
+<code class="sig-name descname">_params</code><a class="headerlink" href="#backend.goals.Goals._params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Column names for the goal table, useful for the frontend. (Private member variable)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.set_goal">
+<code class="sig-name descname">set_goal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_dict</span><span class="p">:</span> <span class="n">Dict</span></em>, <em class="sig-param"><span class="n">input_dict_keys</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">input_dict_types</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.goals.Goals.set_goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts goals in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.get_latest_goal">
+<code class="sig-name descname">get_latest_goal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Type</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.goals.Goals.get_latest_goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the latest goal depending on the type: Calories, FitnessMinutes or SleepDuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.get_all_goals">
+<code class="sig-name descname">get_all_goals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.goals.Goals.get_all_goals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the goals stored in the goals table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.get_type_goals">
+<code class="sig-name descname">get_type_goals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Type</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>List<span class="p">[</span>Dict<span class="p">]</span><span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#backend.goals.Goals.get_type_goals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the goals of a particular type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.alter_goals">
+<code class="sig-name descname">alter_goals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">goal_type</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">flaot</span></em>, <em class="sig-param"><span class="n">type_list</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.goals.Goals.alter_goals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the goals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals._get_params">
+<code class="sig-name descname">_get_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#backend.goals.Goals._get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenates a list of string with comma separation which will be useful
+for querying the database. (Private member method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.goals.Goals.alter_goal">
+<code class="sig-name descname">alter_goal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">goal_type</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">type_list</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">['Calories', 'FitnessMinutes', 'SleepHours']</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.goals.Goals.alter_goal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the existing goals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>goal_type</strong> (<em>str</em>) – The type of goal to be changed, Diet, Fitness or Sleep.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – The new goal value.</p></li>
+<li><p><strong>type_list</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of the three types of goals.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Returns True if the goal is changed successfully, otherwise False.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id13">
+<code class="sig-name descname">get_all_goals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all the goal of from the goal table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>result</strong> – Returns all goals from the table in a list, None if no goal, or -1 if there is an issue with the query.
+The second part of the tuple is a bool for whether or not the query was successful.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Tuple[Any, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id14">
+<code class="sig-name descname">get_latest_goal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Type</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the latests goal of type Type from the goal table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Type</strong> (<em>str</em>) – Calories, FitnessMinutes, SleepHours -&gt; Types of Goals</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – Returns the latest goal from the table of type ‘Type’ in a list, None if no goal, or -1 if there
+is an issue with the query. The second part of the tuple is a bool for whether or not the query was
+successful.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id15">
+<code class="sig-name descname">get_type_goals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Type</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Any<span class="p">, </span>bool<span class="p">]</span><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all the goal of type Type of from the goal table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>Type</strong> (<em>str</em>) – Calories for Diet (Cals), FitnessMinutes for Fitness (Minutes), SleepHours for Sleep (Minutes).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – Returns all goals from the table of type ‘Type’ in a list, None if no goal, or -1 if there is an issue
+with the query. The second part of the tuple is a bool for whether or not the query was successful.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[Any, bool]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id16">
+<code class="sig-name descname">set_goal</code><span class="sig-paren">(</span><em class="sig-param">input_dict: Dict[str, Any], input_dict_keys: Optional[List[str]] = ['Type', 'Value'], input_dict_types: Optional[Dict[str, Any]] = {'Type': &lt;class 'str'&gt;, 'Value': &lt;class 'float'&gt;}</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a new user goal: for diet, fitness or sleep. Returns True if the insertion is performed successfully otherwise returns False</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The input dictionary with keys ‘input_dict_keys’ i.e. Type (the goal type), Value (its corresponding value)</p></li>
+<li><p><strong>input_dict_keys</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>str</em><em>]</em><em>]</em>) – The keys of ‘input_dict’ in a List, defaults to field names in the Goals table.</p></li>
+<li><p><strong>input_dict_types</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – List with the data types of input_dict, defaults to fields and types for the Goals table.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – Returns True if entry is without errors otherwise False.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.staywell_api">
+<span id="backend-staywell-api-module"></span><h2>backend.staywell_api module<a class="headerlink" href="#module-backend.staywell_api" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.staywell_api.StaywellAPI">
+<em class="property">class </em><code class="sig-prename descclassname">backend.staywell_api.</code><code class="sig-name descname">StaywellAPI</code><a class="headerlink" href="#backend.staywell_api.StaywellAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class contains all of the code to calculate the amount of calories burned during a specified
+type and duration of a workout based on the person’s weight. It is adapted from:
+<a class="reference external" href="http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator">http://poc.select.kramesstaywell.com/Content/calculators-v1/calorie-burn-rate-calculator</a></p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.staywell_api.StaywellAPI._workout_list">
+<code class="sig-name descname">_workout_list</code><a class="headerlink" href="#backend.staywell_api.StaywellAPI._workout_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of all possible workouts supported by this API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI.staywell">
+<code class="sig-name descname">staywell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">userID</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">db</span><span class="p">:</span> <span class="n">DB</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#backend.staywell_api.StaywellAPI.staywell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check the arguments, calculate the amount of calories burnes based on given information, and
+enter the data into the database for the Fitness table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI._get_calories_list_per_hour">
+<code class="sig-name descname">_get_calories_list_per_hour</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">weight</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>int<span class="p">]</span><a class="headerlink" href="#backend.staywell_api.StaywellAPI._get_calories_list_per_hour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Based on the entered weight, get a list of calories burned in one hour in the same order and corresponding
+to the _workout_list. (Private method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI._get_exact_calories">
+<code class="sig-name descname">_get_exact_calories</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">weight</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">workout</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">minutes</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#backend.staywell_api.StaywellAPI._get_exact_calories" title="Permalink to this definition">¶</a></dt>
+<dd><p>For the specified weight, workout, and minutes, calculate the exact number of calories burned. (Private method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI._check_weight">
+<code class="sig-name descname">_check_weight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#backend.staywell_api.StaywellAPI._check_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the weight parameter is valid. (Private method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI._check_workout_type">
+<code class="sig-name descname">_check_workout_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#backend.staywell_api.StaywellAPI._check_workout_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the workout parameter is valid and a part of the list of options in _workout_list. (Private method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.staywell_api.StaywellAPI._check_minutes">
+<code class="sig-name descname">_check_minutes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#backend.staywell_api.StaywellAPI._check_minutes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the duration (minutes) of the workout is valid. (Private method)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id17">
+<code class="sig-name descname">staywell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">userID</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">db</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check the arguments, calculate the amount of calories burnes based on given information, and
+enter the data into the database for the Fitness table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary of the arguments and their values given to the Flask endpoint as an HTTP URL.</p></li>
+<li><p><strong>userID</strong> (<em>int</em>) – Unique user ID for the specific app user.</p></li>
+<li><p><strong>db</strong> (<a class="reference internal" href="#backend.db.DB" title="backend.db.DB"><em>DB</em></a>) – Database managing object to connect, select, and insert data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>result</strong> – The first part of the Tuple corresponds to the message for the HTTP request, the second part of the Tuple
+corresponds to the HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[str, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend.user">
+<span id="backend-user-module"></span><h2>backend.user module<a class="headerlink" href="#module-backend.user" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="backend.user.User">
+<em class="property">class </em><code class="sig-prename descclassname">backend.user.</code><code class="sig-name descname">User</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">db</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">backend.db.DB</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#backend.user.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class used to represent the User.</p>
+<p>…</p>
+<dl class="py attribute">
+<dt id="backend.user.User._db">
+<code class="sig-name descname">_db</code><a class="headerlink" href="#backend.user.User._db" title="Permalink to this definition">¶</a></dt>
+<dd><p>The database manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#backend.db.DB" title="backend.db.DB">DB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="backend.user.User._key">
+<code class="sig-name descname">_key</code><a class="headerlink" href="#backend.user.User._key" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique key on which to encode and decode tokens.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.user.User.check_password_match">
+<code class="sig-name descname">check_password_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#backend.user.User.check_password_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the user password matches with the one stored in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.user.User.check_email_match">
+<code class="sig-name descname">check_email_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#backend.user.User.check_email_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a similar email is present in the database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.user.User.create_new_user">
+<code class="sig-name descname">create_new_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fullname</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#backend.user.User.create_new_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new user.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.user.User.encode_token">
+<code class="sig-name descname">encode_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#backend.user.User.encode_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes token for authentication.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="backend.user.User.decode_token">
+<code class="sig-name descname">decode_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#backend.user.User.decode_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decodes token for authentication.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id18">
+<code class="sig-name descname">check_email_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks is the user is already registered. If True returns the user id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>email</strong> (<em>str</em>) – The user email.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>id</strong> – The user id, nonnegative is used exists in db, negative otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id19">
+<code class="sig-name descname">check_password_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the user password matches with the one in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<em>str</em>) – The user email id.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – The entered password</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>id</strong> – The user id, nonnegative is used exists in db, negative otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id20">
+<code class="sig-name descname">create_new_user</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">email</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fullname</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#id20" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new user using password hashing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>email</strong> (<em>str</em>) – The user email id.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – The entered user password.</p></li>
+<li><p><strong>fullname</strong> (<em>str</em>) – The users full name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>success</strong> – True if a new user is created otherwise False.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id21">
+<code class="sig-name descname">decode_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">token</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#id21" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decodes token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>token</strong> (<em>str</em>) – The token</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – The payload</p></li>
+<li><p><strong>code</strong> (<em>int</em>) – HTTP status code.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id22">
+<code class="sig-name descname">encode_token</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><a class="headerlink" href="#id22" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes token</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>int</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>encoding</strong> (<em>str</em>) – The payload encoding.</p></li>
+<li><p><strong>code</strong> (<em>int</em>) – HTTP status code.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-backend">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-backend" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="backend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Group3
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
