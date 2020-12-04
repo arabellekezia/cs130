@@ -16,7 +16,6 @@ function LoginScreen({ navigation }) {
 
   async function login() {
     if (!validate(email, password, setError)) {
-      console.log(err);
       return;
     }
 
@@ -107,6 +106,7 @@ function ErrorMessage({ message }) {
         marginLeft: "6%",
         color: "red",
       }}
+      testID="error-message"
       children={message}
     />
   );

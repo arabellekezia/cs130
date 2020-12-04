@@ -1,7 +1,8 @@
-from flask import Flask, request
+Parametersfrom flask import Flask, request
 import requests
-from datetime import datetime, timezone, timedelta 
+from datetime import datetime, timezone, timedelta
 import json
+import sys
 from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
@@ -12,8 +13,8 @@ from backend.Sleep import Sleep
 from backend.goals import Goals
 
 app = Flask(__name__)
-DB_OBJECT = DB(False)
-USER = User(DB_OBJECT)
+DB_OBJECT = None
+USER = None
 STAYWELL_API = StaywellAPI()
 EDAMAM_API = EdamamAPI()
 
@@ -21,9 +22,30 @@ EDAMAM_API = EdamamAPI()
 def index():
     return 'Better You'
 
-# params: weight - int, workout - str, minutes - float, token - str
 @app.route('/enterWorkout', methods=['POST'])
 def enterWorkout():
+    """
+    Allows users to enter workout data. If successful, returns the number of
+    calories burned and 200 code. Returns error otherwise.
+
+    Parameters
+    ----------
+    weight : int
+        Weight of the user.
+    workout : str
+        Workout type.
+    minutes : float
+        Duration the user did the workout for in minutes.
+    token : str
+        Unique token based on user ID.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        If successful, the first part of the Tuple corresponds to the calories burned
+        by the user based on the Staywell API. Otherwise, it's the HTTP error message.
+        The second part of the Tuple corresponds to the HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
@@ -36,9 +58,29 @@ def enterWorkout():
         return "Invalid Token", 401
     return STAYWELL_API.staywell(args, id, DB_OBJECT)
 
-# params: item - str/int, barcode - optional boolean, serving_size - float
 @app.route('/getNutritionalData', methods=['GET'])
 def getNutritionalData():
+    """
+    Search nutritional data for a certain food item given its name or barcode.
+    If successful, returns the number of
+    calories burned and 200 code. Returns error otherwise.
+
+    Parameters
+    ----------
+    item : str / int
+        Item name in string or barcode number if user scans a barcode.
+    barcode : Optional[bool]
+        True if user scans barcode, False otherwise.
+    serving_size : float
+        Serving size of the item.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing the nutritional
+        data of the given food item. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -65,6 +107,27 @@ def getNutritionalData():
 # params: item - str/int, barcode - optional boolean, nMatches -  optional int, serving_size - float
 @app.route('/getAvailableFoods', methods=['GET'])
 def getAvailableFoods():
+    """
+    Uses the Edamam API to search available foods given item name or barcode.
+
+    Parameters
+    ----------
+    item : str / int
+        Item name in string or barcode number if user scans a barcode.
+    barcode : Optional[bool]
+        True if user scans barcode, False otherwise. Defaults to False.
+    nMatches : Optional[int]
+        Number of food matches from the API. Defaults to 5.
+    serving_size : float
+        Serving size of the item.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing
+        matches of the given food item. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -97,6 +160,23 @@ def getAvailableFoods():
 # params: email - str, password - str
 @app.route('/auth/login', methods=['POST'])
 def login():
+    """
+    Login method using user's email and password.
+
+    Parameters
+    ----------
+    email : str
+        User's email.
+    password : str
+        User's password.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        If successful, the first part of the tuple is the User's payload encoding.
+        Otherwise, it gives HTTP error message. The second part of the tuple is the
+        HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
@@ -114,6 +194,24 @@ def login():
 # params: email - str, password - str, fullname - str
 @app.route('/register', methods=['POST'])
 def register():
+    """
+    Register new user.
+
+    Parameters
+    ----------
+    email : str
+        User's email.
+    password : str
+        User's password.
+    fullname : str
+        User's full name.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        The first part gives HTTP error message. The second part of the tuple is the
+        HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
@@ -144,6 +242,25 @@ def register():
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getMeals', methods=['GET'])
 def getMeals():
+    """
+    Fetch all logged meals from database given a time period.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    dateFrom : datetime
+        Start date of the data that wants to be fetched.
+    dateTo : datetime
+        End date of the data that wants to be fetched.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing the meal data
+        for the given time period. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -173,6 +290,24 @@ def getMeals():
 # params: token - str, item - str, ServingSize - float, barcode - optional boolean
 @app.route('/addMeal', methods=['POST'])
 def addMeal():
+    """
+    Log meal and add it to database.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    ServingSize : float
+        Serving size of the food consumed.
+    barcode : Optional[bool]
+        True if user scans barcode, False otherwise.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        The first part gives HTTP error message. The second part of the tuple is the
+        HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
@@ -216,6 +351,25 @@ def addMeal():
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData', methods=['GET'])
 def getSleepData():
+    """
+    Fetch all logged sleep periods from database given a time period.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    dateFrom : datetime
+        Start date of the data that wants to be fetched.
+    dateTo : datetime
+        End date of the data that wants to be fetched.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing the sleep data
+        for the given time period. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -245,6 +399,24 @@ def getSleepData():
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp, nap - optional bool
 @app.route('/insertSleepEntry', methods=['POST'])
 def insertSleepEntry():
+    """
+    Log meal and add it to database.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    dateFrom : datetime
+        User's sleep time.
+    dateTo : datetime
+        User's wake up time.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        The first part gives HTTP error message. The second part of the tuple is the
+        HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
@@ -273,6 +445,25 @@ def insertSleepEntry():
 # params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData', methods=['GET'])
 def getFitnessData():
+    """
+    Fetch all logged fitness data from database given a time period.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    dateFrom : datetime
+        Start date of the data that wants to be fetched.
+    dateTo : datetime
+        End date of the data that wants to be fetched.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing the fitness data
+        for the given time period. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -302,6 +493,21 @@ def getFitnessData():
 # params: token - str
 @app.route('/getAllGoals', methods=['GET'])
 def getAllGoals():
+    """
+    Fetch all of the user's set goals.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing
+        all of the user's goals. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -326,6 +532,24 @@ def getAllGoals():
 # params: token - str, type - str
 @app.route('/getTypeGoals', methods=['GET'])
 def getTypeGoals():
+    """
+    Fetch a certain goal given the type.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    type : str
+        Type of goal we want to fetch.
+        Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
+
+    Returns
+    -------
+    result : Tuple[Dict[Any] / str, int]
+        If successful, the first part of the tuple gives a dict containing
+        all of the user's goals. Otherwise, it gives an error message.
+        The second part of the tuple gives the HTTP status code.
+    """
     args = request.args
     if not args:
         return "Arguments needed.", 400
@@ -354,12 +578,31 @@ def getTypeGoals():
 # params: token - str, type - str, value - float
 @app.route('/changeGoal', methods=['POST'])
 def changeGoal():
+    """
+    Change a specific goal.
+
+    Parameters
+    ----------
+    token : str
+        Unique token based on user ID.
+    type : str
+        Type of goal we want to change.
+        Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
+    value : float
+        Value of the user's new goal.
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        The first part gives HTTP error message. The second part of the tuple is the
+        HTTP status code.
+    """
     args = request.form
     if not args:
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
     if goal_data['status_code'] != 200:
-        return goal_type['msg'], goal_type['status_code']
+        return goal_data['msg'], goal_data['status_code']
     goal_type = goal_data['type']
     goal_val_data = check_goal_value(args)
     if goal_val_data['status_code'] != 200:
@@ -380,6 +623,22 @@ def changeGoal():
         return 'Successful', 200
 
 def check_goal_value(data):
+    """
+    Helper function for changeGoal method. Checks current goal given type.
+
+    Parameters
+    ----------
+    data : str
+        Type of goal we want to check.
+        Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        If successful, the first part gives the type of goal we are checking.
+        Otherwise, it gives an eror message. The second part of the tuple is the
+        HTTP status code.
+    """
     if not 'value' in data:
         return {"msg": "Please provide goal value",
                 "status_code": 400}
@@ -395,6 +654,22 @@ def check_goal_value(data):
     return {'value': goal_value, 'status_code': 200}
 
 def check_goal_type(data):
+    """
+    Helper function that checks validity of the goal type passed in.
+
+    Parameters
+    ----------
+    data : Dict[any]
+        Data dictionary containing the type of goal passed in.
+        Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
+
+    Returns
+    -------
+    result : Tuple[str, int]
+        If successful, the first part gives the type of goal we are checking.
+        Otherwise, it gives an eror message. The second part of the tuple is the
+        HTTP status code.
+    """
     if not 'type' in data:
         return {"msg": "Please provide goal type",
                 "status_code": 400}
@@ -406,6 +681,21 @@ def check_goal_type(data):
     return {'type': goal_type, "status_code": 200}
 
 def check_datetimes(data):
+    """
+    Helper function that checks datetime formatting.
+
+    Parameters
+    ----------
+    data : Dict[any]
+        Dictionary containing dateFrom and dateTo dates.
+
+    Returns
+    -------
+    result : Dict[datetime, datetime, int] / Dict[str, int]
+        If successful, returns a dict containing the converted datetime values
+        for dateTo and dateFrom, and HTTP status code. Otherwise, returns dict
+        containing HTTP error message and status code.
+    """
     if not 'dateFrom' in data:
         return {"msg": "Please provide 'dateFrom' datetime parameter",
                 "status_code": 400}
@@ -415,16 +705,30 @@ def check_datetimes(data):
     try:
         timestamp_from = int(data['dateFrom'])
         timestamp_to = int(data['dateTo'])
-        dateFrom = datetime.fromtimestamp(timestamp_from) + timedelta(hours=8); 
-        dateTo = datetime.fromtimestamp(timestamp_to) + timedelta(hours=8); 
+        dateFrom = datetime.fromtimestamp(timestamp_from) + timedelta(hours=8);
+        dateTo = datetime.fromtimestamp(timestamp_to) + timedelta(hours=8);
     except:
         return {'msg': "Please format the dateFrom and dateTo as timestamp objects",
                 "status_code": 400}
-       
+
     return {"dateFrom": dateFrom, "dateTo": dateTo,
             "status_code": 200}
 
 def check_token(data):
+    """
+    Helper function that checks user's token.
+
+    Parameters
+    ----------
+    data : Dict[any]
+        Dictionary containing user's token that needs to be checked.
+
+    Returns
+    -------
+    result : Dict[int, int] / Dict[str, int]
+        If successful, returns dictionary of the HTTP status code and user token.
+        Otherwise, returns dictionary of HTTP error message and status code.
+    """
     if 'token' in data:
         token = data['token']
         return {"status_code": 200, "token": token}
@@ -433,6 +737,19 @@ def check_token(data):
                 "status_code": 400}
 
 def getIdFromToken(token):
+    """
+    Helper function that gets user's ID given token.
+
+    Parameters
+    ----------
+    token : str
+        Unique user token.
+
+    Returns
+    -------
+    result : int
+        If successful, returns user ID. Otherwise, returns -1.
+    """
     msg, code = USER.decode_token(token)
     if code != 200:
         return -1
@@ -440,4 +757,15 @@ def getIdFromToken(token):
 
 
 if __name__ == '__main__':
+    test = False
+    try:
+        test = sys.argv[1]
+        test = bool(test)
+    except:
+        test = False
+
+    print(test)
+    DB_OBJECT = DB(test)
+    USER = User(DB_OBJECT)
+
     app.run(host="0.0.0.0", port=5000, debug=False)

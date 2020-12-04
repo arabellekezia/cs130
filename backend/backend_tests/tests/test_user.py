@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, date, timedelta
 import random
 import string
-from backend.db import DB
+from backend.db import DB 
 from backend.user import User
 
 def get_random_string(length):
@@ -56,13 +56,18 @@ class TestUser(unittest.TestCase):
         password = 'defghi'
         self.assertEqual(self.user.check_email_match(email),-1)
         
-    def test_password_match(self):
+    def test_password_match(self): 
         """
         Test inserting an input in the database
         """
         email = 'abc@gmail.com'
         password = 'defghi'
         self.assertTrue(isinstance(self.user.check_password_match(email,password),int))
+        
+        user = User(None)
+        email = 'abc@gmail.com'
+        password = 'defghi'
+        self.assertEqual(self.user.check_password_match(None,None),-1)
         
     def test_incorrect_password_match(self):
         """

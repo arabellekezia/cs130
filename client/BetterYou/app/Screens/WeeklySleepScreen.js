@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   SafeAreaView,
   ScrollView,
@@ -37,11 +38,11 @@ function WeeklySleepScreen() {
 
   useEffect(() => {
     let mounted = true;
-    
+
     loadSleepData().then(() => {
       if (mounted) {
         setReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -90,6 +91,9 @@ function WeeklySleepScreen() {
 
   return (
     <SafeAreaView>
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}
@@ -105,7 +109,10 @@ function WeeklySleepScreen() {
             children={"Weekly Summary"}
           /> */}
           <View style={styles.chartcontainer}>
-            <AppText style={styles.chartHeader} children="Sleep Duration Per Day" />
+            <AppText
+              style={styles.chartHeader}
+              children="Sleep Duration Per Day"
+            />
             <AppBarChart
               style={styles.barChart}
               yAxisSuffix="min"
@@ -183,7 +190,7 @@ const styles = StyleSheet.create({
   },
   chartcontainer: {
     width: Dimensions.get("window").width * 0.9,
-    alignItems: "center", 
+    alignItems: "center",
     justifyContent: "center",
     marginTop: "10%",
   },
@@ -205,7 +212,7 @@ const styles = StyleSheet.create({
   },
   smallSummaryText: {
     marginLeft: 10,
-    fontSize: 14
+    fontSize: 14,
   },
   pageTitle: {
     alignSelf: "flex-start",
@@ -228,7 +235,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
-  }
+  },
 });
 
 function getDaysInWeek() {

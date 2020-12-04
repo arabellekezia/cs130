@@ -20,7 +20,6 @@ function SignupScreen({ navigation }) {
 
   async function signup() {
     if (!validateFields({ name, email, password, confirmPassword }, setError)) {
-      console.log(err);
       return;
     }
     const isSuccess = await AuthenticationService.signup(name, email, password);
@@ -165,6 +164,7 @@ function ErrorMessage({ message }) {
         marginLeft: "6%",
         color: "red",
       }}
+      testID="error-message"
       children={message}
     />
   );

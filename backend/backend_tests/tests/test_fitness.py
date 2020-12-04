@@ -156,5 +156,13 @@ class TestFitness(unittest.TestCase):
         self.assertEqual(result[1]['WorkoutType'],'Jogging')
         self.assertEqual(result[2]['WorkoutType'],'Dancing')
         
+    def test_9_incorrect_database(self):
+        """
+        Test database insertion for a single user with incorrect database. Test case to increase the coverage. 
+        """
+        fitness = Fitness(None, self.user_id_1)
+        s = fitness.insert_in_database(self.fitness_dict, date_time=self.dt1)
+        self.assertFalse(s)
+        
 if __name__ == '__main__':
     unittest.main()
