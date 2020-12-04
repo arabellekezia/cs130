@@ -1,4 +1,4 @@
-from flask import Flask, request
+Parametersfrom flask import Flask, request
 import requests
 from datetime import datetime, timezone, timedelta
 import json
@@ -28,7 +28,7 @@ def enterWorkout():
     Allows users to enter workout data. If successful, returns the number of
     calories burned and 200 code. Returns error otherwise.
 
-    Input Parameters
+    Parameters
     ----------
     weight : int
         Weight of the user.
@@ -65,7 +65,7 @@ def getNutritionalData():
     If successful, returns the number of
     calories burned and 200 code. Returns error otherwise.
 
-    Input Parameters
+    Parameters
     ----------
     item : str / int
         Item name in string or barcode number if user scans a barcode.
@@ -110,7 +110,7 @@ def getAvailableFoods():
     """
     Uses the Edamam API to search available foods given item name or barcode.
 
-    Input Parameters
+    Parameters
     ----------
     item : str / int
         Item name in string or barcode number if user scans a barcode.
@@ -163,7 +163,7 @@ def login():
     """
     Login method using user's email and password.
 
-    Input Parameters
+    Parameters
     ----------
     email : str
         User's email.
@@ -197,7 +197,7 @@ def register():
     """
     Register new user.
 
-    Input Parameters
+    Parameters
     ----------
     email : str
         User's email.
@@ -245,7 +245,7 @@ def getMeals():
     """
     Fetch all logged meals from database given a time period.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -293,7 +293,7 @@ def addMeal():
     """
     Log meal and add it to database.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -354,7 +354,7 @@ def getSleepData():
     """
     Fetch all logged sleep periods from database given a time period.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -402,7 +402,7 @@ def insertSleepEntry():
     """
     Log meal and add it to database.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -448,7 +448,7 @@ def getFitnessData():
     """
     Fetch all logged fitness data from database given a time period.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -496,7 +496,7 @@ def getAllGoals():
     """
     Fetch all of the user's set goals.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -535,7 +535,7 @@ def getTypeGoals():
     """
     Fetch a certain goal given the type.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -581,7 +581,7 @@ def changeGoal():
     """
     Change a specific goal.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique token based on user ID.
@@ -626,7 +626,7 @@ def check_goal_value(data):
     """
     Helper function for changeGoal method. Checks current goal given type.
 
-    Input Parameters
+    Parameters
     ----------
     data : str
         Type of goal we want to check.
@@ -657,7 +657,7 @@ def check_goal_type(data):
     """
     Helper function that checks validity of the goal type passed in.
 
-    Input Parameters
+    Parameters
     ----------
     data : Dict[any]
         Data dictionary containing the type of goal passed in.
@@ -684,7 +684,7 @@ def check_datetimes(data):
     """
     Helper function that checks datetime formatting.
 
-    Input Parameters
+    Parameters
     ----------
     data : Dict[any]
         Dictionary containing dateFrom and dateTo dates.
@@ -718,7 +718,7 @@ def check_token(data):
     """
     Helper function that checks user's token.
 
-    Input Parameters
+    Parameters
     ----------
     data : Dict[any]
         Dictionary containing user's token that needs to be checked.
@@ -740,7 +740,7 @@ def getIdFromToken(token):
     """
     Helper function that gets user's ID given token.
 
-    Input Parameters
+    Parameters
     ----------
     token : str
         Unique user token.
@@ -767,5 +767,5 @@ if __name__ == '__main__':
     print(test)
     DB_OBJECT = DB(test)
     USER = User(DB_OBJECT)
-       
+
     app.run(host="0.0.0.0", port=5000, debug=False)
