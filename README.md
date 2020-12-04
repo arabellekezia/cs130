@@ -161,14 +161,14 @@ We follow this [link] (https://shunsvineyard.info/2019/09/19/use-sphinx-for-pyth
    
 4. Configure the `conf.py` file. Open `docs/source/conf.py` and use the following configurations:
 
-   -Path Setup: Uncommend the three lines and use the following path:
-    ![](images/path_setup.png)
+   - Path Setup: Uncommend the three lines and use the following path:
+     ![](images/path_setup.png)
     
-   -Use the following extensions:
-   ![](images/extensions.png)
+   - Use the following extensions:
+     ![](images/extensions.png)
    
-   -Set the html theme:
-   ![](images/theme.png)
+   - Set the html theme:
+     ![](images/theme.png)
    
 5. Go back to the `cs130/docs` folder and run `sphinx-apidoc -f -o source/ ../backend/`. It should create two rst files:
    ![](images/rst_files.png)
