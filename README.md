@@ -146,7 +146,7 @@ On the front end, we use [Jest](https://jestjs.io/) as the testing library. To p
 npm test
 ```
 
-On the backend, we will be testing using Python's unittest framework. For our unit and component tests, we created a shell script to set up the test database, run the tests, give conerage and pass/fail statistics, and then remove the tables from the database. Just run:
+On the backend, we will be testing using Python's unittest framework. For our unit and component tests, we created a shell script to set up the test database, run the tests, give coverage and pass/fail statistics, and then remove the tables from the database. Just run:
 
 ```
 ./backend/backend_tests/run_all_tests.sh
