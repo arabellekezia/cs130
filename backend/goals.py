@@ -6,27 +6,27 @@ from typing import Any, List, Dict, Tuple, Optional
 
 class Goals():
     """
-    A class used to represent Goals.
+    A class used to represent a users health goals.
 
     ...
 
     Attributes
     ----------
     _database_manager : DB
-        The database manager.
+        The database manager. (Private member variable)
     _user_id : int
-        The unique user id.
+        The unique user id. (Private member variable)
     _table_name : str
-        The name of the goal table.
+        The name of the goal table. (Private member variable)
     _params : List[str]
-        Column names for the goal table useful for the frontend.
+        Column names for the goal table, useful for the frontend. (Private member variable)
 
     Methods
     -------
     set_goal(input_dict: Dict, input_dict_keys: List[str], input_dict_types: Dict[str, Any]) -> bool
         Inserts goals in the database.
     get_latest_goal(Type: str) -> Tuple[List[Dict], bool]
-        Returns the latest goal depending on the type.
+        Returns the latest goal depending on the type: Calories, FitnessMinutes or SleepDuration.
     get_all_goals() -> Tuple[List[Dict], bool]
         Returns all the goals stored in the goals table.
     get_type_goals(Type: str) -> Tuple[List[Dict], bool]
@@ -56,11 +56,12 @@ class Goals():
     def _get_params(self, params: List[str]) -> str:
         """
         Converts a list of strings (subset of column names of the goals table) into a string which can be used to query the database.
+        For example, the function converts ['Type', 'Value'] to 'Type, Value', so that this can be used to query the database.
         
         Parameters
         ----------
         params : List[str]
-            List of a subset of columns of the table 'table_name' for which data is returned given a get query.
+            List of a subset of columns of the goal table.
             
         Returns
         -------
@@ -77,12 +78,12 @@ class Goals():
     def set_goal(self, input_dict: Dict[str, Any], input_dict_keys: Optional[List[str]] = ['Type', 'Value'],
                  input_dict_types: Optional[Dict[str, Any]] = {'Type': str, 'Value': float}) -> bool:
         """
-        Inserts input in the database. Returns true if success otherwise false
+        Sets a new user goal: for diet, fitness or sleep. Returns True if the insertion is performed successfully otherwise returns False
     
         Parameters
         ----------
         input_dict : Dict[str, Any]
-            The input dictionary with keys 'input_dict_keys' i.e. Type, Value
+            The input dictionary with keys 'input_dict_keys' i.e. Type (the goal type), Value (its corresponding value)
         input_dict_keys : Optional[List[str]]
             The keys of 'input_dict' in a List, defaults to field names in the Goals table.
         input_dict_types: Optional[Dict[str, Any]]

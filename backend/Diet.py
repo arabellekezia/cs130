@@ -4,9 +4,15 @@ import copy
 from backend.db import DB
 from typing import List, Dict, Any, Tuple, Optional
 
+PARAMS_DIET = ['Item', 'ServingSize', 'Cals', 'Protein', 'Carbs', 'Fat', 'Fiber', 'Barcode', 'Datetime', 'UserID']
+INPUT_KEYS = ['Item', 'ServingSize', 'Barcode', 'nutri_dict']
+NUTRI_KEYS = ['Cals','Protein','Fat','Carbs','Fiber']
+INPUT_TYPES = {'Item': str,'ServingSize': float,'Barcode': bool,'nutri_dict': None}
+NUTRI_TYPES = {'Cals': float,'Protein': float,'Fat': float,'Carbs': float,'Fiber': float}
+
 class Diet(Health):
     """
-    A class used to represent Diet. 
+    A class used to represent a users ndiet. 
     
     Inherits the Health class.
 
@@ -15,25 +21,24 @@ class Diet(Health):
     Attributes
     ----------
     _database_manager : DB
-        The database manager.
+        The database manager. (Private member variable)
     _user_id : int
-        The unique user id.
+        The unique user id. (Priavte member variance)
     _table_name : str
-        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep.
+        The PyMySQL table name for Diet. (Priavate member variable)
     _params : List[str]
-        List of strings corresponding to the columns of table 'table_name'. The frontend does not require all
-        the columns from the database, for instance, user name or email is not required for computing the total calories.
+        List of strings corresponding to the columns of the diet table. The frontend does not require all the
+        columns from the database, for instance, username/email is not required for computing the total calories. (Private member variable)
 
     Methods
     -------
     get_columns_give_range(start_date: datetime, end_date: datatima) -> Tuple[List[Dict],bool]
-        Returns data from the diet table between a given date-time range.
-    insert_in_database(input_dict: Dict, input_dict_keys: List[str], nutri_dict_keys: List[str], input_dict_types: Dict[str, Any],
-                       nutri_dict_types: Dict[str, Any], date_time: datetime) -> bool
-        Inserts the input into the diet table.
+        Returns data from the diet table between a given date-time range. Useful for computing the daily and weekly nutritional values.
+    insert_in_database(input_dict: Dict, date_time: datetime) -> bool
+        Inserts the user meal with its nutritional values into the diet table.
     """
     def __init__(self, database_manager: DB, user_id: int,
-                 params_diet: Optional[List[str]] = ['Item', 'ServingSize', 'Cals', 'Protein', 'Carbs', 'Fat', 'Fiber', 'Barcode', 'Datetime', 'UserID']) -> None:
+                 params_diet: Optional[List[str]] = PARAMS_DIET) -> None:
         """
         Initializes the diet class.
         
@@ -49,26 +54,19 @@ class Diet(Health):
         super().__init__(database_manager, user_id, 'Diet', params_diet)
         
     def insert_in_database(self, input_dict: Dict,
-                           input_dict_keys: Optional[List[str]] = ['Item', 'ServingSize', 'Barcode', 'nutri_dict'],
-                           nutri_dict_keys: Optional[List[str]] = ['Cals','Protein','Fat','Carbs','Fiber'],
-                           input_dict_types: Optional[Dict[str, Any]] = {'Item': str,'ServingSize': float,'Barcode': bool,'nutri_dict': None},
-                           nutri_dict_types: Optional[Dict[str, Any]] = {'Cals': float,'Protein': float,'Fat': float,'Carbs': float,'Fiber': float},
-                           date_time: Optional[datetime] = None) -> bool:
+                           date_time: Optional[datetime] = None) -> bool:  
         """
-        Inserts input in the database. Returns True if insertion is successful otherwise returns False. The input_dict consists of the
-        item label, serving size, barcode indicator and the nutrient dictionary for the item which either comes from the api or throught manual entry.
+        Inserts a user meal along with its nutritional contents in the database. Returns True if insertion is successful otherwise returns False. 
+        The input_dict (user meal) consists of the item label, serving size, barcode indicator and the nutrient dictionary for the item. The nutrients
+        are obtained using the Edamam API either through a string query look-up or a barcode scan.
 
         Parameters
-        ----------
+        ---------- 
         input_dict : Dict
-            The input dictionary with fields and values that need to be entered into the database for the Diet table.
-        input_dict_keys : Optional[List[str]]
-            The keys of the input_dict, these correspond to fields in the Diet table. Defaulted to a List of all the fields.
-        input_dict_types : Optional[Dict[str, Any]]
-            The fields and corresponding data types in the Diet table, defaulted to the schema of the table.
+            The input dictionary corresponding to a user meal including the nutritional value of the meal.
         date_time : Optional[datetime]
-            Manually entered datetime for the food entry, defaults to None since the database is configured to use
-            CURRENT_TIMESTAMP when one is not provided.
+            Manually entered datetime for a meal entry, defaults to None since the database is configured to use
+            current timestamp when 'date_time' is not provided. This is useful for testing the backend methods.
         
         Returns
         -------
@@ -77,18 +75,18 @@ class Diet(Health):
         """    
         for k in input_dict.keys():
             
-            if k not in input_dict_keys:
+            if k not in INPUT_TYPES:
                 return False
             
-            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+            if ((INPUT_TYPES[k] is not None) and (not isinstance(input_dict[k],INPUT_TYPES[k]))):
                 return False
                 
         for k in input_dict['nutri_dict'].keys():
             
-            if k not in nutri_dict_keys:
+            if k not in NUTRI_KEYS:
                 return False
         
-            if not isinstance(input_dict['nutri_dict'][k],nutri_dict_types[k]):
+            if not isinstance(input_dict['nutri_dict'][k],NUTRI_TYPES[k]):
                 return False
         
         data_dict = copy.deepcopy(input_dict)

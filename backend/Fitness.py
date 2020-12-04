@@ -4,9 +4,13 @@ from datetime import datetime
 from backend.db import DB
 from typing import List, Dict, Any, Tuple, Optional
 
+PARAMS_FITNESS = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']
+INPUT_KEYS = ['WorkoutType', 'Minutes', 'CaloriesBurned']
+INPUT_TYPES = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float}
+
 class Fitness(Health):
     """
-    A class used to represent Fitness
+    A class used to represent users Fitness, monitor workout and track the caloried burned.
     
     Inherits the Health class.
 
@@ -15,25 +19,25 @@ class Fitness(Health):
     Attributes
     ----------
     _database_manager : DB
-        The database manager.
+        The database manager. (Private member variable)
     _user_id : int
-        The unique user id.
+        The unique user id. (Private member variable)
     _table_name : str
-        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep.
+        The PyMySQL table name for Fitness. (Private member variable.) 
     _params : List[str]
-        List of strings corresponding to the columns of table 'table_name'. The frontend does not require all
-        the columns from the database, for instance, user name or email is not required for computing the total workout minutes.
+        List of strings corresponding to the columns of the fitness table. The frontend does not require all the columns
+        from the fitness table, for instance, user name or email is not required for computing the total workout minutes. (Private member variable)
 
     Methods
     -------
     get_columns_give_range(start_date: datetime, end_date: datatima) -> Tuple[List[Dict],bool]
-        Returns data from the fitness table between a given date-time range.
-    insert_in_database(input_dict: Dict, input_dict_keys: List[str], input_dict_types: Dict[str, Any],date_time: datetime) -> bool
-        Inserts the fitness entry in the fitness table.
+        Returns data from the fitness table between a given date-time range. Useful for computing the daily and weekly statistics.
+    insert_in_database(input_dict: Dict, date_time: datetime) -> bool
+        Inserts the fitness entry (workout, calories burned etc) into the fitness table.
     """
     
     def __init__(self, database_manager: DB, user_id: int,
-                 params_fitness: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned', 'Datetime', 'UserID']) -> None:
+                 params_fitness: Optional[List[str]] = PARAMS_FITNESS) -> None:
         """
         Initializes the fitness class.
         
@@ -49,24 +53,18 @@ class Fitness(Health):
         super().__init__(database_manager, user_id, 'Fitness', params_fitness)
     
     def insert_in_database(self, input_dict: Dict,
-                          input_dict_keys: Optional[List[str]] = ['WorkoutType', 'Minutes', 'CaloriesBurned'],
-                          input_dict_types: Optional[Dict[str, Any]] = {'WorkoutType': str, 'Minutes': float, 'CaloriesBurned': float},
                           date_time: Optional[datetime] = None) -> bool:
         """
-        Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
-        the workout type, workout duration in minutes and the amount of calories burned.
+        Inserts the workout input in the database. Returns True if the insertion is successful otherwise False. 
+        The 'input_dict' (workout session) contains the workout type, workout duration in minutes and the amount of calories burned.
 
         Parameters
         ----------
         input_dict : Dict
             The input dictionary with fields and values that need to be entered into the database for the Fitness table.
-        input_dict_keys : Optional[List[str]]
-            The keys of the input_dict, these correspond to fields in the Fitness table. Defaulted to a List of all the fields.
-        input_dict_types : Optional[Dict[str, Any]]
-            The fields and corresponding data types in the Fitness table, defaulted to the schema of the table.
         date_time : Optional[datetime]
             Manually entered datetime for the workout entry, defaults to None since the database is configured to use
-            CURRENT_TIMESTAMP when one is not provided.
+            current timestamp when 'date_time' is not provided. This is useful for testing the fitness class.
             
         Returns
         -------
@@ -75,10 +73,10 @@ class Fitness(Health):
         """    
         for k in input_dict.keys():
             
-            if k not in input_dict_keys:
+            if k not in INPUT_KEYS:
                 return False
             
-            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+            if ((INPUT_TYPES[k] is not None) and (not isinstance(input_dict[k], INPUT_TYPES[k]))):
                 return False
         
         data_dict = copy.deepcopy(input_dict)

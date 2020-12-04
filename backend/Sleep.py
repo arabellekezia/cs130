@@ -4,9 +4,13 @@ import copy
 from typing import List, Dict, Any, Tuple, Optional
 from backend.db import DB
 
+PARAMS_SLEEP = ['Minutes', 'Nap', 'SleepTime', 'WakeupTime', 'Datetime', 'UserID']
+INPUT_KEYS = ['SleepTime', 'WakeupTime', 'Nap']
+INPUT_TYPES = {'SleepTime': datetime,'WakeupTime': datetime,'Nap': bool}
+
 class Sleep(Health):
     """
-    A class used to represent Sleep
+    A class used to represent a users sleep.
     
     Inherits the Health class.
 
@@ -15,24 +19,24 @@ class Sleep(Health):
     Attributes
     ----------
     _database_manager : DB
-        The database manager.
+        The database manager. (Private member varaible)
     _user_id : int
-        The unique user id.
+        The unique user id. (Private member varaible)
     _table_name : str
-        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep.
+        The table name for sleep. (Private member varaible)
     _params : List[str]
-        List of strings corresponding to the columns of table 'table_name'. The frontend does not require all
-        the columns from the database, for instance, user name or email is not required for computing the total workout minutes.
+        List of strings corresponding to the columns of the sleep table. The frontend does not require all the columns from the
+        database, for instance, user name or email is not required for computing the total sleep in a given day. (Private member varaible)
 
     Methods
     -------
     get_columns_give_range(start_date: datetime, end_date: datatima) -> Tuple[List[Dict],bool]
-        Returns data from the sleep table between a given date-time range.
-    insert_in_database(input_dict: Dict, input_dict_keys: List[str], input_dict_types: Dict[str, Any], data_time: datetime) -> bool
+        Returns data from the sleep table between a given date-time range. Useful for computing the daily and weekly statistics.
+    insert_in_database(input_dict: Dict, data_time: datetime) -> bool
         Inserts the sleep entry in the sleep table.
     """    
     def __init__(self, database_manager: DB, user_id: int,
-                 params_sleep: Optional[List[str]] = ['Minutes', 'Nap', 'SleepTime', 'WakeupTime', 'Datetime', 'UserID']) -> None:
+                 params_sleep: Optional[List[str]] = PARAMS_SLEEP) -> None:
         """
         Initializes the sleep class.
         
@@ -49,23 +53,15 @@ class Sleep(Health):
 
 
     def insert_in_database(self, input_dict: Dict,
-                           input_dict_keys: Optional[List[str]] = ['SleepTime', 'WakeupTime', 'Nap'],
-                           input_dict_types: Optional[Dict[str,Any]] = {'SleepTime': datetime,'WakeupTime': datetime,'Nap': bool},
                            date_time: Optional[datetime] = None) -> bool:
         """
-        Inserts input in the database. Returns True if the insertion is successful otherwise False. The 'input_dict' contains
-        the sleep time, wakeup time and an indicator if the sleep is a nap or a regular night sleep.
+        Inserts sleep entry in the database. Returns True if the insertion is successful otherwise False. 
+        The 'input_dict' (the sleep entry) contains the sleep time, wakeup time and an indicator if the sleep is a nap or a regular night sleep.
 
         Parameters
         ----------
         input_dict : Dict
-            The input dictionary with keys 'input_dict_keys' i.e. 'SleepTime', 'WakeupTime' and 'Nap'
-        input_dict_keys : Optional[List[str]]
-            The keys of 'input_dict' which contain all the fields to insert into the Sleep table of the database.
-            Defaults to all needed fields in the Sleep table.
-        input_dict_types : Optional[Dict[str,Any]]
-            The keys and respective datatypes of the input_dict. Defaults to the field names and field types of the Sleep
-            table.
+            The input dictionary with keys 'input_dict_keys' i.e. 'SleepTime', 'WakeupTime' and 'Nap'.
         date_time : Optional[datetime]
             Manually entered datetime for the sleep entry. Defaults to None since the database can use CURRENT_TIMESTAMP.
             
@@ -76,10 +72,10 @@ class Sleep(Health):
         """    
         for k in input_dict.keys():
             
-            if k not in input_dict_keys:
+            if k not in INPUT_KEYS:
                 return False
             
-            if ((input_dict_types[k] is not None) and (not isinstance(input_dict[k],input_dict_types[k]))):
+            if ((INPUT_TYPES[k] is not None) and (not isinstance(input_dict[k],INPUT_TYPES[k]))):
                 return False
 
         duration = input_dict['WakeupTime'] - input_dict['SleepTime']
@@ -104,10 +100,10 @@ class Sleep(Health):
         Gets data from the Sleep table between 'start_date' and 'end_date'. We need to over-write the 
         function from the Health class because for sleep when given a start and end date we find all the
         entries whose wake up time is between the two entries, rather than the the date-time of the database entry.
-        This is done because the total sleep in a day can a cumulative sum of all the sleeps with wake up times
+        This is done because the total sleep in a day is a cumulative sum of all the sleeps with wake up times
         in that day. For instance, when a user wakes up in the morning of Dec 4, we will include that sleep
         for Dec 4, similarly if the user has any naps throughtout that day it will also be included in Dec 4.
-        So the wake up time is really useful here.
+        So the wake up time is usef here for fetching data from the sleep table.
 
         Parameters
         ----------
@@ -120,7 +116,7 @@ class Sleep(Health):
         -------
         result : Tuple[Any, bool]
             Returns a list of dictionaries between 'start_date' to 'end_date' from the Sleep table, None if no entries,
-            and -1 for errors. The second part of the tuple returns True if the query is succesful, False otherwise.
+            and -1 for errors. The second entry of the tuple returns True if the query is succesful, False otherwise.
         """
         query = (f"SELECT {self._get_params(self._params)} FROM {self._table_name} "\
                  f"join Users on Users.id={self._table_name}.UserID "\

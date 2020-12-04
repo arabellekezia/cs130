@@ -6,23 +6,23 @@ import copy
 
 class Health(ABC):
     """
-    A class used to represent Health
+    A class used to represent the user Health.
     
-    The main abstract base class for our app which is inherited by the three major components: Diet, Fitness, and Sleep.
+    The main abstract class for our app which is inherited by the three major components: Diet, Fitness, and Sleep.
 
     ...
 
     Attributes
     ----------
     _database_manager : DB
-        The database manager.
+        The database manager. (Private member variable)
     _user_id : int
-        The unique user id.
+        The unique user id. (Private member variable)
     _table_name : str
-        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep.
+        The name of the table which stores data for a particular aspect of health: Diet, Fitness, Sleep. (Private member variable)
     _params : List[str]
         List of strings corresponding to the columns of table 'table_name'. The frontend does not require all
-        the columns from the database, for instance, user name or email is not required for computing the total calories.
+        the columns from the database, for instance, user name or email is not required for computing the total calories/sleep duration etc. (Private member variable)
 
     Methods
     -------

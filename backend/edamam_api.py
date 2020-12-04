@@ -7,18 +7,18 @@ class EdamamAPI():
     """
     The Edamam food API.
 
-    Provides the nutrient information for a food item when provided with the food name or the barcode number.
+    Provides the nutrient information for a food item (user meal) when provided with the food name or the barcode number.
 
     ...
 
     Attributes
     ----------
     _url : str
-        The API url.
+        The API url. (Private member variable)
     _key : str
-        The API key.
+        The API key. (Private member variable)
     _host : str
-        The API host.
+        The API host. (Private member variable)
     headers : str
         The API headers.
     transform_dict : Dict[str, str]
@@ -72,7 +72,8 @@ class EdamamAPI():
 
     def get_food_information(self, query: str, upc: Optional[bool] = False) -> Dict:
         """
-        Computes the nutrient information for a given query from the Edamam Food API.
+        Computes the nutrient information for a given query using the external Edamam Food API.
+        (https://developer.edamam.com)
 
         Parameters
         ----------
@@ -102,8 +103,8 @@ class EdamamAPI():
 
     def get_top_matches(self, query: str, upc: Optional[bool] = False, k: Optional[int] = 5, serving_size: Optional[float] = 1.0) -> Tuple[Dict[int, Any], bool]:
         """
-        Returns the top k matches from the Edamam Food API for a given query. For each match it returns the total nutrients consumed
-        after taking the serving size into account.
+        Returns the top k matches from the Edamam Food API for a given food query. For each match it returns the total nutrients consumed
+        after taking the serving size into account. Returns 5 major nutrients, calories, fats, carbs, fibers and proteins.
 
         Parameters
         ----------
@@ -119,7 +120,8 @@ class EdamamAPI():
         Returns
         -------
         results : Tuple[Dict[int, Any], bool]
-            Returns a dictionary of the top k matches ranked, and the second part of the Tuple is True if food API query is successful,
+            Returns a dictionary of the top k matches ranked in decreasing order of similarity, i.e. the most closest match
+            will the element corresponding to key=0, and the second entry of the Tuple is True if external API query is successful,
             False otherwise.
 
         Notes
