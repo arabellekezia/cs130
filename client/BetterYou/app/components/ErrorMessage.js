@@ -9,6 +9,7 @@ function ErrorMessage({ message }) {
         marginLeft: "6%",
         color: "red",
       }}
+      testID="error-message"
     >
       {message}
     </AppText>

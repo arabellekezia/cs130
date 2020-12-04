@@ -2,9 +2,15 @@ from backend.edamam_api import EdamamAPI
 import unittest
 
 class TestEdamamAPI(unittest.TestCase):
+    """
+    Tests for the Edamam API.
+    """
 
     @classmethod
     def setUpClass(self):
+        """
+        Set up the unit test.
+        """
         self.api = EdamamAPI()
         self.query_list = ['apple',\
                            'jamba juice orange carrot karma smoothie, 22 fl oz', \

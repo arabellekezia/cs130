@@ -12,11 +12,12 @@ import ErrorMessage from "../components/ErrorMessage";
 import { ScrollView } from "react-native-gesture-handler";
 import FitnessService from "../services/FitnessService";
 
-function isValidInput(category, activeTime, setError) {
+function isValidInput(category, activeTime, weight, setError) {
   const validCategory = isValidCategory(category);
   const validActiveTime = isValidActiveTime(activeTime);
-  setError({ category: !validCategory, activeTime: !validActiveTime });
-  return validCategory && validActiveTime;
+  const validWeight = isValidWeight(weight);
+  setError({ category: !validCategory, activeTime: !validActiveTime, weight: !validWeight });
+  return validCategory && validActiveTime && validWeight;
 }
 
 function isNumber(value) {
@@ -31,13 +32,17 @@ function isValidCategory(category) {
   return category.length > 0;
 }
 
+function isValidWeight(weight) {
+  return isNumber(weight) && weight > 0;
+}
+
 function FitnessEntryFormScreen({ navigation, route }) {
   const initTime = route.params ? route.params.elapsedTime / 1000 / 60 : 0;
 
   const [category, setCategory] = useState("");
   const [activeTime, setActiveTime] = useState(initTime);
   const [weight, setWeight] = useState(0);
-  const [err, setError] = useState({ category: false, activeTime: false });
+  const [err, setError] = useState({ category: false, activeTime: false, weight: false });
 
   const activities = [
     { label: "Cycling", value: "Bicycling: 12-13.9 mph" },
@@ -50,8 +55,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
   ];
 
   async function submit() {
-    if (!isValidInput(category, activeTime, setError)) {
-      console.log(err);
+    if (!isValidInput(category, activeTime, weight, setError)) {
       return;
     }
     await FitnessService.addFitnessEntry(weight, activeTime, category);
@@ -63,7 +67,10 @@ function FitnessEntryFormScreen({ navigation, route }) {
       return <ErrorMessage message="Must select a category." />;
     }
     if (error.activeTime) {
-      return <ErrorMessage message="Must input a number greater than 0." />;
+      return <ErrorMessage message="Must input active time greater than 0." />;
+    }
+    if (error.weight) {
+      return <ErrorMessage message="Must input a weight greater than 0." />;
     }
   }
 
@@ -84,7 +91,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
           dropDownStyle={styles.dropDownList}
           onChangeItem={(item) => {
             setCategory(item.value);
-            setError({ category: false, activeTime: false });
+            setError({ category: false, activeTime: false, weight: false });
           }}
         />
 
@@ -95,7 +102,7 @@ function FitnessEntryFormScreen({ navigation, route }) {
           keyboardType="numeric"
           onChangeText={(time) => {
             setActiveTime(Number.parseFloat(time));
-            setError({ category: false, activeTime: false });
+            setError({ category: false, activeTime: false, weight: false });
           }}
         />
 
@@ -105,8 +112,8 @@ function FitnessEntryFormScreen({ navigation, route }) {
           value={weight > 0 ? weight.toString() : ""}
           keyboardType="numeric"
           onChangeText={(weight) => {
-            setWeight(weight);
-            setError({ category: false, activeTime: false });
+            setWeight(Number.parseFloat(weight));
+            setError({ category: false, activeTime: false, weight: false });
           }}
         />
 

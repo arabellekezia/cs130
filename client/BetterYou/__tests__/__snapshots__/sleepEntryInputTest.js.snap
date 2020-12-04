@@ -1,0 +1,405 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sleep entry input form renders correctly 1`] = `
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#fff",
+        "flex": 1,
+        "justifyContent": "center",
+        "padding": 10,
+      },
+      Object {
+        "paddingTop": 44,
+      },
+    ]
+  }
+>
+  <RCTScrollView
+    collapsable={false}
+    keyboardShouldPersistTaps="handled"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    style={
+      Object {
+        "padding": 10,
+      }
+    }
+  >
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderColor": "black",
+            "borderRadius": 10,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginVertical": 10,
+            "padding": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {},
+              Array [
+                Object {
+                  "fontSize": 16,
+                },
+                Object {
+                  "fontWeight": "bold",
+                },
+              ],
+            ]
+          }
+        >
+          Is this a nap?
+        </Text>
+        <RCTSwitch
+          accessibilityRole="switch"
+          collapsable={false}
+          onChange={[Function]}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          onTintColor="#81b0ff"
+          style={
+            Array [
+              Object {
+                "height": 31,
+                "width": 51,
+              },
+              Object {
+                "backgroundColor": "#3e3e3e",
+                "borderRadius": 16,
+              },
+            ]
+          }
+          thumbTintColor="#f4f3f4"
+          tintColor="#767577"
+          value={false}
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "padding": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {},
+              Object {
+                "fontSize": 16,
+              },
+            ]
+          }
+        >
+          What time did you start sleeping?
+        </Text>
+        <RCTSafeAreaView
+          emulateUnlessSupported={true}
+          style={
+            Array [
+              undefined,
+              Object {
+                "paddingTop": 44,
+              },
+            ]
+          }
+        >
+          <RNGestureHandlerButton
+            collapsable={false}
+            onGestureEvent={[Function]}
+            onGestureHandlerEvent={[Function]}
+            onGestureHandlerStateChange={[Function]}
+            onHandlerStateChange={[Function]}
+            rippleColor={0}
+          >
+            <View
+              accessible={true}
+              style={
+                Object {
+                  "backgroundColor": "#efefef",
+                  "borderRadius": 10,
+                  "flexDirection": "row",
+                  "marginVertical": 10,
+                  "padding": 15,
+                  "width": "100%",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Array [
+                    Object {},
+                    Object {
+                      "color": "#7e7e7e",
+                      "flex": 1,
+                      "fontSize": 18,
+                    },
+                  ]
+                }
+              >
+                Select a time
+              </Text>
+              <Text />
+            </View>
+          </RNGestureHandlerButton>
+          <Modal
+            animationType="none"
+            hardwareAccelerated={false}
+            isVisible={false}
+            onHide={[Function]}
+            transparent={true}
+            visible={false}
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "black",
+                  "bottom": 0,
+                  "height": 1334,
+                  "left": 0,
+                  "opacity": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 750,
+                }
+              }
+            />
+          </Modal>
+          <Modal
+            animationType="none"
+            hardwareAccelerated={false}
+            isVisible={false}
+            onHide={[Function]}
+            transparent={true}
+            visible={false}
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "black",
+                  "bottom": 0,
+                  "height": 1334,
+                  "left": 0,
+                  "opacity": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 750,
+                }
+              }
+            />
+          </Modal>
+        </RCTSafeAreaView>
+        <Text
+          style={
+            Array [
+              Object {},
+              Object {
+                "fontSize": 16,
+              },
+            ]
+          }
+        >
+          What time did you wake up?
+        </Text>
+        <RCTSafeAreaView
+          emulateUnlessSupported={true}
+          style={
+            Array [
+              undefined,
+              Object {
+                "paddingTop": 44,
+              },
+            ]
+          }
+        >
+          <RNGestureHandlerButton
+            collapsable={false}
+            onGestureEvent={[Function]}
+            onGestureHandlerEvent={[Function]}
+            onGestureHandlerStateChange={[Function]}
+            onHandlerStateChange={[Function]}
+            rippleColor={0}
+          >
+            <View
+              accessible={true}
+              style={
+                Object {
+                  "backgroundColor": "#efefef",
+                  "borderRadius": 10,
+                  "flexDirection": "row",
+                  "marginVertical": 10,
+                  "padding": 15,
+                  "width": "100%",
+                }
+              }
+            >
+              <Text />
+              <Text
+                style={
+                  Array [
+                    Object {},
+                    Object {
+                      "color": "#7e7e7e",
+                      "flex": 1,
+                      "fontSize": 18,
+                    },
+                  ]
+                }
+              >
+                Select a time
+              </Text>
+              <Text />
+            </View>
+          </RNGestureHandlerButton>
+          <Modal
+            animationType="none"
+            hardwareAccelerated={false}
+            isVisible={false}
+            onHide={[Function]}
+            transparent={true}
+            visible={false}
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "black",
+                  "bottom": 0,
+                  "height": 1334,
+                  "left": 0,
+                  "opacity": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 750,
+                }
+              }
+            />
+          </Modal>
+          <Modal
+            animationType="none"
+            hardwareAccelerated={false}
+            isVisible={false}
+            onHide={[Function]}
+            transparent={true}
+            visible={false}
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "black",
+                  "bottom": 0,
+                  "height": 1334,
+                  "left": 0,
+                  "opacity": 0,
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                  "width": 750,
+                }
+              }
+            />
+          </Modal>
+        </RCTSafeAreaView>
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#007AFF",
+                "borderRadius": 10,
+                "justifyContent": "center",
+                "marginVertical": 10,
+                "minWidth": 110,
+                "paddingHorizontal": 30,
+                "paddingVertical": 12,
+              }
+            }
+          >
+            <Text
+              style={
+                Array [
+                  Object {},
+                  Object {
+                    "color": "white",
+                    "fontSize": 18,
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              Submit
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RCTSafeAreaView>
+`;

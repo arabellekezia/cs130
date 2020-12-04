@@ -14,7 +14,6 @@ else {
   });
 }
 
-
 server.interceptors.response.use(
   (res) => res,
   (err) => {

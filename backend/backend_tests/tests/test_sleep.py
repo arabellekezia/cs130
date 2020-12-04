@@ -7,9 +7,15 @@ import time
 import copy
 
 class TestSleep(unittest.TestCase):
+    """
+    Tests for Sleep.py
+    """
 
     @classmethod
     def setUpClass(self):
+        """
+        Set up the unittest.
+        """
         self.db = DB()
         
         self.email = 'abc@gmail.com' 

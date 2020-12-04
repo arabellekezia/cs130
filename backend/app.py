@@ -1,8 +1,9 @@
-Parametersfrom flask import Flask, request
+from flask import Flask, request
 import requests
 from datetime import datetime, timezone, timedelta
 import json
 import sys
+from typing import Union, Any, List, Dict, Tuple
 from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
@@ -67,16 +68,16 @@ def getNutritionalData():
 
     Parameters
     ----------
-    item : str / int
+    item : Union[str, int]
         Item name in string or barcode number if user scans a barcode.
     barcode : Optional[bool]
         True if user scans barcode, False otherwise.
-    serving_size : float
+    ServingSize : float
         Serving size of the item.
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the nutritional
         data of the given food item. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -104,7 +105,6 @@ def getNutritionalData():
         food_dict = json.dumps(food_dict)
         return food_dict, 200
 
-# params: item - str/int, barcode - optional boolean, nMatches -  optional int, serving_size - float
 @app.route('/getAvailableFoods', methods=['GET'])
 def getAvailableFoods():
     """
@@ -112,18 +112,18 @@ def getAvailableFoods():
 
     Parameters
     ----------
-    item : str / int
+    item : Union[str, int]
         Item name in string or barcode number if user scans a barcode.
     barcode : Optional[bool]
         True if user scans barcode, False otherwise. Defaults to False.
     nMatches : Optional[int]
         Number of food matches from the API. Defaults to 5.
-    serving_size : float
+    ServingSize : float
         Serving size of the item.
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         matches of the given food item. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -157,7 +157,6 @@ def getAvailableFoods():
         food_dict = json.dumps(food_dict)
         return food_dict, 200
 
-# params: email - str, password - str
 @app.route('/auth/login', methods=['POST'])
 def login():
     """
@@ -191,7 +190,6 @@ def login():
         return "Incorrect login information.", 400
     return USER.encode_token(id)
 
-# params: email - str, password - str, fullname - str
 @app.route('/register', methods=['POST'])
 def register():
     """
@@ -239,7 +237,6 @@ def register():
     else:
         return "Unable to register new user, they possibly already have an account", 400
 
-# params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getMeals', methods=['GET'])
 def getMeals():
     """
@@ -249,14 +246,14 @@ def getMeals():
     ----------
     token : str
         Unique token based on user ID.
-    dateFrom : datetime
+    dateFrom : timestamp
         Start date of the data that wants to be fetched.
-    dateTo : datetime
+    dateTo : timestamp
         End date of the data that wants to be fetched.
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the meal data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -287,7 +284,6 @@ def getMeals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, item - str, ServingSize - float, barcode - optional boolean
 @app.route('/addMeal', methods=['POST'])
 def addMeal():
     """
@@ -297,6 +293,8 @@ def addMeal():
     ----------
     token : str
         Unique token based on user ID.
+    item : Union[str, int]
+        Food item name or barcode.
     ServingSize : float
         Serving size of the food consumed.
     barcode : Optional[bool]
@@ -348,7 +346,6 @@ def addMeal():
     else:
         return "Successful", 200
 
-# params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getSleepData', methods=['GET'])
 def getSleepData():
     """
@@ -358,14 +355,14 @@ def getSleepData():
     ----------
     token : str
         Unique token based on user ID.
-    dateFrom : datetime
+    dateFrom : timestamp
         Start date of the data that wants to be fetched.
-    dateTo : datetime
+    dateTo : timestamp
         End date of the data that wants to be fetched.
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the sleep data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -396,7 +393,6 @@ def getSleepData():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp, nap - optional bool
 @app.route('/insertSleepEntry', methods=['POST'])
 def insertSleepEntry():
     """
@@ -406,10 +402,12 @@ def insertSleepEntry():
     ----------
     token : str
         Unique token based on user ID.
-    dateFrom : datetime
+    dateFrom : timestamp
         User's sleep time.
-    dateTo : datetime
+    dateTo : timestamp
         User's wake up time.
+    nap : Optional[bool]
+        If this entry is a nap, defaults to False for not a nap.
 
     Returns
     -------
@@ -442,7 +440,6 @@ def insertSleepEntry():
     else:
         return 'Successful', 200
 
-# params: token - str, dateFrom - datetime timestamp, dateTo - datetime timestamp
 @app.route('/getFitnessData', methods=['GET'])
 def getFitnessData():
     """
@@ -452,14 +449,14 @@ def getFitnessData():
     ----------
     token : str
         Unique token based on user ID.
-    dateFrom : datetime
+    dateFrom : timestamp
         Start date of the data that wants to be fetched.
-    dateTo : datetime
+    dateTo : timestamp
         End date of the data that wants to be fetched.
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the fitness data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -490,7 +487,6 @@ def getFitnessData():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str
 @app.route('/getAllGoals', methods=['GET'])
 def getAllGoals():
     """
@@ -503,7 +499,7 @@ def getAllGoals():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         all of the user's goals. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -529,7 +525,6 @@ def getAllGoals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, type - str
 @app.route('/getTypeGoals', methods=['GET'])
 def getTypeGoals():
     """
@@ -545,7 +540,7 @@ def getTypeGoals():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         all of the user's goals. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -555,7 +550,7 @@ def getTypeGoals():
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
     if goal_data['status_code'] != 200:
-        return goal_type['msg'], goal_type['status_code']
+        return goal_data['msg'], goal_data['status_code']
     goal_type = goal_data['type']
     token = check_token(args)
     if token['status_code'] != 200:
@@ -575,7 +570,6 @@ def getTypeGoals():
         db_data = json.dumps(db_data)
         return db_data, 200
 
-# params: token - str, type - str, value - float
 @app.route('/changeGoal', methods=['POST'])
 def changeGoal():
     """
@@ -628,7 +622,7 @@ def check_goal_value(data):
 
     Parameters
     ----------
-    data : str
+    data : Dict[Any]
         Type of goal we want to check.
         Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
 
@@ -659,7 +653,7 @@ def check_goal_type(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Data dictionary containing the type of goal passed in.
         Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
 
@@ -686,12 +680,12 @@ def check_datetimes(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Dictionary containing dateFrom and dateTo dates.
 
     Returns
     -------
-    result : Dict[datetime, datetime, int] / Dict[str, int]
+    result : Union[Dict[datetime, datetime, int], Dict[str, int]]
         If successful, returns a dict containing the converted datetime values
         for dateTo and dateFrom, and HTTP status code. Otherwise, returns dict
         containing HTTP error message and status code.
@@ -703,8 +697,8 @@ def check_datetimes(data):
         return {"msg": "Please provide 'dateTo' datetime parameter",
                 "status_code": 400}
     try:
-        timestamp_from = int(data['dateFrom'])
-        timestamp_to = int(data['dateTo'])
+        timestamp_from = float(data['dateFrom'])
+        timestamp_to = float(data['dateTo'])
         dateFrom = datetime.fromtimestamp(timestamp_from) + timedelta(hours=8);
         dateTo = datetime.fromtimestamp(timestamp_to) + timedelta(hours=8);
     except:
@@ -720,12 +714,12 @@ def check_token(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Dictionary containing user's token that needs to be checked.
 
     Returns
     -------
-    result : Dict[int, int] / Dict[str, int]
+    result : Union[Dict[int, int], Dict[str, int]]
         If successful, returns dictionary of the HTTP status code and user token.
         Otherwise, returns dictionary of HTTP error message and status code.
     """
