@@ -73,19 +73,15 @@ class TestStaywellAPI(unittest.TestCase):
         cals, status = self.staywellAPI.staywell(data, self.userID, actual_db)
         
         data = {'weight': 140, 'workout': 'Tennis', 'minutes': 90}
-        actual_db = backend.db.DB()
         cals_1, status_1 = self.staywellAPI.staywell(data, self.userID, actual_db)
         
         data = {'weight': 170, 'workout': 'Tennis', 'minutes': 90}
-        actual_db = backend.db.DB()
         cals_2, status_2 = self.staywellAPI.staywell(data, self.userID, actual_db)
         
         data = {'weight': 200, 'workout': 'Tennis', 'minutes': 90}
-        actual_db = backend.db.DB()
         cals_3, status_3 = self.staywellAPI.staywell(data, self.userID, actual_db)
         
         data = {'weight': 50, 'workout': 'Tennis', 'minutes': 90}
-        actual_db = backend.db.DB()
         cals_4, status_4 = self.staywellAPI.staywell(data, self.userID, actual_db)
         
         assert mock_db.called
