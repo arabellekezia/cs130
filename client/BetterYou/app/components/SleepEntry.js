@@ -6,10 +6,12 @@ import moment from "moment";
 
 /**
  * This function produces a visual component that organizes and displays a single Sleep Entry in a visually appealing way
- * @param {StyleSheet} style Possible Additional stylesheet (optional)
- * @param {string} sleeptime timestamp string like "10:00 pm" that represents sleep start
- * @param {string} waketime timestamp string like "10:00 am" that represents time waking up
- * @param {number} minutes number of minutes slept
+ * @module
+ * @param { Object } ParameterObj The Object that encompasses all the parameters
+ * @param {StyleSheet} ParameterObj.style Possible Additional stylesheet (optional)
+ * @param {string} ParameterObj.sleeptime timestamp string like "10:00 pm" that represents sleep start
+ * @param {string} ParameterObj.waketime timestamp string like "10:00 am" that represents time waking up
+ * @param {number} ParameterObj.minutes number of minutes slept
  * @returns {View} A View that contains everything to be displayed with the parameters filling in the details
  */
 function SleepEntry({ style, sleeptime, waketime, minutes }) {
@@ -18,7 +20,6 @@ function SleepEntry({ style, sleeptime, waketime, minutes }) {
 
   return (
     <View style={{ ...styles.container, ...style }}>
-      {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
       <SummaryItem
         name="power-sleep"
         size={40}

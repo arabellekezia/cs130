@@ -1,6 +1,7 @@
 import server from "../utils/server";
 import { storeUserToken, clearUserToken } from "../utils/token";
 
+/** @module AuthenticationService */
 const AuthenticationService = {
   /**
    * POST request to verify login and fetch the user token

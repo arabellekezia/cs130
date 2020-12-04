@@ -5,14 +5,16 @@ import { PieChart } from "react-native-chart-kit";
 
 /**
  * This component is made so we can utilize PieChart from react-native-chart-kit in our other components much more easily.
- * @param { Object } data Data that is accepted by PieChart to process
- * @param { string } accessor Property in the data object from which the number values are taken
- * @param { string } paddingLeft padding on the left of the chart
- * @param { boolean } absolute true = real values on pie chart legend, false = percentages
- * @param { Function => string } [color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the pie slices
- * @param { Function => string } [labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
- * @param { string } [backgroundColor = "#ffffff"] Sets background color of chart
- * @param { number } [scaleDimensions = 1] Number with which to scale the chart size
+ * @module
+ * @param { Object } ParameterObj The Object that encompasses all the parameters
+ * @param { Object } ParameterObj.data Data that is accepted by PieChart to process
+ * @param { string } ParameterObj.accessor Property in the data object from which the number values are taken
+ * @param { string } ParameterObj.paddingLeft padding on the left of the chart
+ * @param { boolean } ParameterObj.absolute true = real values on pie chart legend, false = percentages
+ * @param { Function => string } [ParameterObj.color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the pie slices
+ * @param { Function => string } [ParameterObj.labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
+ * @param { string } [ParameterObj.backgroundColor = "#ffffff"] Sets background color of chart
+ * @param { number } [ParameterObj.scaleDimensions = 1] Number with which to scale the chart size
  * @returns {PieChart} A PieChart with the following paramters added and consistent configuration for the whole application
  */
 function AppPieChart({

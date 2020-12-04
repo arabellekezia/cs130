@@ -3,6 +3,7 @@ import { getUserToken } from "../utils/token";
 import DateUtils from "../utils/date";
 import moment from "moment";
 
+/** @module NutritionService */
 const NutritionService = {
   /**
    * sends POST request to add the meal that is chosen by user
@@ -35,7 +36,7 @@ const NutritionService = {
    * sends GET request to gets the meals logged within the user database that are within the dates listed
    * @param {Unix Timestamp} dateFrom The date to fetch data from
    * @param {Unix Timestamp} dateTo The date to fetch data to
-   * @return {List} A list of all foods in that date interval with its name and stats compiled in an object
+   * @return {Array} An array of all foods in that date interval with its name and stats compiled in an object
    */ 
   getMeals: async (dateFrom, dateTo) => {
     try {
@@ -56,7 +57,7 @@ const NutritionService = {
   /**
    * Helper function to call getMeals specified for the single day
    * @param {moment object} [day = moment()] The day date to fetch data from
-   * @return {List} The food entries fetched from database
+   * @return {Array} The food entries fetched from database
    */ 
   getDailyMealEntries: async (day = moment()) => {
     const today = DateUtils.getDayTimeRange(day);

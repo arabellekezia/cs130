@@ -14,6 +14,7 @@ const APIActivityToActivityName = new Map([
   ["Weightlifting: general", "Weightlifting"],
 ]);
 
+/** @module FitnessService */
 const FitnessService = {
   /**
    * GET request to get fitness entries from the specified date interval for the user specified with token

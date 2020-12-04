@@ -1,0 +1,22 @@
+toc:
+  - name: Components
+    description: |
+        These are separate and reusable functional components for use in overall screens of the application
+    children:
+    - AppBarChart
+    - AppLineChart
+    - AppPieChart
+    - AppProgressRing
+    - AppStackedBarChart
+    - FitnessEntry
+    - IndivMacroCard
+    - SleepEntry
+  - name: Services
+    description: |
+        These are functions to be used for the client-side API calls
+    children:
+    - AuthenticationService
+    - FitnessService
+    - GoalsService
+    - NutritionService
+    - SleepService

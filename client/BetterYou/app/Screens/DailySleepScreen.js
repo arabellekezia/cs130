@@ -17,6 +17,7 @@ import { useIsFocused } from "@react-navigation/native";
 import DailySleepEntries from "../components/DailySleepEntries";
 import SleepService from "../services/SleepService";
 
+
 function DailySleepScreen({ route }) {
   const [isReady, setReady] = useState(false);
   const [sleepEntries, setSleepEntries] = useState({ sleep: [], naps: [] });
@@ -58,34 +59,6 @@ function DailySleepScreen({ route }) {
         >
           <TitleText style={styles.pageTitle} children="Sleep" />
           <AppText style={styles.dateHeader} children={getToday(date)} />
-          {/*<View style={styles.sleepsummary}>
-            {/* TODO: This portion should be changed to accomodate calculations from backend data 
-            <SummaryItem
-              name="power-sleep"
-              size={40}
-              detail="1:30"
-              unit="AM"
-              label="Started Sleep"
-              style={styles.summaryindividual}
-            />
-            <SummaryItem
-              name="alarm"
-              size={40}
-              detail="7:10"
-              unit="AM"
-              label="Woke Up"
-              style={styles.summaryindividual}
-            />
-            <SummaryItem
-              name="sleep"
-              size={40}
-              detail={5.6}
-              unit="Hours"
-              label="Time Slept"
-              style={styles.summaryindividual}
-            />
-          </View>
-          */}
 
           <DailySleepEntries
             style={styles.sleepLog}
@@ -149,40 +122,13 @@ const styles = StyleSheet.create({
   },
 });
 
-/**
- *
- * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
- */
+
 function getToday(date) {
-  //making this function in case this has to work with backend if not might simplify later
   return moment(date).format("dddd, MMMM Do");
 }
 
-/**
- *
- * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
- */
 
 async function getTodaySleepEntries(date) {
-  //TODO: change from hardcoded to integration
-  /* Note from evan - backend allows us to differentiate between naps + actual sleep, so i'm using that info */
-
-  // return {
-  //   sleep: {
-  //     sleeptime: "10:00 pm",
-  //     waketime: "6:00 am",
-  //   },
-  //   naps: [
-  //     {
-  //       sleeptime: "11:00 pm",
-  //       waketime: "8:00 am",
-  //     },
-  //     {
-  //       sleeptime: "11:00 pm",
-  //       waketime: "8:00 am",
-  //     },
-  //   ],
-  // };
   try {
     const sleepEntries = await SleepService.getDailySleepEntries(date);
     const groupedSleepEntries = await groupSleepByCategory(sleepEntries);

@@ -103,10 +103,6 @@ function WeeklySleepScreen() {
             style={styles.dateHeader}
             children={getWeeklyHeader(currentWeek)}
           />
-          {/* <HeaderText
-            style={styles.sectionHeader}
-            children={"Weekly Summary"}
-          /> */}
           <View style={styles.chartcontainer}>
             <AppText
               style={styles.chartHeader}
@@ -290,10 +286,6 @@ function printSleepDiffText(diff) {
   }
 }
 
-/**
- *
- * @param {*} weeklySleep : 2-dimensional array of daily sleep
- */
 function getTotalHoursPerDay(weeklySleep) {
   const dataSet = [];
 

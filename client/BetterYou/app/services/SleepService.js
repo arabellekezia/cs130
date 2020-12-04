@@ -6,6 +6,7 @@ import moment from "moment";
 import { millisecondTimeStampToSeconds } from "../utils/time";
 import DateUtils from "../utils/date";
 
+/** @module SleepService */
 const SleepService = {
   /**
    * POST request to add sleep entries with the parameters for the user specified with token
@@ -36,7 +37,7 @@ const SleepService = {
   /**
    * GET request to get sleep entries of the certain day
    * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
-   * @return {List} List of sleep entries
+   * @return {Array} Array of sleep entries
    */ 
   getDailySleepEntries: async (date) => {
     const startOfDate = millisecondTimeStampToSeconds(
@@ -61,7 +62,7 @@ const SleepService = {
   },
   /**
    * uses getDailySleepEntries() to get all sleep entries for a given week
-   * @return {List} List of sleep entries for the week, each index for one day
+   * @return {Array} Array of sleep entries for the week, each index for one day
    */ 
   getWeeklySleepEntries: async () => {
     const days = DateUtils.getDaysInWeek();

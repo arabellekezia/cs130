@@ -5,14 +5,16 @@ import { ProgressChart } from "react-native-chart-kit";
 
 /**
  * This component is made so we can utilize ProgressRing from react-native-chart-kit in our other components much more easily.
- * @param { Object } data Data that is accepted by ProgressRing to process
- * @param { Function => string } [color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the rings
- * @param { Function => string } [labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
- * @param { number } [strokeWidth = 16] Thickness of the ring
- * @param { number } [radius = 32] Radius of the ring
- * @param { string } [backgroundColor = "#ffffff"] Sets background color of chart
- * @param { number } [scaleDimensions = 1] Number with which to scale the chart size
- * @param { boolean } hideLegend True = hide the legend, False = keep legend
+ * @module
+ * @param { Object } ParameterObj The Object that encompasses all the parameters
+ * @param { Object } ParameterObj.data Data that is accepted by ProgressRing to process
+ * @param { Function => string } [ParameterObj.color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the rings
+ * @param { Function => string } [ParameterObj.labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
+ * @param { number } [ParameterObj.strokeWidth = 16] Thickness of the ring
+ * @param { number } [ParameterObj.radius = 32] Radius of the ring
+ * @param { string } [ParameterObj.backgroundColor = "#ffffff"] Sets background color of chart
+ * @param { number } [ParameterObj.scaleDimensions = 1] Number with which to scale the chart size
+ * @param { boolean } ParameterObj.hideLegend True = hide the legend, False = keep legend
  * @returns {ProgressRing} A ProgressRing with the following paramters added and consistent configuration for the whole application
  */
 function AppProgressRing({

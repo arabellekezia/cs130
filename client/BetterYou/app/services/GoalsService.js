@@ -5,6 +5,7 @@ const DIET_GOAL_TYPE = "Calories";
 const FITNESS_GOAL_TYPE = "FitnessMinutes";
 const SLEEP_GOAL_TYPE = "SleepHours";
 
+/** @module GoalsService */
 const GoalsService = {
   /**
    * General function that sends a POST request to set goal with the parameters in the user's database
@@ -50,7 +51,7 @@ const GoalsService = {
   },
   /**
    * Returns the logged in user's goals as {calories, activeTime, sleepDuration}.
-   * @return {Object} Goals in separate indicies
+   * @return {Object} Goals in separate indices
    */ 
   getAllGoals: async () => {
     try {
@@ -126,7 +127,7 @@ const GoalsService = {
     }
   },
   /**
-   * Helper that calls setGoal() for only Calorie goals
+   * Helper that calls setGoal() for only Sleep Duration goals
    * @param {number} duration Minutes of Sleep to set as goal
    * @return {void}
    */ 
