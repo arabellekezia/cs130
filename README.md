@@ -32,7 +32,7 @@ The backend of the project lives inside the `backend/` folder. This folder conta
 To get started running our backend server:
 
 1. Install the latest version of Python (3.7 or higher)
-2. In the terminal, install the dependencies by running: (TODO: add requirements.txt)
+2. In the terminal, install the dependencies by running:
    ```
    pip install -r backend/requirements.txt
    ```
@@ -169,8 +169,6 @@ For our functional tests:
    ```
    python3.7 backend/backend_tests/drop_test_tables.py
    ```
-
-TODO
 
 ## Doc Generation
 
