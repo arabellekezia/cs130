@@ -148,7 +148,9 @@ TODO
 ### Frontend
 
 The frontend documentation is automatically generated using [Documentation.js](https://documentation.js.org/).
+
 The generated HTML file can be found under: `client/BetterYou/frontendDocumentation`.
+
 Here are the steps to reproduce/update the automatic generation of frontend documentation:
 
 1. Globally install Documentation.js using the [npm](https://www.npmjs.com/) package manager:
