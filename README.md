@@ -87,7 +87,7 @@ To get started running our backend server:
    node --version
    ```
 
-   If you do not have it installed, this [guide may be useful](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/). Or on Windows, this [guide may be useful](https://codeburst.io/nvm-for-windows-how-to-install-and-use-13b7a4209791)
+   If you do not have it installed, this [guide may be useful](https://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/). Or on Windows, this [guide may be useful](https://codeburst.io/nvm-for-windows-how-to-install-and-use-13b7a4209791).
 
    For development, we used v14.15.0.
 
@@ -125,13 +125,13 @@ To get started running our backend server:
 
 7. To run the app on iOS simulator (Mac users only):
 
-   - Make sure you have XCode installed. Or install it (here)[https://developer.apple.com/xcode/].
+   - Make sure you have XCode installed. Or install it [here](https://developer.apple.com/xcode/).
    - Open XCode, at the top bar, go to XCode -> Open Developer Tools -> Simulator
    - From the simulator, you can choose the type of device from File- -> Open Device
    - Then from the terminal that is running the app, you can press “i” to run the app in your simulator (or in the Metro Bundler, click “Run on iOS simulator”)
 
 8. To run the app on an Android Emulator:
-   - Follow the (guide)[https://docs.expo.io/workflow/android-studio-emulator/] to set up your Android emulator. You will need to install Android Studio and select which device to emulate.
+   - Follow the [guide](https://docs.expo.io/workflow/android-studio-emulator/) to set up your Android emulator. You will need to install Android Studio and select which device to emulate.
 
 ## Testing
 
