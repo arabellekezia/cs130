@@ -74,18 +74,18 @@ class Goals():
         params_string = params_string[:-2]
         return params_string
     
-    def set_goal(self, input_dict: Dict[Any], input_dict_keys: Optional[List[str]] = ['Type', 'Value'],\
-                 input_dict_types: Optional[Dict[str, Any]] = {'Type': str,'Value': float}) -> bool:
+    def set_goal(self, input_dict: Dict[str, Any], input_dict_keys: Optional[List[str]] = ['Type', 'Value'],
+                 input_dict_types: Optional[Dict[str, Any]] = {'Type': str, 'Value': float}) -> bool:
         """
         Inserts input in the database. Returns true if success otherwise false
     
         Parameters
         ----------
-        input_dict : Dict[Any]
+        input_dict : Dict[str, Any]
             The input dictionary with keys 'input_dict_keys' i.e. Type, Value
         input_dict_keys : Optional[List[str]]
             The keys of 'input_dict' in a List, defaults to field names in the Goals table.
-        input_types: Optional[Dict[str, Any]]
+        input_dict_types: Optional[Dict[str, Any]]
             List with the data types of input_dict, defaults to fields and types for the Goals table.
                     
         Returns
@@ -94,7 +94,6 @@ class Goals():
             Returns True if entry is without errors otherwise False.
         """ 
         for k in input_dict.keys():
-
             if k not in input_dict_keys:
                 return False
 
