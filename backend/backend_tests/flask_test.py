@@ -2,6 +2,7 @@ import requests
 import unittest
 import backend.app
 from datetime import datetime, timedelta
+
 class FlaskTest(unittest.TestCase):
 
     @classmethod
@@ -19,7 +20,7 @@ class FlaskTest(unittest.TestCase):
 
         self.token = requests.post(self.url + 'login', data=self.user)
 
-        dateTo = datetime.utcnow()
+        dateTo = datetime.now()
         dateFrom = dateTo - timedelta(days=1)
         self.get_data = {'token': self.token,
                         'dateFrom': dateFrom,
@@ -237,7 +238,7 @@ class FlaskTest(unittest.TestCase):
         """
         Test inserting sleep data to the database.
         """
-        dateTo = datetime.utcnow()
+        dateTo = datetime.now()
         dateFrom = dateTo - timedelta(hours=6) - timedelta(minutes=27)
         data = {'token':self.token,
                 'dateFrom': dateFrom,
@@ -252,7 +253,7 @@ class FlaskTest(unittest.TestCase):
         Test inserting incorrect sleep data to the database.
         """
         method = 'insertSleepEntry'
-        dateTo = datetime.utcnow()
+        dateTo = datetime.now()
         dateFrom = dateTo - timedelta(hours=6) - timedelta(minutes=27)
 
         data1 = {'token':self.token,
@@ -261,7 +262,7 @@ class FlaskTest(unittest.TestCase):
         req = requests.post(self.url + method, data=data1)
         self.assertNotEqual(req, 200)
 
-        dateTo2 = datetime.now()
+        dateTo2 = datetime.utcnow()
         dateFrom2 = dateTo - timedelta(hours=6) - timedelta(minutes=27)
         data2 = {'token':self.token,
                 'dateFrom': dateFrom2,
