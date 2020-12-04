@@ -4,9 +4,15 @@ from backend.user import User
 from backend.goals import Goals
 
 class TestGoals(unittest.TestCase):
+    """
+    Test for goals.py
+    """
 
     @classmethod
     def setUpClass(self):
+        """
+        Set up the unit test.
+        """
         self.db = DB()
         
         self.email = 'abc@gmail.com'

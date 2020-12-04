@@ -5,14 +5,23 @@ import string
 from backend.db import DB 
 from backend.user import User
 
-def get_random_string(length):
+def get_random_string(length: int) -> str:
+    """
+    Generates a random string of length 'length'
+    """
     letters = string.ascii_lowercase
     result_str = ''.join(random.choice(letters) for i in range(length))
 
 class TestUser(unittest.TestCase):
+    """
+    Tests for user.py
+    """
 
     @classmethod
     def setUpClass(self):
+        """
+        Set up the unit test.
+        """
         self.db = DB()
         self.email = 'abc@gmail.com'
         self.password = 'defghi'
@@ -78,6 +87,9 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user.check_password_match(email,password),-1)
         
     def test_token(self):
+        """
+        Test the encoding and decoding token functions.
+        """
         num = 10
         token, code = self.user.encode_token(num)
         dec_num, dec_code = self.user.decode_token(token)

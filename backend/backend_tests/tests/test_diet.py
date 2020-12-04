@@ -7,9 +7,15 @@ import time
 import copy
  
 class TestDiet(unittest.TestCase):
+    """
+    Tests for Diet.py
+    """
 
     @classmethod
     def setUpClass(self):
+        """
+        Set up the unit test.
+        """
         self.db = DB()
         
         self.email = 'abc@gmail.com' 
