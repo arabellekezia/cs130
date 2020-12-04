@@ -74,14 +74,14 @@ class Goals():
         params_string = params_string[:-2]
         return params_string
     
-    def set_goal(self, input_dict: Dict, input_dict_keys: Optional[List[str]] = ['Type', 'Value'],\
+    def set_goal(self, input_dict: Dict[Any], input_dict_keys: Optional[List[str]] = ['Type', 'Value'],\
                  input_dict_types: Optional[Dict[str, Any]] = {'Type': str,'Value': float}) -> bool:
         """
         Inserts input in the database. Returns true if success otherwise false
     
         Parameters
         ----------
-        input_dict : Dict
+        input_dict : Dict[Any]
             The input dictionary with keys 'input_dict_keys' i.e. Type, Value
         input_dict_keys : Optional[List[str]]
             The keys of 'input_dict' in a List, defaults to field names in the Goals table.

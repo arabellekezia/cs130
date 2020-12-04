@@ -660,7 +660,7 @@ def check_goal_type(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Data dictionary containing the type of goal passed in.
         Available options are: 'FitnessMinutes', 'Calories', 'SleepHours'
 
@@ -687,7 +687,7 @@ def check_datetimes(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Dictionary containing dateFrom and dateTo dates.
 
     Returns
@@ -721,7 +721,7 @@ def check_token(data):
 
     Parameters
     ----------
-    data : Dict[any]
+    data : Dict[Any]
         Dictionary containing user's token that needs to be checked.
 
     Returns
