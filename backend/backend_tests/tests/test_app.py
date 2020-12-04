@@ -2,6 +2,7 @@ import requests
 import unittest
 from datetime import datetime, timedelta, timezone
 from backend.db import DB
+from backend.app import app
 
 # TODO: change tests from names to test_# due to execution order
 # manually check db where indicated
@@ -246,7 +247,7 @@ class FlaskAppTest(unittest.TestCase):
         resp = requests.post(self.url + method, data=data3)
         self.assertNotEqual(resp.status_code, 200)
 
-    def test_getFitnessData(self):
+    def test_n_getFitnessData(self):
         """
         Test fetching data for Fitness from the database.
         """
