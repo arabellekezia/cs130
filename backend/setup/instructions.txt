@@ -6,6 +6,7 @@ Imports (for python3.7):
   - coverage
   - requests
   - sphinx_rtd_theme
+  - sphinx
 
 Database:
   - install MySQL
@@ -20,9 +21,16 @@ Environment Vars:
 App:
   - after setting up the Database, Environment Vars, and Imports as mentioned above, run 'python3.7 app.py'
 
-Tests:
+Tests (Unit/Componenet Tests in backend/backend_tests/tests):
   - run on python3.7 or higher
   - ammend python path to include location of this repo
   - run the shell script (all backend tests included) provided in backend/backend_tests/run_all_tests.sh
     * NOTE: this creates needed tables in test DB, runs all tests, then removes the tables from the test instance
   - ammend python path to include location of this repo
+
+Complete Functional Test:
+  - set up test db: 'python3.7 backend_tests/set_up_test_db.py'
+  - run 'python3.7 app.py test'
+  - run tests: 'python3.7 backend_tests/test_app.py'
+  - to remove all the created db tables in test db after running test, run: 'python3.7 backend_tests/drop_test_tables.py'
+
