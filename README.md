@@ -149,11 +149,11 @@ TODO
 
 The html link to the backend documentation: `docs/source/build/backend.html`
 
-We follow this [link] (https://shunsvineyard.info/2019/09/19/use-sphinx-for-python-documentation/) to generate Sphinx documentation.
+We follow this [link](https://shunsvineyard.info/2019/09/19/use-sphinx-for-python-documentation/) to generate Sphinx documentation.
 
 1. Install Sphinx and Sphinx-RTD-Theme: `pip install -U sphinx` and `pip install sphinx_rtd_theme`
 
-2. Create a `docs/` folder. We already have one `cs130/docs`, to redo the documentation generation just delete current `docs` and create a new `docs` inside `cs130`.
+2. Create a `docs/` folder. We already have one `cs130/docs`, to redo the documentation generation just delete current `docs` and create a new `docs` folder inside `cs130`.
 
 3. Go to the `docs/` folder in the terminal and run `sphinx-quickstart`. You will be asked a set of questions, use the following answers:
 
