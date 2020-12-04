@@ -48,5 +48,19 @@ describe('Fitness goals input form', () => {
     expect(validationError.props.children)
         .toBe("Your daily active time goal must be a number.");
   });
+
+  it("No error message should be shown with a valid input.", () => {
+    const {getByText, queryByTestId, getByPlaceholderText} = wrapper;
+
+    const goalTextInput = getByPlaceholderText("30 minutes"); 
+    const enteredGoal = "30";
+    fireEvent(goalTextInput, 'onChangeText', enteredGoal);
+    
+    const saveButton = getByText("Save");
+    fireEvent.press(saveButton);
+  
+    const validationError = queryByTestId("error-message");
+    expect(validationError).toBe(null);
+  });
 });
 

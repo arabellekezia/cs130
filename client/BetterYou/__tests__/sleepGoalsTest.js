@@ -65,5 +65,19 @@ describe('Sleep goals input form', () => {
     expect(validationError.props.children)
         .toBe("Your goal must be a number.");
   });
+
+  it("No error message should be shown with a valid sleep goal.", () => {
+    const {getByText, queryByTestId, getByPlaceholderText} = wrapper;
+
+    const goalTextInput = getByPlaceholderText("7 hours"); 
+    const enteredGoal = "6";
+    fireEvent(goalTextInput, 'onChangeText', enteredGoal);
+    
+    const saveButton = getByText("Save");
+    fireEvent.press(saveButton);
+  
+    const validationError = queryByTestId("error-message");
+    expect(validationError).toBe(null);
+  });
 });
 

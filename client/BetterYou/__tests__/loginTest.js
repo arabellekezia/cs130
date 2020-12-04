@@ -44,5 +44,23 @@ describe('Login Form', () => {
     expect(validationError.props.children)
         .toBe("Incorrect email or password.");
   });
+
+  it("No error message should appear with valid email and password.", () => {
+    const {getByText, queryByTestId, getByPlaceholderText } = wrapper;
+    
+    const emailTextInput = getByPlaceholderText("Email"); 
+    const enteredEmail = "test@gmail.com";
+    fireEvent(emailTextInput, 'onChangeText', enteredEmail);
+
+    const passwordTextInput = getByPlaceholderText("Password"); 
+    const enteredPassword = "12345678";
+    fireEvent(passwordTextInput, 'onChangeText', enteredPassword);
+
+    const loginButton = getByText("Login");
+    fireEvent.press(loginButton);
+  
+    const validationError = queryByTestId("error-message");
+    expect(validationError).toBe(null);
+  });
 });
 

@@ -15,6 +15,20 @@ describe('Diet goals input form', () => {
       expect(wrapper).toMatchSnapshot();
   });
 
+  it("No error message is displayed with valid input.", () => {
+    const {getByText, queryByTestId, getByPlaceholderText} = wrapper;
+
+    const goalTextInput = getByPlaceholderText("2000 cal"); 
+    const enteredGoal = "1800";
+    fireEvent(goalTextInput, 'onChangeText', enteredGoal);
+    
+    const saveButton = getByText("Save");
+    fireEvent.press(saveButton);
+  
+    const validationError = queryByTestId("error-message");
+    expect(validationError).toBe(null);
+  });
+
   it("Shows error message if daily calorie budget is less than 1000 calories (not reasonable input)", () => {
     const {getByText, queryByTestId, getByPlaceholderText} = wrapper;
 
