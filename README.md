@@ -146,6 +146,30 @@ On the front end, we use [Jest](https://jestjs.io/) as the testing library. To p
 npm test
 ```
 
+On the backend, we will be testing using Python's unittest framework. For our unit and component tests, we created a shell script to set up the test database, run the tests, give conerage and pass/fail statistics, and then remove the tables from the database. Just run:
+
+```
+./backend/backend_tests/run_all_tests.sh
+```
+
+For our functional tests:
+1. Set up test database:
+   ```
+   python3.7 backend/backend_tests/set_up_test_db.py
+   ```
+2. Run test instance of app:
+   ```
+   python3.7 backend/app.py test
+   ```
+3. Run functional tests (it will show you pass/fail statistics:
+   ```
+   python3.7 backend/backend_tests/test_app.py
+   ```
+4. Done! If desired, remove all the tables/data from test database with:
+   ```
+   python3.7 backend/backend_tests/drop_test_tables.py
+   ```
+
 TODO
 
 ## Doc Generation
