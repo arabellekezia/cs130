@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 
 import AppText from "../components/AppText";
 import TitleText from "../components/TitleText";
@@ -37,7 +43,7 @@ function DailyNutritionScreen({ route }) {
     loadMealEntriesAndStats().then(() => {
       if (mounted) {
         setReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -47,18 +53,20 @@ function DailyNutritionScreen({ route }) {
 
   const loadMealEntriesAndStats = async () => {
     setReady(false);
-    const { entries, calStats, macroStats } = await getTodaysMealsAndStats(date);
+    const { entries, calStats, macroStats } = await getTodaysMealsAndStats(
+      date
+    );
 
     setMealEntries(entries);
     setCalStats(calStats);
-    setMacroStats(macroStats)
+    setMacroStats(macroStats);
 
     //setReady(true);
   };
 
   const progressRingData = {
     //labels: ["Calories"], // optional
-    data: [calStats.calRatio], 
+    data: [calStats.calRatio],
   };
 
   const pieChartData = [
@@ -87,54 +95,56 @@ function DailyNutritionScreen({ route }) {
 
   return (
     <SafeAreaView>
+      {!isReady && (
+        <ActivityIndicator animating={!isReady} size="large" color="#343434" />
+      )}
       {isReady && (
-      <ScrollView
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.container}
-      >
-        <TitleText style={styles.pageTitle} children="Nutrition" />
-        <AppText style={styles.dateHeader} children={getToday(date)} />
+        <ScrollView
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.container}
+        >
+          <TitleText style={styles.pageTitle} children="Nutrition" />
+          <AppText style={styles.dateHeader} children={getToday(date)} />
 
-        <DailyNutritionCharts 
-          selectedChartType={selectedChartType} 
-          calStats={calStats} 
-          progressRingData={progressRingData}
-          pieChartData={pieChartData}
-        />
+          <DailyNutritionCharts
+            selectedChartType={selectedChartType}
+            calStats={calStats}
+            progressRingData={progressRingData}
+            pieChartData={pieChartData}
+          />
 
-        <SegmentedControlTab
-          tabsContainerStyle={{ width: "80%" }}
-          values={["Total Calories", "Macronutrients"]}
-          selectedIndex={selectedChartType}
-          onTabPress={(chartType) => setSelectedChartType(chartType)}
-        />
+          <SegmentedControlTab
+            tabsContainerStyle={{ width: "80%" }}
+            values={["Total Calories", "Macronutrients"]}
+            selectedIndex={selectedChartType}
+            onTabPress={(chartType) => setSelectedChartType(chartType)}
+          />
 
-        <DailyMacronutrientEntries
-          style={styles.macronutrientCardContainer}
-          entries={[
-            {
-              macroName: "Carbohydrates",
-              percentage: `${macroStats.CarbPer}%`,
-              foods: pairFoodAndMacro(mealEntries, "Carbs"),
-            },
-            {
-              macroName: "Protein",
-              percentage: `${macroStats.ProteinPer}%`,
-              foods: pairFoodAndMacro(mealEntries, "Protein"),
-            },
-            {
-              macroName: "Fat",
-              percentage: `${macroStats.FatPer}%`,
-              foods: pairFoodAndMacro(mealEntries, "Fat"),
-            },
-          ]}
-        />
-      </ScrollView>
+          <DailyMacronutrientEntries
+            style={styles.macronutrientCardContainer}
+            entries={[
+              {
+                macroName: "Carbohydrates",
+                percentage: `${macroStats.CarbPer}%`,
+                foods: pairFoodAndMacro(mealEntries, "Carbs"),
+              },
+              {
+                macroName: "Protein",
+                percentage: `${macroStats.ProteinPer}%`,
+                foods: pairFoodAndMacro(mealEntries, "Protein"),
+              },
+              {
+                macroName: "Fat",
+                percentage: `${macroStats.FatPer}%`,
+                foods: pairFoodAndMacro(mealEntries, "Fat"),
+              },
+            ]}
+          />
+        </ScrollView>
       )}
     </SafeAreaView>
   );
 }
-
 
 function getToday(date) {
   //making this function in case this has to work with backend if not might simplify later
@@ -156,15 +166,20 @@ async function getTodaysMealsAndStats(date) {
     //calculating macro stats
     const macroStats = calcMacroStats(mealList);
 
-    return { 
-      entries: mealList, 
-      calStats: {current: currentCals, goal: goalCals, calRatio: currentToGoalRatio , calPercent: percentage}  ,
-      macroStats: macroStats
+    return {
+      entries: mealList,
+      calStats: {
+        current: currentCals,
+        goal: goalCals,
+        calRatio: currentToGoalRatio,
+        calPercent: percentage,
+      },
+      macroStats: macroStats,
     };
   } catch (err) {
     console.log(err);
   }
-};
+}
 
 function sumCalories(list) {
   let calsum = 0;
@@ -173,39 +188,53 @@ function sumCalories(list) {
   }
 
   return calsum;
-};
+}
 
 function calcMacroStats(foodList) {
   let totalCarbs = 0;
   let totalProtein = 0;
   let totalFat = 0;
-  
+
   for (const index in foodList) {
     totalCarbs += Math.round(foodList[index].Carbs);
     totalProtein += Math.round(foodList[index].Protein);
     totalFat += Math.round(foodList[index].Fat);
   }
-  
-  let total = totalCarbs + totalProtein + totalFat;
-  const carbPer = total !== 0 ? (totalCarbs / total * 100).toFixed(1) : 0;
-  const proteinPer = total !== 0 ? (totalProtein / total * 100).toFixed(1) : 0;
-  const fatPer = total !== 0 ? (totalFat / total * 100).toFixed(1) : 0;
 
-  return { Carbs: totalCarbs, Protein: totalProtein, Fat: totalFat, 
-           CarbPer: carbPer, ProteinPer: proteinPer, FatPer: fatPer,
+  let total = totalCarbs + totalProtein + totalFat;
+  const carbPer = total !== 0 ? ((totalCarbs / total) * 100).toFixed(1) : 0;
+  const proteinPer =
+    total !== 0 ? ((totalProtein / total) * 100).toFixed(1) : 0;
+  const fatPer = total !== 0 ? ((totalFat / total) * 100).toFixed(1) : 0;
+
+  return {
+    Carbs: totalCarbs,
+    Protein: totalProtein,
+    Fat: totalFat,
+    CarbPer: carbPer,
+    ProteinPer: proteinPer,
+    FatPer: fatPer,
   };
-};
+}
 
 function pairFoodAndMacro(foodList, macroType) {
   const pairedList = { foodarray: [] };
   for (const index in foodList) {
-    pairedList.foodarray.push({ name: foodList[index].Item, grams: Math.round(foodList[index][macroType]) });
+    pairedList.foodarray.push({
+      name: foodList[index].Item,
+      grams: Math.round(foodList[index][macroType]),
+    });
   }
 
   return pairedList;
-};
+}
 
-function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pieChartData}) {
+function DailyNutritionCharts({
+  selectedChartType,
+  calStats,
+  progressRingData,
+  pieChartData,
+}) {
   if (selectedChartType === chartOptions.CALORIES) {
     if (progressRingData.data[0] > 1) {
       //if we go over the calorie limit we display a different color to indicate it
@@ -215,7 +244,10 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
         <View style={styles.chartContainer}>
           <AppText>
             You consumed
-            <AppText style={styles.boldtext} children={` ${calStats.current} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${calStats.current} `}
+            />
             calories
           </AppText>
           <AppText>
@@ -233,7 +265,10 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
           />
           <AppText>
             You have filled
-            <AppText style={styles.overfillpercent} children={` ${calStats.calPercent}% `} />
+            <AppText
+              style={styles.overfillpercent}
+              children={` ${calStats.calPercent}% `}
+            />
             of your calorie budget
           </AppText>
         </View>
@@ -243,7 +278,10 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
         <View style={styles.chartContainer}>
           <AppText>
             You consumed
-            <AppText style={styles.boldtext} children={` ${calStats.current} `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${calStats.current} `}
+            />
             calories
           </AppText>
           <AppText>
@@ -261,7 +299,10 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
           />
           <AppText>
             You have filled
-            <AppText style={styles.boldtext} children={` ${calStats.calPercent}% `} />
+            <AppText
+              style={styles.boldtext}
+              children={` ${calStats.calPercent}% `}
+            />
             of your calorie budget
           </AppText>
         </View>
@@ -270,8 +311,11 @@ function DailyNutritionCharts({selectedChartType, calStats, progressRingData, pi
   } else {
     return (
       <View style={styles.chartContainer}>
-        <AppText style={styles.boldtext} children="Macronutrient Breakdowns (in grams): " />
-        <AppPieChart 
+        <AppText
+          style={styles.boldtext}
+          children="Macronutrient Breakdowns (in grams): "
+        />
+        <AppPieChart
           data={pieChartData}
           accessor="grams"
           paddingLeft="15"

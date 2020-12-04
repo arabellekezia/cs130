@@ -86,7 +86,7 @@ function foodList(foodList) {
   return foodList.foodarray.map((element, key) => {
     return (
       <View key={key} style={styles.foodstats}>
-        <Text style={styles.foodname} numberOfLines={1} >{element.name}</Text>
+        <Text style={styles.foodname} numberOfLines={1} >{element.name.charAt(0).toUpperCase() + element.name.slice(1)}</Text>
         <AppText children={`${element.grams}g`} />
       </View>
     );

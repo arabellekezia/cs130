@@ -4,6 +4,7 @@ Imports (for python3.7):
   - numpy
   - pymysql
   - coverage
+  - requests
 
 Database:
   - install MySQL

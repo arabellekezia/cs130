@@ -1,7 +1,13 @@
 import React from "react";
 import moment from "moment";
 
-import { SafeAreaView, StyleSheet, View, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 
 import ListItemComponent from "../components/ListItemComponent";
 import Icon from "../components/Icon";
@@ -140,7 +146,7 @@ function SummaryScreen({ navigation }) {
     fetchAllData().then(() => {
       if (mounted) {
         setIsReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
@@ -204,6 +210,9 @@ function SummaryScreen({ navigation }) {
 
   return (
     <SafeAreaView>
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
       {isReady && (
         <ScrollView
           alwaysBounceVertical={false}

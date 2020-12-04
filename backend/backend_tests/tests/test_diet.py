@@ -248,6 +248,18 @@ class TestDiet(unittest.TestCase):
         self.assertEqual(result[0]['Item'],'Apple')
         self.assertEqual(result[1]['Item'],'Orange')
         self.assertEqual(result[2]['Item'],'Banana')
+        
+    def test_10_incorrect_database(self):
+        """
+        Test database insertion for a single user with incorrect database. Test case to increase the coverage. 
+        """
+        diet = Diet(None, self.user_id_2)
+        s = diet.insert_in_database(self.diet_dict, date_time=self.dt1)
+        self.assertFalse(s)
+        d1 = date.today() + timedelta(days=1) 
+        dt1 = datetime(d1.year, d1.month, d1.day)+ timedelta(hours=8)
+        result, success = diet.get_columns_given_range(dt1, dt1+timedelta(days=1))
+        self.assertFalse(success)
 
 if __name__ == '__main__':
     unittest.main()

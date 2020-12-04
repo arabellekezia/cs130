@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import AppTextInput from "../components/AppTextInput";
@@ -11,10 +11,10 @@ import colors from "../config/colors";
 
 import NutritionService from "../services/NutritionService";
 
-
 function FoodDatabaseSearchScreen({ navigation }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [searching, setSearching] = useState(false);
 
   function renderItem({ item }) {
     return (
@@ -22,7 +22,11 @@ function FoodDatabaseSearchScreen({ navigation }) {
         bottomDivider
         onPress={() => {
           console.log("going to form page with " + item.name);
-          navigation.navigate("FoodEntryForm", { item: item.name, barcode: "false", data: item.nutrition });
+          navigation.navigate("FoodEntryForm", {
+            item: item.name,
+            barcode: "false",
+            data: item.nutrition,
+          });
         }}
       >
         <ListItem.Content>
@@ -51,7 +55,9 @@ function FoodDatabaseSearchScreen({ navigation }) {
           onPress={async () => {
             if (query) {
               // upon pressing the search button and query is sent and fetched
+              setSearching(true);
               const entries = await getListOfFoods(query);
+              setSearching(false);
               console.log(
                 `call search api with search query: ${query}, then set results`
               );
@@ -60,6 +66,9 @@ function FoodDatabaseSearchScreen({ navigation }) {
           }}
           style={styles.button}
         />
+        {searching && (
+          <ActivityIndicator animating={true} size="large" color="#343434" />
+        )}
         {results && (
           <FlatList
             keyExtractor={keyExtractor}
@@ -84,8 +93,12 @@ const styles = StyleSheet.create({
 
 async function getListOfFoods(searchquery) {
   try {
-    const foodList = await NutritionService.getAvailableFoods(searchquery, 15, 1);
-    const parsedList = pairItemNameAndCalories(foodList)
+    const foodList = await NutritionService.getAvailableFoods(
+      searchquery,
+      15,
+      1
+    );
+    const parsedList = pairItemNameAndCalories(foodList);
 
     return parsedList;
   } catch (err) {
@@ -97,13 +110,14 @@ function pairItemNameAndCalories(list) {
   const pairList = [];
   //const calsList = [];
   for (const index in list) {
-    const itemPair = { 
-      name: list[index].Label, 
-      subtitle: (list[index].Nutrients.Cals !== undefined)
-        ? `${Math.round(list[index].Nutrients.Cals)} Cals per 100g ` //added rounding to cals
-        : "", 
-      nutrition: list[index].Nutrients  //passing this so the entry form screen doesn't have to make another call
-    } 
+    const itemPair = {
+      name: list[index].Label,
+      subtitle:
+        list[index].Nutrients.Cals !== undefined
+          ? `${Math.round(list[index].Nutrients.Cals)} Cals per 100g ` //added rounding to cals
+          : "",
+      nutrition: list[index].Nutrients, //passing this so the entry form screen doesn't have to make another call
+    };
     pairList.push(itemPair);
   }
   return pairList;

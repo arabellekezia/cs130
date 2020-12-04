@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 
-import AppText from '../components/AppText';
-import TitleText from '../components/TitleText';
-import HeaderText from '../components/HeaderText';
-import AppBarChart from '../components/AppBarChart';
-import SummaryItem from '../components/SummaryItem';
-import DailyBreakdownList from '../components/DailyBreakdownList';
+import AppText from "../components/AppText";
+import TitleText from "../components/TitleText";
+import HeaderText from "../components/HeaderText";
+import AppBarChart from "../components/AppBarChart";
+import SummaryItem from "../components/SummaryItem";
+import DailyBreakdownList from "../components/DailyBreakdownList";
 
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 
 import NutritionService from "../services/NutritionService";
 import GoalsService from "../services/GoalsService";
-
 
 function WeeklyNutritionScreen(props) {
   const currentWeek = getDaysInWeek();
@@ -35,12 +41,12 @@ function WeeklyNutritionScreen(props) {
     loadNutritionStats().then(() => {
       if (mounted) {
         setReady(true);
-      } 
+      }
     });
 
     return function cleanup() {
       mounted = false;
-    }
+    };
   }, [isFocused]);
 
   const loadNutritionStats = async () => {
@@ -66,88 +72,90 @@ function WeeklyNutritionScreen(props) {
     //setReady(true);
   };
 
-
   return (
     <SafeAreaView>
+      {!isReady && (
+        <ActivityIndicator animating={true} size="large" color="#343434" />
+      )}
       {isReady && (
-      <ScrollView
-        alwaysBounceVertical={false}
-        contentContainerStyle={styles.container}
-      >
-        <TitleText style={styles.pageTitle} children="Nutritional Trends" />
-        <AppText
-          style={styles.dateHeader}
-          children={getWeeklyHeader(currentWeek)}
-        />
-        {/* <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} /> */}
+        <ScrollView
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.container}
+        >
+          <TitleText style={styles.pageTitle} children="Nutritional Trends" />
+          <AppText
+            style={styles.dateHeader}
+            children={getWeeklyHeader(currentWeek)}
+          />
+          {/* <HeaderText style={styles.sectionHeader} children={"Weekly Summary"} /> */}
 
-        <View style={styles.chartcontainer}>
-          <AppText style={styles.chartHeader} children="Calories Consumed Per Day" />
-          <AppBarChart
-            style={styles.barChart}
-            yAxisSuffix="min"
-            data={createChartData(stats)}
-            color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
-            //scaleDimensions={0.9}
-          />
-          <AppText style={styles.smallSummaryText}>
-            Your daily calorie goal was
+          <View style={styles.chartcontainer}>
             <AppText
-              style={styles.boldtext}
-              children={` ${calGoal} cal.`}
+              style={styles.chartHeader}
+              children="Calories Consumed Per Day"
             />
-          </AppText>
-          <AppText style={styles.smallSummaryText}>
-           You consumed an average of
-            <AppText
-              style={styles.boldtext}
-              children={` ${calAvg} cal `}
+            <AppBarChart
+              style={styles.barChart}
+              yAxisSuffix="min"
+              data={createChartData(stats)}
+              color={(opacity = 1) => `rgba(0, 0, 255, ${opacity})`}
+              //scaleDimensions={0.9}
             />
-            per day.
-          </AppText>
-          {printCalDiffText(calDiff)}
-        </View>
-        <HeaderText
-          style={styles.sectionHeader}
-          children={"Macronutrient Averages"}
-        />
-        <View style={styles.sleepsummary}>
-          {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
-          <SummaryItem
-            name="baguette"
-            size={40}
-            detail={carbsAvg}
-            unit="grams"
-            label={`Average\nCarbs`}
-            style={styles.summaryindividual}
-            iconBackgroundColor="#d5f7f7"
+            <AppText style={styles.smallSummaryText}>
+              Your daily calorie goal was
+              <AppText style={styles.boldtext} children={` ${calGoal} cal.`} />
+            </AppText>
+            <AppText style={styles.smallSummaryText}>
+              You consumed an average of
+              <AppText style={styles.boldtext} children={` ${calAvg} cal `} />
+              per day.
+            </AppText>
+            {printCalDiffText(calDiff)}
+          </View>
+          <HeaderText
+            style={styles.sectionHeader}
+            children={"Macronutrient Averages"}
           />
-          <SummaryItem
-            name="sausage"
-            size={40}
-            detail={proteinAvg}
-            unit="grams"
-            label={`Average\nProtein`}
-            style={styles.summaryindividual}
-            iconBackgroundColor="#d5f7f7"
-          />
-          <SummaryItem
-            name="hamburger"
-            size={40}
-            detail={fatAvg}
-            unit="grams"
-            label={`Average\nFat`}
-            style={styles.summaryindividual}
-            iconBackgroundColor="#d5f7f7"
-          />
-        </View>
+          <View style={styles.sleepsummary}>
+            {/* TODO: This portion should be changed to accomodate calculations from backend data*/}
+            <SummaryItem
+              name="baguette"
+              size={40}
+              detail={carbsAvg}
+              unit="grams"
+              label={`Average\nCarbs`}
+              style={styles.summaryindividual}
+              iconBackgroundColor="#d5f7f7"
+            />
+            <SummaryItem
+              name="sausage"
+              size={40}
+              detail={proteinAvg}
+              unit="grams"
+              label={`Average\nProtein`}
+              style={styles.summaryindividual}
+              iconBackgroundColor="#d5f7f7"
+            />
+            <SummaryItem
+              name="hamburger"
+              size={40}
+              detail={fatAvg}
+              unit="grams"
+              label={`Average\nFat`}
+              style={styles.summaryindividual}
+              iconBackgroundColor="#d5f7f7"
+            />
+          </View>
 
-        <HeaderText style={styles.sectionHeader} children={"Daily Breakdown"} />
-        <DailyBreakdownList 
-          entries={daysInWeekBreakdown} 
-          type="DailyNutrition"
-        />
-      </ScrollView>
+          <HeaderText
+            style={styles.sectionHeader}
+            children={"Daily Breakdown"}
+          />
+          <DailyBreakdownList
+            entries={daysInWeekBreakdown}
+            type="DailyNutrition"
+          />
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -185,7 +193,7 @@ function getDailyCals(stats) {
       description: `${Math.round(stats[6].dailyCals)} Cals`,
     },
   ];
-};
+}
 
 //function to create the weekly chart data of calorie summary
 function createChartData(stats) {
@@ -203,8 +211,8 @@ function createChartData(stats) {
         strokeWidth: 2, // optional
       },
     ],
-  }
-};
+  };
+}
 
 //getting days in week
 function getDaysInWeek() {
@@ -218,7 +226,9 @@ function getDaysInWeek() {
 
 //formatting the weekly header
 function getWeeklyHeader(currentWeek) {
-  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format("MMM D, YYYY")}`;
+  return `${currentWeek[0].format("MMM D")} - ${currentWeek[6].format(
+    "MMM D, YYYY"
+  )}`;
 }
 
 //fetching calorie goals
@@ -234,32 +244,31 @@ function calculateAverage(dataset, unit) {
     arrayToAverage.push(Math.round(day[unit]));
   });
 
-  const arrAvg = (arrayToAverage.reduce((a,b) => a + b, 0) / (moment().day() + 1));
+  const arrAvg =
+    arrayToAverage.reduce((a, b) => a + b, 0) / (moment().day() + 1);
   //arrayToAverage.reduce((a,b) => a + b, 0) / arrayToAverage.length;
   const arrTrunc = Math.round(arrAvg);
   return arrTrunc;
-};
+}
 
 // function to render the small differences in text depending on whether you went above or below the calorie goal
 function printCalDiffText(diff) {
   if (diff > 0) {
-    return(
+    return (
       <AppText style={styles.smallSummaryText}>
         On average, your daily consumption was
-        <AppText style={styles.boldtext} children={` ${diff} cal `}/>
+        <AppText style={styles.boldtext} children={` ${diff} cal `} />
         less than your goal.
       </AppText>
     );
-
   } else {
-    return(
+    return (
       <AppText style={styles.smallSummaryText}>
         On average, your daily consumption was
-        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} cal `}/>
+        <AppText style={styles.boldtext} children={` ${Math.abs(diff)} cal `} />
         more than your goal.
       </AppText>
     );
-
   }
 }
 
@@ -273,7 +282,7 @@ const styles = StyleSheet.create({
   chartcontainer: {
     width: Dimensions.get("window").width * 0.9,
     marginTop: "10%",
-    alignItems: "center", 
+    alignItems: "center",
     justifyContent: "center",
   },
   chartHeader: {
@@ -316,9 +325,8 @@ const styles = StyleSheet.create({
   },
   smallSummaryText: {
     marginLeft: 10,
-    textAlign: "center"
+    textAlign: "center",
   },
 });
-
 
 export default WeeklyNutritionScreen;
