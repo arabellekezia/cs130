@@ -1,11 +1,6 @@
 import requests
 import unittest
 from datetime import datetime, timedelta, timezone
-from backend.db import DB
-from backend.app import app
-
-# TODO: change tests from names to test_# due to execution order
-# manually check db where indicated
 
 class FlaskAppTest(unittest.TestCase):
 
@@ -15,7 +10,6 @@ class FlaskAppTest(unittest.TestCase):
         Set up class variables for testing the Flasp app.
         """        
         self.url = 'http://localhost:5000/'
-        self.db = DB()
         self.reg_user = {'email':'test@gmail.com',
                     'password':'123',
                     'fullname':'Test'}
@@ -46,8 +40,6 @@ class FlaskAppTest(unittest.TestCase):
         method = 'enterWorkout'
         resp = requests.post(self.url + method, data)
         self.assertEqual(resp.status_code, 200)
-
-        # manually check the db for the entry
 
     def test_mult_enterWorkout(self):
         """
@@ -103,8 +95,6 @@ class FlaskAppTest(unittest.TestCase):
         resp = requests.post(self.url + method, data=data)
         self.assertEqual(resp.status_code, 200)
 
-        # manually check db
-
     def test_mult_addMeal(self):
         """
         Test inserting data for meals to the database using the Edamam API.
@@ -159,8 +149,6 @@ class FlaskAppTest(unittest.TestCase):
         resp = requests.post(self.url + method, data=data)
         self.assertEqual(resp.status_code, 200)
 
-        # manually check db
-
     def test_error_insertSleepEntry_missing_data(self):
         """
         Test inserting incorrect sleep data to the database.
@@ -194,8 +182,6 @@ class FlaskAppTest(unittest.TestCase):
                 'value':60}
         resp = requests.post(self.url + method, data=data1)
         self.assertEqual(resp.status_code, 200)
-
-        # manually check the db
 
     def test_changeGoal_multiple(self):
         """
