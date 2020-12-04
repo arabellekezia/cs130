@@ -52,6 +52,7 @@ To get started running our backend server:
    3. Save and connect by double clicking the new connection you made
    4. Create a database (ctrl + k on Windows, cmd + k on Mac)
       - Name it whatever you want, but remember the name
+      - Make sure to create a database for test and one for production
       - Open the database, there should be no tables in the database yet
    5. Create new tables using the backend table script
 
@@ -64,7 +65,7 @@ To get started running our backend server:
    6. Now you are finally ready to run the backend script. On Windows, **make sure to reload powershell** to save the environment variable changes. Then run:
 
       ```sh
-      python3 setup/set_up_db.py
+      python3.7 setup/set_up_db.py
       ```
 
    7. Confirm that the tables were added by reloading the table list in TablePlus by pressing F5.
@@ -74,7 +75,7 @@ To get started running our backend server:
 5. Finally, you can start the server by running:
 
    ```
-   python3 app.py
+   python3.7 app.py
    ```
 
    It will log any requests sent to the server for debugging purposes.

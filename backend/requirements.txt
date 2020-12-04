@@ -1,0 +1,8 @@
+flask
+pyjwt
+numpy
+pymysql
+coverage
+requests
+sphinx
+sphinx_rtd_theme
