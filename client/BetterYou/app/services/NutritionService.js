@@ -4,7 +4,13 @@ import DateUtils from "../utils/date";
 import moment from "moment";
 
 const NutritionService = {
-  // sends POST request to add the meal that is chosen by user
+  /**
+   * sends POST request to add the meal that is chosen by user
+   * @param {string} fooditem Name (or barcode if barcode = true) of the food item
+   * @param {number} servingsize The number of serving sizes consumed
+   * @param {string} barcode set to "true" if barcode is used in fooditem, anything else if not
+   * @return {boolean} true - success, false - failure
+   */ 
   addMeals: async (fooditem, servingsize, barcode) => {
     const formdata = new FormData();
     formdata.append("token", await getUserToken());

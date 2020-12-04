@@ -92,7 +92,7 @@ function BarcodeScanCameraScreen({ navigation }) {
               onPress={() => {
                 console.log("navigate to entry form screen");
                 setModalVisible(false);
-                navigation.navigate("FoodEntryForm", { item: barcodenum, barcode: "true", data: nutritionData });
+                navigation.navigate("FoodEntryForm", { item: product, barcode: "true", barcodenum: barcodenum, data: nutritionData });
               }}
             >
               <AppText style={styles.linkText}>Continue</AppText>

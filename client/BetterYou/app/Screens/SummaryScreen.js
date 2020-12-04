@@ -25,16 +25,6 @@ import { useIsFocused } from "@react-navigation/native";
 import SleepService from "../services/SleepService";
 import NutritionService from "../services/NutritionService";
 
-const data = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [6.5, 4, 6, 5, 7, 6, 8],
-      strokeWidth: 2, // optional
-    },
-  ],
-  legend: ["Hours Slept"], // optional
-};
 
 function getFitnessCardData(weeklyEntries) {
   const dayOfWeekLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
