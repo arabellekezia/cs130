@@ -550,7 +550,7 @@ def getTypeGoals():
         return "Arguments needed.", 400
     goal_data = check_goal_type(args)
     if goal_data['status_code'] != 200:
-        return goal_type['msg'], goal_type['status_code']
+        return goal_data['msg'], goal_data['status_code']
     goal_type = goal_data['type']
     token = check_token(args)
     if token['status_code'] != 200:
