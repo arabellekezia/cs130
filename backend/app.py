@@ -3,6 +3,7 @@ import requests
 from datetime import datetime, timezone, timedelta
 import json
 import sys
+from typing import Union
 from backend.staywell_api import StaywellAPI
 from backend.edamam_api import EdamamAPI
 from backend.user import User
@@ -67,7 +68,7 @@ def getNutritionalData():
 
     Parameters
     ----------
-    item : str / int
+    item : Union[str, int]
         Item name in string or barcode number if user scans a barcode.
     barcode : Optional[bool]
         True if user scans barcode, False otherwise.
@@ -76,7 +77,7 @@ def getNutritionalData():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the nutritional
         data of the given food item. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -112,7 +113,7 @@ def getAvailableFoods():
 
     Parameters
     ----------
-    item : str / int
+    item : Union[str, int]
         Item name in string or barcode number if user scans a barcode.
     barcode : Optional[bool]
         True if user scans barcode, False otherwise. Defaults to False.
@@ -123,7 +124,7 @@ def getAvailableFoods():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         matches of the given food item. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -256,7 +257,7 @@ def getMeals():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the meal data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -365,7 +366,7 @@ def getSleepData():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the sleep data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -459,7 +460,7 @@ def getFitnessData():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing the fitness data
         for the given time period. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -503,7 +504,7 @@ def getAllGoals():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         all of the user's goals. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -545,7 +546,7 @@ def getTypeGoals():
 
     Returns
     -------
-    result : Tuple[Dict[Any] / str, int]
+    result : Tuple[Any, int]
         If successful, the first part of the tuple gives a dict containing
         all of the user's goals. Otherwise, it gives an error message.
         The second part of the tuple gives the HTTP status code.
@@ -691,7 +692,7 @@ def check_datetimes(data):
 
     Returns
     -------
-    result : Dict[datetime, datetime, int] / Dict[str, int]
+    result : Union[Dict[datetime, datetime, int], Dict[str, int]]
         If successful, returns a dict containing the converted datetime values
         for dateTo and dateFrom, and HTTP status code. Otherwise, returns dict
         containing HTTP error message and status code.
@@ -725,7 +726,7 @@ def check_token(data):
 
     Returns
     -------
-    result : Dict[int, int] / Dict[str, int]
+    result : Union[Dict[int, int], Dict[str, int]]
         If successful, returns dictionary of the HTTP status code and user token.
         Otherwise, returns dictionary of HTTP error message and status code.
     """
