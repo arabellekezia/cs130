@@ -3,6 +3,17 @@ import Icon from "./Icon";
 import { StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 
+
+/**
+ * This function produces a visual component that organizes and displays a single Fitness Entry in a visually appealing way
+ * @param {StyleSheet} style Possible Additional stylesheet (optional)
+ * @param {string} iconName name of the MaterialCommunityIcons icon that will be fed into the Icon component
+ * @param {string} startTime string formatted from moment().format() that denotes start time of the activity
+ * @param {string} activity name of the activity; this corresponds to the category in the backend
+ * @param {string} duration string formatted from moment().duration().format() that denotes the duration of the activity
+ * @param {number} caloriesBurned number of calories burnt from the activity
+ * @returns {View} A View that contains everything to be displayed with the parameters filling in the details
+ */
 function FitnessEntry({
   style,
   iconName,

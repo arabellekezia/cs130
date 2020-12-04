@@ -1,12 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import EntryCategorySelectScreen from "../Screens/EntryCategorySelectScreen";
-import GoalSelectionScreen from "../Screens/GoalSelectionScreen";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewEntryNavigator from "./NewEntryNavigator";
 import GoalsNavigator from "./GoalsNavigator";
-import SummaryScreen from "../Screens/SummaryScreen";
 import SummaryNavigator from "./SummaryNavigator";
 
 const Tab = createBottomTabNavigator();

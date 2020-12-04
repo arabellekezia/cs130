@@ -4,6 +4,15 @@ import { StyleSheet, View, Text, Dimensions } from "react-native";
 import AppText from "./AppText";
 import HeaderText from "./HeaderText";
 
+/**
+ * This function produces a visual component that organizes and displays a component displaying stats 
+ * about a single macronutrient in a visually appealing way
+ * @param {StyleSheet} style Possible Additional stylesheet (optional)
+ * @param {string} macroName name of the macronutrient (Carbs, Protein. Fat)
+ * @param {number} percentage percentage of the macronutrient in the user's diet for the day
+ * @param {Object} foods Object that pairs the food name with the amount of a certain macronutrient in grams
+ * @returns {View} A View that contains everything to be displayed with the parameters filling in the details
+ */
 function IndivMacroCard({
   style,
   macroName,

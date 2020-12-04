@@ -3,6 +3,17 @@ import { useWindowDimensions, StyleSheet, Platform } from "react-native";
 
 import { LineChart } from "react-native-chart-kit";
 
+/**
+ * This component is made so we can utilize LineChart from react-native-chart-kit in our other components much more easily.
+ * @param { Object } data Data that is accepted by LineChart to process
+ * @param { Function => string } [color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the lines
+ * @param { Function => string } [labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
+ * @param { string } [backgroundColor = "#ffffff"] Sets background color of chart
+ * @param { boolean } bezier Setting this to true creates a line graph with smooth lines
+ * @param { number } [scaleDimensions = 1] Number with which to scale the chart size
+ * @param { string } [yAxisSuffix = ""] Append text to horizontal labels 
+ * @returns {LineChart} A LineChart with the following paramters added and consistent configuration for the whole application
+ */
 function AppLineChart({
   data,
   color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
