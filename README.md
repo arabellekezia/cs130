@@ -19,7 +19,11 @@ The frontend of the project lives inside the `client/` folder. Inside this folde
   - `utils/` for misc. utilities
 - the `__tests__` folder holds tests
 
-The backend of the project lives inside the `backend/` folder.
+The backend of the project lives inside the `backend/` folder. This folder contains all the backend code. Inside this folder, 
+
+- `setup/` for holding the backend instruction, configuration setup
+- `backend_tests/` for holding the backend tests.
+
 
 ## Installation and Getting Started
 
