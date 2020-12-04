@@ -5,6 +5,7 @@ Imports (for python3.7):
   - pymysql
   - coverage
   - requests
+  - sphinx_rtd_theme
 
 Database:
   - install MySQL
