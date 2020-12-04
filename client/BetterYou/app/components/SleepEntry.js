@@ -4,6 +4,14 @@ import SummaryItem from "./SummaryItem";
 
 import moment from "moment";
 
+/**
+ * This function produces a visual component that organizes and displays a single Sleep Entry in a visually appealing way
+ * @param {StyleSheet} style Possible Additional stylesheet (optional)
+ * @param {string} sleeptime timestamp string like "10:00 pm" that represents sleep start
+ * @param {string} waketime timestamp string like "10:00 am" that represents time waking up
+ * @param {number} minutes number of minutes slept
+ * @returns {View} A View that contains everything to be displayed with the parameters filling in the details
+ */
 function SleepEntry({ style, sleeptime, waketime, minutes }) {
   const [sleeptimenum, sleeptimeunit] = parseTime(sleeptime);
   const [waketimenum, waketimeunit] = parseTime(waketime);

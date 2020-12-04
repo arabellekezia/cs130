@@ -42,7 +42,7 @@ function FoodEntryFormScreen({ navigation, route }) {
     console.log(`post number of servings to endpoint ${numberOfServings}`);
     try {
       await NutritionService.addMeals(
-        route.params.item,
+        route.params.barcode === "true" ? route.params.barcodenum : route.params.item,
         numberOfServings,
         route.params.barcode,
       );

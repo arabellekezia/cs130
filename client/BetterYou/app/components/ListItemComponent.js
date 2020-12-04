@@ -8,10 +8,8 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-//import TitleText from "./TitleText";
 import AppText from "./AppText";
 import HeaderText from "./HeaderText";
-//import Icon from "./Icon";
 
 function ListItemComponent({
   containerStyle,

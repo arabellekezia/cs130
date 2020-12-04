@@ -18,7 +18,6 @@ import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
 import DailyBreakdownList from "../components/DailyBreakdownList";
 
-import DateUtils from "../utils/date";
 import SleepService from "../services/SleepService";
 import GoalsService from "../services/GoalsService";
 

@@ -14,7 +14,6 @@ import TitleText from "../components/TitleText";
 
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-import TextButton from "../components/TextButton";
 import DailySleepEntries from "../components/DailySleepEntries";
 import SleepService from "../services/SleepService";
 

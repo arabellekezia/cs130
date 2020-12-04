@@ -2,6 +2,12 @@ import server from "../utils/server";
 import { storeUserToken, clearUserToken } from "../utils/token";
 
 const AuthenticationService = {
+  /**
+   * POST request to verify login and fetch the user token
+   * @param {string} email The entered email
+   * @param {string} password The entered password
+   * @return {boolean} True - successful login, False - failed login
+   */  
   login: async (email, password) => {
     let loginData = new FormData();
     loginData.append("email", email);
@@ -23,6 +29,13 @@ const AuthenticationService = {
       return false;
     }
   },
+  /**
+   * POST request to register user in database
+   * @param {string} fullName The full name of the user
+   * @param {string} email The entered email
+   * @param {string} password The entered password
+   * @return {boolean} True - successful registration, False - failed registration
+   */  
   signup: async (fullName, email, password) => {
     let registerData = new FormData();
     registerData.append("fullname", fullName);
@@ -48,7 +61,10 @@ const AuthenticationService = {
     await AuthenticationService.login(email, password);
     return true;
   },
-
+  /**
+   * Clears user token to log out
+   * @return {boolean} True - successful logout, False - failed logout
+   */  
   logout: async () => {
     try {
       await clearUserToken();

@@ -3,30 +3,6 @@ import { getUserToken } from "../utils/token";
 import DateUtils from "../utils/date";
 import moment from "moment";
 
-let myMap = new Map([
-  [1, "one"],
-  [2, "two"],
-  [3, "three"],
-]);
-
-// return
-// { label: "Cycling", value: "Bicycling: 12-13.9 mph" },
-// { label: "Hiking", value: "Hiking: cross country" },
-// { label: "Jogging", value: "Running: 6 min/mile" },
-// { label: "Sprinting", value: "Running: 10 min/mile" },
-// { label: "Swimming", value: "Swimming: laps, vigorous" },
-// { label: "Walking", value: "Walk: 15 min/mile" },
-// { label: "Weightlifting", value: "Weightlifting: general" },
-// ];
-const activityNameToAPIActivity = new Map([
-  ["Cycling", "Bicycling: 12-13.9 mph"],
-  ["Hiking", "Hiking: cross country"],
-  ["Jogging", "Running: 6 min/mile"],
-  ["Sprinting", "Running: 10 min/mile"],
-  ["Swimming", "Swimming: laps, vigorous"],
-  ["Walking", "Walk: 15 min/mile"],
-  ["Weightlifting", "Weightlifting: general"],
-]);
 
 const APIActivityToActivityName = new Map([
   ["Bicycling: 12-13.9 mph", "Cycling"],
@@ -39,6 +15,12 @@ const APIActivityToActivityName = new Map([
 ]);
 
 const FitnessService = {
+  /**
+   * GET request to get fitness entries from the specified date interval for the user specified with token
+   * @param {Unix Timestamp} dateFrom The date to fetch data from
+   * @param {Unix Timestamp} dateTo The date to fetch data to
+   * @return {Map} The fitness entries fetched from database
+   */ 
   getFitnessEntries: async (dateFrom, dateTo) => {
     try {
       const res = await server.get("/getFitnessData", {
@@ -58,6 +40,13 @@ const FitnessService = {
       return null;
     }
   },
+  /**
+   * POST request to add fitness entries with the parameters for the user specified with token
+   * @param {number} weight Weight of user
+   * @param {number} activeTime Time active in minutes
+   * @param {string} category The category of the workout
+   * @return {void}
+   */ 
   addFitnessEntry: async (weight, activeTime, category) => {
     const formdata = new FormData();
     formdata.append("token", await getUserToken());
@@ -75,10 +64,19 @@ const FitnessService = {
       console.log(err);
     }
   },
+  /**
+   * Helper function that uses getFitnessEntries to get fitness entries for a single day
+   * @param {moment object} [day = moment()] The day date to fetch data from
+   * @return {Map} The fitness entries fetched from database
+   */ 
   getDailyFitnessEntries: async (day = moment()) => {
     const today = DateUtils.getDayTimeRange(day);
     return await FitnessService.getFitnessEntries(today.dateFrom, today.dateTo);
   },
+  /**
+   * Helper function that uses getFitnessEntries to get fitness entries for a given week
+   * @return {Map} The fitness entries fetched from database and processed to return a Map of {caloriesBurned, activeTime} per day in week
+   */ 
   getWeeklyFitnessEntries: async () => {
     const week = DateUtils.getDaysInWeek();
     let results = [];
@@ -89,7 +87,7 @@ const FitnessService = {
       );
     });
     const weeklyEntries = await Promise.all(results);
-    console.log(weeklyEntries);
+
     return weeklyEntries.map((dayEntries) => {
       let caloriesBurned = 0;
       let activeTime = 0;

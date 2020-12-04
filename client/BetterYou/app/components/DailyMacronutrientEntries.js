@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import AppText from "./AppText";
 import IndivMacroCard from "./IndivMacroCard";
 
 function DailyMacronutrientEntries({ style, entries }) {

@@ -3,6 +3,18 @@ import { useWindowDimensions, StyleSheet, Platform } from "react-native";
 
 import { BarChart } from "react-native-chart-kit";
 
+/**
+ * This component is made so we can utilize BarChart from react-native-chart-kit in our other components much more easily.
+ * @param { StyleSheet } style Any additional styles
+ * @param { Object } data Data that is accepted by BarChart to process
+ * @param { Function => string } [color = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the bars
+ * @param { Function => string } [labelColor = (opacity = 1) => `rgba(0, 0, 0, ${opacity})`] Sets the color of the labels
+ * @param { string } [backgroundColor = "#ffffff"] Sets background color of chart
+ * @param { number } [scaleDimensions = 1] Number with which to scale the chart size
+ * @param { string } [yAxisSuffix = ""] Append text to horizontal labels 
+ * @returns {BarChart} A barchart with the following paramters added and consistent configuration for the whole application
+ */
+
 function AppBarChart({
   style,
   data,

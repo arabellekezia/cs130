@@ -7,6 +7,13 @@ import { millisecondTimeStampToSeconds } from "../utils/time";
 import DateUtils from "../utils/date";
 
 const SleepService = {
+  /**
+   * POST request to add sleep entries with the parameters for the user specified with token
+   * @param {Date} startDate Start date of sleep
+   * @param {Date} endDate End date of sleep
+   * @param {boolean} nap Whether it is a nap or not
+   * @return {boolean} true - success, false - fail
+   */ 
   addSleepEntry: async (startDate, endDate, nap) => {
     const formdata = new FormData();
     formdata.append("token", await getUserToken());
@@ -26,11 +33,11 @@ const SleepService = {
     }
     return true;
   },
-
   /**
-   *
+   * GET request to get sleep entries of the certain day
    * @param {Number} date: the number of milliseconds since the Unix Epoch (Jan 1 1970 12AM UTC).
-   */
+   * @return {List} List of sleep entries
+   */ 
   getDailySleepEntries: async (date) => {
     const startOfDate = millisecondTimeStampToSeconds(
       moment(date).startOf("date").valueOf()
@@ -52,7 +59,10 @@ const SleepService = {
       throw new Error(err);
     }
   },
-
+  /**
+   * uses getDailySleepEntries() to get all sleep entries for a given week
+   * @return {List} List of sleep entries for the week, each index for one day
+   */ 
   getWeeklySleepEntries: async () => {
     const days = DateUtils.getDaysInWeek();
     const res = [];
